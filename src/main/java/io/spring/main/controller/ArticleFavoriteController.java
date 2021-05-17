@@ -5,7 +5,7 @@ import io.spring.main.dao.article.MyBatisArticleDao;
 import io.spring.main.dao.favorite.ArticleFavorite;
 import io.spring.main.dao.favorite.MyBatisArticleFavoriteDao;
 import io.spring.main.dao.user.User;
-import io.spring.main.infrastructure.util.util.exception.ResourceNotFoundException;
+import io.spring.main.infrastructure.util.exception.ResourceNotFoundException;
 import io.spring.main.model.ArticleData;
 import io.spring.main.service.ArticleQueryService;
 import lombok.RequiredArgsConstructor;

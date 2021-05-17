@@ -2,8 +2,8 @@ package io.spring.main.controller;
 
 import io.spring.main.dao.common.MyBatisCommonDao;
 import io.spring.main.dao.goods.MyBatisGoodsDao;
-import io.spring.main.infrastructure.util.util.ApiResponseMessage;
-import io.spring.main.infrastructure.util.util.StringFactory;
+import io.spring.main.infrastructure.util.ApiResponseMessage;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.request.GoodsInsertRequestData;
 import io.spring.main.model.goods.response.GoodsInsertResponseData;
 import io.spring.main.model.goods.response.GoodsSelectDetailResponseData;
@@ -13,9 +13,6 @@ import io.spring.main.service.goods.JpaGoodsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.internal.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +31,7 @@ public class GoodsController {
 	private final JpaGoodsService jpaGoodsService;
 	private final JpaCommonService jpaCommonService;
 
+	// 고도몰에서 api로 상품목록 가져오기
 	@RequestMapping(path = "/select")
 	public ResponseEntity selectGoodsListAll() {
 		log.debug("select goods");

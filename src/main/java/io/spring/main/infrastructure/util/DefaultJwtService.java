@@ -1,4 +1,4 @@
-package io.spring.main.infrastructure.util.util;
+package io.spring.main.infrastructure.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

@@ -1,7 +1,7 @@
 package io.spring.main.controller;
 
-import io.spring.main.infrastructure.util.util.ApiResponseMessage;
-import io.spring.main.infrastructure.util.util.StringFactory;
+import io.spring.main.infrastructure.util.ApiResponseMessage;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.purchase.request.PurchaseInsertRequestData;
 import io.spring.main.model.purchase.response.PurchaseSelectDetailResponseData;
 import io.spring.main.model.purchase.response.PurchaseSelectListResponseData;
@@ -10,8 +10,6 @@ import io.spring.main.service.purchase.JpaPurchaseService;
 import io.spring.main.service.purchase.MyBatisPurchaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

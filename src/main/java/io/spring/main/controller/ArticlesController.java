@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import io.spring.main.dao.article.Article;
 import io.spring.main.dao.article.MyBatisArticleDao;
 import io.spring.main.dao.user.User;
-import io.spring.main.infrastructure.util.util.exception.InvalidRequestException;
+import io.spring.main.infrastructure.util.exception.InvalidRequestException;
 import io.spring.main.service.ArticleQueryService;
 import io.spring.main.service.Page;
 import lombok.Getter;

@@ -1,8 +1,26 @@
-package io.spring.main.infrastructure.util.util;
+package io.spring.main.infrastructure.util;
 
 import lombok.Getter;
 
 public class StringFactory {
+    // Godo Key
+    @Getter
+    private static String pKey ="JUJDJTExJTg4byUyNSUzQ1olRDE=";
+    @Getter
+    private static String key = "JUMxJTAyJTExJUJBJUQwJTJBcyUzQSU5RVglMkZKJTEwRiVDNSVFQSUwRSVGQyU4NTYlQzUlRTV3MFhGJURESCVBMzElRDklRTRCJTEwJTE4diUyOCVGRCUwMHY=";
+
+    // Godo api page
+    @Getter
+    private final static String godoUrl = "https://openhub.godo.co.kr/godomall5/";
+    // 상품조회
+    @Getter
+    private final static String goodsSearch = "goods/Goods_Search.php";
+    @Getter
+    private final static String[] goodsSearchParams = {"partner_key",
+            "key","goodsNm","goodsNo","goodsCd","makerNm","originNm",
+            "goodsSearchWord","goodsModelNo","companyNm","searchDateType",
+            "startDate","endDate","page","size","scmNo","cateCd"};
+
     // GoodsController
     @Getter
     private final static String seqItasrtStr = "seq_ITASRT";

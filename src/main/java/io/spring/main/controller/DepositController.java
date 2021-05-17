@@ -1,7 +1,7 @@
 package io.spring.main.controller;
 
-import io.spring.main.infrastructure.util.util.ApiResponseMessage;
-import io.spring.main.infrastructure.util.util.StringFactory;
+import io.spring.main.infrastructure.util.ApiResponseMessage;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.deposit.request.DepositInsertRequestData;
 import io.spring.main.model.deposit.response.DepositSelectDetailResponseData;
 import io.spring.main.model.deposit.response.DepositSelectListResponseData;

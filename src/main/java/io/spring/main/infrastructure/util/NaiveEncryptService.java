@@ -1,4 +1,4 @@
-package io.spring.main.infrastructure.util.util;
+package io.spring.main.infrastructure.util;
 
 import io.spring.main.dao.user.EncryptService;
 import org.springframework.stereotype.Service;
