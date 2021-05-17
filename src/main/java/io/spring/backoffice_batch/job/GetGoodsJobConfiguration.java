@@ -16,22 +16,22 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 @Configuration
 @EnableAutoConfiguration(exclude={BatchAutoConfiguration.class})
-public class SimpleJobConfiguration {
+public class GetGoodsJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job simpleJob(){
-        return jobBuilderFactory.get("simpleJob")
-                .start(simpleStep1())
+    public Job getGoodsJob(){
+        return jobBuilderFactory.get("getGoodsJob")
+                .start(getGoodsStep1())
                 .build();
     }
 
     @Bean
-    public Step simpleStep1(){
-        return stepBuilderFactory.get("simpleStep1")
+    public Step getGoodsStep1(){
+        return stepBuilderFactory.get("getGoodsStep1")
                 .tasklet((contribution, chunkContext) -> {
-                    log.info("----- This is Step1");
+                    log.info("----- This is getGoodsStep1");
                     return RepeatStatus.FINISHED;
                 })
                 .build();
