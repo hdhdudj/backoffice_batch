@@ -1093,3 +1093,57 @@ Using generated security password: 2ad7ae22-eda2-408d-9922-8b543eefc9bb
 2021-05-17 14:40:55,399 [main] INFO  org.springframework.data.repository.config.DeferredRepositoryInitializationListener(onApplicationEvent:53) - Spring Data repositories initialized!
 2021-05-17 14:40:55,406 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarted:61) - Started BackofficeBatchApplication in 3.986 seconds (JVM running for 5.64)
 2021-05-17 14:40:55,409 [main] INFO  org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner(run:154) - Running default command line with: []
+2021-05-17 14:41:04,936 [background-preinit] INFO  org.hibernate.validator.internal.util.Version(<clinit>:21) - HV000001: Hibernate Validator 6.1.5.Final
+2021-05-17 14:41:04,992 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:55) - Starting BackofficeBatchApplication on DESKTOP-DD3UDDS with PID 5624 (C:\code\java\backoffice_projects\backoffice_batch\build\classes\java\main started by 박선홍 in C:\code\java\backoffice_projects\backoffice_batch)
+2021-05-17 14:41:04,995 [main] DEBUG io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:56) - Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
+2021-05-17 14:41:04,996 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStartupProfileInfo:651) - No active profile set, falling back to default profiles: default
+2021-05-17 14:41:05,759 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:127) - Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2021-05-17 14:41:05,775 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:187) - Finished Spring Data repository scanning in 7ms. Found 0 JPA repository interfaces.
+2021-05-17 14:41:05,914 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner(warn:44) - No MyBatis mapper was found in '[io.spring.backoffice_batch]' package. Please check your configuration.
+2021-05-17 14:41:06,393 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8081 (http)
+2021-05-17 14:41:06,393 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Initializing ProtocolHandler ["http-nio-8081"]
+2021-05-17 14:41:06,393 [main] INFO  org.apache.catalina.core.StandardService(log:173) - Starting service [Tomcat]
+2021-05-17 14:41:06,393 [main] INFO  org.apache.catalina.core.StandardEngine(log:173) - Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-05-17 14:41:06,615 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/](log:173) - Initializing Spring embedded WebApplicationContext
+2021-05-17 14:41:06,615 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:285) - Root WebApplicationContext: initialization completed in 1534 ms
+2021-05-17 14:41:06,730 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter(info:49) - Flyway Community Edition 6.4.4 by Redgate
+2021-05-17 14:41:06,790 [main] WARN  org.flywaydb.core.internal.scanner.classpath.ClassPathScanner(warn:53) - Unable to resolve location classpath:db/migration. Note this warning will become an error in Flyway 7.
+2021-05-17 14:41:06,792 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:110) - HikariPool-1 - Starting...
+2021-05-17 14:41:07,079 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:123) - HikariPool-1 - Start completed.
+2021-05-17 14:41:07,109 [main] INFO  org.flywaydb.core.internal.database.DatabaseFactory(info:49) - Database: jdbc:mysql://localhost:3306/trdst (MySQL 5.7)
+2021-05-17 14:41:07,169 [main] INFO  org.flywaydb.core.internal.command.DbValidate(info:49) - Successfully validated 0 migrations (execution time 00:00.024s)
+2021-05-17 14:41:07,169 [main] WARN  org.flywaydb.core.internal.command.DbValidate(warn:53) - No migrations found. Are your locations set up correctly?
+2021-05-17 14:41:07,202 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Current version of schema `trdst`: << Empty Schema >>
+2021-05-17 14:41:07,206 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Schema `trdst` is up to date. No migration necessary.
+2021-05-17 14:41:07,291 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(initialize:181) - Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-17 14:41:07,346 [task-1] INFO  org.hibernate.jpa.internal.util.LogHelper(logPersistenceUnitInformation:31) - HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-17 14:41:07,474 [task-1] INFO  org.hibernate.Version(logVersion:46) - HHH000412: Hibernate Core {5.4.2.Final}
+2021-05-17 14:41:07,529 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration(openEntityManagerInViewInterceptor:220) - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-17 14:41:07,681 [task-1] INFO  org.hibernate.annotations.common.Version(<clinit>:49) - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-05-17 14:41:07,830 [task-1] INFO  org.hibernate.dialect.Dialect(<init>:158) - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-05-17 14:41:07,979 [main] WARN  org.springframework.boot.autoconfigure.batch.JpaBatchConfigurer(determineIsolationLevel:57) - JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
+2021-05-17 14:41:07,979 [main] INFO  org.springframework.batch.core.repository.support.JobRepositoryFactoryBean(afterPropertiesSet:184) - No database type set, using meta data indicating: MYSQL
+2021-05-17 14:41:07,999 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(afterPropertiesSet:209) - No TaskExecutor has been set, defaulting to synchronous executor.
+2021-05-17 14:41:08,029 [task-1] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator(initiateService:52) - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-17 14:41:08,029 [task-1] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(buildNativeEntityManagerFactory:416) - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-17 14:41:08,163 [main] INFO  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration(getOrDeducePassword:86) - 
+
+Using generated security password: 22f873f0-0035-4408-b40b-3a350a97bae1
+
+2021-05-17 14:41:08,250 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain(<init>:43) - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3d40a3b4, org.springframework.security.web.context.SecurityContextPersistenceFilter@19fd43da, org.springframework.security.web.header.HeaderWriterFilter@5a7df831, org.springframework.security.web.csrf.CsrfFilter@61bb1e4d, org.springframework.security.web.authentication.logout.LogoutFilter@11dcd42c, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1f9d4b0e, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@35d60381, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@7f13811b, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@1775c4e7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@cfd1075, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2785db06, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@59fc6d05, org.springframework.security.web.session.SessionManagementFilter@22d7fd41, org.springframework.security.web.access.ExceptionTranslationFilter@4fc165f6, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@67332b1e]
+2021-05-17 14:41:08,282 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Starting ProtocolHandler ["http-nio-8081"]
+2021-05-17 14:41:08,303 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8081 (http) with context path ''
+2021-05-17 14:41:08,305 [main] INFO  org.springframework.data.repository.config.DeferredRepositoryInitializationListener(onApplicationEvent:49) - Triggering deferred initialization of Spring Data repositories…
+2021-05-17 14:41:08,305 [main] INFO  org.springframework.data.repository.config.DeferredRepositoryInitializationListener(onApplicationEvent:53) - Spring Data repositories initialized!
+2021-05-17 14:41:08,312 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarted:61) - Started BackofficeBatchApplication in 3.736 seconds (JVM running for 5.121)
+2021-05-17 14:41:08,312 [main] INFO  org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner(run:154) - Running default command line with: []
+2021-05-17 14:41:08,481 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=getGoodsJob]] launched with the following parameters: [{}]
+2021-05-17 14:41:08,558 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [getGoodsStep1]
+2021-05-17 14:41:08,584 [main] INFO  io.spring.backoffice_batch.job.GetGoodsJobConfiguration(lambda$getGoodsStep1$0:33) - ----- This is getGoodsStep1
+2021-05-17 14:41:08,604 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [getGoodsStep1] executed in 46ms
+2021-05-17 14:41:08,630 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=getGoodsJob]] completed with the following parameters: [{}] and the following status: [COMPLETED] in 130ms
+2021-05-17 14:41:08,670 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=simpleJob]] launched with the following parameters: [{}]
+2021-05-17 14:41:08,712 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [simpleStep1]
+2021-05-17 14:41:08,729 [main] INFO  io.spring.backoffice_batch.job.SimpleJobConfiguration(lambda$simpleStep1$0:34) - ----- This is Step1
+2021-05-17 14:41:08,745 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [simpleStep1] executed in 33ms
+2021-05-17 14:41:08,771 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=simpleJob]] completed with the following parameters: [{}] and the following status: [COMPLETED] in 91ms
