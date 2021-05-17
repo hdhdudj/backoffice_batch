@@ -48,3 +48,44 @@ Thumbs.db
 *.mov
 *.wmv
 
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Directories #
+/build/
+/bin/
+target/
+bin/
+ 
+
+
+### properties ###
+application.properties
+
+
+### logs ###
+*.log
+
