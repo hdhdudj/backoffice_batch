@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-@EnableAutoConfiguration(exclude={BatchAutoConfiguration.class})
 public class GetGoodsJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
