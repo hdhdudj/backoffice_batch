@@ -1,7 +1,6 @@
 package io.spring.main.model.goods.entity;
 
 import io.spring.main.model.goods.idclass.ItvariId;
-import io.spring.main.model.goods.request.GoodsInsertRequestData;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,15 +39,15 @@ public class Itvari {
      *             ]
      * }
      */
-    public Itvari(GoodsInsertRequestData goodsInsertRequestData){
-        this.assortId = goodsInsertRequestData.getAssortId();
-        this.delYn = "02";
-//        this.optionGb = goodsRequestData.getOptionGb();
-//        this.imgYn = goodsRequestData.getImgYn();
-//        this.optionNm = goodsRequestData.getOptionNm();
-//        this.regId = "123"; // 추후 추가
-//        this.updId = "123"; // 추후 추가
-    }
+//    public Itvari(GoodsInsertRequestData goodsInsertRequestData){
+//        this.assortId = goodsInsertRequestData.getAssortId();
+//        this.delYn = "02";
+////        this.optionGb = goodsRequestData.getOptionGb();
+////        this.imgYn = goodsRequestData.getImgYn();
+////        this.optionNm = goodsRequestData.getOptionNm();
+////        this.regId = "123"; // 추후 추가
+////        this.updId = "123"; // 추후 추가
+//    }
 
     @Id
     private String assortId;

@@ -32,8 +32,6 @@ public class PoolManager {
 		return instance;
 	}
 
-	// mybatis는 default commit 옵션이 false 이므로,
-	// 쿼리문 수행 후 commit 해야한다.
 	public SqlSession getSession() {
 		SqlSession session = null;
 		session = sqlSessionFactory.openSession(TransactionIsolationLevel.READ_UNCOMMITTED);

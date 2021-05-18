@@ -9,6 +9,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
+import io.spring.main.apis.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,7 +32,7 @@ public class GetGoodsJobConfiguration {
         return stepBuilderFactory.get("getGoodsStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is getGoodsStep1");
-                    GoodsSearch.retrieveOrder("","");
+                    GoodsSearch.retrieveOrder("1999-01-01","2022-01-01");
                     return RepeatStatus.FINISHED;
                 })
                 .build();

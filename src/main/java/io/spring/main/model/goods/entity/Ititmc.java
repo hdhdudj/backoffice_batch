@@ -1,6 +1,6 @@
 package io.spring.main.model.goods.entity;
 
-import io.spring.main.infrastructure.util.util.StringFactory;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.deposit.request.DepositInsertRequestData;
 import io.spring.main.model.goods.idclass.ItitmcId;
 import lombok.AccessLevel;

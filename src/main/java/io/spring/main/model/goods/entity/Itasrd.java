@@ -1,7 +1,6 @@
 package io.spring.main.model.goods.entity;
 
 import io.spring.main.model.goods.idclass.ItasrdId;
-import io.spring.main.model.goods.request.GoodsInsertRequestData;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,15 +19,15 @@ import java.util.Date;
 @IdClass(ItasrdId.class)
 public class Itasrd {
 
-    public Itasrd(GoodsInsertRequestData goodsInsertRequestData){
-        this.assortId = goodsInsertRequestData.getAssortId();
-//        this.ordDetCd = "01";
-//        this.memo = goodsRequestData.get
-        this.delYn = "02";
-//        this.textHtmlGb = goodsRequestData.getTextHtmlGb();
-//        this.regId = "123"; // 추후 추가
-//        this.updId = "123"; // 추후 추가
-    }
+//    public Itasrd(GoodsInsertRequestData goodsInsertRequestData){
+//        this.assortId = goodsInsertRequestData.getAssortId();
+////        this.ordDetCd = "01";
+////        this.memo = goodsRequestData.get
+//        this.delYn = "02";
+////        this.textHtmlGb = goodsRequestData.getTextHtmlGb();
+////        this.regId = "123"; // 추후 추가
+////        this.updId = "123"; // 추후 추가
+//    }
 
     @Id
     private String assortId;

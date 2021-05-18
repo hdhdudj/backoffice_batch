@@ -1,8 +1,7 @@
 package io.spring.main.model.goods.entity;
 
-import io.spring.main.infrastructure.util.util.StringFactory;
-import io.spring.main.infrastructure.util.util.Utilities;
-import io.spring.main.model.goods.request.GoodsInsertRequestData;
+import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.infrastructure.util.Utilities;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,20 +36,20 @@ public class Itasrn {
             logger.debug(e.getMessage());
         }
     }
-    public Itasrn(GoodsInsertRequestData goodsInsertRequestData){
-        this.historyGb = "01"; // default 값
-        this.vendorId = "000001";
-        
-        this.assortId = goodsInsertRequestData.getAssortId();
-        this.localSale = goodsInsertRequestData.getLocalSale();
-        try
-        {
-            this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
-        }
-        catch (Exception e){
-            logger.debug(e.getMessage());
-        }
-    }
+//    public Itasrn(GoodsInsertRequestData goodsInsertRequestData){
+//        this.historyGb = "01"; // default 값
+//        this.vendorId = "000001";
+//
+//        this.assortId = goodsInsertRequestData.getAssortId();
+//        this.localSale = goodsInsertRequestData.getLocalSale();
+//        try
+//        {
+//            this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
+//        }
+//        catch (Exception e){
+//            logger.debug(e.getMessage());
+//        }
+//    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;

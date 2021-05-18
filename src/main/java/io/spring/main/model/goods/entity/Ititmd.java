@@ -1,7 +1,7 @@
 package io.spring.main.model.goods.entity;
 
-import io.spring.main.infrastructure.util.util.StringFactory;
-import io.spring.main.infrastructure.util.util.Utilities;
+import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.infrastructure.util.Utilities;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

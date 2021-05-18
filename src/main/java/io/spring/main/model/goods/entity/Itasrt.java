@@ -1,7 +1,6 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.spring.main.model.goods.request.GoodsInsertRequestData;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,50 +24,50 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Itasrt {
 
-	public Itasrt(GoodsInsertRequestData goodsInsertRequestData){
-		this.assortId = goodsInsertRequestData.getAssortId();
-		this.assortNm = goodsInsertRequestData.getAssortNm();
-		this.assortModel = goodsInsertRequestData.getAssortModel();
-		this.margin = goodsInsertRequestData.getMargin();
-		this.taxGb = goodsInsertRequestData.getTaxGb();
-		this.assortGb = goodsInsertRequestData.getAssortGb();
-		this.assortState = goodsInsertRequestData.getAssortState();
-//		this.asWidth = goodsRequestData.getAsWidth();
-//		this.asLength = goodsRequestData.getAsLength();
-//		this.asHeight = goodsRequestData.getAsHeight();
-//		this.weight = goodsRequestData.getWeight();
-		this.origin = goodsInsertRequestData.getOrigin();
-		this.shortageYn = goodsInsertRequestData.getShortageYn();
-		this.brandId = goodsInsertRequestData.getBrandId();
-		this.dispCategoryId = goodsInsertRequestData.getDispCategoryId();
-		this.siteGb = "01";
-		this.asVendorId = goodsInsertRequestData.getAsVendorId();
-		this.manufactureNm = goodsInsertRequestData.getManufactureNm();
-//		this.deliPrice = goodsRequestData.getDeliPrice();
-//		this.localPrice = goodsRequestData.getLocalPrice();
-//		this.localSale = goodsRequestData.getLocalSale();
-		this.localDeliFee = goodsInsertRequestData.getLocalDeliFee();
-		this.assortColor = goodsInsertRequestData.getAssortColor();
-		this.sellStaDt = goodsInsertRequestData.getSellStaDt();
-		this.sellEndDt = goodsInsertRequestData.getSellEndDt();
-		this.taxGb = goodsInsertRequestData.getTaxGb();
-		this.mdRrp = goodsInsertRequestData.getMdRrp();
-		this.mdTax = goodsInsertRequestData.getMdTax();
-		this.mdYear = goodsInsertRequestData.getMdYear();
-		this.mdMargin = goodsInsertRequestData.getMdMargin();
-		this.mdMargin = goodsInsertRequestData.getMdMargin();
-		this.mdVatrate = goodsInsertRequestData.getMdVatrate();
-		this.mdOfflinePrice = goodsInsertRequestData.getMdOfflinePrice();
-		this.mdOnlinePrice = goodsInsertRequestData.getMdOnlinePrice();
-		this.mdGoodsVatrate = goodsInsertRequestData.getMdGoodsVatrate();
-		this.buyWhere = goodsInsertRequestData.getBuyWhere();
-		this.buyTax = goodsInsertRequestData.getBuyTax();
-		this.buySupplyDiscount = goodsInsertRequestData.getBuySupplyDiscount();
-		this.buyRrpIncrement = goodsInsertRequestData.getBuyRrpIncrement();
-		this.buyExchangeRate = goodsInsertRequestData.getBuyExchangeRate();
-		this.sizeType = goodsInsertRequestData.getSizeType();
-		this.mdDiscountRate = goodsInsertRequestData.getMdDiscountRate();
-	}
+//	public Itasrt(GoodsInsertRequestData goodsInsertRequestData){
+//		this.assortId = goodsInsertRequestData.getAssortId();
+//		this.assortNm = goodsInsertRequestData.getAssortNm();
+//		this.assortModel = goodsInsertRequestData.getAssortModel();
+//		this.margin = goodsInsertRequestData.getMargin();
+//		this.taxGb = goodsInsertRequestData.getTaxGb();
+//		this.assortGb = goodsInsertRequestData.getAssortGb();
+//		this.assortState = goodsInsertRequestData.getAssortState();
+////		this.asWidth = goodsRequestData.getAsWidth();
+////		this.asLength = goodsRequestData.getAsLength();
+////		this.asHeight = goodsRequestData.getAsHeight();
+////		this.weight = goodsRequestData.getWeight();
+//		this.origin = goodsInsertRequestData.getOrigin();
+//		this.shortageYn = goodsInsertRequestData.getShortageYn();
+//		this.brandId = goodsInsertRequestData.getBrandId();
+//		this.dispCategoryId = goodsInsertRequestData.getDispCategoryId();
+//		this.siteGb = "01";
+//		this.asVendorId = goodsInsertRequestData.getAsVendorId();
+//		this.manufactureNm = goodsInsertRequestData.getManufactureNm();
+////		this.deliPrice = goodsRequestData.getDeliPrice();
+////		this.localPrice = goodsRequestData.getLocalPrice();
+////		this.localSale = goodsRequestData.getLocalSale();
+//		this.localDeliFee = goodsInsertRequestData.getLocalDeliFee();
+//		this.assortColor = goodsInsertRequestData.getAssortColor();
+//		this.sellStaDt = goodsInsertRequestData.getSellStaDt();
+//		this.sellEndDt = goodsInsertRequestData.getSellEndDt();
+//		this.taxGb = goodsInsertRequestData.getTaxGb();
+//		this.mdRrp = goodsInsertRequestData.getMdRrp();
+//		this.mdTax = goodsInsertRequestData.getMdTax();
+//		this.mdYear = goodsInsertRequestData.getMdYear();
+//		this.mdMargin = goodsInsertRequestData.getMdMargin();
+//		this.mdMargin = goodsInsertRequestData.getMdMargin();
+//		this.mdVatrate = goodsInsertRequestData.getMdVatrate();
+//		this.mdOfflinePrice = goodsInsertRequestData.getMdOfflinePrice();
+//		this.mdOnlinePrice = goodsInsertRequestData.getMdOnlinePrice();
+//		this.mdGoodsVatrate = goodsInsertRequestData.getMdGoodsVatrate();
+//		this.buyWhere = goodsInsertRequestData.getBuyWhere();
+//		this.buyTax = goodsInsertRequestData.getBuyTax();
+//		this.buySupplyDiscount = goodsInsertRequestData.getBuySupplyDiscount();
+//		this.buyRrpIncrement = goodsInsertRequestData.getBuyRrpIncrement();
+//		this.buyExchangeRate = goodsInsertRequestData.getBuyExchangeRate();
+//		this.sizeType = goodsInsertRequestData.getSizeType();
+//		this.mdDiscountRate = goodsInsertRequestData.getMdDiscountRate();
+//	}
 
 	@Id
 	private String assortId;
