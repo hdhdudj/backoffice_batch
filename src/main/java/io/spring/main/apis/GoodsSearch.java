@@ -2,15 +2,20 @@ package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.infrastructure.util.StringFactory;
-import io.spring.main.model.goods.AddGoodsData;
-import io.spring.main.model.goods.GoodsMustInfoData;
-import io.spring.main.model.goods.OptionData;
-import io.spring.main.model.goods.TextOptionData;
+import io.spring.main.jparepos.goods.JpaEsGoodsRepository;
+import io.spring.main.model.goods.*;
 import io.spring.main.model.goods.entity.EsGoods;
 import io.spring.main.util.PoolManager;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -27,16 +32,23 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@RequiredArgsConstructor
+@Component
 public class GoodsSearch {
+    private final JpaEsGoodsRepository jpaEsGoodsRepository;
+
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
-
-    public static List<EsGoods> retrieveOrder(String fromDt, String toDt) {
+    public void getGoodsSeq(String fromDt, String toDt){
+        List<GoodsData> goodsDataList = retrieveOrder(fromDt, toDt);
+        for(GoodsData goodsData : goodsDataList){
+            EsGoods esGoods = new EsGoods(goodsData);
+            jpaEsGoodsRepository.save(esGoods);
+        }
+    }
+    private List<GoodsData> retrieveOrder(String fromDt, String toDt) {
 
         // TODO Auto-generated method stub
         BufferedReader br = null;
@@ -46,7 +58,7 @@ public class GoodsSearch {
         DocumentBuilder builder;
         Document doc = null;
 
-        List<EsGoods> goodsDatas = new ArrayList<>();
+        List<GoodsData> goodsDatas = new ArrayList<>();
 
         try {
             //OpenApi호출
@@ -65,56 +77,55 @@ public class GoodsSearch {
             while ((line = br.readLine()) != null) {
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
+//            System.out.println(result);
+//
+            // xml 파싱하기
+            InputSource is = new InputSource(new StringReader(result));
 
-            System.out.println(result);
-//
-//            // xml 파싱하기
-//            InputSource is = new InputSource(new StringReader(result));
-//
-//            builder = factory.newDocumentBuilder();
-//            doc = builder.parse(is);
-//            XPathFactory xpathFactory = XPathFactory.newInstance();
-//            XPath xpath = xpathFactory.newXPath();
-//            // XPathExpression expr = xpath.compile("/response/body/items/item");
-//            XPathExpression expr = xpath.compile("//data");
-//            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-//
-//            for (int i = 0; i < nodeList.getLength(); i++) {
-//                NodeList child = nodeList.item(i).getChildNodes();
-//                for (int y = 0; y < child.getLength(); y++) {
-//                    Node lNode = child.item(y);
-//
-//                    // printTree(lNode, 1);
-//
-//                    if (lNode.getNodeName() == "return") {
-//
-//                        NodeList mNodes = lNode.getChildNodes();
-//
-//                        // List<OrderData> orderMasterDatas = new ArrayList<OrderData>();
-//
-//                        for (int mi = 0; mi < mNodes.getLength(); mi++) {
-////								for (int mi = 0; mi < 1; mi++) {
-//                            Node mNode = mNodes.item(mi);
-//
-//                            if (mNode.getNodeName() == "goods_data") {
-////                                EsGoods map = makeGoodsmaster(mNode);
-//                                makeGoodsmaster(mNode);
-//
-////                                goodsDatas.add(map);
-//                                // order master array append
-//                            }
-//
-//                        }
-//
-//                        System.out.println("-----------------------------------------------------------------");
-////                        System.out.println(goodsDatas.size());
-//                        System.out.println("-----------------------------------------------------------------");
-//
-//                    }
-//
-//                }
-//
-//            }
+            builder = factory.newDocumentBuilder();
+            doc = builder.parse(is);
+            XPathFactory xpathFactory = XPathFactory.newInstance();
+            XPath xpath = xpathFactory.newXPath();
+            // XPathExpression expr = xpath.compile("/response/body/items/item");
+            XPathExpression expr = xpath.compile("//data");
+            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                NodeList child = nodeList.item(i).getChildNodes();
+                for (int y = 0; y < child.getLength(); y++) {
+                    Node lNode = child.item(y);
+
+                    // printTree(lNode, 1);
+
+                    if (lNode.getNodeName() == "return") {
+
+                        NodeList mNodes = lNode.getChildNodes();
+
+                        // List<OrderData> orderMasterDatas = new ArrayList<OrderData>();
+
+                        for (int mi = 0; mi < mNodes.getLength(); mi++) {
+//								for (int mi = 0; mi < 1; mi++) {
+                            Node mNode = mNodes.item(mi);
+
+                            if (mNode.getNodeName() == "goods_data") {
+//                                EsGoods map = makeGoodsmaster(mNode);
+                                GoodsData map = makeGoodsmaster(mNode);
+
+                                goodsDatas.add(map);
+                                // order master array append
+                            }
+
+                        }
+
+                        System.out.println("-----------------------------------------------------------------");
+                        System.out.println(goodsDatas.size());
+                        System.out.println("-----------------------------------------------------------------");
+
+                    }
+
+                }
+
+            }
 
             return goodsDatas;
 
@@ -125,8 +136,7 @@ public class GoodsSearch {
 
         }
     }
-
-    private static void makeGoodsmaster(Node root) {
+    private GoodsData makeGoodsmaster(Node root) {
         Map<String, Object> map = new HashMap<String, Object>();
         // List<Map<String, Object>> deliveryDatas = new ArrayList<Map<String,
         // Object>>();
@@ -182,12 +192,13 @@ public class GoodsSearch {
 
 //        ObjectMapper mapper = new ObjectMapper();
 //
-//        OrderData o = mapper.convertValue(map, OrderData.class);
-
-//        return o;
+//        GoodsData o = mapper.convertValue(map, GoodsData.class);
+        System.out.println("----- goodsNo : " + Long.parseLong((String)map.get("goodsNo")));
+          GoodsData o = new GoodsData();
+        o.setGoodsNo(Long.parseLong((String)map.get("goodsNo")));
+        return o;
 //
         // return map;
-
     }
 
     private static AddGoodsData makeAddGoodsData(Node cNode) {
@@ -207,7 +218,6 @@ public class GoodsSearch {
     }
 
     public static Object getNodeValue(Node n) {
-
 
         if (n.getChildNodes().getLength() == 0) {
             return n.getNodeValue();

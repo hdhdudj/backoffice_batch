@@ -1,7 +1,10 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.GoodsData;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.junit.jupiter.api.Tags;
 
@@ -14,9 +17,10 @@ import java.util.Date;
 @Table(name="es_goods")
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EsGoods {
-    public EsGoods(){
-
+    public EsGoods(GoodsData goodsData){
+        this.goodsNo = goodsData.getGoodsNo();
     }
     @Id
     private Long goodsNo;
