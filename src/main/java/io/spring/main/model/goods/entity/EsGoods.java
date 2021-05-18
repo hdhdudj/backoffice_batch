@@ -1,4 +1,4 @@
-package io.spring.main.model.goods.godo;
+package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

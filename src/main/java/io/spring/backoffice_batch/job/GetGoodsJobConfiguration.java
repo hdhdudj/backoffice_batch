@@ -31,6 +31,7 @@ public class GetGoodsJobConfiguration {
         return stepBuilderFactory.get("getGoodsStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is getGoodsStep1");
+                    GoodsSearch.retrieveOrder("","");
                     return RepeatStatus.FINISHED;
                 })
                 .build();

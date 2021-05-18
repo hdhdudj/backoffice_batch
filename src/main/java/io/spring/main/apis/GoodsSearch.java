@@ -2,7 +2,7 @@ package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.infrastructure.util.StringFactory;
-import io.spring.main.model.goods.godo.EsGoods;
+import io.spring.main.model.goods.entity.EsGoods;
 import io.spring.main.util.PoolManager;
 import org.apache.ibatis.session.SqlSession;
 import org.w3c.dom.Document;
@@ -30,7 +30,7 @@ public class GoodsSearch {
     private static PoolManager poolManager = null;
     private static SqlSession session = null;
 
-    private static List<EsGoods> retrieveOrder(String fromDt, String toDt) {
+    public static List<EsGoods> retrieveOrder(String fromDt, String toDt) {
 
         // TODO Auto-generated method stub
         BufferedReader br = null;
@@ -90,8 +90,8 @@ public class GoodsSearch {
                             Node mNode = mNodes.item(mi);
 
 
-                            if (mNode.getNodeName() == "order_data") {
-                                EsGoods map = makeOrdermaster(mNode);
+                            if (mNode.getNodeName() == "goods_data") {
+                                EsGoods map = makeGoodsmaster(mNode);
 
 
 
@@ -125,7 +125,7 @@ public class GoodsSearch {
         }
     }
 
-    private static EsGoods makeOrdermaster(Node root) {
+    private static EsGoods makeGoodsmaster(Node root) {
         Map<String, Object> map = new HashMap<String, Object>();
         // List<Map<String, Object>> deliveryDatas = new ArrayList<Map<String,
         // Object>>();
