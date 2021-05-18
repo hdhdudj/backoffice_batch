@@ -86,13 +86,8 @@ nbdist/
 /build/
 /bin/
 bin/
- 
-
 
 ### properties ###
 application.properties
 
-
-### logs ###
-*.log
 
