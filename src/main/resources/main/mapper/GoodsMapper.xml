@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.spring.infrastructure.mybatis.mapper.GoodsMapper">
+
+
+   <select id="selectGoodsListAll" resultType="HashMap">
+    	<![CDATA[
+		select * from itasrt 		
+    	]]>
+    </select>
+
+	<select id="selectMaxSeqItasrt" resultType="string">
+    	<![CDATA[
+		select max(seq)+1 seq from itasrt where assort_id = #{assortId}
+		]]>
+    </select>
+
+	<select id="selectMaxSeqItvari" resultType="string">
+    	<![CDATA[
+		select max(seq)+1 seq from itvari where assort_id = #{assortId}
+		]]>
+    </select>
+
+	<select id="selectMaxSeqItasrd" resultType="string">
+    	<![CDATA[
+		select max(seq)+1 seq from itasrd where assort_id = #{assortId}
+		]]>
+    </select>
+
+	<select id="selectMaxItemIdItitmm" resultType="string">
+    	<![CDATA[
+		select max(item_id)+1 item_id from ititmm where assort_id = #{assortId}
+		]]>
+    </select>
+
+	<select id="selectOneSeqOptionGb" resultType="HashMap">
+    	<![CDATA[
+		select seq, option_gb from itvari where assort_id = #{assortId} and option_nm = #{optionNm}
+		]]>
+    </select>
+    
+	<insert id="insertGoods">
+		<![CDATA[ 
+		insert into  itasrt
+		(assort_id
+		
+		,reg_dt
+		,reg_id
+		,upd_id
+		,upd_dt
+		
+		,assort_nm 
+		,assort_color
+		,disp_category_id
+		,brand_id
+		,origin
+		,manufacture_nm
+		,assort_model
+		,tax_gb
+		,assort_state
+		,shortage_yn
+		,sell_sta_dt 
+		,sell_end_dt
+		,local_price
+		,local_sale
+		,deli_price
+		,margin
+		,vendor_id 
+		
+		,mdRrp
+		,mdYear
+		,mdTax
+		,mdVatrate
+		,mdDiscountRate
+		,mdGoodsVatrate
+		
+		
+		,buyWhere
+		,buySupplyDiscount
+		,buyRrpIncrement
+		,buyTax
+		,mdMargin
+		,buyExchangeRate
+		)
+		
+		values(
+		#{assortId}
+				
+		,#{regDt}
+		,#{regId}
+		,#{updId}
+		,#{updDt}
+		
+		,#{assortNm}
+		,#{assortColor}
+		,#{dispCategory}
+		,#{brandId}
+		,#{origin}
+		,#{manufactureNm}
+		,#{assortModel}
+		,#{taxGb}
+		,#{assortState}
+		,#{shortageYn}
+		,#{sellSta}
+		,#{sellEnd}
+		,#{localPrice}
+		,#{localSale}
+		,#{deliPrice}
+		,#{margin}
+		,#{vendorId}
+		
+		,#{mdRrp}
+		,#{mdYear}
+		,#{mdTax}
+		,#{mdVatrate}
+		,#{mdDiscountRate}
+		,#{mdGoodsVatrate}
+		
+		,#{buyWhere}
+		,#{buySupplyDiscount}
+		,#{buyRrpIncrement}
+		,#{buyTax}
+		,#{mdMargin}
+		,#{buyExchangeRate}
+		)
+		]]>
+	</insert>
+
+	<select id="getGoodsList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select
+			i.assort_id as assortId
+			 ,i.assort_nm as assortNm
+			 ,i.shortage_yn as shortageYn
+			 ,i.brand_id as brandId
+			 ,ib.brand_nm as brandNm
+			 ,i.disp_category_id as dispCategoryId
+			 ,ic.category_nm as categoryNm
+			 ,f_categoryFullPath(i.disp_category_id) fullCategoryNm
+		from itasrt i
+		   ,itbrnd ib
+		   ,itcatg ic
+		where 1=1
+		  and i.brand_id = ib.brand_id
+		  and i.disp_category_id  = ic.category_id
+		  and i.reg_Dt between #{regDtBegin} and  #{regDtEnd}
+		  and i.shortage_yn =#{shortageYn};
+	</select>
+
+
+</mapper>
