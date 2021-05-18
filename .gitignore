@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # These are some examples of commonly ignored file patterns.
 # You should customize this list as applicable to your project.
 # Learn more about .gitignore:
@@ -52,14 +51,12 @@ Thumbs.db
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
-=======
 HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
->>>>>>> feature/batch_0517
 
 ### STS ###
 .apt_generated
