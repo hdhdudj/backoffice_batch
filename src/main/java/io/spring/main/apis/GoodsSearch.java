@@ -42,6 +42,7 @@ import java.util.*;
 @Component
 public class GoodsSearch {
     private final JpaEsGoodsRepository jpaEsGoodsRepository;
+    private final ObjectMapper objectMapper;
 
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
@@ -49,7 +50,10 @@ public class GoodsSearch {
     public void getGoodsSeq(String fromDt, String toDt){
         List<GoodsData> goodsDataList = retrieveOrder(fromDt, toDt);
         for(GoodsData goodsData : goodsDataList){
-            EsGoods esGoods = new EsGoods(goodsData);
+            EsGoods esGoods = new EsGoods();
+            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            esGoods = objectMapper.convertValue(goodsData, EsGoods.class);
+            log.debug("----- goodsNm : "+esGoods.getGoodsNm());
             jpaEsGoodsRepository.save(esGoods);
         }
     }
@@ -184,7 +188,7 @@ public class GoodsSearch {
                     System.out.println("데이타 이상 - 확인필요");
                     System.out.println("-----------------------------------------------------------------");
                 } else {
-                    log.debug("----- " + cNode.getNodeName() + " : "+  getNodeValue(cNode));
+//                    log.debug("----- " + cNode.getNodeName() + " : "+  getNodeValue(cNode));
                     map.put(this.controlSnakeCaseException(cNode.getNodeName()), getNodeValue(cNode));
                 }
 
@@ -196,10 +200,10 @@ public class GoodsSearch {
             map.put("goodsMustInfoData",goodsMustInfoDataList);
         }
 
-        ObjectMapper mapper = new ObjectMapper();
+//        ObjectMapper mapper = new ObjectMapper();
 
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        GoodsData o = mapper.convertValue(map, GoodsData.class);
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        GoodsData o = objectMapper.convertValue(map, GoodsData.class);
         return o;
 //
         // return map;
@@ -207,39 +211,19 @@ public class GoodsSearch {
 
     // 고도몰 table column명이 camleCase로 돼있는데 몇 개만 snake로 돼있어서 걔네 처리용
     private String controlSnakeCaseException(String nodeNm){
-        if(nodeNm == "fp_goods_open"){
-            return "fpGoodsOpen";
+        String[] splitStrs = nodeNm.split("_");
+        if(splitStrs.length > 2){
+            nodeNm = this.snakeToCamel(nodeNm);
         }
-        else if(nodeNm == "fp_goods_name"){
-            return "fpGoodsName";
+        return nodeNm;
+    }
+    private String snakeToCamel(String str){
+        String[] miniStrs = str.split("_");
+        str = miniStrs[0];
+        for(int j = 1 ; j < miniStrs.length; j++){
+            str += miniStrs[j].substring(0,1).toUpperCase() + miniStrs[j].substring(1);
         }
-        else if(nodeNm == "fp_goods_desc"){
-            return "fpGoodsDesc";
-        }
-        else if(nodeNm == "fs_goods_name"){
-            return "fsGoodsName";
-        }
-        else if(nodeNm == "fs_goods_img"){
-            return "fsGoodsImg";
-        }
-        else if(nodeNm == "fs_goods_desc"){
-            return "fsGoodsDesc";
-        }
-        else if(nodeNm == "fs_goods_open"){
-            return "fsGoodsOpen";
-        }
-        else if(nodeNm == "fs_goods_brand"){
-            return "fsGoodsBrand";
-        }
-        else if(nodeNm == "fs_goods_price"){
-            return "fsGoodsPrice";
-        }
-        else if(nodeNm == "fs_goods_delivery"){
-            return "fsGoodsDelivery";
-        }
-        else {
-            return nodeNm;
-        }
+        return str;
     }
 
     private static GoodsData.AddGoodsData makeAddGoodsData(Node cNode) {

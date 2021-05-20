@@ -16,8 +16,6 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class GoodsData {
-    public GoodsData(Map<String, Object> map){
-    }
     private Long goodsNo;
     private String goodsNmFl;
     private String goodsNm;

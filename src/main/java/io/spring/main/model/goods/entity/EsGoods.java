@@ -17,28 +17,14 @@ import java.util.Date;
 @Table(name="es_goods")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EsGoods {
-    public EsGoods(GoodsData goodsData){
-        this.goodsNo = goodsData.getGoodsNo();
-        this.goodsNmFl = goodsData.getGoodsNmFl();
-        this.goodsNm = goodsData.getGoodsNm();
-        this.goodsNmMain = goodsData.getGoodsNmMain();
-        this.goodsNmList = goodsData.getGoodsNmList();
-        this.goodsNmDetail = goodsData.getGoodsNmDetail();
-        this.goodsNmPartner = goodsData.getGoodsNmPartner();
-        this.goodsDisplayFl = goodsData.getGoodsDisplayFl();
-        this.goodsDisplayMobileFl = goodsData.getGoodsDisplayMobileFl();
-        this.goodsSellFl = goodsData.getGoodsSellFl();
-        this.goodsSellMobileFl = goodsData.getGoodsSellMobileFl();
-    }
     @Id
     private Long goodsNo;
-    @Generated(GenerationTime.INSERT)
+    @Generated(GenerationTime.NEVER)
     private String goodsNmFl;
-    @Generated(GenerationTime.INSERT)
+    @Generated(GenerationTime.NEVER)
     private String goodsNm;
-    @Generated(GenerationTime.INSERT)
+    @Generated(GenerationTime.NEVER)
     private String goodsNmMain;
     private String goodsNmList;
     private String goodsNmDetail;
@@ -328,7 +314,7 @@ public class EsGoods {
     private Float mdOnlinePrice;
     private Float mdGoodsVatrate;
     private String buyWhere;
-    @Generated(GenerationTime.INSERT)
+    @Generated(GenerationTime.NEVER)
     private String buyTax;
     private Float buySupplyDiscount;
     private Float buyRrpIncrement;
