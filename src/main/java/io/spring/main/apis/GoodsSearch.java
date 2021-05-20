@@ -1,5 +1,6 @@
 package io.spring.main.apis;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.jparepos.goods.JpaEsGoodsRepository;
@@ -7,6 +8,7 @@ import io.spring.main.model.goods.*;
 import io.spring.main.model.goods.entity.EsGoods;
 import io.spring.main.util.PoolManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +37,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class GoodsSearch {
@@ -142,14 +145,14 @@ public class GoodsSearch {
         Map<String, Object> map = new HashMap<String, Object>();
         // List<Map<String, Object>> deliveryDatas = new ArrayList<Map<String,
         // Object>>();
-        List<OptionData> optionDataList = new ArrayList<>();
+        List<GoodsData.OptionData> optionDataList = new ArrayList<>();
 
-        List<TextOptionData> textOptionDataList = new ArrayList<>();
+        List<GoodsData.TextOptionData> textOptionDataList = new ArrayList<>();
         // List<Map<String, Object>> goodsDatas = new ArrayList<Map<String, Object>>();
-        List<AddGoodsData> adGoodsDataList = new ArrayList<>();
+        List<GoodsData.AddGoodsData> adGoodsDataList = new ArrayList<>();
         // List<Map<String, Object>> addGoodsDatas = new ArrayList<Map<String,
         // Object>>();
-        List<GoodsMustInfoData> goodsMustInfoDataList = new ArrayList<>();
+        List<GoodsData.GoodsMustInfoData> goodsMustInfoDataList = new ArrayList<>();
 
         NodeList cNodes = root.getChildNodes();
         for (int i = 0; i < cNodes.getLength(); i++) {
@@ -157,18 +160,18 @@ public class GoodsSearch {
             //String idx = cNode.getAttributes().getNamedItem("idx").getNodeValue();
             // System.out.println(cNode.getAttributes().getNamedItem("idx").getNodeValue());
             if (cNode.getNodeName() == "optionData") {
-                OptionData optionData = makeOptionData(cNode);
+                GoodsData.OptionData optionData = makeOptionData(cNode);
                 optionDataList.add(optionData);
             } else if (cNode.getNodeName() == "textOptionData") {
-                TextOptionData textOptionData = makeTextOptionData(cNode);
+                GoodsData.TextOptionData textOptionData = makeTextOptionData(cNode);
                 textOptionDataList.add(textOptionData);
             } else if (cNode.getNodeName() == "addGoodsData") {
                 // Map<String, Object> goodsData = makeOrderGoodsData(cNode);
-                AddGoodsData addGoodsData = makeAddGoodsData(cNode);
+                GoodsData.AddGoodsData addGoodsData = makeAddGoodsData(cNode);
                 adGoodsDataList.add(addGoodsData);
             } else if (cNode.getNodeName() == "goodsMustInfoData ") {
                 // Map<String, Object> addGoodsData = makeAddGoodsData(cNode);
-                GoodsMustInfoData goodsMustInfoData = makeGoodsMustInfoData(cNode);
+                GoodsData.GoodsMustInfoData goodsMustInfoData = makeGoodsMustInfoData(cNode);
                 goodsMustInfoDataList.add(goodsMustInfoData);
             } else {
 
@@ -181,7 +184,8 @@ public class GoodsSearch {
                     System.out.println("데이타 이상 - 확인필요");
                     System.out.println("-----------------------------------------------------------------");
                 } else {
-                    map.put(cNode.getNodeName(), getNodeValue(cNode));
+                    log.debug("----- " + cNode.getNodeName() + " : "+  getNodeValue(cNode));
+                    map.put(this.controlSnakeCaseException(cNode.getNodeName()), getNodeValue(cNode));
                 }
 
             }
@@ -192,30 +196,65 @@ public class GoodsSearch {
             map.put("goodsMustInfoData",goodsMustInfoDataList);
         }
 
-//        ObjectMapper mapper = new ObjectMapper();
-//
-//        GoodsData o = mapper.convertValue(map, GoodsData.class);
-        System.out.println("----- goodsNo : " + Long.parseLong((String)map.get("goodsNo")));
-          GoodsData o = new GoodsData();
-        o.setGoodsNo(Long.parseLong((String)map.get("goodsNo")));
+        ObjectMapper mapper = new ObjectMapper();
+
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        GoodsData o = mapper.convertValue(map, GoodsData.class);
         return o;
 //
         // return map;
     }
 
-    private static AddGoodsData makeAddGoodsData(Node cNode) {
+    // 고도몰 table column명이 camleCase로 돼있는데 몇 개만 snake로 돼있어서 걔네 처리용
+    private String controlSnakeCaseException(String nodeNm){
+        if(nodeNm == "fp_goods_open"){
+            return "fpGoodsOpen";
+        }
+        else if(nodeNm == "fp_goods_name"){
+            return "fpGoodsName";
+        }
+        else if(nodeNm == "fp_goods_desc"){
+            return "fpGoodsDesc";
+        }
+        else if(nodeNm == "fs_goods_name"){
+            return "fsGoodsName";
+        }
+        else if(nodeNm == "fs_goods_img"){
+            return "fsGoodsImg";
+        }
+        else if(nodeNm == "fs_goods_desc"){
+            return "fsGoodsDesc";
+        }
+        else if(nodeNm == "fs_goods_open"){
+            return "fsGoodsOpen";
+        }
+        else if(nodeNm == "fs_goods_brand"){
+            return "fsGoodsBrand";
+        }
+        else if(nodeNm == "fs_goods_price"){
+            return "fsGoodsPrice";
+        }
+        else if(nodeNm == "fs_goods_delivery"){
+            return "fsGoodsDelivery";
+        }
+        else {
+            return nodeNm;
+        }
+    }
+
+    private static GoodsData.AddGoodsData makeAddGoodsData(Node cNode) {
         return null;
     }
 
-    private static GoodsMustInfoData makeGoodsMustInfoData(Node cNode) {
+    private static GoodsData.GoodsMustInfoData makeGoodsMustInfoData(Node cNode) {
         return null;
     }
 
-    private static TextOptionData makeTextOptionData(Node cNode) {
+    private static GoodsData.TextOptionData makeTextOptionData(Node cNode) {
         return null;
     }
 
-    private static OptionData makeOptionData(Node cNode) {
+    private static GoodsData.OptionData makeOptionData(Node cNode) {
         return null;
     }
 

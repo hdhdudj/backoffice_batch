@@ -22,35 +22,11 @@ import java.util.Date;
 public class EsGoods {
     public EsGoods(GoodsData goodsData){
         this.goodsNo = goodsData.getGoodsNo();
-        // not null에 default value 필요한 애들
-        this.buyExchangeRate = 0F;
-        this.buyRrpIncrement = 0F;
-        this.buySupplyDiscount = 0F;
-        this.width = 0L;
-        this.height = 0L;
-        this.depth = 0L;
-        this.mdDiscountRate = 0F;
-        this.newGoodsDate = 0L;
-        this.seoTagSno = 0L;
-        this.goodsCeleb = "";
-        this.goodsMainListShot = "";
-        this.goodsMainListLong = "";
-        this.goodsCateListShot = "";
-        this.goodsCateListLong = "";
-        this.mdRrp = 0f;
-        this.mdYear = "";
-        this.mdMargin = 0f;
-        this.mdVatrate = 0f;
-        this.mdOfflinePrice = 0f;
-        this.mdOnlinePrice = 0f;
-        this.mdGoodsVatrate = 0f;
-        this.buyWhere = "";
-        this.buySupplyDiscount = 0f;
-        this.buyExchangeRate = 0f;
-        this.width = 0l;
-        this.height = 0l;
-        this.depth = 0l;
-        this.mdDiscountRate = 0f;
+        this.goodsNmFl = goodsData.getGoodsNmFl();
+        this.goodsNm = goodsData.getGoodsNm();
+        this.goodsNmMain = goodsData.getGoodsNmMain();
+        this.goodsNmList = goodsData.getGoodsNmList();
+        this.goodsNmDetail = goodsData.getGoodsNmDetail();
     }
     @Id
     private Long goodsNo;
@@ -73,7 +49,7 @@ public class EsGoods {
     private String goodsSellMobileFl;
     @Generated(GenerationTime.INSERT)
     private Long scmNo;
-    private Long purchaseGoodsNm;
+    private String purchaseGoodsNm;
     @Generated(GenerationTime.INSERT)
     private String applyFl;
     private String applyType;
