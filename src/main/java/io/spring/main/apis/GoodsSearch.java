@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -41,6 +42,7 @@ public class GoodsSearch {
 
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
+//    @Transactional
     public void getGoodsSeq(String fromDt, String toDt){
         List<GoodsData> goodsDataList = retrieveOrder(fromDt, toDt);
         for(GoodsData goodsData : goodsDataList){
