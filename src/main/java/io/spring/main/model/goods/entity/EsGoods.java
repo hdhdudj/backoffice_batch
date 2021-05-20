@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
-import org.junit.jupiter.api.Tags;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,6 +26,11 @@ public class EsGoods {
         this.goodsNmMain = goodsData.getGoodsNmMain();
         this.goodsNmList = goodsData.getGoodsNmList();
         this.goodsNmDetail = goodsData.getGoodsNmDetail();
+        this.goodsNmPartner = goodsData.getGoodsNmPartner();
+        this.goodsDisplayFl = goodsData.getGoodsDisplayFl();
+        this.goodsDisplayMobileFl = goodsData.getGoodsDisplayMobileFl();
+        this.goodsSellFl = goodsData.getGoodsSellFl();
+        this.goodsSellMobileFl = goodsData.getGoodsSellMobileFl();
     }
     @Id
     private Long goodsNo;
