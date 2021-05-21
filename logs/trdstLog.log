@@ -1,63 +1,279 @@
-2021-05-20 18:00:28,015 [background-preinit] INFO  org.hibernate.validator.internal.util.Version(<clinit>:21) - HV000001: Hibernate Validator 6.1.5.Final
-2021-05-20 18:00:28,147 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:55) - Starting BackofficeBatchApplication on DESKTOP-DD3UDDS with PID 10764 (C:\code\java\backoffice_projects\backoffice_batch\build\classes\java\main started by 박선홍 in C:\code\java\backoffice_projects\backoffice_batch)
-2021-05-20 18:00:28,156 [main] DEBUG io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:56) - Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2021-05-20 18:00:28,158 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStartupProfileInfo:651) - No active profile set, falling back to default profiles: default
-2021-05-20 18:00:29,548 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:127) - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-05-20 18:00:29,912 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:187) - Finished Spring Data repository scanning in 343ms. Found 21 JPA repository interfaces.
-2021-05-20 18:00:30,799 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner(warn:44) - No MyBatis mapper was found in '[io.spring.backoffice_batch]' package. Please check your configuration.
-2021-05-20 18:00:32,108 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8081 (http)
-2021-05-20 18:00:32,133 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Initializing ProtocolHandler ["http-nio-8081"]
-2021-05-20 18:00:32,134 [main] INFO  org.apache.catalina.core.StandardService(log:173) - Starting service [Tomcat]
-2021-05-20 18:00:32,136 [main] INFO  org.apache.catalina.core.StandardEngine(log:173) - Starting Servlet engine: [Apache Tomcat/9.0.38]
-2021-05-20 18:00:32,501 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/](log:173) - Initializing Spring embedded WebApplicationContext
-2021-05-20 18:00:32,502 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:285) - Root WebApplicationContext: initialization completed in 4163 ms
-2021-05-20 18:00:32,964 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter(info:49) - Flyway Community Edition 6.4.4 by Redgate
-2021-05-20 18:00:33,134 [main] WARN  org.flywaydb.core.internal.scanner.classpath.ClassPathScanner(warn:53) - Unable to resolve location classpath:db/migration. Note this warning will become an error in Flyway 7.
-2021-05-20 18:00:33,139 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:110) - HikariPool-1 - Starting...
-2021-05-20 18:00:33,919 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:123) - HikariPool-1 - Start completed.
-2021-05-20 18:00:34,008 [main] INFO  org.flywaydb.core.internal.database.DatabaseFactory(info:49) - Database: jdbc:mysql://localhost:3306/trdst (MySQL 5.7)
-2021-05-20 18:00:34,156 [main] INFO  org.flywaydb.core.internal.command.DbValidate(info:49) - Successfully validated 0 migrations (execution time 00:00.072s)
-2021-05-20 18:00:34,157 [main] WARN  org.flywaydb.core.internal.command.DbValidate(warn:53) - No migrations found. Are your locations set up correctly?
-2021-05-20 18:00:34,226 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Current version of schema `trdst`: << Empty Schema >>
-2021-05-20 18:00:34,231 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Schema `trdst` is up to date. No migration necessary.
-2021-05-20 18:00:34,552 [main] INFO  org.hibernate.jpa.internal.util.LogHelper(logPersistenceUnitInformation:31) - HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-05-20 18:00:34,745 [main] INFO  org.hibernate.Version(logVersion:46) - HHH000412: Hibernate Core {5.4.2.Final}
-2021-05-20 18:00:35,040 [main] INFO  org.hibernate.annotations.common.Version(<clinit>:49) - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
-2021-05-20 18:00:35,206 [main] INFO  org.hibernate.dialect.Dialect(<init>:158) - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-2021-05-20 18:00:35,533 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.deposit.idclass.LsdpsdId
-2021-05-20 18:00:35,534 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.deposit.idclass.LsdpsdId
-2021-05-20 18:00:35,536 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItvariId
-2021-05-20 18:00:35,537 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItvariId
-2021-05-20 18:00:35,537 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItasrdId
-2021-05-20 18:00:35,538 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItasrdId
-2021-05-20 18:00:35,540 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmcId
-2021-05-20 18:00:35,541 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmcId
-2021-05-20 18:00:35,543 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmmId
-2021-05-20 18:00:35,544 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmmId
-2021-05-20 18:00:35,545 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmtId
-2021-05-20 18:00:35,546 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmtId
-2021-05-20 18:00:35,547 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.purchase.idclass.LspchdId
-2021-05-20 18:00:35,548 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.purchase.idclass.LspchdId
-2021-05-20 18:00:37,596 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator(initiateService:52) - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-05-20 18:00:37,605 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(buildNativeEntityManagerFactory:416) - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-05-20 18:00:43,848 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration(openEntityManagerInViewInterceptor:220) - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-05-20 18:00:44,046 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(initialize:181) - Initializing ExecutorService 'applicationTaskExecutor'
-2021-05-20 18:00:44,690 [main] WARN  org.springframework.boot.autoconfigure.batch.JpaBatchConfigurer(determineIsolationLevel:57) - JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
-2021-05-20 18:00:44,700 [main] INFO  org.springframework.batch.core.repository.support.JobRepositoryFactoryBean(afterPropertiesSet:184) - No database type set, using meta data indicating: MYSQL
-2021-05-20 18:00:44,747 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(afterPropertiesSet:209) - No TaskExecutor has been set, defaulting to synchronous executor.
-2021-05-20 18:00:45,115 [main] INFO  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration(getOrDeducePassword:86) - 
+2021-05-21 10:11:29,062 [background-preinit] INFO  org.hibernate.validator.internal.util.Version(<clinit>:21) - HV000001: Hibernate Validator 6.1.5.Final
+2021-05-21 10:11:29,153 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:55) - Starting BackofficeBatchApplication on DESKTOP-DD3UDDS with PID 14440 (C:\code\java\backoffice_projects\backoffice_batch\build\classes\java\main started by 박선홍 in C:\code\java\backoffice_projects\backoffice_batch)
+2021-05-21 10:11:29,153 [main] DEBUG io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:56) - Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
+2021-05-21 10:11:29,153 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStartupProfileInfo:651) - No active profile set, falling back to default profiles: default
+2021-05-21 10:11:29,948 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:127) - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-21 10:11:30,093 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:187) - Finished Spring Data repository scanning in 123ms. Found 21 JPA repository interfaces.
+2021-05-21 10:11:30,403 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner(warn:44) - No MyBatis mapper was found in '[io.spring.backoffice_batch]' package. Please check your configuration.
+2021-05-21 10:11:30,865 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8081 (http)
+2021-05-21 10:11:30,874 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Initializing ProtocolHandler ["http-nio-8081"]
+2021-05-21 10:11:30,874 [main] INFO  org.apache.catalina.core.StandardService(log:173) - Starting service [Tomcat]
+2021-05-21 10:11:30,874 [main] INFO  org.apache.catalina.core.StandardEngine(log:173) - Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-05-21 10:11:31,000 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/](log:173) - Initializing Spring embedded WebApplicationContext
+2021-05-21 10:11:31,000 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:285) - Root WebApplicationContext: initialization completed in 1709 ms
+2021-05-21 10:11:31,125 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter(info:49) - Flyway Community Edition 6.4.4 by Redgate
+2021-05-21 10:11:31,184 [main] WARN  org.flywaydb.core.internal.scanner.classpath.ClassPathScanner(warn:53) - Unable to resolve location classpath:db/migration. Note this warning will become an error in Flyway 7.
+2021-05-21 10:11:31,184 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:110) - HikariPool-1 - Starting...
+2021-05-21 10:11:31,508 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:123) - HikariPool-1 - Start completed.
+2021-05-21 10:11:31,538 [main] INFO  org.flywaydb.core.internal.database.DatabaseFactory(info:49) - Database: jdbc:mysql://localhost:3306/trdst (MySQL 5.7)
+2021-05-21 10:11:31,616 [main] INFO  org.flywaydb.core.internal.command.DbValidate(info:49) - Successfully validated 0 migrations (execution time 00:00.035s)
+2021-05-21 10:11:31,616 [main] WARN  org.flywaydb.core.internal.command.DbValidate(warn:53) - No migrations found. Are your locations set up correctly?
+2021-05-21 10:11:31,664 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Current version of schema `trdst`: << Empty Schema >>
+2021-05-21 10:11:31,668 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Schema `trdst` is up to date. No migration necessary.
+2021-05-21 10:11:31,907 [main] INFO  org.hibernate.jpa.internal.util.LogHelper(logPersistenceUnitInformation:31) - HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-21 10:11:32,015 [main] INFO  org.hibernate.Version(logVersion:46) - HHH000412: Hibernate Core {5.4.2.Final}
+2021-05-21 10:11:32,158 [main] INFO  org.hibernate.annotations.common.Version(<clinit>:49) - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-05-21 10:11:32,265 [main] INFO  org.hibernate.dialect.Dialect(<init>:158) - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-05-21 10:11:32,561 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-05-21 10:11:32,561 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-05-21 10:11:32,562 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItvariId
+2021-05-21 10:11:32,562 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItvariId
+2021-05-21 10:11:32,563 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItasrdId
+2021-05-21 10:11:32,563 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItasrdId
+2021-05-21 10:11:32,564 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmcId
+2021-05-21 10:11:32,564 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmcId
+2021-05-21 10:11:32,565 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmmId
+2021-05-21 10:11:32,565 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmmId
+2021-05-21 10:11:32,566 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmtId
+2021-05-21 10:11:32,566 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmtId
+2021-05-21 10:11:32,566 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.purchase.idclass.LspchdId
+2021-05-21 10:11:32,567 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.purchase.idclass.LspchdId
+2021-05-21 10:11:33,481 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator(initiateService:52) - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-21 10:11:33,483 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(buildNativeEntityManagerFactory:416) - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-21 10:11:34,643 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration(openEntityManagerInViewInterceptor:220) - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-21 10:11:34,730 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(initialize:181) - Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-21 10:11:34,962 [main] WARN  org.springframework.boot.autoconfigure.batch.JpaBatchConfigurer(determineIsolationLevel:57) - JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
+2021-05-21 10:11:34,968 [main] INFO  org.springframework.batch.core.repository.support.JobRepositoryFactoryBean(afterPropertiesSet:184) - No database type set, using meta data indicating: MYSQL
+2021-05-21 10:11:34,979 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(afterPropertiesSet:209) - No TaskExecutor has been set, defaulting to synchronous executor.
+2021-05-21 10:11:35,104 [main] INFO  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration(getOrDeducePassword:86) - 
 
-Using generated security password: dfd29ef9-a803-4531-82a1-4e1dd7943ed8
+Using generated security password: cdbb94d7-ee50-4728-9280-150a2bf2ca46
 
-2021-05-20 18:00:45,374 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain(<init>:43) - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@248ba4fc, org.springframework.security.web.context.SecurityContextPersistenceFilter@6dde913e, org.springframework.security.web.header.HeaderWriterFilter@8eeb4c5, org.springframework.security.web.csrf.CsrfFilter@202d1424, org.springframework.security.web.authentication.logout.LogoutFilter@414d466e, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@58189132, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@2d568cff, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@54cce500, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@d7c00de, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1e2bc241, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5f01361e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@755033c5, org.springframework.security.web.session.SessionManagementFilter@32bae609, org.springframework.security.web.access.ExceptionTranslationFilter@2267b0bb, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@47fbf95e]
-2021-05-20 18:00:45,457 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Starting ProtocolHandler ["http-nio-8081"]
-2021-05-20 18:00:45,513 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8081 (http) with context path ''
-2021-05-20 18:00:45,537 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarted:61) - Started BackofficeBatchApplication in 18.278 seconds (JVM running for 21.797)
-2021-05-20 18:00:45,542 [main] INFO  org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner(run:154) - Running default command line with: [version=30]
-2021-05-20 18:00:45,772 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener(logMessage:136) - 
+2021-05-21 10:11:35,198 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain(<init>:43) - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6ac0fd1d, org.springframework.security.web.context.SecurityContextPersistenceFilter@202d1424, org.springframework.security.web.header.HeaderWriterFilter@6eb332d1, org.springframework.security.web.csrf.CsrfFilter@3cf7433e, org.springframework.security.web.authentication.logout.LogoutFilter@4d7fba20, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@215f8d7, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@28c00acd, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@744199bb, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@49e92724, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6dadcf58, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@70d16858, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6ce8bf64, org.springframework.security.web.session.SessionManagementFilter@3958db82, org.springframework.security.web.access.ExceptionTranslationFilter@695c8b32, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@dc3eda6]
+2021-05-21 10:11:35,238 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Starting ProtocolHandler ["http-nio-8081"]
+2021-05-21 10:11:35,257 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8081 (http) with context path ''
+2021-05-21 10:11:35,257 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarted:61) - Started BackofficeBatchApplication in 6.706 seconds (JVM running for 9.548)
+2021-05-21 10:11:35,257 [main] INFO  org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner(run:154) - Running default command line with: [version=36]
+2021-05-21 10:11:35,434 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=getGoodsJob]] launched with the following parameters: [{version=36}]
+2021-05-21 10:11:35,545 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [getGoodsStep1]
+2021-05-21 10:11:35,577 [main] INFO  io.spring.backoffice_batch.job.GetGoodsJobConfiguration(lambda$getGoodsStep1$0:40) - ----- This is getGoodsStep1
+2021-05-21 10:12:34,837 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Light Red // 보비스트 푸프 - 라이트 레드
+2021-05-21 10:12:34,928 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Light Greens // 보비스트 푸프 - 라이트 그린
+2021-05-21 10:12:34,962 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Dark Greens // 보비스트 푸프 - 다크 그린
+2021-05-21 10:12:34,983 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Dark Red // 보비스트 푸프 - 다크 레드
+2021-05-21 10:12:35,001 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel Ø60xH104,5 cm // 폼 카페 테이블 스테인레스 Ø60xH104,5 cm
+2021-05-21 10:12:35,019 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble Coffee Ø60xH94,5 cm // 폼 카페 테이블 마블 커피 Ø60xH104,5 cm
+2021-05-21 10:12:35,036 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel Ø70xH104,5 cm // 폼 카페 테이블 스테인레스 Ø70xH104,5 cm
+2021-05-21 10:12:35,051 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel 70x70xH104,5 cm // 폼 카페 테이블 스테인레스  70x70xH104,5 cm
+2021-05-21 10:12:35,068 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble Coffee Ø70xH94,5 cm // 폼 카페 테이블 마블 커피 Ø70xH104,5 cm
+2021-05-21 10:12:35,082 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble White Ø60xH74,5 cm // 폼 카페 테이블 마블 화이트 Ø60xH74,5 cm
+2021-05-21 10:12:35,099 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel 60x60xH104,5 cm // 폼 카페 테이블 스테인레스 60x60xH104,5 cm
+2021-05-21 10:12:35,115 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Black Oak 70x70xH74,5 cm // 폼 카페 테이블 블랙 오크 70x70xH74,5 cm
+2021-05-21 10:12:35,128 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Oak Ø60xH74,5 cm // 폼 카페 테이블 오크 Ø60xH74,5 cm
+2021-05-21 10:12:35,141 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Ace Footstool Oak - Ultra Leather // 에이스 풋스툴 오크 - Ultra Leather
+2021-05-21 10:12:35,153 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Ultra Leather // 에라 소파 크롬 프레임 - Ultra Leather
+2021-05-21 10:12:35,244 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Fame // 에라 소파 블랙 우드 프레임 - Fame
+2021-05-21 10:12:35,263 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Ultra Leather // 에라 소파 월넛 프레임 - Ultra Leather
+2021-05-21 10:12:35,276 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Ultra Leather // 에라 소파 스틸 프레임 - Ultra Leather
+2021-05-21 10:12:35,291 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - City Velvet vol 2 // 에라 소파 오크 프레임 - City Velvet vol 2
+2021-05-21 10:12:35,305 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Fame // 에라 소파 월넛 프레임 - Fame
+2021-05-21 10:12:35,320 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Fame Hybrid // 에라 소파 월넛 프레임 - Fame Hybrid
+2021-05-21 10:12:35,335 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Fame // 에라 소파 스틸 프레임 - Fame
+2021-05-21 10:12:35,347 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Fame // 에라 소파 크롬 프레임 - Fame
+2021-05-21 10:12:35,357 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Ultra Leather // 에라 소파 블랙 우드 프레임 - Ultra Leather
+2021-05-21 10:12:35,368 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Fame Hybrid // 에라 소파 오크 프레임 - Fame Hybrid
+2021-05-21 10:12:35,381 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Fame Hybrid // 에라 소파 스틸 프레임 - Fame Hybrid
+2021-05-21 10:12:35,396 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Fame Hybrid // 에라 소파 크롬 프레임 - Fame  Hybrid
+2021-05-21 10:12:35,411 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Fame Hybrid // 에라 소파 블랙 우드 프레임 - Fame Hybrid
+2021-05-21 10:12:35,426 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Ultra Leather // 에라 소파 오크 프레임 - Ultra Leather
+2021-05-21 10:12:35,441 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - City Velvet vol 2 // 에라 소파 스틸 프레임 - City Velvet vol 2
+2021-05-21 10:12:35,453 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - City Velvet vol 2 // 에라 소파 월넛 프레임 - City Velvet vol 2
+2021-05-21 10:12:35,465 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - City Velvet vol 2 // 에라 소파 크롬 프레임 - City Velvet vol 2
+2021-05-21 10:12:35,478 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Breeze Fusion // 에라 소파 블랙 우드 프레임 - Breeze Fusion
+2021-05-21 10:12:35,490 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Fame // 에라 소파 오크 프레임 - Fame
+2021-05-21 10:12:35,502 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Breeze Fusion // 에라 소파 스틸 프레임 - Breeze Fusion
+2021-05-21 10:12:35,515 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Fame // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Fame
+2021-05-21 10:12:35,525 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Ultra Leather // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Ultra Leather
+2021-05-21 10:12:35,536 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - City Velvet vol 2 // 에라 라운지체어 로우 스위블 블랙 알루미늄 - City Velvet vol 2
+2021-05-21 10:12:35,547 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Fame // 에라 라운지체어 로우 스위블 알루미늄 - Fame
+2021-05-21 10:12:35,558 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Ultra Leather // 에라 라운지체어 로우 스위블 알루미늄 - Ultra Leather
+2021-05-21 10:12:35,567 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Breeze Fusion // 에라 라운지체어 로우 스위블 알루미늄 - Breeze Fusion
+2021-05-21 10:12:35,574 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Breeze Fusion // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Breeze Fusion
+2021-05-21 10:12:35,582 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Ultra Leather // 에라 라운지체어 로우 크롬 - Ultra Leather
+2021-05-21 10:12:35,589 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Ultra Leather  // 에라 라운지체어 로우 블랙 - Ultra Leather
+2021-05-21 10:12:35,597 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Ultra Leather // 에라 라운지체어 로우 오크 - Ultra Leather
+2021-05-21 10:12:35,606 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Ultra Leather // 에라 라운지체어 로우 스틸 - Ultra Leather
+2021-05-21 10:12:35,614 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Ultra Leather // 에라 라운지체어 로우 월넛 - Ultra Leather
+2021-05-21 10:12:35,625 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Fame Hybrid // 에라 라운지체어 로우 크롬 - Fame Hybrid
+2021-05-21 10:12:35,637 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Fame Hybrid  // 에라 라운지체어 로우 블랙 - Fame Hybrid
+2021-05-21 10:12:35,646 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - City Velvet vol 2 // 에라 라운지체어 로우 스틸 - City Velvet vol 2
+2021-05-21 10:12:35,656 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - City Velvet vol 2 // 에라 라운지체어 로우 월넛 - City Velvet vol 2
+2021-05-21 10:12:35,665 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Fame Hybrid // 에라 라운지체어 로우 오크 - Fame Hybrid
+2021-05-21 10:12:35,676 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Fame // 에라 라운지체어 로우 크롬 - Fame
+2021-05-21 10:12:35,684 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Fame  // 에라 라운지체어 로우 블랙 - Fame
+2021-05-21 10:12:35,694 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Fame // 에라 라운지체어 로우 스틸 - Fame
+2021-05-21 10:12:35,710 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Fame // 에라 라운지체어 로우 월넛 - Fame
+2021-05-21 10:12:35,723 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Fame // 에라 라운지체어 로우 오크 - Fame
+2021-05-21 10:12:35,735 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - City Velvet vol 2 // 에라 라운지체어 로우 크롬 - City Velvet vol 2
+2021-05-21 10:12:35,748 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - City Velvet vol 2  // 에라 라운지체어 로우 블랙 - City Velvet vol 2
+2021-05-21 10:12:35,760 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Fame Hybrid // 에라 라운지체어 로우 스틸 - Fame Hybrid
+2021-05-21 10:12:35,771 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Fame Hybrid // 에라 라운지체어 로우 월넛 - Fame Hybrid
+2021-05-21 10:12:35,784 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - City Velvet vol 2 // 에라 라운지체어 로우 오크 - City Velvet vol 2
+2021-05-21 10:12:35,794 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Ultra Leather // 에라 라운지체어 하이 월넛 - Ultra Leather
+2021-05-21 10:12:35,804 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Fame Hybrid // 에라 라운지체어 하이 월넛 - Fame Hybrid
+2021-05-21 10:12:35,815 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - City Velvet vol 2 // 에라 라운지체어 하이 월넛 - City Velvet vol 2
+2021-05-21 10:12:35,826 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Fame // 에라 라운지체어 하이 월넛 - Fame
+2021-05-21 10:12:35,836 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Ultra Leather // 에라 라운지체어 하이 스틸 - Ultra Leather
+2021-05-21 10:12:35,843 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Breeze Fusion // 에라 라운지체어 하이 스틸 - Breeze Fusion
+2021-05-21 10:12:35,850 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Fame Hybrid // 에라 라운지체어 하이 스틸 - Fame Hybrid
+2021-05-21 10:12:35,860 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - City Velvet vol 2 // 에라 라운지체어 하이 스틸 - City Velvet vol 2
+2021-05-21 10:12:35,871 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - City Velvet vol 2 // 에라 라운지체어 하이 오크 - City Velvet vol 2
+2021-05-21 10:12:35,883 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Breeze Fusion // 에라 라운지체어 하이 오크 - Breeze Fusion
+2021-05-21 10:12:35,895 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / black fumè // 플리아 케인 폴딩 체어 - black / black fumè
+2021-05-21 10:12:35,906 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / smoky pink // 플리아 케인 폴딩 체어 - black / smoky pink
+2021-05-21 10:12:35,917 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / transparent // 플리아 케인 폴딩 체어 - black / transparent
+2021-05-21 10:12:35,929 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / black fumè // 플리아 케인 폴딩 체어 - red / black fumè
+2021-05-21 10:12:35,940 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / smoky pink // 플리아 케인 폴딩 체어 - red / smoky pink
+2021-05-21 10:12:35,950 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / transparent // 플리아 케인 폴딩 체어 - red / transparent
+2021-05-21 10:12:35,963 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - white / black fumè // 플리아 케인 폴딩 체어 - white / black fumè
+2021-05-21 10:12:35,976 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - white / smoky pink // 플리아 케인 폴딩 체어 - white / smoky pink
+2021-05-21 10:12:35,984 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [B&B ITALIA/비앤비 이탈리아] Bull - 190cm // Bull - 190cm
+2021-05-21 10:12:35,992 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [B&B ITALIA/비앤비 이탈리아] Bull - 110cm // Bull - 110cm
+2021-05-21 10:12:35,999 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Driade/드리아데] FRATE Table 225x80 // 프라테 테이블 225x80
+2021-05-21 10:12:36,005 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [MAXALTO/막살토] Sella (ACP10PA) // 셀라 (ACP10PA)
+2021-05-21 10:12:36,012 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Fame Hybrid // 에라 라운지체어 하이 오크 - Fame Hybrid
+2021-05-21 10:12:36,020 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Ultra Leather // 에라 라운지체어 하이 오크 - Ultra Leather
+2021-05-21 10:12:36,030 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Ultra Leather // 에라 라운지체어 하이 크롬 - Ultra Leather
+2021-05-21 10:12:36,036 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Fame Hybrid // 에라 라운지체어 하이 크롬 - Fame Hybrid
+2021-05-21 10:12:36,043 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - City Velvet vol 2 // 에라 라운지체어 하이 크롬 - City Velvet vol 2
+2021-05-21 10:12:36,053 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Breeze Fusion // 에라 라운지체어 하이 크롬 - Breeze Fusion
+2021-05-21 10:12:36,064 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [유재석 고객님] [추가금액 결제창]
+2021-05-21 10:12:36,074 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Fame // 에라 라운지체어 하이 블랙 - Fame
+2021-05-21 10:12:36,085 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Fame // 에라 라운지체어 하이 크롬 - Fame
+2021-05-21 10:12:36,097 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - City Velvet vol 2 // 에라 라운지체어 하이 블랙 - City Velvet vol 2
+2021-05-21 10:12:36,139 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Breeze Fusion // 에라 라운지체어 하이 블랙 - Breeze Fusion
+2021-05-21 10:12:36,155 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Fame Hybrid // 에라 라운지체어 하이 블랙 - Fame Hybrid
+2021-05-21 10:12:36,165 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Breeze Fusion // 에라 라운지체어 하이 월넛 - Breeze Fusion
+2021-05-21 10:12:36,172 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Ultra Leather // 에라 라운지체어 하이 블랙 - Ultra Leather
+2021-05-21 10:12:36,188 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Knoll/놀] Avio 3-Seater Sofa // 아비오 3-시터 소파 Cat.S
+2021-05-21 10:12:36,195 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Knoll/놀] Avio 3-Seater Sofa // 아비오 3-시터 소파 Cat.S
+2021-05-21 10:12:36,270 [main] WARN  org.hibernate.engine.jdbc.spi.SqlExceptionHelper(logExceptions:137) - SQL Error: 1048, SQLState: 23000
+2021-05-21 10:12:36,271 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper(logExceptions:142) - Column 'del_fl' cannot be null
+2021-05-21 10:12:36,296 [main] INFO  org.springframework.batch.core.step.tasklet.TaskletStep(afterCompletion:360) - Commit failed while step execution data was already updated. Reverting to old version.
+2021-05-21 10:12:36,301 [main] ERROR org.springframework.batch.core.step.AbstractStep(execute:237) - Encountered an error executing step getGoodsStep1 in job getGoodsJob
+org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [null]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:298) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:255) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:538) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:743) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:711) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at sun.reflect.GeneratedMethodAccessor736.invoke(Unknown Source) ~[?:?]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_242]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_242]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration$PassthruAdvice.invoke(SimpleBatchConfiguration.java:127) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.sun.proxy.$Proxy117.commit(Unknown Source) ~[?:?]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:152) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.step.tasklet.TaskletStep$2.doInChunkContext(TaskletStep.java:273) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.scope.context.StepContextRepeatCallback.doInIteration(StepContextRepeatCallback.java:82) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.repeat.support.RepeatTemplate.getNextResult(RepeatTemplate.java:375) ~[spring-batch-infrastructure-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.repeat.support.RepeatTemplate.executeInternal(RepeatTemplate.java:215) ~[spring-batch-infrastructure-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.repeat.support.RepeatTemplate.iterate(RepeatTemplate.java:145) ~[spring-batch-infrastructure-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.step.tasklet.TaskletStep.doExecute(TaskletStep.java:258) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.step.AbstractStep.execute(AbstractStep.java:208) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.job.SimpleStepHandler.handleStep(SimpleStepHandler.java:148) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.job.AbstractJob.handleStep(AbstractJob.java:410) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.job.SimpleJob.doExecute(SimpleJob.java:136) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.job.AbstractJob.execute(AbstractJob.java:319) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher$1.run(SimpleJobLauncher.java:147) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.core.task.SyncTaskExecutor.execute(SyncTaskExecutor.java:50) [spring-core-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher.run(SimpleJobLauncher.java:140) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_242]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_242]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_242]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_242]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration$PassthruAdvice.invoke(SimpleBatchConfiguration.java:127) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.sun.proxy.$Proxy124.run(Unknown Source) [?:?]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.execute(JobLauncherApplicationRunner.java:199) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.executeLocalJobs(JobLauncherApplicationRunner.java:173) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.launchJobFromProperties(JobLauncherApplicationRunner.java:160) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.run(JobLauncherApplicationRunner.java:155) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.run(JobLauncherApplicationRunner.java:150) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:786) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:776) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at io.spring.backoffice_batch.BackofficeBatchApplication.main(BackofficeBatchApplication.java:18) [main/:?]
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:59) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:178) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3181) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3696) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:90) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:604) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:478) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:356) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:39) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.doFlush(SessionImpl.java:1484) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:515) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:3355) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:2526) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:473) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:178) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.access$300(JdbcResourceLocalTransactionCoordinatorImpl.java:39) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:271) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:104) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:534) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	... 49 more
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'del_fl' cannot be null
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:953) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1092) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1040) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1347) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:1025) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-3.4.5.jar:?]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-3.4.5.jar:?]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:175) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3181) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3696) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:90) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:604) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:478) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:356) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:39) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.doFlush(SessionImpl.java:1484) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:515) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:3355) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:2526) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:473) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:178) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.access$300(JdbcResourceLocalTransactionCoordinatorImpl.java:39) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:271) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:104) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:534) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	... 49 more
+2021-05-21 10:12:36,339 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [getGoodsStep1] executed in 1m0s793ms
+2021-05-21 10:12:36,395 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=getGoodsJob]] completed with the following parameters: [{version=36}] and the following status: [FAILED] in 1m0s909ms
+2021-05-21 10:12:36,515 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener(logMessage:136) - 
 
 Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
-2021-05-20 18:00:45,796 [main] ERROR org.springframework.boot.SpringApplication(reportFailure:837) - Application run failed
+2021-05-21 10:12:36,526 [main] ERROR org.springframework.boot.SpringApplication(reportFailure:837) - Application run failed
 java.lang.IllegalStateException: Failed to execute ApplicationRunner
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:789) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
 	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:776) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
@@ -65,7 +281,7 @@ java.lang.IllegalStateException: Failed to execute ApplicationRunner
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
 	at io.spring.backoffice_batch.BackofficeBatchApplication.main(BackofficeBatchApplication.java:18) [main/:?]
-Caused by: org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException: A job instance already exists and is complete for parameters={version=30}.  If you want to run this job again, change the parameters.
+Caused by: org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException: A job instance already exists and is complete for parameters={version=36}.  If you want to run this job again, change the parameters.
 	at org.springframework.batch.core.repository.support.SimpleJobRepository.createJobExecution(SimpleJobRepository.java:131) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_242]
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_242]
@@ -80,7 +296,7 @@ Caused by: org.springframework.batch.core.repository.JobInstanceAlreadyCompleteE
 	at org.springframework.batch.core.repository.support.AbstractJobRepositoryFactoryBean$1.invoke(AbstractJobRepositoryFactoryBean.java:181) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
-	at com.sun.proxy.$Proxy116.createJobExecution(Unknown Source) ~[?:?]
+	at com.sun.proxy.$Proxy115.createJobExecution(Unknown Source) ~[?:?]
 	at org.springframework.batch.core.launch.support.SimpleJobLauncher.run(SimpleJobLauncher.java:137) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_242]
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_242]
@@ -92,7 +308,7 @@ Caused by: org.springframework.batch.core.repository.JobInstanceAlreadyCompleteE
 	at org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration$PassthruAdvice.invoke(SimpleBatchConfiguration.java:127) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
-	at com.sun.proxy.$Proxy125.run(Unknown Source) ~[?:?]
+	at com.sun.proxy.$Proxy124.run(Unknown Source) ~[?:?]
 	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.execute(JobLauncherApplicationRunner.java:199) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
 	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.executeLocalJobs(JobLauncherApplicationRunner.java:173) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
 	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.launchJobFromProperties(JobLauncherApplicationRunner.java:160) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
@@ -100,339 +316,329 @@ Caused by: org.springframework.batch.core.repository.JobInstanceAlreadyCompleteE
 	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.run(JobLauncherApplicationRunner.java:150) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:786) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
 	... 5 more
-2021-05-20 18:00:46,492 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(shutdown:218) - Shutting down ExecutorService 'applicationTaskExecutor'
-2021-05-20 18:00:46,501 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(destroy:598) - Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-05-20 18:00:46,505 [main] INFO  com.zaxxer.hikari.HikariDataSource(close:350) - HikariPool-1 - Shutdown initiated...
-2021-05-20 18:00:46,527 [main] INFO  com.zaxxer.hikari.HikariDataSource(close:352) - HikariPool-1 - Shutdown completed.
-2021-05-20 18:01:17,164 [background-preinit] INFO  org.hibernate.validator.internal.util.Version(<clinit>:21) - HV000001: Hibernate Validator 6.1.5.Final
-2021-05-20 18:01:17,285 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:55) - Starting BackofficeBatchApplication on DESKTOP-DD3UDDS with PID 4724 (C:\code\java\backoffice_projects\backoffice_batch\build\classes\java\main started by 박선홍 in C:\code\java\backoffice_projects\backoffice_batch)
-2021-05-20 18:01:17,294 [main] DEBUG io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:56) - Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2021-05-20 18:01:17,296 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStartupProfileInfo:651) - No active profile set, falling back to default profiles: default
-2021-05-20 18:01:18,941 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:127) - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-05-20 18:01:19,326 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:187) - Finished Spring Data repository scanning in 367ms. Found 21 JPA repository interfaces.
-2021-05-20 18:01:20,250 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner(warn:44) - No MyBatis mapper was found in '[io.spring.backoffice_batch]' package. Please check your configuration.
-2021-05-20 18:01:22,037 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8081 (http)
-2021-05-20 18:01:22,047 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Initializing ProtocolHandler ["http-nio-8081"]
-2021-05-20 18:01:22,048 [main] INFO  org.apache.catalina.core.StandardService(log:173) - Starting service [Tomcat]
-2021-05-20 18:01:22,048 [main] INFO  org.apache.catalina.core.StandardEngine(log:173) - Starting Servlet engine: [Apache Tomcat/9.0.38]
-2021-05-20 18:01:22,194 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/](log:173) - Initializing Spring embedded WebApplicationContext
-2021-05-20 18:01:22,194 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:285) - Root WebApplicationContext: initialization completed in 4669 ms
-2021-05-20 18:01:22,345 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter(info:49) - Flyway Community Edition 6.4.4 by Redgate
-2021-05-20 18:01:22,411 [main] WARN  org.flywaydb.core.internal.scanner.classpath.ClassPathScanner(warn:53) - Unable to resolve location classpath:db/migration. Note this warning will become an error in Flyway 7.
-2021-05-20 18:01:22,413 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:110) - HikariPool-1 - Starting...
-2021-05-20 18:01:22,706 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:123) - HikariPool-1 - Start completed.
-2021-05-20 18:01:22,737 [main] INFO  org.flywaydb.core.internal.database.DatabaseFactory(info:49) - Database: jdbc:mysql://localhost:3306/trdst (MySQL 5.7)
-2021-05-20 18:01:22,798 [main] INFO  org.flywaydb.core.internal.command.DbValidate(info:49) - Successfully validated 0 migrations (execution time 00:00.025s)
-2021-05-20 18:01:22,798 [main] WARN  org.flywaydb.core.internal.command.DbValidate(warn:53) - No migrations found. Are your locations set up correctly?
-2021-05-20 18:01:22,829 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Current version of schema `trdst`: << Empty Schema >>
-2021-05-20 18:01:22,832 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Schema `trdst` is up to date. No migration necessary.
-2021-05-20 18:01:23,024 [main] INFO  org.hibernate.jpa.internal.util.LogHelper(logPersistenceUnitInformation:31) - HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-05-20 18:01:23,132 [main] INFO  org.hibernate.Version(logVersion:46) - HHH000412: Hibernate Core {5.4.2.Final}
-2021-05-20 18:01:23,295 [main] INFO  org.hibernate.annotations.common.Version(<clinit>:49) - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
-2021-05-20 18:01:23,386 [main] INFO  org.hibernate.dialect.Dialect(<init>:158) - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-2021-05-20 18:01:23,690 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.deposit.idclass.LsdpsdId
-2021-05-20 18:01:23,690 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.deposit.idclass.LsdpsdId
-2021-05-20 18:01:23,691 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItvariId
-2021-05-20 18:01:23,691 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItvariId
-2021-05-20 18:01:23,691 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItasrdId
-2021-05-20 18:01:23,692 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItasrdId
-2021-05-20 18:01:23,693 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmcId
-2021-05-20 18:01:23,693 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmcId
-2021-05-20 18:01:23,694 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmmId
-2021-05-20 18:01:23,694 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmmId
-2021-05-20 18:01:23,695 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmtId
-2021-05-20 18:01:23,695 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmtId
-2021-05-20 18:01:23,696 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.purchase.idclass.LspchdId
-2021-05-20 18:01:23,696 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.purchase.idclass.LspchdId
-2021-05-20 18:01:24,694 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator(initiateService:52) - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-05-20 18:01:24,696 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(buildNativeEntityManagerFactory:416) - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-05-20 18:01:25,909 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration(openEntityManagerInViewInterceptor:220) - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-05-20 18:01:25,985 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(initialize:181) - Initializing ExecutorService 'applicationTaskExecutor'
-2021-05-20 18:01:26,207 [main] WARN  org.springframework.boot.autoconfigure.batch.JpaBatchConfigurer(determineIsolationLevel:57) - JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
-2021-05-20 18:01:26,211 [main] INFO  org.springframework.batch.core.repository.support.JobRepositoryFactoryBean(afterPropertiesSet:184) - No database type set, using meta data indicating: MYSQL
-2021-05-20 18:01:26,228 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(afterPropertiesSet:209) - No TaskExecutor has been set, defaulting to synchronous executor.
-2021-05-20 18:01:26,380 [main] INFO  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration(getOrDeducePassword:86) - 
+2021-05-21 10:12:41,503 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(shutdown:218) - Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-21 10:12:41,526 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(destroy:598) - Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-21 10:12:41,530 [main] INFO  com.zaxxer.hikari.HikariDataSource(close:350) - HikariPool-1 - Shutdown initiated...
+2021-05-21 10:12:41,560 [main] INFO  com.zaxxer.hikari.HikariDataSource(close:352) - HikariPool-1 - Shutdown completed.
+2021-05-21 10:16:20,147 [background-preinit] INFO  org.hibernate.validator.internal.util.Version(<clinit>:21) - HV000001: Hibernate Validator 6.1.5.Final
+2021-05-21 10:16:20,275 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:55) - Starting BackofficeBatchApplication on DESKTOP-DD3UDDS with PID 14560 (C:\code\java\backoffice_projects\backoffice_batch\build\classes\java\main started by 박선홍 in C:\code\java\backoffice_projects\backoffice_batch)
+2021-05-21 10:16:20,282 [main] DEBUG io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:56) - Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
+2021-05-21 10:16:20,284 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStartupProfileInfo:651) - No active profile set, falling back to default profiles: default
+2021-05-21 10:16:21,462 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:127) - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-21 10:16:21,681 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:187) - Finished Spring Data repository scanning in 203ms. Found 21 JPA repository interfaces.
+2021-05-21 10:16:22,348 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner(warn:44) - No MyBatis mapper was found in '[io.spring.backoffice_batch]' package. Please check your configuration.
+2021-05-21 10:16:23,112 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8081 (http)
+2021-05-21 10:16:23,112 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Initializing ProtocolHandler ["http-nio-8081"]
+2021-05-21 10:16:23,128 [main] INFO  org.apache.catalina.core.StandardService(log:173) - Starting service [Tomcat]
+2021-05-21 10:16:23,128 [main] INFO  org.apache.catalina.core.StandardEngine(log:173) - Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-05-21 10:16:23,261 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/](log:173) - Initializing Spring embedded WebApplicationContext
+2021-05-21 10:16:23,261 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:285) - Root WebApplicationContext: initialization completed in 2836 ms
+2021-05-21 10:16:23,371 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter(info:49) - Flyway Community Edition 6.4.4 by Redgate
+2021-05-21 10:16:23,433 [main] WARN  org.flywaydb.core.internal.scanner.classpath.ClassPathScanner(warn:53) - Unable to resolve location classpath:db/migration. Note this warning will become an error in Flyway 7.
+2021-05-21 10:16:23,433 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:110) - HikariPool-1 - Starting...
+2021-05-21 10:16:23,717 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:123) - HikariPool-1 - Start completed.
+2021-05-21 10:16:23,747 [main] INFO  org.flywaydb.core.internal.database.DatabaseFactory(info:49) - Database: jdbc:mysql://localhost:3306/trdst (MySQL 5.7)
+2021-05-21 10:16:23,813 [main] INFO  org.flywaydb.core.internal.command.DbValidate(info:49) - Successfully validated 0 migrations (execution time 00:00.026s)
+2021-05-21 10:16:23,814 [main] WARN  org.flywaydb.core.internal.command.DbValidate(warn:53) - No migrations found. Are your locations set up correctly?
+2021-05-21 10:16:23,843 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Current version of schema `trdst`: << Empty Schema >>
+2021-05-21 10:16:23,846 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Schema `trdst` is up to date. No migration necessary.
+2021-05-21 10:16:24,054 [main] INFO  org.hibernate.jpa.internal.util.LogHelper(logPersistenceUnitInformation:31) - HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-21 10:16:24,152 [main] INFO  org.hibernate.Version(logVersion:46) - HHH000412: Hibernate Core {5.4.2.Final}
+2021-05-21 10:16:24,286 [main] INFO  org.hibernate.annotations.common.Version(<clinit>:49) - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-05-21 10:16:24,399 [main] INFO  org.hibernate.dialect.Dialect(<init>:158) - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-05-21 10:16:24,741 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-05-21 10:16:24,741 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-05-21 10:16:24,742 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItvariId
+2021-05-21 10:16:24,742 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItvariId
+2021-05-21 10:16:24,742 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItasrdId
+2021-05-21 10:16:24,743 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItasrdId
+2021-05-21 10:16:24,744 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmcId
+2021-05-21 10:16:24,745 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmcId
+2021-05-21 10:16:24,745 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmmId
+2021-05-21 10:16:24,746 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmmId
+2021-05-21 10:16:24,747 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmtId
+2021-05-21 10:16:24,747 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmtId
+2021-05-21 10:16:24,748 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.purchase.idclass.LspchdId
+2021-05-21 10:16:24,748 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.purchase.idclass.LspchdId
+2021-05-21 10:16:25,760 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator(initiateService:52) - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-21 10:16:25,776 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(buildNativeEntityManagerFactory:416) - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-21 10:16:26,908 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration(openEntityManagerInViewInterceptor:220) - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-21 10:16:26,987 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(initialize:181) - Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-21 10:16:27,218 [main] WARN  org.springframework.boot.autoconfigure.batch.JpaBatchConfigurer(determineIsolationLevel:57) - JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
+2021-05-21 10:16:27,223 [main] INFO  org.springframework.batch.core.repository.support.JobRepositoryFactoryBean(afterPropertiesSet:184) - No database type set, using meta data indicating: MYSQL
+2021-05-21 10:16:27,247 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(afterPropertiesSet:209) - No TaskExecutor has been set, defaulting to synchronous executor.
+2021-05-21 10:16:27,405 [main] INFO  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration(getOrDeducePassword:86) - 
 
-Using generated security password: 9e417157-9fb5-4a19-a255-f0548b171b75
+Using generated security password: bd905b45-a06c-4241-9ada-a4be190d9067
 
-2021-05-20 18:01:26,483 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain(<init>:43) - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6046fba0, org.springframework.security.web.context.SecurityContextPersistenceFilter@106b476a, org.springframework.security.web.header.HeaderWriterFilter@20505460, org.springframework.security.web.csrf.CsrfFilter@577f81a0, org.springframework.security.web.authentication.logout.LogoutFilter@49741e80, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@712213ed, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@769a9b7a, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@248ba4fc, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2e096ac0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7b44e98e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@36696821, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@54cce500, org.springframework.security.web.session.SessionManagementFilter@2dc77962, org.springframework.security.web.access.ExceptionTranslationFilter@590f806a, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@47ab3688]
-2021-05-20 18:01:26,517 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Starting ProtocolHandler ["http-nio-8081"]
-2021-05-20 18:01:26,541 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8081 (http) with context path ''
-2021-05-20 18:01:26,551 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarted:61) - Started BackofficeBatchApplication in 10.309 seconds (JVM running for 14.731)
-2021-05-20 18:01:26,553 [main] INFO  org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner(run:154) - Running default command line with: [version=31]
-2021-05-20 18:01:26,654 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=getGoodsJob]] launched with the following parameters: [{version=31}]
-2021-05-20 18:01:26,735 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [getGoodsStep1]
-2021-05-20 18:01:26,767 [main] INFO  io.spring.backoffice_batch.job.GetGoodsJobConfiguration(lambda$getGoodsStep1$0:40) - ----- This is getGoodsStep1
-2021-05-20 18:02:05,411 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Light Red // 보비스트 푸프 - 라이트 레드
-2021-05-20 18:02:05,487 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Light Greens // 보비스트 푸프 - 라이트 그린
-2021-05-20 18:02:05,498 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Dark Greens // 보비스트 푸프 - 다크 그린
-2021-05-20 18:02:05,508 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Dark Red // 보비스트 푸프 - 다크 레드
-2021-05-20 18:02:05,517 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel Ø60xH104,5 cm // 폼 카페 테이블 스테인레스 Ø60xH104,5 cm
-2021-05-20 18:02:05,527 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble Coffee Ø60xH94,5 cm // 폼 카페 테이블 마블 커피 Ø60xH104,5 cm
-2021-05-20 18:02:05,537 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel Ø70xH104,5 cm // 폼 카페 테이블 스테인레스 Ø70xH104,5 cm
-2021-05-20 18:02:05,546 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel 70x70xH104,5 cm // 폼 카페 테이블 스테인레스  70x70xH104,5 cm
-2021-05-20 18:02:05,555 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble Coffee Ø70xH94,5 cm // 폼 카페 테이블 마블 커피 Ø70xH104,5 cm
-2021-05-20 18:02:05,562 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble White Ø60xH74,5 cm // 폼 카페 테이블 마블 화이트 Ø60xH74,5 cm
-2021-05-20 18:02:05,569 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel 60x60xH104,5 cm // 폼 카페 테이블 스테인레스 60x60xH104,5 cm
-2021-05-20 18:02:05,576 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Black Oak 70x70xH74,5 cm // 폼 카페 테이블 블랙 오크 70x70xH74,5 cm
-2021-05-20 18:02:05,583 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Oak Ø60xH74,5 cm // 폼 카페 테이블 오크 Ø60xH74,5 cm
-2021-05-20 18:02:05,594 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Ace Footstool Oak - Ultra Leather // 에이스 풋스툴 오크 - Ultra Leather
-2021-05-20 18:02:05,605 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Ultra Leather // 에라 소파 크롬 프레임 - Ultra Leather
-2021-05-20 18:02:05,664 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Fame // 에라 소파 블랙 우드 프레임 - Fame
-2021-05-20 18:02:05,675 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Ultra Leather // 에라 소파 월넛 프레임 - Ultra Leather
-2021-05-20 18:02:05,683 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Ultra Leather // 에라 소파 스틸 프레임 - Ultra Leather
-2021-05-20 18:02:05,693 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - City Velvet vol 2 // 에라 소파 오크 프레임 - City Velvet vol 2
-2021-05-20 18:02:05,704 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Fame // 에라 소파 월넛 프레임 - Fame
-2021-05-20 18:02:05,715 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Fame Hybrid // 에라 소파 월넛 프레임 - Fame Hybrid
-2021-05-20 18:02:05,728 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Fame // 에라 소파 스틸 프레임 - Fame
-2021-05-20 18:02:05,741 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Fame // 에라 소파 크롬 프레임 - Fame
-2021-05-20 18:02:05,752 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Ultra Leather // 에라 소파 블랙 우드 프레임 - Ultra Leather
-2021-05-20 18:02:05,762 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Fame Hybrid // 에라 소파 오크 프레임 - Fame Hybrid
-2021-05-20 18:02:05,774 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Fame Hybrid // 에라 소파 스틸 프레임 - Fame Hybrid
-2021-05-20 18:02:05,783 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Fame Hybrid // 에라 소파 크롬 프레임 - Fame  Hybrid
-2021-05-20 18:02:05,792 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Fame Hybrid // 에라 소파 블랙 우드 프레임 - Fame Hybrid
-2021-05-20 18:02:05,801 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Ultra Leather // 에라 소파 오크 프레임 - Ultra Leather
-2021-05-20 18:02:05,810 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - City Velvet vol 2 // 에라 소파 스틸 프레임 - City Velvet vol 2
-2021-05-20 18:02:05,819 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - City Velvet vol 2 // 에라 소파 월넛 프레임 - City Velvet vol 2
-2021-05-20 18:02:05,826 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - City Velvet vol 2 // 에라 소파 크롬 프레임 - City Velvet vol 2
-2021-05-20 18:02:05,836 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Breeze Fusion // 에라 소파 블랙 우드 프레임 - Breeze Fusion
-2021-05-20 18:02:05,843 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Fame // 에라 소파 오크 프레임 - Fame
-2021-05-20 18:02:05,853 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Breeze Fusion // 에라 소파 스틸 프레임 - Breeze Fusion
-2021-05-20 18:02:05,859 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Fame // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Fame
-2021-05-20 18:02:05,866 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Ultra Leather // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Ultra Leather
-2021-05-20 18:02:05,873 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - City Velvet vol 2 // 에라 라운지체어 로우 스위블 블랙 알루미늄 - City Velvet vol 2
-2021-05-20 18:02:05,880 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Fame // 에라 라운지체어 로우 스위블 알루미늄 - Fame
-2021-05-20 18:02:05,888 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Ultra Leather // 에라 라운지체어 로우 스위블 알루미늄 - Ultra Leather
-2021-05-20 18:02:05,896 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Breeze Fusion // 에라 라운지체어 로우 스위블 알루미늄 - Breeze Fusion
-2021-05-20 18:02:05,904 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Breeze Fusion // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Breeze Fusion
-2021-05-20 18:02:05,911 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Ultra Leather // 에라 라운지체어 로우 크롬 - Ultra Leather
-2021-05-20 18:02:05,919 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Ultra Leather  // 에라 라운지체어 로우 블랙 - Ultra Leather
-2021-05-20 18:02:05,926 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Ultra Leather // 에라 라운지체어 로우 오크 - Ultra Leather
-2021-05-20 18:02:05,935 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Ultra Leather // 에라 라운지체어 로우 스틸 - Ultra Leather
-2021-05-20 18:02:05,944 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Ultra Leather // 에라 라운지체어 로우 월넛 - Ultra Leather
-2021-05-20 18:02:05,956 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Fame Hybrid // 에라 라운지체어 로우 크롬 - Fame Hybrid
-2021-05-20 18:02:05,966 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Fame Hybrid  // 에라 라운지체어 로우 블랙 - Fame Hybrid
-2021-05-20 18:02:05,980 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - City Velvet vol 2 // 에라 라운지체어 로우 스틸 - City Velvet vol 2
-2021-05-20 18:02:05,996 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - City Velvet vol 2 // 에라 라운지체어 로우 월넛 - City Velvet vol 2
-2021-05-20 18:02:06,009 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Fame Hybrid // 에라 라운지체어 로우 오크 - Fame Hybrid
-2021-05-20 18:02:06,021 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Fame // 에라 라운지체어 로우 크롬 - Fame
-2021-05-20 18:02:06,030 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Fame  // 에라 라운지체어 로우 블랙 - Fame
-2021-05-20 18:02:06,042 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Fame // 에라 라운지체어 로우 스틸 - Fame
-2021-05-20 18:02:06,054 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Fame // 에라 라운지체어 로우 월넛 - Fame
-2021-05-20 18:02:06,063 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Fame // 에라 라운지체어 로우 오크 - Fame
-2021-05-20 18:02:06,072 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - City Velvet vol 2 // 에라 라운지체어 로우 크롬 - City Velvet vol 2
-2021-05-20 18:02:06,081 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - City Velvet vol 2  // 에라 라운지체어 로우 블랙 - City Velvet vol 2
-2021-05-20 18:02:06,090 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Fame Hybrid // 에라 라운지체어 로우 스틸 - Fame Hybrid
-2021-05-20 18:02:06,099 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Fame Hybrid // 에라 라운지체어 로우 월넛 - Fame Hybrid
-2021-05-20 18:02:06,110 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - City Velvet vol 2 // 에라 라운지체어 로우 오크 - City Velvet vol 2
-2021-05-20 18:02:06,119 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Ultra Leather // 에라 라운지체어 하이 월넛 - Ultra Leather
-2021-05-20 18:02:06,127 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Fame Hybrid // 에라 라운지체어 하이 월넛 - Fame Hybrid
-2021-05-20 18:02:06,137 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - City Velvet vol 2 // 에라 라운지체어 하이 월넛 - City Velvet vol 2
-2021-05-20 18:02:06,145 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Fame // 에라 라운지체어 하이 월넛 - Fame
-2021-05-20 18:02:06,153 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Ultra Leather // 에라 라운지체어 하이 스틸 - Ultra Leather
-2021-05-20 18:02:06,162 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Breeze Fusion // 에라 라운지체어 하이 스틸 - Breeze Fusion
-2021-05-20 18:02:06,172 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Fame Hybrid // 에라 라운지체어 하이 스틸 - Fame Hybrid
-2021-05-20 18:02:06,196 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - City Velvet vol 2 // 에라 라운지체어 하이 스틸 - City Velvet vol 2
-2021-05-20 18:02:06,207 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - City Velvet vol 2 // 에라 라운지체어 하이 오크 - City Velvet vol 2
-2021-05-20 18:02:06,215 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Breeze Fusion // 에라 라운지체어 하이 오크 - Breeze Fusion
-2021-05-20 18:02:06,226 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / black fumè // 플리아 케인 폴딩 체어 - black / black fumè
-2021-05-20 18:02:06,237 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / smoky pink // 플리아 케인 폴딩 체어 - black / smoky pink
-2021-05-20 18:02:06,247 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / transparent // 플리아 케인 폴딩 체어 - black / transparent
-2021-05-20 18:02:06,257 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / black fumè // 플리아 케인 폴딩 체어 - red / black fumè
-2021-05-20 18:02:06,268 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / smoky pink // 플리아 케인 폴딩 체어 - red / smoky pink
-2021-05-20 18:02:06,279 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / transparent // 플리아 케인 폴딩 체어 - red / transparent
-2021-05-20 18:02:06,290 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - white / black fumè // 플리아 케인 폴딩 체어 - white / black fumè
-2021-05-20 18:02:06,301 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - white / smoky pink // 플리아 케인 폴딩 체어 - white / smoky pink
-2021-05-20 18:02:06,314 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [B&B ITALIA/비앤비 이탈리아] Bull - 190cm // Bull - 190cm
-2021-05-20 18:02:06,325 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [B&B ITALIA/비앤비 이탈리아] Bull - 110cm // Bull - 110cm
-2021-05-20 18:02:06,336 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Driade/드리아데] FRATE Table 225x80 // 프라테 테이블 225x80
-2021-05-20 18:02:06,346 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [MAXALTO/막살토] Sella (ACP10PA) // 셀라 (ACP10PA)
-2021-05-20 18:02:06,359 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Fame Hybrid // 에라 라운지체어 하이 오크 - Fame Hybrid
-2021-05-20 18:02:06,370 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Ultra Leather // 에라 라운지체어 하이 오크 - Ultra Leather
-2021-05-20 18:02:06,377 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Ultra Leather // 에라 라운지체어 하이 크롬 - Ultra Leather
-2021-05-20 18:02:06,384 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Fame Hybrid // 에라 라운지체어 하이 크롬 - Fame Hybrid
-2021-05-20 18:02:06,392 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - City Velvet vol 2 // 에라 라운지체어 하이 크롬 - City Velvet vol 2
-2021-05-20 18:02:06,402 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Breeze Fusion // 에라 라운지체어 하이 크롬 - Breeze Fusion
-2021-05-20 18:02:06,410 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [유재석 고객님] [추가금액 결제창]
-2021-05-20 18:02:06,420 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Fame // 에라 라운지체어 하이 블랙 - Fame
-2021-05-20 18:02:06,427 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Fame // 에라 라운지체어 하이 크롬 - Fame
-2021-05-20 18:02:06,437 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - City Velvet vol 2 // 에라 라운지체어 하이 블랙 - City Velvet vol 2
-2021-05-20 18:02:06,447 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Breeze Fusion // 에라 라운지체어 하이 블랙 - Breeze Fusion
-2021-05-20 18:02:06,456 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Fame Hybrid // 에라 라운지체어 하이 블랙 - Fame Hybrid
-2021-05-20 18:02:06,466 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Breeze Fusion // 에라 라운지체어 하이 월넛 - Breeze Fusion
-2021-05-20 18:02:06,475 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Ultra Leather // 에라 라운지체어 하이 블랙 - Ultra Leather
-2021-05-20 18:02:06,483 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Knoll/놀] Avio 3-Seater Sofa // 아비오 3-시터 소파 Cat.S
-2021-05-20 18:02:06,492 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Knoll/놀] Avio 3-Seater Sofa // 아비오 3-시터 소파 Cat.S
-2021-05-20 18:02:07,731 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [getGoodsStep1] executed in 40s996ms
-2021-05-20 18:02:07,775 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=getGoodsJob]] completed with the following parameters: [{version=31}] and the following status: [COMPLETED] in 41s82ms
-2021-05-20 18:02:07,829 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=simpleJob]] launched with the following parameters: [{version=31}]
-2021-05-20 18:02:07,885 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [simpleStep1]
-2021-05-20 18:02:07,906 [main] INFO  io.spring.backoffice_batch.job.SimpleJobConfiguration(lambda$simpleStep1$0:34) - ----- This is Step1
-2021-05-20 18:02:07,923 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [simpleStep1] executed in 37ms
-2021-05-20 18:02:07,956 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=simpleJob]] completed with the following parameters: [{version=31}] and the following status: [COMPLETED] in 114ms
-2021-05-20 18:05:39,156 [background-preinit] INFO  org.hibernate.validator.internal.util.Version(<clinit>:21) - HV000001: Hibernate Validator 6.1.5.Final
-2021-05-20 18:05:39,277 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:55) - Starting BackofficeBatchApplication on DESKTOP-DD3UDDS with PID 4120 (C:\code\java\backoffice_projects\backoffice_batch\build\classes\java\main started by 박선홍 in C:\code\java\backoffice_projects\backoffice_batch)
-2021-05-20 18:05:39,281 [main] DEBUG io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:56) - Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2021-05-20 18:05:39,281 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStartupProfileInfo:651) - No active profile set, falling back to default profiles: default
-2021-05-20 18:05:40,995 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:127) - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-05-20 18:05:41,426 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:187) - Finished Spring Data repository scanning in 401ms. Found 21 JPA repository interfaces.
-2021-05-20 18:05:42,416 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner(warn:44) - No MyBatis mapper was found in '[io.spring.backoffice_batch]' package. Please check your configuration.
-2021-05-20 18:05:43,665 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8081 (http)
-2021-05-20 18:05:43,693 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Initializing ProtocolHandler ["http-nio-8081"]
-2021-05-20 18:05:43,695 [main] INFO  org.apache.catalina.core.StandardService(log:173) - Starting service [Tomcat]
-2021-05-20 18:05:43,695 [main] INFO  org.apache.catalina.core.StandardEngine(log:173) - Starting Servlet engine: [Apache Tomcat/9.0.38]
-2021-05-20 18:05:44,030 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/](log:173) - Initializing Spring embedded WebApplicationContext
-2021-05-20 18:05:44,030 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:285) - Root WebApplicationContext: initialization completed in 4477 ms
-2021-05-20 18:05:44,365 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter(info:49) - Flyway Community Edition 6.4.4 by Redgate
-2021-05-20 18:05:44,526 [main] WARN  org.flywaydb.core.internal.scanner.classpath.ClassPathScanner(warn:53) - Unable to resolve location classpath:db/migration. Note this warning will become an error in Flyway 7.
-2021-05-20 18:05:44,536 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:110) - HikariPool-1 - Starting...
-2021-05-20 18:05:45,241 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:123) - HikariPool-1 - Start completed.
-2021-05-20 18:05:45,310 [main] INFO  org.flywaydb.core.internal.database.DatabaseFactory(info:49) - Database: jdbc:mysql://localhost:3306/trdst (MySQL 5.7)
-2021-05-20 18:05:45,444 [main] INFO  org.flywaydb.core.internal.command.DbValidate(info:49) - Successfully validated 0 migrations (execution time 00:00.056s)
-2021-05-20 18:05:45,444 [main] WARN  org.flywaydb.core.internal.command.DbValidate(warn:53) - No migrations found. Are your locations set up correctly?
-2021-05-20 18:05:45,507 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Current version of schema `trdst`: << Empty Schema >>
-2021-05-20 18:05:45,512 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Schema `trdst` is up to date. No migration necessary.
-2021-05-20 18:05:45,822 [main] INFO  org.hibernate.jpa.internal.util.LogHelper(logPersistenceUnitInformation:31) - HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-05-20 18:05:46,041 [main] INFO  org.hibernate.Version(logVersion:46) - HHH000412: Hibernate Core {5.4.2.Final}
-2021-05-20 18:05:46,401 [main] INFO  org.hibernate.annotations.common.Version(<clinit>:49) - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
-2021-05-20 18:05:46,676 [main] INFO  org.hibernate.dialect.Dialect(<init>:158) - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-2021-05-20 18:05:47,447 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.deposit.idclass.LsdpsdId
-2021-05-20 18:05:47,447 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.deposit.idclass.LsdpsdId
-2021-05-20 18:05:47,455 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItvariId
-2021-05-20 18:05:47,455 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItvariId
-2021-05-20 18:05:47,455 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItasrdId
-2021-05-20 18:05:47,457 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItasrdId
-2021-05-20 18:05:47,457 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmcId
-2021-05-20 18:05:47,457 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmcId
-2021-05-20 18:05:47,457 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmmId
-2021-05-20 18:05:47,457 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmmId
-2021-05-20 18:05:47,457 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmtId
-2021-05-20 18:05:47,465 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmtId
-2021-05-20 18:05:47,467 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.purchase.idclass.LspchdId
-2021-05-20 18:05:47,467 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.purchase.idclass.LspchdId
-2021-05-20 18:05:49,729 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator(initiateService:52) - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-05-20 18:05:49,735 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(buildNativeEntityManagerFactory:416) - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-05-20 18:05:53,441 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration(openEntityManagerInViewInterceptor:220) - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-05-20 18:05:53,609 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(initialize:181) - Initializing ExecutorService 'applicationTaskExecutor'
-2021-05-20 18:05:53,901 [main] WARN  org.springframework.boot.autoconfigure.batch.JpaBatchConfigurer(determineIsolationLevel:57) - JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
-2021-05-20 18:05:53,905 [main] INFO  org.springframework.batch.core.repository.support.JobRepositoryFactoryBean(afterPropertiesSet:184) - No database type set, using meta data indicating: MYSQL
-2021-05-20 18:05:53,923 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(afterPropertiesSet:209) - No TaskExecutor has been set, defaulting to synchronous executor.
-2021-05-20 18:05:54,083 [main] INFO  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration(getOrDeducePassword:86) - 
+2021-05-21 10:16:27,507 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain(<init>:43) - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@744199bb, org.springframework.security.web.context.SecurityContextPersistenceFilter@1256925b, org.springframework.security.web.header.HeaderWriterFilter@34d0c331, org.springframework.security.web.csrf.CsrfFilter@68cc6319, org.springframework.security.web.authentication.logout.LogoutFilter@112b3298, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@69d2c460, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@590f806a, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@6ce8bf64, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2ba4b32b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@467421cc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@789f5552, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6413eeb7, org.springframework.security.web.session.SessionManagementFilter@577f81a0, org.springframework.security.web.access.ExceptionTranslationFilter@1adec8d, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1372696b]
+2021-05-21 10:16:27,538 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Starting ProtocolHandler ["http-nio-8081"]
+2021-05-21 10:16:27,554 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8081 (http) with context path ''
+2021-05-21 10:16:27,572 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarted:61) - Started BackofficeBatchApplication in 8.003 seconds (JVM running for 11.413)
+2021-05-21 10:16:27,574 [main] INFO  org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner(run:154) - Running default command line with: [version=36]
+2021-05-21 10:16:27,806 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=getGoodsJob]] launched with the following parameters: [{version=36}]
+2021-05-21 10:16:27,908 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [getGoodsStep1]
+2021-05-21 10:16:27,931 [main] INFO  io.spring.backoffice_batch.job.GetGoodsJobConfiguration(lambda$getGoodsStep1$0:40) - ----- This is getGoodsStep1
+2021-05-21 10:17:08,675 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Light Red // 보비스트 푸프 - 라이트 레드
+2021-05-21 10:17:08,735 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Light Greens // 보비스트 푸프 - 라이트 그린
+2021-05-21 10:17:08,748 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Dark Greens // 보비스트 푸프 - 다크 그린
+2021-05-21 10:17:08,756 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Dark Red // 보비스트 푸프 - 다크 레드
+2021-05-21 10:17:08,765 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel Ø60xH104,5 cm // 폼 카페 테이블 스테인레스 Ø60xH104,5 cm
+2021-05-21 10:17:08,775 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble Coffee Ø60xH94,5 cm // 폼 카페 테이블 마블 커피 Ø60xH104,5 cm
+2021-05-21 10:17:08,785 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel Ø70xH104,5 cm // 폼 카페 테이블 스테인레스 Ø70xH104,5 cm
+2021-05-21 10:17:08,796 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel 70x70xH104,5 cm // 폼 카페 테이블 스테인레스  70x70xH104,5 cm
+2021-05-21 10:17:08,806 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble Coffee Ø70xH94,5 cm // 폼 카페 테이블 마블 커피 Ø70xH104,5 cm
+2021-05-21 10:17:08,812 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble White Ø60xH74,5 cm // 폼 카페 테이블 마블 화이트 Ø60xH74,5 cm
+2021-05-21 10:17:08,820 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel 60x60xH104,5 cm // 폼 카페 테이블 스테인레스 60x60xH104,5 cm
+2021-05-21 10:17:08,827 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Black Oak 70x70xH74,5 cm // 폼 카페 테이블 블랙 오크 70x70xH74,5 cm
+2021-05-21 10:17:08,834 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Oak Ø60xH74,5 cm // 폼 카페 테이블 오크 Ø60xH74,5 cm
+2021-05-21 10:17:08,842 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Ace Footstool Oak - Ultra Leather // 에이스 풋스툴 오크 - Ultra Leather
+2021-05-21 10:17:08,849 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Ultra Leather // 에라 소파 크롬 프레임 - Ultra Leather
+2021-05-21 10:17:08,880 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Fame // 에라 소파 블랙 우드 프레임 - Fame
+2021-05-21 10:17:08,906 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Ultra Leather // 에라 소파 월넛 프레임 - Ultra Leather
+2021-05-21 10:17:08,913 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Ultra Leather // 에라 소파 스틸 프레임 - Ultra Leather
+2021-05-21 10:17:08,921 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - City Velvet vol 2 // 에라 소파 오크 프레임 - City Velvet vol 2
+2021-05-21 10:17:08,929 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Fame // 에라 소파 월넛 프레임 - Fame
+2021-05-21 10:17:08,938 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Fame Hybrid // 에라 소파 월넛 프레임 - Fame Hybrid
+2021-05-21 10:17:08,946 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Fame // 에라 소파 스틸 프레임 - Fame
+2021-05-21 10:17:08,954 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Fame // 에라 소파 크롬 프레임 - Fame
+2021-05-21 10:17:08,962 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Ultra Leather // 에라 소파 블랙 우드 프레임 - Ultra Leather
+2021-05-21 10:17:08,970 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Fame Hybrid // 에라 소파 오크 프레임 - Fame Hybrid
+2021-05-21 10:17:08,978 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Fame Hybrid // 에라 소파 스틸 프레임 - Fame Hybrid
+2021-05-21 10:17:08,987 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Fame Hybrid // 에라 소파 크롬 프레임 - Fame  Hybrid
+2021-05-21 10:17:08,996 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Fame Hybrid // 에라 소파 블랙 우드 프레임 - Fame Hybrid
+2021-05-21 10:17:09,004 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Ultra Leather // 에라 소파 오크 프레임 - Ultra Leather
+2021-05-21 10:17:09,012 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - City Velvet vol 2 // 에라 소파 스틸 프레임 - City Velvet vol 2
+2021-05-21 10:17:09,021 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - City Velvet vol 2 // 에라 소파 월넛 프레임 - City Velvet vol 2
+2021-05-21 10:17:09,030 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - City Velvet vol 2 // 에라 소파 크롬 프레임 - City Velvet vol 2
+2021-05-21 10:17:09,040 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Breeze Fusion // 에라 소파 블랙 우드 프레임 - Breeze Fusion
+2021-05-21 10:17:09,047 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Fame // 에라 소파 오크 프레임 - Fame
+2021-05-21 10:17:09,055 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Breeze Fusion // 에라 소파 스틸 프레임 - Breeze Fusion
+2021-05-21 10:17:09,062 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Fame // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Fame
+2021-05-21 10:17:09,069 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Ultra Leather // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Ultra Leather
+2021-05-21 10:17:09,076 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - City Velvet vol 2 // 에라 라운지체어 로우 스위블 블랙 알루미늄 - City Velvet vol 2
+2021-05-21 10:17:09,083 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Fame // 에라 라운지체어 로우 스위블 알루미늄 - Fame
+2021-05-21 10:17:09,090 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Ultra Leather // 에라 라운지체어 로우 스위블 알루미늄 - Ultra Leather
+2021-05-21 10:17:09,097 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Breeze Fusion // 에라 라운지체어 로우 스위블 알루미늄 - Breeze Fusion
+2021-05-21 10:17:09,104 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Breeze Fusion // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Breeze Fusion
+2021-05-21 10:17:09,113 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Ultra Leather // 에라 라운지체어 로우 크롬 - Ultra Leather
+2021-05-21 10:17:09,121 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Ultra Leather  // 에라 라운지체어 로우 블랙 - Ultra Leather
+2021-05-21 10:17:09,128 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Ultra Leather // 에라 라운지체어 로우 오크 - Ultra Leather
+2021-05-21 10:17:09,135 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Ultra Leather // 에라 라운지체어 로우 스틸 - Ultra Leather
+2021-05-21 10:17:09,141 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Ultra Leather // 에라 라운지체어 로우 월넛 - Ultra Leather
+2021-05-21 10:17:09,148 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Fame Hybrid // 에라 라운지체어 로우 크롬 - Fame Hybrid
+2021-05-21 10:17:09,155 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Fame Hybrid  // 에라 라운지체어 로우 블랙 - Fame Hybrid
+2021-05-21 10:17:09,162 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - City Velvet vol 2 // 에라 라운지체어 로우 스틸 - City Velvet vol 2
+2021-05-21 10:17:09,170 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - City Velvet vol 2 // 에라 라운지체어 로우 월넛 - City Velvet vol 2
+2021-05-21 10:17:09,177 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Fame Hybrid // 에라 라운지체어 로우 오크 - Fame Hybrid
+2021-05-21 10:17:09,185 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Fame // 에라 라운지체어 로우 크롬 - Fame
+2021-05-21 10:17:09,191 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Fame  // 에라 라운지체어 로우 블랙 - Fame
+2021-05-21 10:17:09,198 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Fame // 에라 라운지체어 로우 스틸 - Fame
+2021-05-21 10:17:09,206 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Fame // 에라 라운지체어 로우 월넛 - Fame
+2021-05-21 10:17:09,214 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Fame // 에라 라운지체어 로우 오크 - Fame
+2021-05-21 10:17:09,221 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - City Velvet vol 2 // 에라 라운지체어 로우 크롬 - City Velvet vol 2
+2021-05-21 10:17:09,228 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - City Velvet vol 2  // 에라 라운지체어 로우 블랙 - City Velvet vol 2
+2021-05-21 10:17:09,235 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Fame Hybrid // 에라 라운지체어 로우 스틸 - Fame Hybrid
+2021-05-21 10:17:09,242 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Fame Hybrid // 에라 라운지체어 로우 월넛 - Fame Hybrid
+2021-05-21 10:17:09,250 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - City Velvet vol 2 // 에라 라운지체어 로우 오크 - City Velvet vol 2
+2021-05-21 10:17:09,258 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Ultra Leather // 에라 라운지체어 하이 월넛 - Ultra Leather
+2021-05-21 10:17:09,265 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Fame Hybrid // 에라 라운지체어 하이 월넛 - Fame Hybrid
+2021-05-21 10:17:09,273 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - City Velvet vol 2 // 에라 라운지체어 하이 월넛 - City Velvet vol 2
+2021-05-21 10:17:09,280 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Fame // 에라 라운지체어 하이 월넛 - Fame
+2021-05-21 10:17:09,287 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Ultra Leather // 에라 라운지체어 하이 스틸 - Ultra Leather
+2021-05-21 10:17:09,295 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Breeze Fusion // 에라 라운지체어 하이 스틸 - Breeze Fusion
+2021-05-21 10:17:09,303 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Fame Hybrid // 에라 라운지체어 하이 스틸 - Fame Hybrid
+2021-05-21 10:17:09,310 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - City Velvet vol 2 // 에라 라운지체어 하이 스틸 - City Velvet vol 2
+2021-05-21 10:17:09,316 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - City Velvet vol 2 // 에라 라운지체어 하이 오크 - City Velvet vol 2
+2021-05-21 10:17:09,326 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Breeze Fusion // 에라 라운지체어 하이 오크 - Breeze Fusion
+2021-05-21 10:17:09,333 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / black fumè // 플리아 케인 폴딩 체어 - black / black fumè
+2021-05-21 10:17:09,342 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / smoky pink // 플리아 케인 폴딩 체어 - black / smoky pink
+2021-05-21 10:17:09,349 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / transparent // 플리아 케인 폴딩 체어 - black / transparent
+2021-05-21 10:17:09,358 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / black fumè // 플리아 케인 폴딩 체어 - red / black fumè
+2021-05-21 10:17:09,365 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / smoky pink // 플리아 케인 폴딩 체어 - red / smoky pink
+2021-05-21 10:17:09,374 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / transparent // 플리아 케인 폴딩 체어 - red / transparent
+2021-05-21 10:17:09,381 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - white / black fumè // 플리아 케인 폴딩 체어 - white / black fumè
+2021-05-21 10:17:09,390 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - white / smoky pink // 플리아 케인 폴딩 체어 - white / smoky pink
+2021-05-21 10:17:09,397 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [B&B ITALIA/비앤비 이탈리아] Bull - 190cm // Bull - 190cm
+2021-05-21 10:17:09,406 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [B&B ITALIA/비앤비 이탈리아] Bull - 110cm // Bull - 110cm
+2021-05-21 10:17:09,413 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Driade/드리아데] FRATE Table 225x80 // 프라테 테이블 225x80
+2021-05-21 10:17:09,422 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [MAXALTO/막살토] Sella (ACP10PA) // 셀라 (ACP10PA)
+2021-05-21 10:17:09,430 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Fame Hybrid // 에라 라운지체어 하이 오크 - Fame Hybrid
+2021-05-21 10:17:09,439 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Ultra Leather // 에라 라운지체어 하이 오크 - Ultra Leather
+2021-05-21 10:17:09,447 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Ultra Leather // 에라 라운지체어 하이 크롬 - Ultra Leather
+2021-05-21 10:17:09,457 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Fame Hybrid // 에라 라운지체어 하이 크롬 - Fame Hybrid
+2021-05-21 10:17:09,465 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - City Velvet vol 2 // 에라 라운지체어 하이 크롬 - City Velvet vol 2
+2021-05-21 10:17:09,474 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Breeze Fusion // 에라 라운지체어 하이 크롬 - Breeze Fusion
+2021-05-21 10:17:09,482 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [유재석 고객님] [추가금액 결제창]
+2021-05-21 10:17:09,491 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Fame // 에라 라운지체어 하이 블랙 - Fame
+2021-05-21 10:17:09,499 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Fame // 에라 라운지체어 하이 크롬 - Fame
+2021-05-21 10:17:09,507 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - City Velvet vol 2 // 에라 라운지체어 하이 블랙 - City Velvet vol 2
+2021-05-21 10:17:09,515 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Breeze Fusion // 에라 라운지체어 하이 블랙 - Breeze Fusion
+2021-05-21 10:17:09,523 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Fame Hybrid // 에라 라운지체어 하이 블랙 - Fame Hybrid
+2021-05-21 10:17:09,530 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Breeze Fusion // 에라 라운지체어 하이 월넛 - Breeze Fusion
+2021-05-21 10:17:09,538 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Ultra Leather // 에라 라운지체어 하이 블랙 - Ultra Leather
+2021-05-21 10:17:09,546 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Knoll/놀] Avio 3-Seater Sofa // 아비오 3-시터 소파 Cat.S
+2021-05-21 10:17:09,552 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Knoll/놀] Avio 3-Seater Sofa // 아비오 3-시터 소파 Cat.S
+2021-05-21 10:17:09,619 [main] WARN  org.hibernate.engine.jdbc.spi.SqlExceptionHelper(logExceptions:137) - SQL Error: 1048, SQLState: 23000
+2021-05-21 10:17:09,620 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper(logExceptions:142) - Column 'del_fl' cannot be null
+2021-05-21 10:17:09,638 [main] INFO  org.springframework.batch.core.step.tasklet.TaskletStep(afterCompletion:360) - Commit failed while step execution data was already updated. Reverting to old version.
+2021-05-21 10:17:09,641 [main] ERROR org.springframework.batch.core.step.AbstractStep(execute:237) - Encountered an error executing step getGoodsStep1 in job getGoodsJob
+org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [null]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:298) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:255) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:538) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:743) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:711) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at sun.reflect.GeneratedMethodAccessor737.invoke(Unknown Source) ~[?:?]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_242]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_242]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration$PassthruAdvice.invoke(SimpleBatchConfiguration.java:127) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.sun.proxy.$Proxy117.commit(Unknown Source) ~[?:?]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:152) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.step.tasklet.TaskletStep$2.doInChunkContext(TaskletStep.java:273) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.scope.context.StepContextRepeatCallback.doInIteration(StepContextRepeatCallback.java:82) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.repeat.support.RepeatTemplate.getNextResult(RepeatTemplate.java:375) ~[spring-batch-infrastructure-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.repeat.support.RepeatTemplate.executeInternal(RepeatTemplate.java:215) ~[spring-batch-infrastructure-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.repeat.support.RepeatTemplate.iterate(RepeatTemplate.java:145) ~[spring-batch-infrastructure-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.step.tasklet.TaskletStep.doExecute(TaskletStep.java:258) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.step.AbstractStep.execute(AbstractStep.java:208) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.job.SimpleStepHandler.handleStep(SimpleStepHandler.java:148) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.job.AbstractJob.handleStep(AbstractJob.java:410) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.job.SimpleJob.doExecute(SimpleJob.java:136) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.job.AbstractJob.execute(AbstractJob.java:319) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher$1.run(SimpleJobLauncher.java:147) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.core.task.SyncTaskExecutor.execute(SyncTaskExecutor.java:50) [spring-core-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher.run(SimpleJobLauncher.java:140) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_242]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_242]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_242]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_242]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration$PassthruAdvice.invoke(SimpleBatchConfiguration.java:127) [spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) [spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.sun.proxy.$Proxy124.run(Unknown Source) [?:?]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.execute(JobLauncherApplicationRunner.java:199) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.executeLocalJobs(JobLauncherApplicationRunner.java:173) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.launchJobFromProperties(JobLauncherApplicationRunner.java:160) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.run(JobLauncherApplicationRunner.java:155) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.run(JobLauncherApplicationRunner.java:150) [spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:786) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:776) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at io.spring.backoffice_batch.BackofficeBatchApplication.main(BackofficeBatchApplication.java:18) [main/:?]
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:59) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:178) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3181) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3696) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:90) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:604) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:478) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:356) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:39) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.doFlush(SessionImpl.java:1484) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:515) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:3355) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:2526) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:473) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:178) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.access$300(JdbcResourceLocalTransactionCoordinatorImpl.java:39) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:271) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:104) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:534) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	... 49 more
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'del_fl' cannot be null
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:953) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1092) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1040) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1347) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:1025) ~[mysql-connector-java-8.0.21.jar:8.0.21]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-3.4.5.jar:?]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-3.4.5.jar:?]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:175) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3181) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3696) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:90) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:604) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:478) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:356) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:39) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.doFlush(SessionImpl.java:1484) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:515) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:3355) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:2526) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:473) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:178) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.access$300(JdbcResourceLocalTransactionCoordinatorImpl.java:39) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:271) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:104) ~[hibernate-core-5.4.2.Final.jar:5.4.2.Final]
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:534) ~[spring-orm-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	... 49 more
+2021-05-21 10:17:09,667 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [getGoodsStep1] executed in 41s759ms
+2021-05-21 10:17:09,708 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=getGoodsJob]] completed with the following parameters: [{version=36}] and the following status: [FAILED] in 41s855ms
+2021-05-21 10:17:09,765 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener(logMessage:136) - 
 
-Using generated security password: 376c3677-5239-4b45-9aa2-7877b9104597
-
-2021-05-20 18:05:54,197 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain(<init>:43) - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@d7c00de, org.springframework.security.web.context.SecurityContextPersistenceFilter@2267b0bb, org.springframework.security.web.header.HeaderWriterFilter@70d16858, org.springframework.security.web.csrf.CsrfFilter@695c8b32, org.springframework.security.web.authentication.logout.LogoutFilter@504b4a97, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6ac0fd1d, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@90c01ab, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@11fa11b2, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@7dc963be, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@8eeb4c5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@112b3298, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@29ddaa8e, org.springframework.security.web.session.SessionManagementFilter@28c00acd, org.springframework.security.web.access.ExceptionTranslationFilter@7e35d743, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@47d7e4b6]
-2021-05-20 18:05:54,232 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Starting ProtocolHandler ["http-nio-8081"]
-2021-05-20 18:05:54,256 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8081 (http) with context path ''
-2021-05-20 18:05:54,266 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarted:61) - Started BackofficeBatchApplication in 15.777 seconds (JVM running for 18.474)
-2021-05-20 18:05:54,267 [main] INFO  org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner(run:154) - Running default command line with: [version=32]
-2021-05-20 18:05:54,362 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=getGoodsJob]] launched with the following parameters: [{version=32}]
-2021-05-20 18:05:54,440 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [getGoodsStep1]
-2021-05-20 18:05:54,473 [main] INFO  io.spring.backoffice_batch.job.GetGoodsJobConfiguration(lambda$getGoodsStep1$0:40) - ----- This is getGoodsStep1
-2021-05-20 18:06:28,682 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Light Red // 보비스트 푸프 - 라이트 레드
-2021-05-20 18:06:28,732 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Light Greens // 보비스트 푸프 - 라이트 그린
-2021-05-20 18:06:28,750 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Dark Greens // 보비스트 푸프 - 다크 그린
-2021-05-20 18:06:28,758 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Vitra/비트라] Bovist Pouf - Dark Red // 보비스트 푸프 - 다크 레드
-2021-05-20 18:06:28,767 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel Ø60xH104,5 cm // 폼 카페 테이블 스테인레스 Ø60xH104,5 cm
-2021-05-20 18:06:28,775 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble Coffee Ø60xH94,5 cm // 폼 카페 테이블 마블 커피 Ø60xH104,5 cm
-2021-05-20 18:06:28,785 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel Ø70xH104,5 cm // 폼 카페 테이블 스테인레스 Ø70xH104,5 cm
-2021-05-20 18:06:28,795 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel 70x70xH104,5 cm // 폼 카페 테이블 스테인레스  70x70xH104,5 cm
-2021-05-20 18:06:28,804 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble Coffee Ø70xH94,5 cm // 폼 카페 테이블 마블 커피 Ø70xH104,5 cm
-2021-05-20 18:06:28,811 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Marble White Ø60xH74,5 cm // 폼 카페 테이블 마블 화이트 Ø60xH74,5 cm
-2021-05-20 18:06:28,820 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Stainless Steel 60x60xH104,5 cm // 폼 카페 테이블 스테인레스 60x60xH104,5 cm
-2021-05-20 18:06:28,827 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Black Oak 70x70xH74,5 cm // 폼 카페 테이블 블랙 오크 70x70xH74,5 cm
-2021-05-20 18:06:28,834 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Form Café Table Oak Ø60xH74,5 cm // 폼 카페 테이블 오크 Ø60xH74,5 cm
-2021-05-20 18:06:28,842 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Ace Footstool Oak - Ultra Leather // 에이스 풋스툴 오크 - Ultra Leather
-2021-05-20 18:06:28,849 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Ultra Leather // 에라 소파 크롬 프레임 - Ultra Leather
-2021-05-20 18:06:28,888 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Fame // 에라 소파 블랙 우드 프레임 - Fame
-2021-05-20 18:06:28,902 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Ultra Leather // 에라 소파 월넛 프레임 - Ultra Leather
-2021-05-20 18:06:28,909 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Ultra Leather // 에라 소파 스틸 프레임 - Ultra Leather
-2021-05-20 18:06:28,916 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - City Velvet vol 2 // 에라 소파 오크 프레임 - City Velvet vol 2
-2021-05-20 18:06:28,921 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Fame // 에라 소파 월넛 프레임 - Fame
-2021-05-20 18:06:28,931 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - Fame Hybrid // 에라 소파 월넛 프레임 - Fame Hybrid
-2021-05-20 18:06:28,941 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Fame // 에라 소파 스틸 프레임 - Fame
-2021-05-20 18:06:28,948 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Fame // 에라 소파 크롬 프레임 - Fame
-2021-05-20 18:06:28,956 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Ultra Leather // 에라 소파 블랙 우드 프레임 - Ultra Leather
-2021-05-20 18:06:28,964 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Fame Hybrid // 에라 소파 오크 프레임 - Fame Hybrid
-2021-05-20 18:06:28,972 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Fame Hybrid // 에라 소파 스틸 프레임 - Fame Hybrid
-2021-05-20 18:06:28,980 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - Fame Hybrid // 에라 소파 크롬 프레임 - Fame  Hybrid
-2021-05-20 18:06:28,988 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Fame Hybrid // 에라 소파 블랙 우드 프레임 - Fame Hybrid
-2021-05-20 18:06:28,996 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Ultra Leather // 에라 소파 오크 프레임 - Ultra Leather
-2021-05-20 18:06:29,005 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - City Velvet vol 2 // 에라 소파 스틸 프레임 - City Velvet vol 2
-2021-05-20 18:06:29,015 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Walnut Frame - City Velvet vol 2 // 에라 소파 월넛 프레임 - City Velvet vol 2
-2021-05-20 18:06:29,024 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Chrome Frame - City Velvet vol 2 // 에라 소파 크롬 프레임 - City Velvet vol 2
-2021-05-20 18:06:29,034 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Black Wood Frame - Breeze Fusion // 에라 소파 블랙 우드 프레임 - Breeze Fusion
-2021-05-20 18:06:29,042 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Oak Frame - Fame // 에라 소파 오크 프레임 - Fame
-2021-05-20 18:06:29,051 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Sofa Steel Frame - Breeze Fusion // 에라 소파 스틸 프레임 - Breeze Fusion
-2021-05-20 18:06:29,062 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Fame // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Fame
-2021-05-20 18:06:29,070 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Ultra Leather // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Ultra Leather
-2021-05-20 18:06:29,080 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - City Velvet vol 2 // 에라 라운지체어 로우 스위블 블랙 알루미늄 - City Velvet vol 2
-2021-05-20 18:06:29,086 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Fame // 에라 라운지체어 로우 스위블 알루미늄 - Fame
-2021-05-20 18:06:29,095 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Ultra Leather // 에라 라운지체어 로우 스위블 알루미늄 - Ultra Leather
-2021-05-20 18:06:29,101 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Alu - Breeze Fusion // 에라 라운지체어 로우 스위블 알루미늄 - Breeze Fusion
-2021-05-20 18:06:29,108 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Swivel Black Alu - Breeze Fusion // 에라 라운지체어 로우 스위블 블랙 알루미늄 - Breeze Fusion
-2021-05-20 18:06:29,116 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Ultra Leather // 에라 라운지체어 로우 크롬 - Ultra Leather
-2021-05-20 18:06:29,124 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Ultra Leather  // 에라 라운지체어 로우 블랙 - Ultra Leather
-2021-05-20 18:06:29,130 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Ultra Leather // 에라 라운지체어 로우 오크 - Ultra Leather
-2021-05-20 18:06:29,136 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Ultra Leather // 에라 라운지체어 로우 스틸 - Ultra Leather
-2021-05-20 18:06:29,143 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Ultra Leather // 에라 라운지체어 로우 월넛 - Ultra Leather
-2021-05-20 18:06:29,148 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Fame Hybrid // 에라 라운지체어 로우 크롬 - Fame Hybrid
-2021-05-20 18:06:29,155 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Fame Hybrid  // 에라 라운지체어 로우 블랙 - Fame Hybrid
-2021-05-20 18:06:29,162 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - City Velvet vol 2 // 에라 라운지체어 로우 스틸 - City Velvet vol 2
-2021-05-20 18:06:29,168 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - City Velvet vol 2 // 에라 라운지체어 로우 월넛 - City Velvet vol 2
-2021-05-20 18:06:29,175 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Fame Hybrid // 에라 라운지체어 로우 오크 - Fame Hybrid
-2021-05-20 18:06:29,182 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - Fame // 에라 라운지체어 로우 크롬 - Fame
-2021-05-20 18:06:29,189 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - Fame  // 에라 라운지체어 로우 블랙 - Fame
-2021-05-20 18:06:29,195 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Fame // 에라 라운지체어 로우 스틸 - Fame
-2021-05-20 18:06:29,202 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Fame // 에라 라운지체어 로우 월넛 - Fame
-2021-05-20 18:06:29,209 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - Fame // 에라 라운지체어 로우 오크 - Fame
-2021-05-20 18:06:29,216 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Chrome - City Velvet vol 2 // 에라 라운지체어 로우 크롬 - City Velvet vol 2
-2021-05-20 18:06:29,223 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Black - City Velvet vol 2  // 에라 라운지체어 로우 블랙 - City Velvet vol 2
-2021-05-20 18:06:29,230 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Steel - Fame Hybrid // 에라 라운지체어 로우 스틸 - Fame Hybrid
-2021-05-20 18:06:29,237 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Walnut - Fame Hybrid // 에라 라운지체어 로우 월넛 - Fame Hybrid
-2021-05-20 18:06:29,245 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair Low Oak - City Velvet vol 2 // 에라 라운지체어 로우 오크 - City Velvet vol 2
-2021-05-20 18:06:29,252 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Ultra Leather // 에라 라운지체어 하이 월넛 - Ultra Leather
-2021-05-20 18:06:29,260 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Fame Hybrid // 에라 라운지체어 하이 월넛 - Fame Hybrid
-2021-05-20 18:06:29,268 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - City Velvet vol 2 // 에라 라운지체어 하이 월넛 - City Velvet vol 2
-2021-05-20 18:06:29,275 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Fame // 에라 라운지체어 하이 월넛 - Fame
-2021-05-20 18:06:29,282 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Ultra Leather // 에라 라운지체어 하이 스틸 - Ultra Leather
-2021-05-20 18:06:29,289 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Breeze Fusion // 에라 라운지체어 하이 스틸 - Breeze Fusion
-2021-05-20 18:06:29,297 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - Fame Hybrid // 에라 라운지체어 하이 스틸 - Fame Hybrid
-2021-05-20 18:06:29,306 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Steel - City Velvet vol 2 // 에라 라운지체어 하이 스틸 - City Velvet vol 2
-2021-05-20 18:06:29,314 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - City Velvet vol 2 // 에라 라운지체어 하이 오크 - City Velvet vol 2
-2021-05-20 18:06:29,320 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Breeze Fusion // 에라 라운지체어 하이 오크 - Breeze Fusion
-2021-05-20 18:06:29,329 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / black fumè // 플리아 케인 폴딩 체어 - black / black fumè
-2021-05-20 18:06:29,336 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / smoky pink // 플리아 케인 폴딩 체어 - black / smoky pink
-2021-05-20 18:06:29,343 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - black / transparent // 플리아 케인 폴딩 체어 - black / transparent
-2021-05-20 18:06:29,349 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / black fumè // 플리아 케인 폴딩 체어 - red / black fumè
-2021-05-20 18:06:29,355 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / smoky pink // 플리아 케인 폴딩 체어 - red / smoky pink
-2021-05-20 18:06:29,362 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - red / transparent // 플리아 케인 폴딩 체어 - red / transparent
-2021-05-20 18:06:29,369 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - white / black fumè // 플리아 케인 폴딩 체어 - white / black fumè
-2021-05-20 18:06:29,376 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Castelli/카스텔리] Plia Cane Folding Chair - white / smoky pink // 플리아 케인 폴딩 체어 - white / smoky pink
-2021-05-20 18:06:29,382 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [B&B ITALIA/비앤비 이탈리아] Bull - 190cm // Bull - 190cm
-2021-05-20 18:06:29,389 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [B&B ITALIA/비앤비 이탈리아] Bull - 110cm // Bull - 110cm
-2021-05-20 18:06:29,396 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Driade/드리아데] FRATE Table 225x80 // 프라테 테이블 225x80
-2021-05-20 18:06:29,403 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [MAXALTO/막살토] Sella (ACP10PA) // 셀라 (ACP10PA)
-2021-05-20 18:06:29,410 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Fame Hybrid // 에라 라운지체어 하이 오크 - Fame Hybrid
-2021-05-20 18:06:29,417 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Oak - Ultra Leather // 에라 라운지체어 하이 오크 - Ultra Leather
-2021-05-20 18:06:29,424 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Ultra Leather // 에라 라운지체어 하이 크롬 - Ultra Leather
-2021-05-20 18:06:29,431 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Fame Hybrid // 에라 라운지체어 하이 크롬 - Fame Hybrid
-2021-05-20 18:06:29,437 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - City Velvet vol 2 // 에라 라운지체어 하이 크롬 - City Velvet vol 2
-2021-05-20 18:06:29,444 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Breeze Fusion // 에라 라운지체어 하이 크롬 - Breeze Fusion
-2021-05-20 18:06:29,451 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [유재석 고객님] [추가금액 결제창]
-2021-05-20 18:06:29,458 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Fame // 에라 라운지체어 하이 블랙 - Fame
-2021-05-20 18:06:29,465 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Chrome - Fame // 에라 라운지체어 하이 크롬 - Fame
-2021-05-20 18:06:29,472 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - City Velvet vol 2 // 에라 라운지체어 하이 블랙 - City Velvet vol 2
-2021-05-20 18:06:29,480 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Breeze Fusion // 에라 라운지체어 하이 블랙 - Breeze Fusion
-2021-05-20 18:06:29,487 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Fame Hybrid // 에라 라운지체어 하이 블랙 - Fame Hybrid
-2021-05-20 18:06:29,496 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Walnut - Breeze Fusion // 에라 라운지체어 하이 월넛 - Breeze Fusion
-2021-05-20 18:06:29,503 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Normann Copenhagen/노만코펜하겐] Era Lounge Chair High Black - Ultra Leather // 에라 라운지체어 하이 블랙 - Ultra Leather
-2021-05-20 18:06:29,512 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Knoll/놀] Avio 3-Seater Sofa // 아비오 3-시터 소파 Cat.S
-2021-05-20 18:06:29,518 [main] DEBUG io.spring.main.apis.GoodsSearch(getGoodsSeq:56) - ----- goodsNm : [Knoll/놀] Avio 3-Seater Sofa // 아비오 3-시터 소파 Cat.S
-2021-05-20 18:06:30,433 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [getGoodsStep1] executed in 35s992ms
-2021-05-20 18:06:30,461 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=getGoodsJob]] completed with the following parameters: [{version=32}] and the following status: [COMPLETED] in 36s69ms
-2021-05-20 18:06:30,511 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=simpleJob]] launched with the following parameters: [{version=32}]
-2021-05-20 18:06:30,565 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [simpleStep1]
-2021-05-20 18:06:30,583 [main] INFO  io.spring.backoffice_batch.job.SimpleJobConfiguration(lambda$simpleStep1$0:34) - ----- This is Step1
-2021-05-20 18:06:30,599 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [simpleStep1] executed in 34ms
-2021-05-20 18:06:30,624 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=simpleJob]] completed with the following parameters: [{version=32}] and the following status: [COMPLETED] in 104ms
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-05-21 10:17:09,776 [main] ERROR org.springframework.boot.SpringApplication(reportFailure:837) - Application run failed
+java.lang.IllegalStateException: Failed to execute ApplicationRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:789) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:776) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at io.spring.backoffice_batch.BackofficeBatchApplication.main(BackofficeBatchApplication.java:18) [main/:?]
+Caused by: org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException: A job instance already exists and is complete for parameters={version=36}.  If you want to run this job again, change the parameters.
+	at org.springframework.batch.core.repository.support.SimpleJobRepository.createJobExecution(SimpleJobRepository.java:131) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_242]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_242]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_242]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_242]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:367) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118) ~[spring-tx-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.repository.support.AbstractJobRepositoryFactoryBean$1.invoke(AbstractJobRepositoryFactoryBean.java:181) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.sun.proxy.$Proxy115.createJobExecution(Unknown Source) ~[?:?]
+	at org.springframework.batch.core.launch.support.SimpleJobLauncher.run(SimpleJobLauncher.java:137) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_242]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_242]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_242]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_242]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration$PassthruAdvice.invoke(SimpleBatchConfiguration.java:127) ~[spring-batch-core-4.2.4.RELEASE.jar:4.2.4.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212) ~[spring-aop-5.2.9.RELEASE.jar:5.2.9.RELEASE]
+	at com.sun.proxy.$Proxy124.run(Unknown Source) ~[?:?]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.execute(JobLauncherApplicationRunner.java:199) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.executeLocalJobs(JobLauncherApplicationRunner.java:173) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.launchJobFromProperties(JobLauncherApplicationRunner.java:160) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.run(JobLauncherApplicationRunner.java:155) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner.run(JobLauncherApplicationRunner.java:150) ~[spring-boot-autoconfigure-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:786) ~[spring-boot-2.3.4.RELEASE.jar:2.3.4.RELEASE]
+	... 5 more
+2021-05-21 10:17:10,120 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(shutdown:218) - Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-21 10:17:10,128 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(destroy:598) - Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-21 10:17:10,133 [main] INFO  com.zaxxer.hikari.HikariDataSource(close:350) - HikariPool-1 - Shutdown initiated...
+2021-05-21 10:17:10,157 [main] INFO  com.zaxxer.hikari.HikariDataSource(close:352) - HikariPool-1 - Shutdown completed.

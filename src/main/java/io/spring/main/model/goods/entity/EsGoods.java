@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -20,44 +21,42 @@ import java.util.Date;
 public class EsGoods {
     @Id
     private Long goodsNo;
-    @Generated(GenerationTime.NEVER)
+    @Column(columnDefinition = "varchar(1) default 'd'")
     private String goodsNmFl;
-    @Generated(GenerationTime.NEVER)
+    @Column(columnDefinition = "varchar(1) default ''")
     private String goodsNm;
-    @Generated(GenerationTime.NEVER)
     private String goodsNmMain;
     private String goodsNmList;
     private String goodsNmDetail;
     private String goodsNmPartner;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'y'")
     private String goodsDisplayFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'y'")
     private String goodsDisplayMobileFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'y'")
     private String goodsSellFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'y'")
     private String goodsSellMobileFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 1")
     private Long scmNo;
     private String purchaseGoodsNm;
-    @Generated(GenerationTime.INSERT)
     private String applyFl;
     private String applyType;
     private String applyMsg;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date applyDt;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "float default 0.00")
     private Float commission;
     private String goodsCd;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default ''")
     private String cateCd;
     private String goodsSearchWord;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date goodsOpenDt;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String goodsState;
     private String goodsColor;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(5) default 'local'")
     private String imageStorage;
     private String brandCd;
     private String makerNm;
@@ -72,125 +71,125 @@ public class EsGoods {
     private Date effectiveStartYmd;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date effectiveEndYmd;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String qrCodeFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(3) default 'all'")
     private String goodsPermission;
     private String goodsPermissionGroup;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String goodsPermissionPriceStringFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String goodsPermissionPriceString;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String onlyAdultFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'y'")
     private String onlyAdultDisplayFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String onlyAdultImageFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(3) default 'all'")
     private String goodsAccess;
     private String goodsAccessGroup;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'y'")
     private String goodsAccessDisplayFl;
     private String kcmarkInfo;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 't'")
     private String taxFreeFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "float default 10.0")
     private Float taxPercent;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String cultureBenefitFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "float default 0.00")
     private Float goodsWeight;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Float totalStock;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String stockFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String soldOutFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(5) default 'option'")
     private String fixedSales;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(5) default 'option'")
     private String fixedOrderCnt;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 1")
     private Long salesUnit;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 1")
     private Long minOrderCnt;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long maxOrderCnt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date salesStartYmd;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date salesEndYmd;
     private String restockFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'c'")
     private String mileageFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(3) default 'all'")
     private String mileageGroup;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "float default 0.00")
     private Float mileageGoods;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(7) default 'percent'")
     private String mileageGoodsUnit;
     private String mileageGroupInfo;
     private String mileageGroupMemberInfo;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String goodsBenefitSetFl;
     private String benefitUseType;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(5) default 'regDt'")
     private String newGoodsRegFl;
     private Long newGoodsDate;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(3) default 'day'")
     private String newGoodsDateFl;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date periodDiscountStart;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date periodDiscountEnd;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String goodsDiscountFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "float default 0.00")
     private Float goodsDiscount;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(7) default 'percent'")
     private String goodsDiscountUnit;
     private String fixedGoodsDiscount;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(3) default 'all'")
     private String goodsDiscountGroup;
     private String goodsDiscountGroupMemberInfo;
     private String exceptBenefit;
     private String exceptBenefitGroup;
     private String exceptBenefitGroupInfo;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String payLimitFl;
     private String payLimit;
     private String goodsPriceString;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "float default 0.00")
     private Float goodsPrice;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "float default 0.00")
     private Float fixedPrice;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "float default 0.00")
     private Float costPrice;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String optionFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 's'")
     private String optionDisplayFl;
     private String optionName;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String optionTextFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String optionImagePreviewFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String optionImageDisplayFl;
     private String addGoodsFl;
     private String shortDescription;
     private String eventDescription;
     private String goodsDescription;
     private String goodsDescriptionMobile;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'y'")
     private String goodsDescriptionSameFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 1")
     private Long deliverySno;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String relationFl;
     private String relationSameFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long relationCnt;
     private String relationGoodsNo;
     private String relationGoodsDate;
@@ -201,37 +200,37 @@ public class EsGoods {
     private Date goodsIconEndYmd;
     private String goodsIconCdPeriod;
     private String goodsIconCd;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String imgDetailViewFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String externalVideoFl;
     private String externalVideoUrl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long externalVideoWidth;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long externalVideoHeight;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(2) default 'no'")
     private String detailInfoDeliveryFl;
     private String detailInfoDelivery;
     private String detailInfoDeliveryDirectInput;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(2) default 'no'")
     private String detailInfoAsFl;
     private String detailInfoAs;
     private String detailInfoAsDirectInput;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(2) default 'no'")
     private String detailInfoRefundFl;
     private String detailInfoRefund;
     private String detailInfoRefundDirectInput;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(2) default 'no'")
     private String detailInfoExchangeFl;
     private String detailInfoExchange;
     private String detailInfoExchangeDirectInput;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'n'")
     private String seoTagFl;
     private Long seoTagSno;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'y'")
     private String naverFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(1) default 'y'")
     private String daumFl;
     private String paycoFl;
     private String naverImportFlag;
@@ -243,17 +242,17 @@ public class EsGoods {
     private String naverCategory;
     private String naverProductId;
     private String memo;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long orderCnt;
     private Long orderGoodsCnt;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long hitCnt;
     private Long cartCnt;
     private Long wishCnt;
     private Long reviewCnt;
     private Long plusReviewCnt;
     private String excelFl;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(4) default 'n'")
     private String delFl;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     @CreationTimestamp
@@ -280,32 +279,32 @@ public class EsGoods {
     private String itemCode;
     private String logoImg;
     private Long stock;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long fpGoodsOpen;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long fpGoodsName;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long fpGoodsDesc;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 1")
     private Long fsGoodsName;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 1")
     private Long fsGoodsImg;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 1")
     private Long fsGoodsDesc;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long fsGoodsOpen;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long fsGoodsBrand;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long fsGoodsPrice;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long fsGoodsDelivery;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "float default 0.00")
     private Float goodsVolume;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long cremaReviewCnt;
     private Float mdRrp;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "varchar(4) default 'incl'")
     private String mdTax;
     private String mdYear;
     private Float mdMargin;
@@ -314,7 +313,7 @@ public class EsGoods {
     private Float mdOnlinePrice;
     private Float mdGoodsVatrate;
     private String buyWhere;
-    @Generated(GenerationTime.NEVER)
+    @Column(columnDefinition = "varchar(4) default 'incl'")
     private String buyTax;
     private Float buySupplyDiscount;
     private Float buyRrpIncrement;
@@ -324,7 +323,7 @@ public class EsGoods {
     private Long depth;
     private String sizeType;
     private Float mdDiscountRate;
-    @Generated(GenerationTime.INSERT)
+    @Column(columnDefinition = "integer default 0")
     private Long naverReviewCnt;
     private String goodsMakeWeek;
     private String goodsSize;
