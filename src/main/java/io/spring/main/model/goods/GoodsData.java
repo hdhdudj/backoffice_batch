@@ -258,9 +258,9 @@ public class GoodsData {
     private String seoTagKeyword;
 
     // 다른 객체들
-    private List<GoodsMustInfoData> goodsMustInfoData;
-    private List<OptionData> optionData;
-    private List<AddGoodsData> addGoodsData;
+    private List<GoodsMustInfoData> goodsMustInfoDataList;
+    private List<OptionData> optionDataList;
+    private List<AddGoodsData> addGoodsDataList;
     private TextOptionData textOptionData;
 
     @Getter

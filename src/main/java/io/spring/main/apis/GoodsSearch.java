@@ -4,24 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.infrastructure.util.StringFactory;
-import io.spring.main.jparepos.goods.JpaEsGoodsOptionRepository;
-import io.spring.main.jparepos.goods.JpaEsGoodsRepository;
 import io.spring.main.model.goods.*;
-import io.spring.main.model.goods.entity.EsGoods;
-import io.spring.main.model.goods.entity.EsGoodsOption;
-import io.spring.main.util.PoolManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -58,7 +44,7 @@ public class GoodsSearch {
         for(GoodsData goodsData : goodsDataList){
             EsGoods esGoods = new EsGoods();
             esGoods = objectMapper.convertValue(goodsData, EsGoods.class);
-            List<GoodsData.OptionData> optionDataList = goodsData.getOptionData();
+            List<GoodsData.OptionData> optionDataList = goodsData.getOptionDataList();
             for(GoodsData.OptionData optionData : optionDataList){
                 EsGoodsOption esGoodsOption = new EsGoodsOption();
                 esGoodsOption = objectMapper.convertValue(optionData, EsGoodsOption.class);
