@@ -4,7 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.jparepos.goods.JpaIfGoodsMasterRepository;
+import io.spring.main.jparepos.goods.JpaIfGoodsOptionRepository;
+import io.spring.main.jparepos.goods.JpaIfGoodsTextOptionRepository;
 import io.spring.main.model.goods.*;
+import io.spring.main.model.goods.entity.IfGoodsMaster;
+import io.spring.main.model.goods.entity.IfGoodsOption;
+import io.spring.main.model.goods.entity.IfGoodsTextOption;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,6 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import javax.transaction.Transactional;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -30,29 +37,57 @@ import java.util.*;
 @RequiredArgsConstructor
 @Component
 public class GoodsSearch {
-    private final JpaEsGoodsRepository jpaEsGoodsRepository;
-    private final JpaEsGoodsOptionRepository jpaEsGoodsOptionRepository;
+    private final JpaIfGoodsMasterRepository jpaIfGoodsMasterRepository;
+    private final JpaIfGoodsOptionRepository jpaIfGoodsOptionRepository;
+    private final JpaIfGoodsTextOptionRepository jpaIfGoodsTextOptionRepository;
     private final ObjectMapper objectMapper;
 
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
-//    @Transactional
+    @Transactional
     public void getGoodsSeq(String fromDt, String toDt){
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         List<GoodsData> goodsDataList = retrieveOrder(fromDt, toDt);
+
         for(GoodsData goodsData : goodsDataList){
-            EsGoods esGoods = new EsGoods();
-            esGoods = objectMapper.convertValue(goodsData, EsGoods.class);
-            List<GoodsData.OptionData> optionDataList = goodsData.getOptionDataList();
-            for(GoodsData.OptionData optionData : optionDataList){
-                EsGoodsOption esGoodsOption = new EsGoodsOption();
-                esGoodsOption = objectMapper.convertValue(optionData, EsGoodsOption.class);
-                jpaEsGoodsOptionRepository.save(esGoodsOption);
-            }
-            jpaEsGoodsRepository.save(esGoods);
+            this.saveIfGoodsMaster(goodsData); // itasrt, itasrn, itasrd
+            this.saveIfGoodsOption(goodsData.getOptionDataList()); // itvari, ititmm
+            this.saveIfGoodsTextOption(goodsData.getTextOptionDataList()); // itmmot
+//            esGoods = objectMapper.convertValue(goodsData, EsGoods.class);
+//            List<GoodsData.OptionData> optionDataList = goodsData.getOptionDataList();
+//            for(GoodsData.OptionData optionData : optionDataList){
+//                EsGoodsOption esGoodsOption = new EsGoodsOption();
+//                esGoodsOption = objectMapper.convertValue(optionData, EsGoodsOption.class);
+//                jpaEsGoodsOptionRepository.save(esGoodsOption);
+//            }
+//            jpaEsGoodsRepository.save(esGoods);
         }
     }
+
+    private void saveIfGoodsMaster(GoodsData goodsData) {
+        IfGoodsMaster ifGoodsMaster = new IfGoodsMaster();
+        ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
+        jpaIfGoodsMasterRepository.save(ifGoodsMaster);
+    }
+
+    private void saveIfGoodsOption(List<GoodsData.OptionData> optionDataList) {
+        for(GoodsData.OptionData optionData : optionDataList){
+            IfGoodsOption ifGoodsOption = new IfGoodsOption();
+            ifGoodsOption = objectMapper.convertValue(optionData,IfGoodsOption.class);
+            jpaIfGoodsOptionRepository.save(ifGoodsOption);
+        }
+    }
+
+    private void saveIfGoodsTextOption(List<GoodsData.TextOptionData> textOptionData) {
+        for(GoodsData.TextOptionData optionData : textOptionData){
+            IfGoodsTextOption ifGoodsTextOption = new IfGoodsTextOption();
+            ifGoodsTextOption = objectMapper.convertValue(optionData,IfGoodsTextOption.class);
+            jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
+        }
+    }
+
+
     private List<GoodsData> retrieveOrder(String fromDt, String toDt) {
 
         // TODO Auto-generated method stub

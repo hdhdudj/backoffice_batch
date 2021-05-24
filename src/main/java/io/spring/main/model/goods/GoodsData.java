@@ -261,7 +261,7 @@ public class GoodsData {
     private List<GoodsMustInfoData> goodsMustInfoDataList;
     private List<OptionData> optionDataList;
     private List<AddGoodsData> addGoodsDataList;
-    private TextOptionData textOptionData;
+    private List<TextOptionData> textOptionDataList;
 
     @Getter
     @Setter
