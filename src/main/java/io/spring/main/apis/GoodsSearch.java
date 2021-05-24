@@ -1,11 +1,14 @@
 package io.spring.main.apis;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.jparepos.goods.JpaEsGoodsOptionRepository;
 import io.spring.main.jparepos.goods.JpaEsGoodsRepository;
 import io.spring.main.model.goods.*;
 import io.spring.main.model.goods.entity.EsGoods;
+import io.spring.main.model.goods.entity.EsGoodsOption;
 import io.spring.main.util.PoolManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,18 +45,25 @@ import java.util.*;
 @Component
 public class GoodsSearch {
     private final JpaEsGoodsRepository jpaEsGoodsRepository;
+    private final JpaEsGoodsOptionRepository jpaEsGoodsOptionRepository;
     private final ObjectMapper objectMapper;
 
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
 //    @Transactional
     public void getGoodsSeq(String fromDt, String toDt){
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         List<GoodsData> goodsDataList = retrieveOrder(fromDt, toDt);
         for(GoodsData goodsData : goodsDataList){
             EsGoods esGoods = new EsGoods();
-            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             esGoods = objectMapper.convertValue(goodsData, EsGoods.class);
-            log.debug("----- goodsNm : "+esGoods.getGoodsNm());
+            List<GoodsData.OptionData> optionDataList = goodsData.getOptionData();
+            for(GoodsData.OptionData optionData : optionDataList){
+                EsGoodsOption esGoodsOption = new EsGoodsOption();
+                esGoodsOption = objectMapper.convertValue(optionData, EsGoodsOption.class);
+                jpaEsGoodsOptionRepository.save(esGoodsOption);
+            }
             jpaEsGoodsRepository.save(esGoods);
         }
     }

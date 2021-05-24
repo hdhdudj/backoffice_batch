@@ -260,8 +260,8 @@ public class GoodsData {
     // 다른 객체들
     private List<GoodsMustInfoData> goodsMustInfoData;
     private List<OptionData> optionData;
-    private List<TextOptionData> textOptionData;
     private List<AddGoodsData> addGoodsData;
+    private TextOptionData textOptionData;
 
     @Getter
     @Setter

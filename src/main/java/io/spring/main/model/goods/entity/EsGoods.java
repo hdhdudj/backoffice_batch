@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.GoodsData;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,43 +22,32 @@ import java.util.Date;
 public class EsGoods {
     @Id
     private Long goodsNo;
-    @Column(columnDefinition = "varchar(1) default 'd'")
-    private String goodsNmFl;
-    @Column(columnDefinition = "varchar(1) default ''")
-    private String goodsNm;
+    private String goodsNmFl = StringFactory.getStrD();
+    private String goodsNm = "";
     private String goodsNmMain;
     private String goodsNmList;
     private String goodsNmDetail;
     private String goodsNmPartner;
-    @Column(columnDefinition = "varchar(1) default 'y'")
-    private String goodsDisplayFl;
-    @Column(columnDefinition = "varchar(1) default 'y'")
-    private String goodsDisplayMobileFl;
-    @Column(columnDefinition = "varchar(1) default 'y'")
+    private String goodsDisplayFl = StringFactory.getStrY();
+    private String goodsDisplayMobileFl = StringFactory.getStrY();
     private String goodsSellFl;
-    @Column(columnDefinition = "varchar(1) default 'y'")
-    private String goodsSellMobileFl;
-    @Column(columnDefinition = "integer default 1")
-    private Long scmNo;
+    private String goodsSellMobileFl = StringFactory.getStrY();
+    private Long scmNo = 1l;
     private String purchaseGoodsNm;
     private String applyFl;
     private String applyType;
     private String applyMsg;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date applyDt;
-    @Column(columnDefinition = "float default 0.00")
-    private Float commission;
+    private Float commission = 0f;
     private String goodsCd;
-    @Column(columnDefinition = "varchar(1) default ''")
-    private String cateCd;
+    private String cateCd = "";
     private String goodsSearchWord;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date goodsOpenDt;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String goodsState;
+    private String goodsState = StringFactory.getStrN();
     private String goodsColor;
-    @Column(columnDefinition = "varchar(5) default 'local'")
-    private String imageStorage;
+    private String imageStorage = StringFactory.getStrLocal();
     private String brandCd;
     private String makerNm;
     private String originNm;
@@ -71,126 +61,81 @@ public class EsGoods {
     private Date effectiveStartYmd;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date effectiveEndYmd;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String qrCodeFl;
-    @Column(columnDefinition = "varchar(3) default 'all'")
-    private String goodsPermission;
+    private String qrCodeFl = StringFactory.getStrN();
+    private String goodsPermission = StringFactory.getStrAll();
     private String goodsPermissionGroup;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String goodsPermissionPriceStringFl;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String goodsPermissionPriceString;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String onlyAdultFl;
-    @Column(columnDefinition = "varchar(1) default 'y'")
-    private String onlyAdultDisplayFl;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String onlyAdultImageFl;
-    @Column(columnDefinition = "varchar(3) default 'all'")
-    private String goodsAccess;
+    private String goodsPermissionPriceStringFl = StringFactory.getStrN();
+    private String goodsPermissionPriceString = StringFactory.getStrN();
+    private String onlyAdultFl = StringFactory.getStrN();
+    private String onlyAdultDisplayFl = StringFactory.getStrY();
+    private String onlyAdultImageFl = StringFactory.getStrN();
+    private String goodsAccess = StringFactory.getStrAll();
     private String goodsAccessGroup;
-    @Column(columnDefinition = "varchar(1) default 'y'")
-    private String goodsAccessDisplayFl;
+    private String goodsAccessDisplayFl = StringFactory.getStrY();
     private String kcmarkInfo;
-    @Column(columnDefinition = "varchar(1) default 't'")
-    private String taxFreeFl;
-    @Column(columnDefinition = "float default 10.0")
-    private Float taxPercent;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String cultureBenefitFl;
-    @Column(columnDefinition = "float default 0.00")
-    private Float goodsWeight;
-    @Column(columnDefinition = "integer default 0")
-    private Float totalStock;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String stockFl;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String soldOutFl;
-    @Column(columnDefinition = "varchar(5) default 'option'")
-    private String fixedSales;
-    @Column(columnDefinition = "varchar(5) default 'option'")
-    private String fixedOrderCnt;
-    @Column(columnDefinition = "integer default 1")
-    private Long salesUnit;
-    @Column(columnDefinition = "integer default 1")
-    private Long minOrderCnt;
-    @Column(columnDefinition = "integer default 0")
-    private Long maxOrderCnt;
+    private String taxFreeFl = StringFactory.getStrT();
+    private Float taxPercent = 10f;
+    private String cultureBenefitFl = StringFactory.getStrN();
+    private Float goodsWeight = 0f;
+    private Float totalStock = 0f;
+    private String stockFl = StringFactory.getStrN();
+    private String soldOutFl = StringFactory.getStrN();
+    private String fixedSales = StringFactory.getStrOption();
+    private String fixedOrderCnt = StringFactory.getStrOption();
+    private Long salesUnit = 1l;
+    private Long minOrderCnt = 1l;
+    private Long maxOrderCnt = 0l;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date salesStartYmd;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date salesEndYmd;
     private String restockFl;
-    @Column(columnDefinition = "varchar(1) default 'c'")
-    private String mileageFl;
-    @Column(columnDefinition = "varchar(3) default 'all'")
-    private String mileageGroup;
-    @Column(columnDefinition = "float default 0.00")
-    private Float mileageGoods;
-    @Column(columnDefinition = "varchar(7) default 'percent'")
-    private String mileageGoodsUnit;
+    private String mileageFl = StringFactory.getStrC();
+    private String mileageGroup = StringFactory.getStrAll();
+    private Float mileageGoods = 0f;
+    private String mileageGoodsUnit = StringFactory.getStrPercent();
     private String mileageGroupInfo;
     private String mileageGroupMemberInfo;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String goodsBenefitSetFl;
+    private String goodsBenefitSetFl = StringFactory.getStrN();
     private String benefitUseType;
-    @Column(columnDefinition = "varchar(5) default 'regDt'")
-    private String newGoodsRegFl;
+    private String newGoodsRegFl = StringFactory.getStrRegDt();
     private Long newGoodsDate;
-    @Column(columnDefinition = "varchar(3) default 'day'")
-    private String newGoodsDateFl;
+    private String newGoodsDateFl = StringFactory.getStrDay();
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date periodDiscountStart;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date periodDiscountEnd;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String goodsDiscountFl;
-    @Column(columnDefinition = "float default 0.00")
-    private Float goodsDiscount;
-    @Column(columnDefinition = "varchar(7) default 'percent'")
-    private String goodsDiscountUnit;
+    private String goodsDiscountFl = StringFactory.getStrN();
+    private Float goodsDiscount = 0f;
+    private String goodsDiscountUnit = StringFactory.getStrPercent();
     private String fixedGoodsDiscount;
-    @Column(columnDefinition = "varchar(3) default 'all'")
-    private String goodsDiscountGroup;
+    private String goodsDiscountGroup = StringFactory.getStrAll();
     private String goodsDiscountGroupMemberInfo;
     private String exceptBenefit;
     private String exceptBenefitGroup;
     private String exceptBenefitGroupInfo;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String payLimitFl;
+    private String payLimitFl = StringFactory.getStrN();
     private String payLimit;
     private String goodsPriceString;
-    @Column(columnDefinition = "float default 0.00")
-    private Float goodsPrice;
-    @Column(columnDefinition = "float default 0.00")
-    private Float fixedPrice;
-    @Column(columnDefinition = "float default 0.00")
-    private Float costPrice;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String optionFl;
-    @Column(columnDefinition = "varchar(1) default 's'")
-    private String optionDisplayFl;
+    private Float goodsPrice = 0f;
+    private Float fixedPrice = 0f;
+    private Float costPrice = 0f;
+    private String optionFl = StringFactory.getStrN();
+    private String optionDisplayFl = StringFactory.getStrS();
     private String optionName;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String optionTextFl;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String optionImagePreviewFl;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String optionImageDisplayFl;
+    private String optionTextFl = StringFactory.getStrN();
+    private String optionImagePreviewFl = StringFactory.getStrN();
+    private String optionImageDisplayFl = StringFactory.getStrN();
     private String addGoodsFl;
     private String shortDescription;
     private String eventDescription;
     private String goodsDescription;
     private String goodsDescriptionMobile;
-    @Column(columnDefinition = "varchar(1) default 'y'")
-    private String goodsDescriptionSameFl;
-    @Column(columnDefinition = "integer default 1")
-    private Long deliverySno;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String relationFl;
+    private String goodsDescriptionSameFl = StringFactory.getStrY();
+    private Long deliverySno = 1l;
+    private String relationFl = StringFactory.getStrN();
     private String relationSameFl;
-    @Column(columnDefinition = "integer default 0")
-    private Long relationCnt;
+    private Long relationCnt = 0l;
     private String relationGoodsNo;
     private String relationGoodsDate;
     private String relationGoodsEach;
@@ -200,38 +145,27 @@ public class EsGoods {
     private Date goodsIconEndYmd;
     private String goodsIconCdPeriod;
     private String goodsIconCd;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String imgDetailViewFl;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String externalVideoFl;
+    private String imgDetailViewFl = StringFactory.getStrN();
+    private String externalVideoFl = StringFactory.getStrN();
     private String externalVideoUrl;
-    @Column(columnDefinition = "integer default 0")
-    private Long externalVideoWidth;
-    @Column(columnDefinition = "integer default 0")
-    private Long externalVideoHeight;
-    @Column(columnDefinition = "varchar(2) default 'no'")
-    private String detailInfoDeliveryFl;
+    private Long externalVideoWidth = 0l;
+    private Long externalVideoHeight = 0l;
+    private String detailInfoDeliveryFl = StringFactory.getStrNo();
     private String detailInfoDelivery;
     private String detailInfoDeliveryDirectInput;
-    @Column(columnDefinition = "varchar(2) default 'no'")
-    private String detailInfoAsFl;
+    private String detailInfoAsFl = StringFactory.getStrNo();
     private String detailInfoAs;
     private String detailInfoAsDirectInput;
-    @Column(columnDefinition = "varchar(2) default 'no'")
-    private String detailInfoRefundFl;
+    private String detailInfoRefundFl = StringFactory.getStrNo();
     private String detailInfoRefund;
     private String detailInfoRefundDirectInput;
-    @Column(columnDefinition = "varchar(2) default 'no'")
-    private String detailInfoExchangeFl;
+    private String detailInfoExchangeFl = StringFactory.getStrNo();
     private String detailInfoExchange;
     private String detailInfoExchangeDirectInput;
-    @Column(columnDefinition = "varchar(1) default 'n'")
-    private String seoTagFl;
+    private String seoTagFl = StringFactory.getStrN();
     private Long seoTagSno;
-    @Column(columnDefinition = "varchar(1) default 'y'")
-    private String naverFl;
-    @Column(columnDefinition = "varchar(1) default 'y'")
-    private String daumFl;
+    private String naverFl = StringFactory.getStrY();
+    private String daumFl = StringFactory.getStrY();
     private String paycoFl;
     private String naverImportFlag;
     private String naverProductFlag;
@@ -242,18 +176,16 @@ public class EsGoods {
     private String naverCategory;
     private String naverProductId;
     private String memo;
-    @Column(columnDefinition = "integer default 0")
-    private Long orderCnt;
+    private Long orderCnt = 0l;
     private Long orderGoodsCnt;
-    @Column(columnDefinition = "integer default 0")
-    private Long hitCnt;
+    private Long hitCnt = 0l;
     private Long cartCnt;
     private Long wishCnt;
     private Long reviewCnt;
     private Long plusReviewCnt;
     private String excelFl;
-    @Column(columnDefinition = "varchar(4) default 'n'")
-    private String delFl;
+    @Column(columnDefinition = "varchar(1) default 'n'")
+    private String delFl = StringFactory.getStrN();
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     @CreationTimestamp
     private Date regDt;
@@ -279,33 +211,20 @@ public class EsGoods {
     private String itemCode;
     private String logoImg;
     private Long stock;
-    @Column(columnDefinition = "integer default 0")
-    private Long fpGoodsOpen;
-    @Column(columnDefinition = "integer default 0")
-    private Long fpGoodsName;
-    @Column(columnDefinition = "integer default 0")
-    private Long fpGoodsDesc;
-    @Column(columnDefinition = "integer default 1")
-    private Long fsGoodsName;
-    @Column(columnDefinition = "integer default 1")
-    private Long fsGoodsImg;
-    @Column(columnDefinition = "integer default 1")
-    private Long fsGoodsDesc;
-    @Column(columnDefinition = "integer default 0")
-    private Long fsGoodsOpen;
-    @Column(columnDefinition = "integer default 0")
-    private Long fsGoodsBrand;
-    @Column(columnDefinition = "integer default 0")
-    private Long fsGoodsPrice;
-    @Column(columnDefinition = "integer default 0")
-    private Long fsGoodsDelivery;
-    @Column(columnDefinition = "float default 0.00")
-    private Float goodsVolume;
-    @Column(columnDefinition = "integer default 0")
-    private Long cremaReviewCnt;
+    private Long fpGoodsOpen = 0l;
+    private Long fpGoodsName = 0l;
+    private Long fpGoodsDesc = 0l;
+    private Long fsGoodsName = 1l;
+    private Long fsGoodsImg = 1l;
+    private Long fsGoodsDesc = 1l;
+    private Long fsGoodsOpen = 0l;
+    private Long fsGoodsBrand = 0l;
+    private Long fsGoodsPrice = 0l;
+    private Long fsGoodsDelivery = 0l;
+    private Float goodsVolume = 0f;
+    private Long cremaReviewCnt = 0l;
     private Float mdRrp;
-    @Column(columnDefinition = "varchar(4) default 'incl'")
-    private String mdTax;
+    private String mdTax = StringFactory.getStrIncl();
     private String mdYear;
     private Float mdMargin;
     private Float mdVatrate;
@@ -313,8 +232,7 @@ public class EsGoods {
     private Float mdOnlinePrice;
     private Float mdGoodsVatrate;
     private String buyWhere;
-    @Column(columnDefinition = "varchar(4) default 'incl'")
-    private String buyTax;
+    private String buyTax = StringFactory.getStrIncl();
     private Float buySupplyDiscount;
     private Float buyRrpIncrement;
     private Float buyExchangeRate;
@@ -323,8 +241,7 @@ public class EsGoods {
     private Long depth;
     private String sizeType;
     private Float mdDiscountRate;
-    @Column(columnDefinition = "integer default 0")
-    private Long naverReviewCnt;
+    private Long naverReviewCnt = 0l;
     private String goodsMakeWeek;
     private String goodsSize;
 }

@@ -86,4 +86,40 @@ public class StringFactory {
     @Getter
     private final static String dUpperStr = "D";
 
+
+    // DB table default values
+    @Getter
+    private final static String strY = "y";
+    @Getter
+    private final static String strN = "n";
+    @Getter
+    private final static String strD = "d";
+    @Getter
+    private final static String strE = "e";
+    @Getter
+    private final static Float fZero = 0f;
+    @Getter
+    private final static String strLocal = "local";
+    @Getter
+    private final static String strAll = "all";
+    @Getter
+    private final static String strOption = "option";
+    @Getter
+    private final static String strC = "c";
+    @Getter
+    private final static String strPercent = "percent";
+    @Getter
+    private final static String strDay = "day";
+    @Getter
+    private final static String strS = "s";
+    @Getter
+    private final static String strT = "t";
+    @Getter
+    private final static String strNo = "no";
+    @Getter
+    private final static String strIncl = "incl";
+    @Getter
+    private final static String strRegDt = "regDt";
+    @Getter
+    private final static String strNormal = "normal";
 }
