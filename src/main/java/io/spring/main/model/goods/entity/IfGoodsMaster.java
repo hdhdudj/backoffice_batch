@@ -22,8 +22,8 @@ public class IfGoodsMaster {
     @Id
     private String channelGb;
     @Id
-    private String assortId;
     private String goodsNo;
+    private String assortId;
     private String goodsNm;
     private String goodsNmDetail;
     private String goodsDisplayFl;
@@ -50,10 +50,8 @@ public class IfGoodsMaster {
     private String shortDescription;
     private String goodsDescription;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    @CreationTimestamp
     private Date regDt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    @UpdateTimestamp
     private Date modDt;
     private Long regId;
     private Long updId;

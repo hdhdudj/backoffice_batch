@@ -13,5 +13,5 @@ public class IfGoodsMasterId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String channelGb;
-    private String assortId;
+    private String goodsNo;
 }

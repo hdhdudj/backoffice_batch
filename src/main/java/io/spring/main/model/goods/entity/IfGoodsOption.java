@@ -29,7 +29,6 @@ public class IfGoodsOption {
     private String optionNo;
     private String assortId;
     private String itemId;
-    private String goodsNm;
     private String optionValue1;
     private String optionValue2;
     private String optionValue3;
@@ -42,10 +41,8 @@ public class IfGoodsOption {
     private Long minOrderCnt;
     private Long maxOrderCnt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    @CreationTimestamp
     private Date regDt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    @UpdateTimestamp
     private Date modDt;
     private Long regId;
     private Long updId;

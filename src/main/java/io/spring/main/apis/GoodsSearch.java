@@ -48,12 +48,14 @@ public class GoodsSearch {
     public void getGoodsSeq(String fromDt, String toDt){
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         List<GoodsData> goodsDataList = retrieveOrder(fromDt, toDt);
 
         for(GoodsData goodsData : goodsDataList){
             this.saveIfGoodsMaster(goodsData); // itasrt, itasrn, itasrd
-            this.saveIfGoodsOption(goodsData.getOptionDataList()); // itvari, ititmm
-            this.saveIfGoodsTextOption(goodsData.getTextOptionDataList()); // itmmot
+            this.saveIfGoodsOption(goodsData.getOptionData()); // itvari, ititmm
+            this.saveIfGoodsTextOption(goodsData.getTextOptionData()); // itmmot
+            this.saveIfGoodsAddGoods(goodsData.getAddGoodsData()); // itadgs
 //            esGoods = objectMapper.convertValue(goodsData, EsGoods.class);
 //            List<GoodsData.OptionData> optionDataList = goodsData.getOptionDataList();
 //            for(GoodsData.OptionData optionData : optionDataList){
@@ -65,28 +67,44 @@ public class GoodsSearch {
         }
     }
 
+
     private void saveIfGoodsMaster(GoodsData goodsData) {
-        IfGoodsMaster ifGoodsMaster = new IfGoodsMaster();
-        ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
+        IfGoodsMaster ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
+        ifGoodsMaster.setChannelGb(StringFactory.getGbOne());
+        ifGoodsMaster.setUploadStatus(StringFactory.getGbOne());
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
     }
 
     private void saveIfGoodsOption(List<GoodsData.OptionData> optionDataList) {
+        if(optionDataList == null){
+            log.debug("optionDataList is null.");
+            return;
+        }
+//        log.debug("----- optionDataList[0].sno : " + optionDataList.get(0).getSno());
         for(GoodsData.OptionData optionData : optionDataList){
-            IfGoodsOption ifGoodsOption = new IfGoodsOption();
-            ifGoodsOption = objectMapper.convertValue(optionData,IfGoodsOption.class);
+            IfGoodsOption ifGoodsOption = objectMapper.convertValue(optionData,IfGoodsOption.class);
+            ifGoodsOption.setChannelGb(StringFactory.getGbOne());
+            ifGoodsOption.setUploadStatus(StringFactory.getGbOne());
             jpaIfGoodsOptionRepository.save(ifGoodsOption);
         }
     }
 
-    private void saveIfGoodsTextOption(List<GoodsData.TextOptionData> textOptionData) {
-        for(GoodsData.TextOptionData optionData : textOptionData){
-            IfGoodsTextOption ifGoodsTextOption = new IfGoodsTextOption();
-            ifGoodsTextOption = objectMapper.convertValue(optionData,IfGoodsTextOption.class);
+    private void saveIfGoodsTextOption(List<GoodsData.TextOptionData> textOptionDataList) {
+        if(textOptionDataList == null){
+            log.debug("textOptionDataList is null.");
+            return;
+        }
+        for(GoodsData.TextOptionData textOptionData : textOptionDataList){
+            IfGoodsTextOption ifGoodsTextOption = objectMapper.convertValue(textOptionData,IfGoodsTextOption.class);
+            ifGoodsTextOption.setChannelGb(StringFactory.getGbOne());
+            ifGoodsTextOption.setUploadStatus(StringFactory.getGbOne());
             jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
         }
     }
 
+    private void saveIfGoodsAddGoods(List<GoodsData.AddGoodsData> addGoodsDataList) {
+
+    }
 
     private List<GoodsData> retrieveOrder(String fromDt, String toDt) {
 
@@ -104,7 +122,7 @@ public class GoodsSearch {
             //OpenApi호출
             String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                     StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                    + "=" + StringFactory.getKey();
+                    + "=" + StringFactory.getKey()+"&goodsNo=1000032224";
             System.out.println(urlstr);
             //+ "&orderStatus=p1";
             URL url = new URL(urlstr);
@@ -194,17 +212,19 @@ public class GoodsSearch {
             Node cNode = cNodes.item(i);
             //String idx = cNode.getAttributes().getNamedItem("idx").getNodeValue();
             // System.out.println(cNode.getAttributes().getNamedItem("idx").getNodeValue());
-            if (cNode.getNodeName() == "optionData") {
+            log.debug("+++++ nodeName : " + cNode.getNodeName());
+            if (cNode.getNodeName().equals("optionData")) {
                 GoodsData.OptionData optionData = makeOptionData(cNode);
                 optionDataList.add(optionData);
-            } else if (cNode.getNodeName() == "textOptionData") {
+            } else if (cNode.getNodeName().equals("textOptionData")) {
                 GoodsData.TextOptionData textOptionData = makeTextOptionData(cNode);
                 textOptionDataList.add(textOptionData);
-            } else if (cNode.getNodeName() == "addGoodsData") {
+            } else if (cNode.getNodeName().equals("addGoodsData")) {
                 // Map<String, Object> goodsData = makeOrderGoodsData(cNode);
                 GoodsData.AddGoodsData addGoodsData = makeAddGoodsData(cNode);
+                log.debug("----- addGoodsData : " + addGoodsData.getGoodsNoData().size());
                 adGoodsDataList.add(addGoodsData);
-            } else if (cNode.getNodeName() == "goodsMustInfoData ") {
+            } else if (cNode.getNodeName().equals("goodsMustInfoData")) {
                 // Map<String, Object> addGoodsData = makeAddGoodsData(cNode);
                 GoodsData.GoodsMustInfoData goodsMustInfoData = makeGoodsMustInfoData(cNode);
                 goodsMustInfoDataList.add(goodsMustInfoData);
@@ -257,20 +277,49 @@ public class GoodsSearch {
         return str;
     }
 
-    private static GoodsData.AddGoodsData makeAddGoodsData(Node cNode) {
-        return null;
+    private GoodsData.AddGoodsData makeAddGoodsData(Node cNode) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        NodeList cNodes = cNode.getChildNodes();
+        List<String> goodsNoDataList = new ArrayList<>();
+        for (int i = 0; i < cNodes.getLength(); i++) {
+            Node node = cNodes.item(i);
+            if(node.getNodeName().equals("goodsNoData")){
+                goodsNoDataList.add(node.getNodeValue());
+            }
+            else{
+                map.put(node.getNodeName(),getNodeValue(node));
+            }
+        }
+        map.put("goodsNoData", goodsNoDataList);
+        GoodsData.AddGoodsData o = objectMapper.convertValue(map, GoodsData.AddGoodsData.class);
+        return o;
     }
 
     private static GoodsData.GoodsMustInfoData makeGoodsMustInfoData(Node cNode) {
         return null;
     }
 
-    private static GoodsData.TextOptionData makeTextOptionData(Node cNode) {
-        return null;
+    private GoodsData.TextOptionData makeTextOptionData(Node cNode) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        NodeList cNodes = cNode.getChildNodes();
+        for (int i = 0; i < cNodes.getLength(); i++) {
+            Node node = cNodes.item(i);
+            map.put(node.getNodeName(),getNodeValue(node));
+        }
+        GoodsData.TextOptionData o = objectMapper.convertValue(map, GoodsData.TextOptionData.class);
+        return o;
     }
 
-    private static GoodsData.OptionData makeOptionData(Node cNode) {
-        return null;
+    private GoodsData.OptionData makeOptionData(Node cNode) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        NodeList cNodes = cNode.getChildNodes();
+        for (int i = 0; i < cNodes.getLength(); i++) {
+            Node node = cNodes.item(i);
+            map.put(node.getNodeName(),getNodeValue(node));
+
+        }
+        GoodsData.OptionData o = objectMapper.convertValue(map, GoodsData.OptionData.class);
+        return o;
     }
 
     public static Object getNodeValue(Node n) {

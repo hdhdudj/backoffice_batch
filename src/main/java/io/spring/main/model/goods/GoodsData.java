@@ -1,6 +1,8 @@
 package io.spring.main.model.goods;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -258,10 +261,10 @@ public class GoodsData {
     private String seoTagKeyword;
 
     // 다른 객체들
-    private List<GoodsMustInfoData> goodsMustInfoDataList;
-    private List<OptionData> optionDataList;
-    private List<AddGoodsData> addGoodsDataList;
-    private List<TextOptionData> textOptionDataList;
+    private List<GoodsMustInfoData> goodsMustInfoData = new ArrayList<>();
+    private List<OptionData> optionData = new ArrayList<>();
+    private List<AddGoodsData> addGoodsData= new ArrayList<>();
+    private List<TextOptionData> textOptionData = new ArrayList<>();
 
     @Getter
     @Setter
@@ -315,9 +318,9 @@ public class GoodsData {
 
     @Getter
     @Setter
-    public class AddGoodsData {
+    public static class AddGoodsData {
         private String title;
         private String mustFl;
-        private Long goodsNoData;
+        private List<Long> goodsNoData;
     }
 }
