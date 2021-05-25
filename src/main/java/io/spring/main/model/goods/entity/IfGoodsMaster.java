@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.idclass.IfGoodsMasterId;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -15,7 +17,10 @@ import java.util.Date;
 @Table(name = "if_goods_master")
 @Getter
 @Setter
+@IdClass(IfGoodsMasterId.class)
 public class IfGoodsMaster {
+    @Id
+    private String channelGb;
     @Id
     private String assortId;
     private String goodsNo;
@@ -52,4 +57,5 @@ public class IfGoodsMaster {
     private Date modDt;
     private Long regId;
     private Long updId;
+    private String uploadStatus;
 }
