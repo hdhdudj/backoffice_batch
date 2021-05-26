@@ -1,5 +1,6 @@
 package io.spring.main.model.goods.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.infrastructure.util.Utilities;
 import lombok.AccessLevel;
@@ -68,14 +69,17 @@ public class Itasrn {
     private String vendorId = StringFactory.getGbOne(); // 하드코딩
     private String assortId;
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date effStaDt;
 //    @Id
 //    private String seq;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date effEndDt;
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date regDt;
     @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date updDt;
     @Column(nullable = true)
     private Long updId;

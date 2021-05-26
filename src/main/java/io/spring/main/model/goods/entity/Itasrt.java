@@ -1,5 +1,6 @@
 package io.spring.main.model.goods.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.spring.main.model.goods.GoodsData;
 import lombok.AccessLevel;
@@ -112,8 +113,10 @@ public class Itasrt {
 	private Long regId;
 	private Long updId;
 	@CreationTimestamp
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
 	private Date regDt;
 	@UpdateTimestamp
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
 	private Date updDt;
 
 	private String assortNm;
@@ -145,7 +148,9 @@ public class Itasrt {
 	@Column(nullable = true)
 	private Float localSale; // itasrn에도 들어감
 	private String assortColor;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
 	private Date sellStaDt;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
 	private Date sellEndDt;
 	@Column(nullable = true)
 	private Float mdRrp;

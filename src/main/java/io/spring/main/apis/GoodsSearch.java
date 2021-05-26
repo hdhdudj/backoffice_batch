@@ -72,7 +72,7 @@ public class GoodsSearch {
 
         for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){ // itasrt, itasrn, itasrd
             if(ifGoodsMaster.getAssortId() == null){
-                assortId = this.getNo(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9);
+                assortId = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9, '0');
                 System.out.println("----- 채번 : " +assortId);
                 ifGoodsMaster.setAssortId(assortId);
                 jpaIfGoodsMasterRepository.save(ifGoodsMaster);
