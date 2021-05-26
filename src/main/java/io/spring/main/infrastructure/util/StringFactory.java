@@ -58,6 +58,10 @@ public class StringFactory {
     @Getter
     private final static String strZero = "0";
     @Getter
+    private final static String strOne = "1";
+    @Getter
+    private final static String strTwo = "2";
+    @Getter
     private final static String strStartDt = "startDt";
     @Getter
     private final static String strEndDt = "endDt";

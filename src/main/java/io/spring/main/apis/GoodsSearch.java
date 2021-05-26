@@ -4,15 +4,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.infrastructure.util.StringFactory;
-import io.spring.main.jparepos.goods.JpaIfGoodsMasterRepository;
-import io.spring.main.jparepos.goods.JpaIfGoodsOptionRepository;
-import io.spring.main.jparepos.goods.JpaIfGoodsTextOptionRepository;
+import io.spring.main.jparepos.common.JpaSequenceDataRepository;
+import io.spring.main.jparepos.goods.*;
 import io.spring.main.model.goods.*;
-import io.spring.main.model.goods.entity.IfGoodsMaster;
-import io.spring.main.model.goods.entity.IfGoodsOption;
-import io.spring.main.model.goods.entity.IfGoodsTextOption;
+import io.spring.main.model.goods.entity.*;
+import io.spring.main.util.Utilities;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -40,6 +39,10 @@ public class GoodsSearch {
     private final JpaIfGoodsMasterRepository jpaIfGoodsMasterRepository;
     private final JpaIfGoodsOptionRepository jpaIfGoodsOptionRepository;
     private final JpaIfGoodsTextOptionRepository jpaIfGoodsTextOptionRepository;
+    private final JpaSequenceDataRepository jpaSequenceDataRepository;
+    private final JpaItasrtRepository jpaItasrtRepository;
+    private final JpaItasrnRepository jpaItasrnRepository;
+    private final JpaItasrdRepository jpaItasrdRepository;
     private final ObjectMapper objectMapper;
 
 //    private static PoolManager poolManager = null;
@@ -49,64 +52,175 @@ public class GoodsSearch {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-        List<GoodsData> goodsDataList = retrieveOrder(fromDt, toDt);
+        List<GoodsData> goodsDataList = retrieveGoods(fromDt, toDt);
 
-        for(GoodsData goodsData : goodsDataList){
-            this.saveIfGoodsMaster(goodsData); // itasrt, itasrn, itasrd
-            this.saveIfGoodsOption(goodsData.getOptionData()); // itvari, ititmm
-            this.saveIfGoodsTextOption(goodsData.getTextOptionData()); // itmmot
-            this.saveIfGoodsAddGoods(goodsData.getAddGoodsData()); // itadgs
-//            esGoods = objectMapper.convertValue(goodsData, EsGoods.class);
-//            List<GoodsData.OptionData> optionDataList = goodsData.getOptionDataList();
-//            for(GoodsData.OptionData optionData : optionDataList){
-//                EsGoodsOption esGoodsOption = new EsGoodsOption();
-//                esGoodsOption = objectMapper.convertValue(optionData, EsGoodsOption.class);
-//                jpaEsGoodsOptionRepository.save(esGoodsOption);
-//            }
-//            jpaEsGoodsRepository.save(esGoods);
+        List<IfGoodsMaster> ifGoodsMasterList = new ArrayList<>(); // if_goods_master
+        List<IfGoodsOption> ifGoodsOptionList = new ArrayList<>(); // if_goods_option
+        List<IfGoodsTextOption> ifGoodsTextOptionList = new ArrayList<>(); // if_goods_text_option
+        List<IfGoodsAddGoods> ifGoodsAddGoodsList = new ArrayList<>(); // if_goods_add_goods
+
+        for(GoodsData goodsData : goodsDataList){ // if table 저장
+            ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // itasrt, itasrn, itasrd
+            this.saveIfGoodsOption(goodsData.getOptionData(), ifGoodsOptionList); // itvari, ititmm
+            this.saveIfGoodsTextOption(goodsData.getTextOptionData(), ifGoodsTextOptionList); // itmmot
+            this.saveIfGoodsAddGoods(goodsData); // itadgs
         }
+        // assort_id 채번
+//        String assortId = this.getNo(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()));
+//        System.out.println("----- 채번 : " +assortId);
+        String assortId = "";
+
+        for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){ // itasrt, itasrn, itasrd
+            if(ifGoodsMaster.getAssortId() == null){
+                assortId = this.getNo(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()));
+                System.out.println("----- 채번 : " +assortId);
+                ifGoodsMaster.setAssortId(assortId);
+                jpaIfGoodsMasterRepository.save(ifGoodsMaster);
+            }
+            Itasrt itasrt = new Itasrt(ifGoodsMaster); // itasrt
+            itasrt.setAssortId(assortId);
+            jpaItasrtRepository.save(itasrt);
+
+            this.saveItasrn(ifGoodsMaster); // itasrn
+            this.saveItasrd(ifGoodsMaster); // itasrd
+        }
+        // itvari, ititmm
+        System.out.println("----- 길이 : " + ifGoodsOptionList.size());
+        System.out.println("----- 길이 : " + ifGoodsTextOptionList.size());
+//        for(){
+//
+//        }
+        // itmmot
+        // itadgs
+        
+        // if table update (1.upload_status 02로 update 2.assort_id 삽입)
+    }
+
+    private void saveItasrd(IfGoodsMaster ifGoodsMaster) {
+        Itasrd itasrdShort = new Itasrd(ifGoodsMaster); // itasrd -> 짧은 설명과 긴 설명 두 개 저장해야 됨.
+        itasrdShort.setAssortId(ifGoodsMaster.getAssortId());
+        itasrdShort.setSeq(StringUtils.leftPad(StringFactory.getStrOne(), 4, '0'));
+        itasrdShort.setMemo(ifGoodsMaster.getShortDescription()); // 0001
+        itasrdShort.setOrdDetCd(StringFactory.getGbTwo()); // 01 : 상세, 02 : 간략
+        itasrdShort.setTextHtmlGb(StringFactory.getGbTwo()); // 01 : html, 02 : text
+        jpaItasrdRepository.save(itasrdShort);
+        Itasrd itasrdLong = new Itasrd(ifGoodsMaster);
+        itasrdLong.setAssortId(ifGoodsMaster.getAssortId());
+        itasrdLong.setSeq(StringUtils.leftPad(StringFactory.getStrTwo(), 4, '0'));
+        itasrdLong.setMemo(ifGoodsMaster.getGoodsDescription()); // 0002
+        itasrdLong.setOrdDetCd(StringFactory.getGbOne()); // 01 : 상세, 02 : 간략
+        itasrdLong.setTextHtmlGb(StringFactory.getGbOne()); // 01 : html, 02 : text
+        jpaItasrdRepository.save(itasrdLong);
+    }
+
+    // itasrn 저장 함수
+    private Itasrn saveItasrn(IfGoodsMaster ifGoodsMaster){
+        Date effEndDt = null;
+        try
+        {
+            effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
+        }
+        catch (Exception e){
+            log.debug(e.getMessage());
+        }
+        Itasrn itasrn = jpaItasrnRepository.findByAssortIdAndEffEndDt(ifGoodsMaster.getAssortId(), effEndDt);
+        if(itasrn == null){ // insert
+            itasrn = new Itasrn(ifGoodsMaster);
+        }
+        else{ // update
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.SECOND, -1);
+            itasrn.setEffEndDt(cal.getTime());
+            // update 후 새 이력 insert
+            Itasrn newItasrn = new Itasrn(ifGoodsMaster);
+            itasrn.setAssortId(ifGoodsMaster.getAssortId());
+            jpaItasrnRepository.save(newItasrn);
+        }
+        jpaItasrnRepository.save(itasrn);
+        return itasrn;
+    }
+
+    // seq, itemId 등 채번 함수
+    private String getSeq(String maxSeq, int seqLength) {
+        String seq = "";
+        if(maxSeq == null){
+            seq = StringUtils.leftPad(StringFactory.getStrOne(),seqLength,'0'); // 0001
+        }
+        else {
+            seq = Utilities.plusOne(maxSeq, seqLength);
+        }
+        return seq;
+    }
+
+    // assortId 등 채번 함수
+    private String getNo(String nextVal) {
+        // nextVal이 null일 때 (첫번째 채번)
+        if(nextVal == null)
+        {
+            nextVal = StringUtils.leftPad(StringFactory.getStrOne(), 9, '0'); // 000000001 들어감
+
+        }
+        else{
+            nextVal = Utilities.plusOne(nextVal, 9);
+        }
+        return nextVal;
     }
 
 
-    private void saveIfGoodsMaster(GoodsData goodsData) {
+    private IfGoodsMaster saveIfGoodsMaster(GoodsData goodsData) {
         IfGoodsMaster ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
-        ifGoodsMaster.setChannelGb(StringFactory.getGbOne());
-        ifGoodsMaster.setUploadStatus(StringFactory.getGbOne());
+        ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 채널 하드코딩
+        ifGoodsMaster.setUploadStatus(StringFactory.getGbOne()); // update_status 하드코딩
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
+        return ifGoodsMaster;
     }
 
-    private void saveIfGoodsOption(List<GoodsData.OptionData> optionDataList) {
+    private List<IfGoodsOption> saveIfGoodsOption(List<GoodsData.OptionData> optionDataList, List<IfGoodsOption> ifGoodsOptionList) {
         if(optionDataList == null){
             log.debug("optionDataList is null.");
-            return;
+            return null;
         }
 //        log.debug("----- optionDataList[0].sno : " + optionDataList.get(0).getSno());
         for(GoodsData.OptionData optionData : optionDataList){
             IfGoodsOption ifGoodsOption = objectMapper.convertValue(optionData,IfGoodsOption.class);
             ifGoodsOption.setChannelGb(StringFactory.getGbOne());
             ifGoodsOption.setUploadStatus(StringFactory.getGbOne());
+            ifGoodsOptionList.add(ifGoodsOption);
             jpaIfGoodsOptionRepository.save(ifGoodsOption);
         }
+        return ifGoodsOptionList;
     }
 
-    private void saveIfGoodsTextOption(List<GoodsData.TextOptionData> textOptionDataList) {
+    private List<IfGoodsTextOption> saveIfGoodsTextOption(List<GoodsData.TextOptionData> textOptionDataList, List<IfGoodsTextOption> ifGoodsTextOptionList) {
         if(textOptionDataList == null){
             log.debug("textOptionDataList is null.");
-            return;
+            return null;
         }
         for(GoodsData.TextOptionData textOptionData : textOptionDataList){
             IfGoodsTextOption ifGoodsTextOption = objectMapper.convertValue(textOptionData,IfGoodsTextOption.class);
             ifGoodsTextOption.setChannelGb(StringFactory.getGbOne());
             ifGoodsTextOption.setUploadStatus(StringFactory.getGbOne());
+            ifGoodsTextOptionList.add(ifGoodsTextOption);
             jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
         }
+        return ifGoodsTextOptionList;
     }
 
-    private void saveIfGoodsAddGoods(List<GoodsData.AddGoodsData> addGoodsDataList) {
+    private void saveIfGoodsAddGoods(GoodsData goodsData) {
+        List<GoodsData.AddGoodsData> addGoodsDataList = goodsData.getAddGoodsData();
+        if(addGoodsDataList == null){
+            log.debug("addGoodsDataList is null.");
+            return;
+        }
+        for(GoodsData.AddGoodsData addGoodsData : addGoodsDataList){ // goodsNoData 기준으로 if_goods_add_goods에 저장
 
+        }
+        // if_goods_add_goods에 저장된 데이터 돌면서 itlkag에 저장
+        //
     }
 
-    private List<GoodsData> retrieveOrder(String fromDt, String toDt) {
+    private List<GoodsData> retrieveGoods(String fromDt, String toDt) {
 
         // TODO Auto-generated method stub
         BufferedReader br = null;
@@ -122,7 +236,7 @@ public class GoodsSearch {
             //OpenApi호출
             String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                     StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                    + "=" + StringFactory.getKey()+"&goodsNo=1000032224";
+                    + "=" + StringFactory.getKey();//+"&goodsNo=1000032224";
             System.out.println(urlstr);
             //+ "&orderStatus=p1";
             URL url = new URL(urlstr);
@@ -253,7 +367,6 @@ public class GoodsSearch {
 
 //        ObjectMapper mapper = new ObjectMapper();
 
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         GoodsData o = objectMapper.convertValue(map, GoodsData.class);
         return o;
 //

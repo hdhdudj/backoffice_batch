@@ -1,5 +1,6 @@
 package io.spring.main.model.goods.entity;
 
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.ItasrdId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,7 +19,9 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItasrdId.class)
 public class Itasrd {
+    public Itasrd(IfGoodsMaster ifGoodsMaster){
 
+    }
 //    public Itasrd(GoodsInsertRequestData goodsInsertRequestData){
 //        this.assortId = goodsInsertRequestData.getAssortId();
 ////        this.ordDetCd = "01";
@@ -36,7 +39,7 @@ public class Itasrd {
 
     private String ordDetCd;
     private String memo;
-    private String delYn;
+    private String delYn = StringFactory.getGbTwo(); // 01 : 삭제, 02 : 사용  하드코딩
     private String textHtmlGb;
     private String memo2;
 

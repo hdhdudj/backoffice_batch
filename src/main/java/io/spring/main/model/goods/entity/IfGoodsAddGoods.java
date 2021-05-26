@@ -22,9 +22,9 @@ public class IfGoodsAddGoods {
     @Id
     private String channelGb;
     @Id
-    private String goodsNo;
-    @Id
-    private String goodsNoData;
+    private String goodsNo; // 원본상품번호
+    @Id 
+    private String goodsNoData; // 연관 상품번호
     private String addGoodsId;
     private String addGoodsNo;
     private String scmNo;

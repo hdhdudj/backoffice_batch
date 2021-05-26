@@ -49,6 +49,20 @@ public class IfGoodsMaster {
     private String optionMemo;
     private String shortDescription;
     private String goodsDescription;
+    private String optionName;
+    private String optionFl;
+    private Float mdRrp;
+    private String mdTax;
+    private String mdYear;
+    private Float mdMargin;
+    private Float mdVatrate;
+    private Float mdOfflinePrice;
+    private Float mdOnlinePrice;
+    private Float mdGoodsVatrate;
+    private String buyWhere;
+    private Float buySupplyDiscount;
+    private Float buyRrpIncrement;
+    private Float buyExchangeRate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date regDt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")

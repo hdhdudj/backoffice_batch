@@ -36,6 +36,17 @@ public class Itasrn {
             logger.debug(e.getMessage());
         }
     }
+    public Itasrn(IfGoodsMaster ifGoodsMaster){
+        this.shortageYn = ifGoodsMaster.getGoodsSellFl();
+        this.localSale = ifGoodsMaster.getGoodsPrice();
+        try
+        {
+            this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
+        }
+        catch (Exception e){
+            logger.debug(e.getMessage());
+        }
+    }
 //    public Itasrn(GoodsInsertRequestData goodsInsertRequestData){
 //        this.historyGb = "01"; // default 값
 //        this.vendorId = "000001";
@@ -53,8 +64,8 @@ public class Itasrn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
-    private String historyGb;
-    private String vendorId;
+    private String historyGb = StringFactory.getGbOne(); // 하드코딩
+    private String vendorId = StringFactory.getGbOne(); // 하드코딩
     private String assortId;
     @CreationTimestamp
     private Date effStaDt;

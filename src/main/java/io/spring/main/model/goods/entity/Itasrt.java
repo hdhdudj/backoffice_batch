@@ -1,11 +1,14 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.spring.main.model.goods.GoodsData;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -23,6 +26,40 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Itasrt {
+	public Itasrt(IfGoodsMaster ifGoodsMaster){
+		this.assortNm = ifGoodsMaster.getGoodsNm();
+		this.assortState = ifGoodsMaster.getGoodsDisplayFl();
+		this.shortageYn = ifGoodsMaster.getGoodsSellFl();
+		this.dispCategoryId = ifGoodsMaster.getCateCd();
+		this.assortColor = ifGoodsMaster.getGoodsColor();
+		this.margin = ifGoodsMaster.getCommission();
+		this.brandId = ifGoodsMaster.getBrandCd();
+		this.manufactureNm = ifGoodsMaster.getMakerNm();
+//		this.origin = ifGoodsMaster.getOriginNm(); // 맵핑 데이블 필요 혹은 하드코딩
+		this.assortModel = ifGoodsMaster.getGoodsModelNo();
+		this.taxGb = ifGoodsMaster.getTaxFreeFl();
+		this.sellStaDt = ifGoodsMaster.getSalesStartYmd();
+		this.sellEndDt = ifGoodsMaster.getSalesEndYmd();
+		this.localSale = ifGoodsMaster.getGoodsPrice();
+		this.localPrice = ifGoodsMaster.getFixedPrice();
+		this.deliPrice = ifGoodsMaster.getCostPrice();
+		this.optionGbName = ifGoodsMaster.getOptionName();
+		this.optionUseYn = ifGoodsMaster.getOptionFl();
+		this.mdRrp = ifGoodsMaster.getMdRrp();
+		this.mdTax = ifGoodsMaster.getMdTax();
+		this.mdYear = ifGoodsMaster.getMdYear();
+		this.mdMargin = ifGoodsMaster.getMdMargin();
+		this.mdVatrate = ifGoodsMaster.getMdVatrate();
+		this.mdOfflinePrice = ifGoodsMaster.getMdOfflinePrice();
+		this.mdOnlinePrice = ifGoodsMaster.getMdOnlinePrice();
+		this.mdGoodsVatrate = ifGoodsMaster.getMdGoodsVatrate();
+		this.buyWhere = ifGoodsMaster.getBuyWhere();
+		this.buySupplyDiscount = ifGoodsMaster.getBuySupplyDiscount();
+		this.buyRrpIncrement = ifGoodsMaster.getBuyRrpIncrement();
+		this.buyExchangeRate = ifGoodsMaster.getBuyExchangeRate();
+		this.regDt = ifGoodsMaster.getRegDt();
+		this.updDt = ifGoodsMaster.getModDt();
+	}
 
 //	public Itasrt(GoodsInsertRequestData goodsInsertRequestData){
 //		this.assortId = goodsInsertRequestData.getAssortId();
@@ -162,6 +199,7 @@ public class Itasrt {
 	@JoinColumn(name="dispCategoryId", referencedColumnName = "categoryId", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
 	@ManyToOne
 	@JsonIgnore
+	@NotFound(action = NotFoundAction.IGNORE)
 	private Itcatg itcatg; // itcatg 연관관계
 	
 	
