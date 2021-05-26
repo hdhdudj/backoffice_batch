@@ -72,10 +72,14 @@ public class GoodsSearch {
 
         for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){ // itasrt, itasrn, itasrd
             if(ifGoodsMaster.getAssortId() == null){
-                assortId = this.getNo(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()));
+                assortId = this.getNo(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9);
                 System.out.println("----- 채번 : " +assortId);
                 ifGoodsMaster.setAssortId(assortId);
                 jpaIfGoodsMasterRepository.save(ifGoodsMaster);
+            }
+            else{
+                assortId = ifGoodsMaster.getAssortId();
+                System.out.println("----- 기존 assortId : " +assortId);
             }
             Itasrt itasrt = new Itasrt(ifGoodsMaster); // itasrt
             itasrt.setAssortId(assortId);
@@ -126,6 +130,7 @@ public class GoodsSearch {
         Itasrn itasrn = jpaItasrnRepository.findByAssortIdAndEffEndDt(ifGoodsMaster.getAssortId(), effEndDt);
         if(itasrn == null){ // insert
             itasrn = new Itasrn(ifGoodsMaster);
+            itasrn.setAssortId(ifGoodsMaster.getAssortId());
         }
         else{ // update
             Calendar cal = Calendar.getInstance();
@@ -134,7 +139,7 @@ public class GoodsSearch {
             itasrn.setEffEndDt(cal.getTime());
             // update 후 새 이력 insert
             Itasrn newItasrn = new Itasrn(ifGoodsMaster);
-            itasrn.setAssortId(ifGoodsMaster.getAssortId());
+            newItasrn.setAssortId(ifGoodsMaster.getAssortId());
             jpaItasrnRepository.save(newItasrn);
         }
         jpaItasrnRepository.save(itasrn);
@@ -154,22 +159,24 @@ public class GoodsSearch {
     }
 
     // assortId 등 채번 함수
-    private String getNo(String nextVal) {
+    private String getNo(String nextVal, int length) {
         // nextVal이 null일 때 (첫번째 채번)
         if(nextVal == null)
         {
-            nextVal = StringUtils.leftPad(StringFactory.getStrOne(), 9, '0'); // 000000001 들어감
-
+            nextVal = StringUtils.leftPad(StringFactory.getStrOne(), length, '0'); // 000000001 들어감
         }
         else{
-            nextVal = Utilities.plusOne(nextVal, 9);
+            nextVal = Utilities.plusOne(nextVal, length);
         }
         return nextVal;
     }
 
 
     private IfGoodsMaster saveIfGoodsMaster(GoodsData goodsData) {
-        IfGoodsMaster ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
+        IfGoodsMaster ifGoodsMaster = jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo()));
+        if(ifGoodsMaster == null){
+            ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
+        }
         ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 채널 하드코딩
         ifGoodsMaster.setUploadStatus(StringFactory.getGbOne()); // update_status 하드코딩
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
