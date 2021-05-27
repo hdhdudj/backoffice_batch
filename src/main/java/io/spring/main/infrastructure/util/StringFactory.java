@@ -15,6 +15,9 @@ public class StringFactory {
     // 상품조회
     @Getter
     private final static String goodsSearch = "goods/Goods_Search.php";
+    // 추가상품조회
+    @Getter
+    private final static String addGoodsSearch = "goods/Goods_Add_Search.php";
     @Getter
     private final static String[] goodsSearchParams = {"partner_key",
             "key","goodsNm","goodsNo","goodsCd","makerNm","originNm",

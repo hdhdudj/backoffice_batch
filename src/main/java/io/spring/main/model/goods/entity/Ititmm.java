@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.ItitmmId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -75,11 +76,11 @@ public class Ititmm {
     })
     private Itvari itvari2;
 
-//    private String orderLmtYn;
-//    private String orderLmtCnt;
+    private String orderLmtYn;
+    private String orderLmtCnt;
 //    private String minCnt;
 //    private String maxCnt;
-//    private String dayDeliCnt;
-//    private String totDeliCnt;
-//    private String setYn;
+    private String dayDeliCnt;
+    private String totDeliCnt;
+    private String setYn = StringFactory.getGbTwo(); // 02 하드코딩
 }

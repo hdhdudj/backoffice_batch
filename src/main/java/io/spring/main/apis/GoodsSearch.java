@@ -39,6 +39,7 @@ public class GoodsSearch {
     private final JpaIfGoodsMasterRepository jpaIfGoodsMasterRepository;
     private final JpaIfGoodsOptionRepository jpaIfGoodsOptionRepository;
     private final JpaIfGoodsTextOptionRepository jpaIfGoodsTextOptionRepository;
+    private final JpaIfGoodsAddGoodsRepository jpaIfGoodsAddGoodsRepository;
     private final JpaSequenceDataRepository jpaSequenceDataRepository;
     private final JpaItasrtRepository jpaItasrtRepository;
     private final JpaItasrnRepository jpaItasrnRepository;
@@ -105,13 +106,28 @@ public class GoodsSearch {
         for(IfGoodsTextOption ifGoodsTextOption : ifGoodsTextOptionList){
             this.saveItmmot(ifGoodsTextOption);
         }
+        
+        // 8. if_goods_text_option 테이블 updateStatus 02로 업데이트
+        for(IfGoodsTextOption ifGoodsTextOption : ifGoodsTextOptionList){
+            ifGoodsTextOption.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
+            jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
+        }
+        
+        // 9. itadgs (from if_goods_add_goods) 저장
+        for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
+            //OpenApi호출
+//            AddGoodsData addGoodsData = retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
+//            Itadgs itadgs = new Itadgs(if);
+//            jpaIfGoodsAddGoodsRepository.save(addGoodsData);
+        }
+
+        // 10. if_goods_add_goods 테이블 updateStatus 02로 업데이트
 
         System.out.println("----- 길이 : " + ifGoodsOptionList.size());
         System.out.println("----- 길이 : " + ifGoodsTextOptionList.size());
 //        for(){
 //
 //        }
-        // itmmot
         // itadgs
         
         // if table update (1.upload_status 02로 update 2.assort_id 삽입)
@@ -324,48 +340,72 @@ public class GoodsSearch {
         // if_goods_add_goods에 저장된 데이터 돌면서 itlkag에 저장
         //
     }
+    
+    // addGoods xml 받아오는 함수
+    private AddGoodsData retrieveAddGoods(String goodsNo){
+        //OpenApi호출
+        String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
+                StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
+                + "=" + StringFactory.getKey()+"&"+goodsNo+"="+goodsNo;
+        NodeList nodeList =  getXmlNodes(urlstr);
+        AddGoodsData addGoodsData = new AddGoodsData();
 
+        // xml 파싱
+        
+
+        return addGoodsData;
+    }
+
+    // goods xml 받아오는 함수
     private List<GoodsData> retrieveGoods(String fromDt, String toDt) {
 
-        // TODO Auto-generated method stub
-        BufferedReader br = null;
-        // DocumentBuilderFactory 생성
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder;
-        Document doc = null;
+        //OpenApi호출
+        String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
+                StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
+                + "=" + StringFactory.getKey()+"&goodsNo=1000036804";
+        NodeList nodeList =  getXmlNodes(urlstr);
 
         List<GoodsData> goodsDatas = new ArrayList<>();
 
-        try {
-            //OpenApi호출
-            String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
-                    StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                    + "=" + StringFactory.getKey()+"&goodsNo=1000036804";
-            System.out.println(urlstr);
-            //+ "&orderStatus=p1";
-            URL url = new URL(urlstr);
-            HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
-
-            // 응답 읽기
-            br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
-            String result = "";
-            String line;
-            while ((line = br.readLine()) != null) {
-                result = result + line.trim();// result = URL로 XML을 읽은 값
-            }
-//            System.out.println(result);
+//        // TODO Auto-generated method stub
+//        BufferedReader br = null;
+//        // DocumentBuilderFactory 생성
+//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//        factory.setNamespaceAware(true);
+//        DocumentBuilder builder;
+//        Document doc = null;
 //
-            // xml 파싱하기
-            InputSource is = new InputSource(new StringReader(result));
-
-            builder = factory.newDocumentBuilder();
-            doc = builder.parse(is);
-            XPathFactory xpathFactory = XPathFactory.newInstance();
-            XPath xpath = xpathFactory.newXPath();
-            // XPathExpression expr = xpath.compile("/response/body/items/item");
-            XPathExpression expr = xpath.compile("//data");
-            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+//        List<GoodsData> goodsDatas = new ArrayList<>();
+//
+//        try {
+//            //OpenApi호출
+//            String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
+//                    StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
+//                    + "=" + StringFactory.getKey()+"&goodsNo=1000036804";
+//            System.out.println(urlstr);
+//            //+ "&orderStatus=p1";
+//            URL url = new URL(urlstr);
+//            HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
+//
+//            // 응답 읽기
+//            br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
+//            String result = "";
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                result = result + line.trim();// result = URL로 XML을 읽은 값
+//            }
+////            System.out.println(result);
+////
+//            // xml 파싱하기
+//            InputSource is = new InputSource(new StringReader(result));
+//
+//            builder = factory.newDocumentBuilder();
+//            doc = builder.parse(is);
+//            XPathFactory xpathFactory = XPathFactory.newInstance();
+//            XPath xpath = xpathFactory.newXPath();
+//            // XPathExpression expr = xpath.compile("/response/body/items/item");
+//            XPathExpression expr = xpath.compile("//data");
+//            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 NodeList child = nodeList.item(i).getChildNodes();
@@ -392,12 +432,57 @@ public class GoodsSearch {
                 }
             }
             return goodsDatas;
+//        }catch(Exception e) {
+//            System.out.println(e.getMessage());
+//            return null;
+//
+//        }
+    }
+
+    private NodeList getXmlNodes(String urlstr){
+        // TODO Auto-generated method stub
+        BufferedReader br = null;
+        // DocumentBuilderFactory 생성
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        DocumentBuilder builder;
+        Document doc = null;
+
+        List<GoodsData> goodsDatas = new ArrayList<>();
+
+        try {
+            //OpenApi호출
+            System.out.println(urlstr);
+            //+ "&orderStatus=p1";
+            URL url = new URL(urlstr);
+            HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
+
+            // 응답 읽기
+            br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
+            String result = "";
+            String line;
+            while ((line = br.readLine()) != null) {
+                result = result + line.trim();// result = URL로 XML을 읽은 값
+            }
+//            System.out.println(result);
+//
+            // xml 파싱하기
+            InputSource is = new InputSource(new StringReader(result));
+
+            builder = factory.newDocumentBuilder();
+            doc = builder.parse(is);
+            XPathFactory xpathFactory = XPathFactory.newInstance();
+            XPath xpath = xpathFactory.newXPath();
+            // XPathExpression expr = xpath.compile("/response/body/items/item");
+            XPathExpression expr = xpath.compile("//data");
+            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+            return nodeList;
         }catch(Exception e) {
             System.out.println(e.getMessage());
             return null;
-
         }
     }
+
     private GoodsData makeGoodsmaster(Node root) {
         Map<String, Object> map = new HashMap<String, Object>();
         // List<Map<String, Object>> deliveryDatas = new ArrayList<Map<String,
