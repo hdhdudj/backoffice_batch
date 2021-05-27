@@ -58,37 +58,32 @@ public class GoodsSearch {
         List<IfGoodsOption> ifGoodsOptionList = new ArrayList<>(); // if_goods_option
         List<IfGoodsTextOption> ifGoodsTextOptionList = new ArrayList<>(); // if_goods_text_option
         List<IfGoodsAddGoods> ifGoodsAddGoodsList = new ArrayList<>(); // if_goods_add_goods
-
-        for(GoodsData goodsData : goodsDataList){ // if table 저장
-            ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // itasrt, itasrn, itasrd
-            this.saveIfGoodsOption(goodsData.getOptionData(), ifGoodsOptionList); // itvari, ititmm
-            this.saveIfGoodsTextOption(goodsData.getTextOptionData(), ifGoodsTextOptionList); // itmmot
-            this.saveIfGoodsAddGoods(goodsData); // itadgs
-        }
-        // assort_id 채번
-//        String assortId = this.getNo(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()));
-//        System.out.println("----- 채번 : " +assortId);
         String assortId = "";
 
-        for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){ // itasrt, itasrn, itasrd
-            if(ifGoodsMaster.getAssortId() == null){
-                assortId = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9, '0');
-                System.out.println("----- 채번 : " +assortId);
-                ifGoodsMaster.setAssortId(assortId);
-                jpaIfGoodsMasterRepository.save(ifGoodsMaster);
-            }
-            else{
-                assortId = ifGoodsMaster.getAssortId();
-                System.out.println("----- 기존 assortId : " +assortId);
-            }
-            Itasrt itasrt = new Itasrt(ifGoodsMaster); // itasrt
-            itasrt.setAssortId(assortId);
-            jpaItasrtRepository.save(itasrt);
+        // 1. if table 저장
+        for(GoodsData goodsData : goodsDataList){
+            ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd
+            this.saveIfGoodsOption(goodsData, ifGoodsOptionList); // if_goods_option : itvari, ititmm
+            this.saveIfGoodsTextOption(goodsData, ifGoodsTextOptionList); // if_goods_text_option : itmmot
+            this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itadgs
+        }
 
+        // 2. itasrt, itasrn, itasrd (from if_goods_master), 
+        // itvari, ititmm (from if_goods_option) 
+        // itmmot (from if_goods_text_option) 
+        // itadgs (from if_goods_add_goods) 저장
+        for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){
+            this.saveItasrt(ifGoodsMaster); // itasrt
             this.saveItasrn(ifGoodsMaster); // itasrn
             this.saveItasrd(ifGoodsMaster); // itasrd
         }
-        // itvari, ititmm
+
+        // 3. if table들 updateStatus 02로 업데이트
+        for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){
+            ifGoodsMaster.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
+            jpaIfGoodsMasterRepository.save(ifGoodsMaster);
+        }
+
         System.out.println("----- 길이 : " + ifGoodsOptionList.size());
         System.out.println("----- 길이 : " + ifGoodsTextOptionList.size());
 //        for(){
@@ -98,6 +93,12 @@ public class GoodsSearch {
         // itadgs
         
         // if table update (1.upload_status 02로 update 2.assort_id 삽입)
+    }
+
+    private void saveItasrt(IfGoodsMaster ifGoodsMaster) {
+        Itasrt itasrt = new Itasrt(ifGoodsMaster); // itasrt
+        itasrt.setAssortId(ifGoodsMaster.getAssortId());
+        jpaItasrtRepository.save(itasrt);
     }
 
     private void saveItasrd(IfGoodsMaster ifGoodsMaster) {
@@ -173,17 +174,29 @@ public class GoodsSearch {
 
 
     private IfGoodsMaster saveIfGoodsMaster(GoodsData goodsData) {
+        String assortId = "";
+        if(goodsData.getAssortId() == null){
+            assortId = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9, '0');
+            System.out.println("----- 채번 : " +assortId);
+            goodsData.setAssortId(assortId);
+        }
+        else{
+            assortId = goodsData.getAssortId();
+            System.out.println("----- 기존 assortId : " +assortId);
+        }
         IfGoodsMaster ifGoodsMaster = jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo()));
         if(ifGoodsMaster == null){
             ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
         }
+        ifGoodsMaster.setAssortId(goodsData.getAssortId()); // assort_id 설정
         ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 채널 하드코딩
         ifGoodsMaster.setUploadStatus(StringFactory.getGbOne()); // update_status 하드코딩
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
         return ifGoodsMaster;
     }
 
-    private List<IfGoodsOption> saveIfGoodsOption(List<GoodsData.OptionData> optionDataList, List<IfGoodsOption> ifGoodsOptionList) {
+    private List<IfGoodsOption> saveIfGoodsOption(GoodsData goodsData, List<IfGoodsOption> ifGoodsOptionList) {
+        List<GoodsData.OptionData> optionDataList = goodsData.getOptionData();
         if(optionDataList == null){
             log.debug("optionDataList is null.");
             return null;
@@ -191,6 +204,7 @@ public class GoodsSearch {
 //        log.debug("----- optionDataList[0].sno : " + optionDataList.get(0).getSno());
         for(GoodsData.OptionData optionData : optionDataList){
             IfGoodsOption ifGoodsOption = objectMapper.convertValue(optionData,IfGoodsOption.class);
+            ifGoodsOption.setAssortId(goodsData.getAssortId());
             ifGoodsOption.setChannelGb(StringFactory.getGbOne());
             ifGoodsOption.setUploadStatus(StringFactory.getGbOne());
             ifGoodsOptionList.add(ifGoodsOption);
@@ -199,13 +213,15 @@ public class GoodsSearch {
         return ifGoodsOptionList;
     }
 
-    private List<IfGoodsTextOption> saveIfGoodsTextOption(List<GoodsData.TextOptionData> textOptionDataList, List<IfGoodsTextOption> ifGoodsTextOptionList) {
+    private List<IfGoodsTextOption> saveIfGoodsTextOption(GoodsData goodsData, List<IfGoodsTextOption> ifGoodsTextOptionList) {
+        List<GoodsData.TextOptionData> textOptionDataList = goodsData.getTextOptionData();
         if(textOptionDataList == null){
             log.debug("textOptionDataList is null.");
             return null;
         }
         for(GoodsData.TextOptionData textOptionData : textOptionDataList){
             IfGoodsTextOption ifGoodsTextOption = objectMapper.convertValue(textOptionData,IfGoodsTextOption.class);
+            ifGoodsTextOption.setAssortId(goodsData.getAssortId());
             ifGoodsTextOption.setChannelGb(StringFactory.getGbOne());
             ifGoodsTextOption.setUploadStatus(StringFactory.getGbOne());
             ifGoodsTextOptionList.add(ifGoodsTextOption);
@@ -243,7 +259,7 @@ public class GoodsSearch {
             //OpenApi호출
             String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                     StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                    + "=" + StringFactory.getKey();//+"&goodsNo=1000032224";
+                    + "=" + StringFactory.getKey()+"&goodsNo=1000032224";
             System.out.println(urlstr);
             //+ "&orderStatus=p1";
             URL url = new URL(urlstr);
@@ -273,42 +289,27 @@ public class GoodsSearch {
                 NodeList child = nodeList.item(i).getChildNodes();
                 for (int y = 0; y < child.getLength(); y++) {
                     Node lNode = child.item(y);
-
                     // printTree(lNode, 1);
-
                     if (lNode.getNodeName() == "return") {
-
                         NodeList mNodes = lNode.getChildNodes();
-
                         // List<OrderData> orderMasterDatas = new ArrayList<OrderData>();
-
                         for (int mi = 0; mi < mNodes.getLength(); mi++) {
 //								for (int mi = 0; mi < 1; mi++) {
                             Node mNode = mNodes.item(mi);
-
                             if (mNode.getNodeName() == "goods_data") {
 //                                EsGoods map = makeGoodsmaster(mNode);
                                 GoodsData map = makeGoodsmaster(mNode);
-
                                 goodsDatas.add(map);
                                 // order master array append
                             }
-
                         }
-
                         System.out.println("-----------------------------------------------------------------");
                         System.out.println(goodsDatas.size());
                         System.out.println("-----------------------------------------------------------------");
-
                     }
-
                 }
-
             }
-
             return goodsDatas;
-
-
         }catch(Exception e) {
             System.out.println(e.getMessage());
             return null;
@@ -333,7 +334,7 @@ public class GoodsSearch {
             Node cNode = cNodes.item(i);
             //String idx = cNode.getAttributes().getNamedItem("idx").getNodeValue();
             // System.out.println(cNode.getAttributes().getNamedItem("idx").getNodeValue());
-            log.debug("+++++ nodeName : " + cNode.getNodeName());
+//            log.debug("+++++ nodeName : " + cNode.getNodeName());
             if (cNode.getNodeName().equals("optionData")) {
                 GoodsData.OptionData optionData = makeOptionData(cNode);
                 optionDataList.add(optionData);
@@ -343,7 +344,7 @@ public class GoodsSearch {
             } else if (cNode.getNodeName().equals("addGoodsData")) {
                 // Map<String, Object> goodsData = makeOrderGoodsData(cNode);
                 GoodsData.AddGoodsData addGoodsData = makeAddGoodsData(cNode);
-                log.debug("----- addGoodsData : " + addGoodsData.getGoodsNoData().size());
+//                log.debug("----- addGoodsData : " + addGoodsData.getGoodsNoData().size());
                 adGoodsDataList.add(addGoodsData);
             } else if (cNode.getNodeName().equals("goodsMustInfoData")) {
                 // Map<String, Object> addGoodsData = makeAddGoodsData(cNode);

@@ -34,6 +34,7 @@ public class GoodsData {
     private Date applyDt;
     private Float commission;
     private String goodsCd;
+    private String assortId; // assort_id 채번 후 저장용
     private String cateCd;
     private String goodsSearchWord;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
