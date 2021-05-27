@@ -29,6 +29,7 @@ public class IfGoodsOption {
     private String optionNo;
     private String assortId;
     private String itemId;
+    private String optionName; // ifGoodsMaster에 있는 optionName 저장용 (ex : 색상^|^이불색상)
     private String optionValue1;
     private String optionValue2;
     private String optionValue3;

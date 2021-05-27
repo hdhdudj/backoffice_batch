@@ -1,5 +1,6 @@
 package io.spring.main.model.goods.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.spring.main.model.goods.idclass.ItitmmId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,7 +19,14 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItitmmId.class)
 public class Ititmm {
-
+    public Ititmm(IfGoodsOption ifGoodsOption){
+        this.assortId = ifGoodsOption.getAssortId();
+        this.shortYn = ifGoodsOption.getSoldOutFl();
+        this.regDt = ifGoodsOption.getRegDt();
+        this.updDt = ifGoodsOption.getModDt();
+        this.regId = ifGoodsOption.getRegId();
+        this.updId = ifGoodsOption.getUpdId();
+    }
 //    public Ititmm(String assortId, GoodsInsertRequestData.Items items){
 //        this.assortId = assortId;
 //        this.shortYn = items.getShortYn();
@@ -40,8 +48,10 @@ public class Ititmm {
     @Column(nullable = true)
     private Long updId;
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date regDt;
     @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date updDt;
 
     // itasrt 연관 관계
