@@ -45,11 +45,12 @@ public class GoodsSearch {
     private final JpaItasrdRepository jpaItasrdRepository;
     private final JpaItvariRepository jpaItvariRepository;
     private final JpaItitmmRepository jpaItitmmRepository;
+    private final JpaItmmotRepository jpaItmmotRepository;
     private final ObjectMapper objectMapper;
 
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
-    @Transactional
+//    @Transactional
     public void getGoodsSeq(String fromDt, String toDt){
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -71,7 +72,6 @@ public class GoodsSearch {
         }
 
         // 2. itasrt, itasrn, itasrd (from if_goods_master) 저장
-        // itmmot (from if_goods_text_option) 
         // itadgs (from if_goods_add_goods) 저장
         for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){
             this.saveItasrt(ifGoodsMaster); // itasrt
@@ -95,10 +95,15 @@ public class GoodsSearch {
             this.saveItitmm(ifGoodsOption); // ititmm
         }
 
-        // 5. if_goods_option 테이블 updateStatus 02로 업데이트
+        // 6. if_goods_option 테이블 updateStatus 02로 업데이트
         for(IfGoodsOption ifGoodsOption : ifGoodsOptionList){
             ifGoodsOption.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
             jpaIfGoodsOptionRepository.save(ifGoodsOption);
+        }
+
+        // 7. itmmot (from if_goods_text_option) 저장
+        for(IfGoodsTextOption ifGoodsTextOption : ifGoodsTextOptionList){
+            this.saveItmmot(ifGoodsTextOption);
         }
 
         System.out.println("----- 길이 : " + ifGoodsOptionList.size());
@@ -112,15 +117,26 @@ public class GoodsSearch {
         // if table update (1.upload_status 02로 update 2.assort_id 삽입)
     }
 
+    private void saveItmmot(IfGoodsTextOption ifGoodsTextOption) {
+        Itmmot itmmot = new Itmmot(ifGoodsTextOption);
+        // optionTextId 채번
+        String optionTextId = getSeq(jpaItmmotRepository.findMaxSeqByAssortId(itmmot.getAssortId()),4);
+        itmmot.setOptionTextId(optionTextId);
+        jpaItmmotRepository.save(itmmot);
+    }
+
     private void saveItvari(IfGoodsOption ifGoodsOption) { // 01 색깔, 02 사이즈 저장
         Itvari itvariColor = new Itvari(ifGoodsOption);
         // 옵션 01 : 색깔 저장
         itvariColor.setOptionGb(StringFactory.getGbOne()); // 01 하드코딩
         itvariColor.setVariationGb(StringFactory.getGbOne()); // 01 하드코딩
         itvariColor.setOptionNm(ifGoodsOption.getOptionValue1());
-        String seq = getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
-        itvariColor.setSeq(seq);
-        jpaItvariRepository.save(itvariColor);
+        String seq = "";
+        if(jpaItvariRepository.findByOptionGbAndOptionNm(itvariColor.getOptionGb(), itvariColor.getOptionNm()) == null){
+            seq = getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
+            itvariColor.setSeq(seq);
+            jpaItvariRepository.save(itvariColor);
+        }
         if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length <= 1){
             return;
         } // 옵션이 한 개면 여기서 멈춤
@@ -129,9 +145,16 @@ public class GoodsSearch {
         itvariSize.setOptionGb(StringFactory.getGbTwo()); // 02 하드코딩
         itvariSize.setVariationGb(StringFactory.getGbTwo()); // 02 하드코딩
         itvariSize.setOptionNm(ifGoodsOption.getOptionValue2());
-        seq = Utilities.plusOne(seq, 4);
-        itvariSize.setSeq(seq);
-        jpaItvariRepository.save(itvariSize);
+        if(!seq.equals("")){
+            seq = Utilities.plusOne(seq,4);
+        }
+        else{
+            seq = getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
+        }
+        if(jpaItvariRepository.findByOptionGbAndOptionNm(itvariSize.getOptionGb(), itvariSize.getOptionNm()) == null){
+            itvariSize.setSeq(seq);
+            jpaItvariRepository.save(itvariSize);
+        }
     }
 
     private void saveItitmm(IfGoodsOption ifGoodsOption) {
@@ -318,7 +341,7 @@ public class GoodsSearch {
             //OpenApi호출
             String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                     StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                    + "=" + StringFactory.getKey()+"&goodsNo=1000032224";
+                    + "=" + StringFactory.getKey()+"&goodsNo=1000036804";
             System.out.println(urlstr);
             //+ "&orderStatus=p1";
             URL url = new URL(urlstr);
