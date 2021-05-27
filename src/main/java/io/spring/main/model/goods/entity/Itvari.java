@@ -1,5 +1,7 @@
 package io.spring.main.model.goods.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.ItvariId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -39,6 +41,13 @@ public class Itvari {
      *             ]
      * }
      */
+    public Itvari(IfGoodsOption ifGoodsOption){
+        this.assortId = ifGoodsOption.getAssortId();
+        this.regDt = ifGoodsOption.getRegDt();
+        this.updDt = ifGoodsOption.getModDt();
+        this.regId = ifGoodsOption.getRegId();
+        this.updId = ifGoodsOption.getUpdId();
+    }
 //    public Itvari(GoodsInsertRequestData goodsInsertRequestData){
 //        this.assortId = goodsInsertRequestData.getAssortId();
 //        this.delYn = "02";
@@ -58,11 +67,13 @@ public class Itvari {
     private String imgYn;
     private String optionNm;
     private String variationGb;
-    private String delYn;
+    private String delYn = StringFactory.getStrN(); // n 하드코딩
 
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date regDt;
     @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date updDt;
     private Long regId;
     private Long updId;
