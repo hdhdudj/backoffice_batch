@@ -60,6 +60,8 @@ public class Itasrt {
 		this.buyExchangeRate = ifGoodsMaster.getBuyExchangeRate();
 		this.regDt = ifGoodsMaster.getRegDt();
 		this.updDt = ifGoodsMaster.getModDt();
+		this.regId = ifGoodsMaster.getRegId();
+		this.updId = ifGoodsMaster.getUpdId();
 	}
 
 //	public Itasrt(GoodsInsertRequestData goodsInsertRequestData){

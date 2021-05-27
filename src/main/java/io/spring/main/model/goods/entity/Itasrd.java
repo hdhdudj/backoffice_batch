@@ -21,7 +21,10 @@ import java.util.Date;
 @IdClass(ItasrdId.class)
 public class Itasrd {
     public Itasrd(IfGoodsMaster ifGoodsMaster){
-
+        this.regDt = ifGoodsMaster.getRegDt();
+        this.updDt = ifGoodsMaster.getModDt();
+        this.regId = ifGoodsMaster.getRegId();
+        this.updId = ifGoodsMaster.getUpdId();
     }
 //    public Itasrd(GoodsInsertRequestData goodsInsertRequestData){
 //        this.assortId = goodsInsertRequestData.getAssortId();

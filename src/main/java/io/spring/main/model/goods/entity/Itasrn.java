@@ -47,6 +47,10 @@ public class Itasrn {
         catch (Exception e){
             logger.debug(e.getMessage());
         }
+        this.regDt = ifGoodsMaster.getRegDt();
+        this.updDt = ifGoodsMaster.getModDt();
+        this.regId = ifGoodsMaster.getRegId();
+        this.updId = ifGoodsMaster.getUpdId();
     }
 //    public Itasrn(GoodsInsertRequestData goodsInsertRequestData){
 //        this.historyGb = "01"; // default 값
