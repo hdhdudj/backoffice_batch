@@ -47,11 +47,13 @@ public class GoodsSearch {
     private final JpaItvariRepository jpaItvariRepository;
     private final JpaItitmmRepository jpaItitmmRepository;
     private final JpaItmmotRepository jpaItmmotRepository;
+    private final JpaItlkagRepository jpaItlkagRepository;
+    private final JpaItadgsRepository jpaItadgsRepository;
     private final ObjectMapper objectMapper;
 
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
-//    @Transactional
+    @Transactional
     public void getGoodsSeq(String fromDt, String toDt){
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -69,7 +71,7 @@ public class GoodsSearch {
             ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd
             this.saveIfGoodsOption(goodsData, ifGoodsOptionList); // if_goods_option : itvari, ititmm
             this.saveIfGoodsTextOption(goodsData, ifGoodsTextOptionList); // if_goods_text_option : itmmot
-            this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itlkag, itadgs
+            this.saveIfGoodsAddGoods(goodsData, ifGoodsAddGoodsList); // if_goods_add_goods : itlkag, itadgs
         }
 
         // 2. itasrt, itasrn, itasrd (from if_goods_master) 저장
@@ -106,31 +108,54 @@ public class GoodsSearch {
         for(IfGoodsTextOption ifGoodsTextOption : ifGoodsTextOptionList){
             this.saveItmmot(ifGoodsTextOption);
         }
-        
+
         // 8. if_goods_text_option 테이블 updateStatus 02로 업데이트
         for(IfGoodsTextOption ifGoodsTextOption : ifGoodsTextOptionList){
             ifGoodsTextOption.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
             jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
         }
-        
-        // 9. itadgs (from if_goods_add_goods) 저장
+
+        // 9. itlkag (from if_goods_add_goods) 저장
+        for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
+            // add_goods_id 채번
+            String addGoodsId = getNo(jpaItlkagRepository.findMaxAddGoodsIdByAssortId(ifGoodsAddGoods.getAssortId()), 9);
+            Itlkag itlkag = new Itlkag(ifGoodsAddGoods);
+            itlkag.setAddGoodsId(addGoodsId);
+            jpaItlkagRepository.save(itlkag);
+            
+            // if_goods_add_goods에도 add_goods_id 저장 (아직 save는 노노.. 이따가 uploadStatus 저장할 때 같이)
+            ifGoodsAddGoods.setAddGoodsId(addGoodsId);
+        }
+        System.out.println("-----3 ifGoodsAddGoodsList.size() : "+ifGoodsAddGoodsList.size());
+        // 10. itadgs (from if_goods_add_goods) 저장
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
             //OpenApi호출
-//            AddGoodsData addGoodsData = retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
-//            Itadgs itadgs = new Itadgs(if);
+            AddGoodsData addGoodsData = retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
+
+            ifGoodsAddGoods.setGoodsNm(addGoodsData.getGoodsNm());
+            ifGoodsAddGoods.setOptionNm(addGoodsData.getOptionNm());
+            ifGoodsAddGoods.setBrandCd(addGoodsData.getBrandCd());
+            ifGoodsAddGoods.setMakerNm(addGoodsData.getMakerNm());
+            ifGoodsAddGoods.setGoodsPrice(addGoodsData.getGoodsPrice());
+            ifGoodsAddGoods.setStockCnt(addGoodsData.getStockCnt());
+            ifGoodsAddGoods.setViewFl(addGoodsData.getViewFl());
+            ifGoodsAddGoods.setSoldOutFl(addGoodsData.getSoldOutFl());
+            Itadgs itadgs = new Itadgs(ifGoodsAddGoods);
+            jpaItadgsRepository.save(itadgs);
 //            jpaIfGoodsAddGoodsRepository.save(addGoodsData);
         }
 
-        // 10. if_goods_add_goods 테이블 updateStatus 02로 업데이트
+        // 11. if_goods_add_goods 테이블에 add_goods_id 삽입하고 updateStatus 02로 업데이트
+        for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
+            ifGoodsAddGoods.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
+            jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
+        }
 
 //        System.out.println("----- 길이 : " + ifGoodsOptionList.size());
 //        System.out.println("----- 길이 : " + ifGoodsTextOptionList.size());
 //        for(){
 //
-//        }
         // itadgs
-        
-        // if table update (1.upload_status 02로 update 2.assort_id 삽입)
     }
 
     private void saveItmmot(IfGoodsTextOption ifGoodsTextOption) {
@@ -326,7 +351,7 @@ public class GoodsSearch {
         return ifGoodsTextOptionList;
     }
 
-    private void saveIfGoodsAddGoods(GoodsData goodsData) {
+    private void saveIfGoodsAddGoods(GoodsData goodsData, List<IfGoodsAddGoods> addGoodsDataListOut) {
         List<GoodsData.AddGoodsData> addGoodsDataList = goodsData.getAddGoodsData();
 //        System.out.println("addGoodsData length : " + addGoodsDataList.size());
         if(addGoodsDataList == null){
@@ -341,6 +366,8 @@ public class GoodsSearch {
                 ifGoodsAddGoods.setAddGoodsNo(addGoods);
                 ifGoodsAddGoods.setTitle(addGoodsData.getTitle());
                 ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne()); // 01 하드코딩
+
+                addGoodsDataListOut.add(ifGoodsAddGoods);
                 jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
             }
         }
@@ -353,12 +380,38 @@ public class GoodsSearch {
                 StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
                 + "=" + StringFactory.getKey()+"&"+goodsNo+"="+goodsNo;
         NodeList nodeList =  getXmlNodes(urlstr);
-        AddGoodsData addGoodsData = new AddGoodsData();
+        AddGoodsData map = null;
 
         // xml 파싱
-        
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            NodeList child = nodeList.item(i).getChildNodes();
+            for (int j = 0; j < child.getLength(); j++) {
+                Node lNode = child.item(j);
+                if(lNode.getNodeName().equals(StringFactory.getStrReturn())){
+                    NodeList mNodes = lNode.getChildNodes();
+                    for (int k = 0; k < mNodes.getLength(); k++) {
+                        Node mNode = mNodes.item(k);
+                        if(mNode.getNodeName().equals(StringFactory.getStrGoodsData())) { // goods_data
+                            map = makeAddGoodsDataForGoodsAddSearch(mNode);
+                        }
+                    }
+                }
+            }
+        }
 
-        return addGoodsData;
+        return map;
+    }
+
+    private AddGoodsData makeAddGoodsDataForGoodsAddSearch(Node cNode) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        NodeList cNodes = cNode.getChildNodes();
+        List<String> goodsNoDataList = new ArrayList<>();
+        for (int i = 0; i < cNodes.getLength(); i++) {
+            Node node = cNodes.item(i);
+            map.put(node.getNodeName(),getNodeValue(node));
+        }
+        AddGoodsData o = objectMapper.convertValue(map, AddGoodsData.class);
+        return o;
     }
 
     // goods xml 받아오는 함수
@@ -377,13 +430,13 @@ public class GoodsSearch {
                 for (int y = 0; y < child.getLength(); y++) {
                     Node lNode = child.item(y);
                     // printTree(lNode, 1);
-                    if (lNode.getNodeName() == "return") {
+                    if (lNode.getNodeName() == StringFactory.getStrReturn()) {
                         NodeList mNodes = lNode.getChildNodes();
                         // List<OrderData> orderMasterDatas = new ArrayList<OrderData>();
                         for (int mi = 0; mi < mNodes.getLength(); mi++) {
 //								for (int mi = 0; mi < 1; mi++) {
                             Node mNode = mNodes.item(mi);
-                            if (mNode.getNodeName() == "goods_data") {
+                            if (mNode.getNodeName() == StringFactory.getStrGoodsData()) {
 //                                EsGoods map = makeGoodsmaster(mNode);
                                 GoodsData map = makeGoodsmaster(mNode);
                                 goodsDatas.add(map);
@@ -462,24 +515,24 @@ public class GoodsSearch {
             //String idx = cNode.getAttributes().getNamedItem("idx").getNodeValue();
             // System.out.println(cNode.getAttributes().getNamedItem("idx").getNodeValue());
 //            log.debug("+++++ nodeName : " + cNode.getNodeName());
-            if (cNode.getNodeName().equals("optionData")) {
+            if (cNode.getNodeName().equals(StringFactory.getStrOptionData())) {
                 GoodsData.OptionData optionData = makeOptionData(cNode);
                 optionDataList.add(optionData);
-            } else if (cNode.getNodeName().equals("textOptionData")) {
+            } else if (cNode.getNodeName().equals(StringFactory.getStrTextOptionData())) {
                 GoodsData.TextOptionData textOptionData = makeTextOptionData(cNode);
                 textOptionDataList.add(textOptionData);
-            } else if (cNode.getNodeName().equals("addGoodsData")) {
+            } else if (cNode.getNodeName().equals(StringFactory.getStrAddGoodsData())) {
                 // Map<String, Object> goodsData = makeOrderGoodsData(cNode);
                 GoodsData.AddGoodsData addGoodsData = makeAddGoodsData(cNode);
 //                log.debug("----- addGoodsData : " + addGoodsData.getGoodsNoData().size());
                 adGoodsDataList.add(addGoodsData);
-            } else if (cNode.getNodeName().equals("goodsMustInfoData")) {
+            } else if (cNode.getNodeName().equals(StringFactory.getStrGoodsMustInfoData())) {
                 // Map<String, Object> addGoodsData = makeAddGoodsData(cNode);
                 GoodsData.GoodsMustInfoData goodsMustInfoData = makeGoodsMustInfoData(cNode);
                 goodsMustInfoDataList.add(goodsMustInfoData);
             } else {
 
-                if (cNode.getNodeName() == "claimData") {
+                if (cNode.getNodeName() == StringFactory.getStrClaimData()) {
                     System.out.println("claimData 데이타 이상 - 확인필요");
                 }
 
@@ -494,18 +547,14 @@ public class GoodsSearch {
 
             }
 
-            map.put("optionData",optionDataList);
-            map.put("textOptionData",textOptionDataList);
-            map.put("addGoodsData",adGoodsDataList);
-            map.put("goodsMustInfoData",goodsMustInfoDataList);
+            map.put(StringFactory.getStrOptionData(),optionDataList);
+            map.put(StringFactory.getStrTextOptionData(),textOptionDataList);
+            map.put(StringFactory.getStrAddGoodsData(),adGoodsDataList);
+            map.put(StringFactory.getStrGoodsMustInfoData(),goodsMustInfoDataList);
         }
-
-//        ObjectMapper mapper = new ObjectMapper();
 
         GoodsData o = objectMapper.convertValue(map, GoodsData.class);
         return o;
-//
-        // return map;
     }
 
     // 고도몰 table column명이 camleCase로 돼있는데 몇 개만 snake로 돼있어서 걔네 처리용
