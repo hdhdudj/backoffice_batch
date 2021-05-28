@@ -69,7 +69,7 @@ public class GoodsSearch {
             ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd
             this.saveIfGoodsOption(goodsData, ifGoodsOptionList); // if_goods_option : itvari, ititmm
             this.saveIfGoodsTextOption(goodsData, ifGoodsTextOptionList); // if_goods_text_option : itmmot
-            this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itadgs
+            this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itlkag, itadgs
         }
 
         // 2. itasrt, itasrn, itasrd (from if_goods_master) 저장
@@ -123,8 +123,8 @@ public class GoodsSearch {
 
         // 10. if_goods_add_goods 테이블 updateStatus 02로 업데이트
 
-        System.out.println("----- 길이 : " + ifGoodsOptionList.size());
-        System.out.println("----- 길이 : " + ifGoodsTextOptionList.size());
+//        System.out.println("----- 길이 : " + ifGoodsOptionList.size());
+//        System.out.println("----- 길이 : " + ifGoodsTextOptionList.size());
 //        for(){
 //
 //        }
@@ -274,12 +274,10 @@ public class GoodsSearch {
         String assortId = "";
         if(goodsData.getAssortId() == null){
             assortId = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9, '0');
-            System.out.println("----- 채번 : " +assortId);
             goodsData.setAssortId(assortId);
         }
         else{
             assortId = goodsData.getAssortId();
-            System.out.println("----- 기존 assortId : " +assortId);
         }
         IfGoodsMaster ifGoodsMaster = jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo()));
         if(ifGoodsMaster == null){
@@ -330,15 +328,22 @@ public class GoodsSearch {
 
     private void saveIfGoodsAddGoods(GoodsData goodsData) {
         List<GoodsData.AddGoodsData> addGoodsDataList = goodsData.getAddGoodsData();
+//        System.out.println("addGoodsData length : " + addGoodsDataList.size());
         if(addGoodsDataList == null){
             log.debug("addGoodsDataList is null.");
             return;
         }
         for(GoodsData.AddGoodsData addGoodsData : addGoodsDataList){ // goodsNoData 기준으로 if_goods_add_goods에 저장
-
+            List<String> goodsNoData = addGoodsData.getGoodsNoData();
+            for(String addGoods : goodsNoData){
+                IfGoodsAddGoods ifGoodsAddGoods = objectMapper.convertValue(goodsData, IfGoodsAddGoods.class);
+                ifGoodsAddGoods.setAssortId(goodsData.getAssortId());
+                ifGoodsAddGoods.setAddGoodsNo(addGoods);
+                ifGoodsAddGoods.setTitle(addGoodsData.getTitle());
+                ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne()); // 01 하드코딩
+                jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
+            }
         }
-        // if_goods_add_goods에 저장된 데이터 돌면서 itlkag에 저장
-        //
     }
     
     // addGoods xml 받아오는 함수
@@ -362,50 +367,10 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + StringFactory.getKey()+"&goodsNo=1000036804";
+                + "=" + StringFactory.getKey()+"&goodsNo=1000032220";
         NodeList nodeList =  getXmlNodes(urlstr);
 
         List<GoodsData> goodsDatas = new ArrayList<>();
-
-//        // TODO Auto-generated method stub
-//        BufferedReader br = null;
-//        // DocumentBuilderFactory 생성
-//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//        factory.setNamespaceAware(true);
-//        DocumentBuilder builder;
-//        Document doc = null;
-//
-//        List<GoodsData> goodsDatas = new ArrayList<>();
-//
-//        try {
-//            //OpenApi호출
-//            String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
-//                    StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-//                    + "=" + StringFactory.getKey()+"&goodsNo=1000036804";
-//            System.out.println(urlstr);
-//            //+ "&orderStatus=p1";
-//            URL url = new URL(urlstr);
-//            HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
-//
-//            // 응답 읽기
-//            br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
-//            String result = "";
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//                result = result + line.trim();// result = URL로 XML을 읽은 값
-//            }
-////            System.out.println(result);
-////
-//            // xml 파싱하기
-//            InputSource is = new InputSource(new StringReader(result));
-//
-//            builder = factory.newDocumentBuilder();
-//            doc = builder.parse(is);
-//            XPathFactory xpathFactory = XPathFactory.newInstance();
-//            XPath xpath = xpathFactory.newXPath();
-//            // XPathExpression expr = xpath.compile("/response/body/items/item");
-//            XPathExpression expr = xpath.compile("//data");
-//            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 NodeList child = nodeList.item(i).getChildNodes();
@@ -432,11 +397,6 @@ public class GoodsSearch {
                 }
             }
             return goodsDatas;
-//        }catch(Exception e) {
-//            System.out.println(e.getMessage());
-//            return null;
-//
-//        }
     }
 
     private NodeList getXmlNodes(String urlstr){
@@ -452,7 +412,7 @@ public class GoodsSearch {
 
         try {
             //OpenApi호출
-            System.out.println(urlstr);
+//            System.out.println(urlstr);
             //+ "&orderStatus=p1";
             URL url = new URL(urlstr);
             HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
@@ -572,7 +532,8 @@ public class GoodsSearch {
         for (int i = 0; i < cNodes.getLength(); i++) {
             Node node = cNodes.item(i);
             if(node.getNodeName().equals("goodsNoData")){
-                goodsNoDataList.add(node.getNodeValue());
+//                System.out.println("===== : "+getNodeValue(node).toString());
+                goodsNoDataList.add(getNodeValue(node).toString());//node.getNodeValue());
             }
             else{
                 map.put(node.getNodeName(),getNodeValue(node));

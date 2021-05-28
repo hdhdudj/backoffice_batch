@@ -317,6 +317,6 @@ public class GoodsData {
     public static class AddGoodsData {
         private String title;
         private String mustFl;
-        private List<Long> goodsNoData;
+        private List<String> goodsNoData;
     }
 }

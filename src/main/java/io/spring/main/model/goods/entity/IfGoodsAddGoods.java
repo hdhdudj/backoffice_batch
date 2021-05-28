@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.IfGoodsAddGoodsId;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,13 +21,13 @@ import java.util.Date;
 @IdClass(IfGoodsAddGoodsId.class)
 public class IfGoodsAddGoods {
     @Id
-    private String channelGb;
+    private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     @Id
     private String goodsNo; // 원본상품번호
     @Id 
-    private String goodsNoData; // 연관 상품번호
-    private String addGoodsId;
-    private String addGoodsNo;
+    private String addGoodsNo; // 연관 상품번호
+    private String addGoodsId; // itadgs의 id. insert시 필요
+    private String assortId;
     private String scmNo;
     private String title;
     private String goodsNm;

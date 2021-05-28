@@ -9,5 +9,5 @@ public class IfGoodsAddGoodsId implements Serializable {
 
     private String channelGb;
     private String goodsNo;
-    private String goodsNoData;
+    private String addGoodsNo;
 }
