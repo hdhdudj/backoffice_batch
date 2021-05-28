@@ -1557,3 +1557,81 @@ Caused by: org.springframework.batch.core.repository.JobInstanceAlreadyCompleteE
 2021-05-28 16:57:54,661 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(destroy:598) - Closing JPA EntityManagerFactory for persistence unit 'default'
 2021-05-28 16:57:54,667 [main] INFO  com.zaxxer.hikari.HikariDataSource(close:350) - HikariPool-1 - Shutdown initiated...
 2021-05-28 16:57:54,685 [main] INFO  com.zaxxer.hikari.HikariDataSource(close:352) - HikariPool-1 - Shutdown completed.
+2021-05-28 16:59:02,433 [background-preinit] INFO  org.hibernate.validator.internal.util.Version(<clinit>:21) - HV000001: Hibernate Validator 6.1.5.Final
+2021-05-28 16:59:02,500 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:55) - Starting BackofficeBatchApplication on DESKTOP-DD3UDDS with PID 8732 (C:\code\java\backoffice_projects\backoffice_batch\build\classes\java\main started by 박선홍 in C:\code\java\backoffice_projects\backoffice_batch)
+2021-05-28 16:59:02,504 [main] DEBUG io.spring.backoffice_batch.BackofficeBatchApplication(logStarting:56) - Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
+2021-05-28 16:59:02,505 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStartupProfileInfo:651) - No active profile set, falling back to default profiles: default
+2021-05-28 16:59:03,128 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:127) - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-28 16:59:03,291 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:187) - Finished Spring Data repository scanning in 155ms. Found 27 JPA repository interfaces.
+2021-05-28 16:59:03,776 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner(warn:44) - No MyBatis mapper was found in '[io.spring.backoffice_batch]' package. Please check your configuration.
+2021-05-28 16:59:04,390 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8081 (http)
+2021-05-28 16:59:04,399 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Initializing ProtocolHandler ["http-nio-8081"]
+2021-05-28 16:59:04,400 [main] INFO  org.apache.catalina.core.StandardService(log:173) - Starting service [Tomcat]
+2021-05-28 16:59:04,400 [main] INFO  org.apache.catalina.core.StandardEngine(log:173) - Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-05-28 16:59:04,554 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/](log:173) - Initializing Spring embedded WebApplicationContext
+2021-05-28 16:59:04,554 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:285) - Root WebApplicationContext: initialization completed in 1955 ms
+2021-05-28 16:59:04,700 [main] INFO  org.flywaydb.core.internal.license.VersionPrinter(info:49) - Flyway Community Edition 6.4.4 by Redgate
+2021-05-28 16:59:04,760 [main] WARN  org.flywaydb.core.internal.scanner.classpath.ClassPathScanner(warn:53) - Unable to resolve location classpath:db/migration. Note this warning will become an error in Flyway 7.
+2021-05-28 16:59:04,762 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:110) - HikariPool-1 - Starting...
+2021-05-28 16:59:05,085 [main] INFO  com.zaxxer.hikari.HikariDataSource(getConnection:123) - HikariPool-1 - Start completed.
+2021-05-28 16:59:05,128 [main] INFO  org.flywaydb.core.internal.database.DatabaseFactory(info:49) - Database: jdbc:mysql://localhost:3306/trdst (MySQL 5.7)
+2021-05-28 16:59:05,203 [main] INFO  org.flywaydb.core.internal.command.DbValidate(info:49) - Successfully validated 0 migrations (execution time 00:00.032s)
+2021-05-28 16:59:05,203 [main] WARN  org.flywaydb.core.internal.command.DbValidate(warn:53) - No migrations found. Are your locations set up correctly?
+2021-05-28 16:59:05,240 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Current version of schema `trdst`: << Empty Schema >>
+2021-05-28 16:59:05,244 [main] INFO  org.flywaydb.core.internal.command.DbMigrate(info:49) - Schema `trdst` is up to date. No migration necessary.
+2021-05-28 16:59:05,475 [main] INFO  org.hibernate.jpa.internal.util.LogHelper(logPersistenceUnitInformation:31) - HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-28 16:59:05,571 [main] INFO  org.hibernate.Version(logVersion:46) - HHH000412: Hibernate Core {5.4.2.Final}
+2021-05-28 16:59:05,700 [main] INFO  org.hibernate.annotations.common.Version(<clinit>:49) - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-05-28 16:59:05,801 [main] INFO  org.hibernate.dialect.Dialect(<init>:158) - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-05-28 16:59:06,076 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsAddGoodsId
+2021-05-28 16:59:06,077 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsAddGoodsId
+2021-05-28 16:59:06,077 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItasrdId
+2021-05-28 16:59:06,077 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItasrdId
+2021-05-28 16:59:06,078 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsOptionId
+2021-05-28 16:59:06,078 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsOptionId
+2021-05-28 16:59:06,079 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmcId
+2021-05-28 16:59:06,080 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmcId
+2021-05-28 16:59:06,080 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItlkagId
+2021-05-28 16:59:06,080 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItlkagId
+2021-05-28 16:59:06,082 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsMasterId
+2021-05-28 16:59:06,083 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsMasterId
+2021-05-28 16:59:06,084 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.purchase.idclass.LspchdId
+2021-05-28 16:59:06,084 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.purchase.idclass.LspchdId
+2021-05-28 16:59:06,085 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-05-28 16:59:06,085 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-05-28 16:59:06,085 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsTextOptionId
+2021-05-28 16:59:06,085 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsTextOptionId
+2021-05-28 16:59:06,086 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItvariId
+2021-05-28 16:59:06,086 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItvariId
+2021-05-28 16:59:06,087 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItmmotId
+2021-05-28 16:59:06,087 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItmmotId
+2021-05-28 16:59:06,087 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmmId
+2021-05-28 16:59:06,087 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmmId
+2021-05-28 16:59:06,088 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:287) - HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmtId
+2021-05-28 16:59:06,088 [main] WARN  org.hibernate.mapping.RootClass(checkCompositeIdentifier:290) - HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmtId
+2021-05-28 16:59:06,949 [main] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator(initiateService:52) - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-28 16:59:06,952 [main] INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean(buildNativeEntityManagerFactory:416) - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-28 16:59:08,216 [main] WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration(openEntityManagerInViewInterceptor:220) - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-28 16:59:08,298 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor(initialize:181) - Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-28 16:59:08,538 [main] WARN  org.springframework.boot.autoconfigure.batch.JpaBatchConfigurer(determineIsolationLevel:57) - JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
+2021-05-28 16:59:08,541 [main] INFO  org.springframework.batch.core.repository.support.JobRepositoryFactoryBean(afterPropertiesSet:184) - No database type set, using meta data indicating: MYSQL
+2021-05-28 16:59:08,557 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(afterPropertiesSet:209) - No TaskExecutor has been set, defaulting to synchronous executor.
+2021-05-28 16:59:08,682 [main] INFO  org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration(getOrDeducePassword:86) - 
+
+Using generated security password: 0b1f88a9-fa04-4d90-b8d1-9a4afac4a64b
+
+2021-05-28 16:59:08,782 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain(<init>:43) - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@62ec4146, org.springframework.security.web.context.SecurityContextPersistenceFilter@ec70725, org.springframework.security.web.header.HeaderWriterFilter@461b38ca, org.springframework.security.web.csrf.CsrfFilter@13087c75, org.springframework.security.web.authentication.logout.LogoutFilter@4587f0f9, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@396ec737, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@4244e477, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@362e709e, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@490704a5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@15f229e8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@404566e7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@b0c4905, org.springframework.security.web.session.SessionManagementFilter@3881b884, org.springframework.security.web.access.ExceptionTranslationFilter@54fffa5a, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1e041848]
+2021-05-28 16:59:08,814 [main] INFO  org.apache.coyote.http11.Http11NioProtocol(log:173) - Starting ProtocolHandler ["http-nio-8081"]
+2021-05-28 16:59:08,839 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8081 (http) with context path ''
+2021-05-28 16:59:08,849 [main] INFO  io.spring.backoffice_batch.BackofficeBatchApplication(logStarted:61) - Started BackofficeBatchApplication in 6.723 seconds (JVM running for 8.335)
+2021-05-28 16:59:08,852 [main] INFO  org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner(run:154) - Running default command line with: [version=170]
+2021-05-28 16:59:08,953 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=getGoodsJob]] launched with the following parameters: [{version=170}]
+2021-05-28 16:59:09,031 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [getGoodsStep1]
+2021-05-28 16:59:09,061 [main] INFO  io.spring.backoffice_batch.job.GetGoodsJobConfiguration(lambda$getGoodsStep1$0:40) - ----- This is getGoodsStep1
+2021-05-28 16:59:50,777 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [getGoodsStep1] executed in 41s745ms
+2021-05-28 16:59:50,811 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=getGoodsJob]] completed with the following parameters: [{version=170}] and the following status: [COMPLETED] in 41s820ms
+2021-05-28 16:59:50,858 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:145) - Job: [SimpleJob: [name=simpleJob]] launched with the following parameters: [{version=170}]
+2021-05-28 16:59:50,899 [main] INFO  org.springframework.batch.core.job.SimpleStepHandler(handleStep:146) - Executing step: [simpleStep1]
+2021-05-28 16:59:50,915 [main] INFO  io.spring.backoffice_batch.job.SimpleJobConfiguration(lambda$simpleStep1$0:34) - ----- This is Step1
+2021-05-28 16:59:50,930 [main] INFO  org.springframework.batch.core.step.AbstractStep(execute:272) - Step: [simpleStep1] executed in 31ms
+2021-05-28 16:59:50,957 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher(run:149) - Job: [SimpleJob: [name=simpleJob]] completed with the following parameters: [{version=170}] and the following status: [COMPLETED] in 89ms
