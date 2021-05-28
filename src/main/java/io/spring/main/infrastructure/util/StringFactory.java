@@ -129,4 +129,20 @@ public class StringFactory {
     private final static String strRegDt = "regDt";
     @Getter
     private final static String strNormal = "normal";
+
+    // xml 파싱 관련
+    @Getter
+    private final static String strReturn = "return";
+    @Getter
+    private final static String strGoodsData = "goods_data";
+    @Getter
+    private final static String strOptionData = "optionData";
+    @Getter
+    private final static String strTextOptionData = "textOptionData";
+    @Getter
+    private final static String strAddGoodsData = "addGoodsData";
+    @Getter
+    private final static String strGoodsMustInfoData = "goodsMustInfoData";
+    @Getter
+    private final static String strClaimData = "claimData";
 }
