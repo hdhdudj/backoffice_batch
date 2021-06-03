@@ -62,14 +62,12 @@ public class GoodsSearch {
 
         // if table entity 리스트 생성
         List<IfGoodsMaster> ifGoodsMasterList = new ArrayList<>(); // if_goods_master
-//        List<IfGoodsOption> ifGoodsOptionList = new ArrayList<>(); // if_goods_option
-//        List<IfGoodsTextOption> ifGoodsTextOptionList = new ArrayList<>(); // if_goods_text_option
-//        List<IfGoodsAddGoods> ifGoodsAddGoodsList = new ArrayList<>(); // if_goods_add_goods
         
         // 트랜잭션1. if table 저장 함수
         saveIfTables(fromDt, toDt, ifGoodsMasterList); //, ifGoodsOptionList, ifGoodsTextOptionList, ifGoodsAddGoodsList);
 
         // 트랜잭션2. if table의 한 줄을 자체 table에 저장할 때 goodsNo 하나 기준으로 어떤 if table에서 실패하면 주루룩 실패해야 함.
+        ifGoodsMasterList = jpaIfGoodsMasterRepository.findByUploadStatus(StringFactory.getGbOne()); // if_goods_master에서 upload_status가 01인 애 전부 가져옴
         for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){
             saveOneGoodsNo(ifGoodsMaster.getGoodsNo(), ifGoodsMaster);
         }
@@ -161,10 +159,16 @@ public class GoodsSearch {
 
         // 1. if table 저장
         for(GoodsData goodsData : goodsDataList){
-            ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd
-            this.saveIfGoodsOption(goodsData); // if_goods_option : itvari, ititmm
-            this.saveIfGoodsTextOption(goodsData); // if_goods_text_option : itmmot
-            this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itlkag, itadgs
+            // goodsNo가 겹치는 애가 있는지 확인
+            if(jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo())) != null){
+                return;
+            }
+            else{
+                ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd
+                this.saveIfGoodsOption(goodsData); // if_goods_option : itvari, ititmm
+                this.saveIfGoodsTextOption(goodsData); // if_goods_text_option : itmmot
+                this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itlkag, itadgs
+            }
         }
     }
 
@@ -220,8 +224,14 @@ public class GoodsSearch {
         // op1이 없으면 단품으로 처리
         Itvari itvariOp1 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue1());
         // null 처리, 없으면 단품으로(01, 01, 단품)
-        ititmm.setVariationGb1(itvariOp1.getVariationGb());
-        ititmm.setVariationSeq1(itvariOp1.getSeq());
+        if(itvariOp1 == null){
+            ititmm.setVariationGb1(StringFactory.getGbOne()); // 01
+            ititmm.setVariationSeq1(StringUtils.leftPad(StringFactory.getStrOne(),4,'0'));
+        }
+        else{
+            ititmm.setVariationGb1(itvariOp1.getVariationGb());
+            ititmm.setVariationSeq1(itvariOp1.getSeq());
+        }
         if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
             Itvari itvariOp2 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue2());
             ititmm.setVariationGb2(itvariOp2.getVariationGb());
