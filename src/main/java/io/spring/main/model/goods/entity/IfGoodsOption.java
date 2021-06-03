@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.IfGoodsOptionId;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,8 +20,9 @@ import java.util.Date;
 @Setter
 @IdClass(IfGoodsOptionId.class)
 public class IfGoodsOption {
+
     @Id
-    private String channelGb;
+    private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     @Id
     private String sno;
     @Id

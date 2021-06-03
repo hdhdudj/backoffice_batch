@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,7 +21,13 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItvariId.class)
 public class Itvari {
-
+    public Itvari(String assortId){ // 단품인 경우
+        this.assortId = assortId;
+        this.seq = StringUtils.leftPad(StringFactory.getStrOne(), 4, '0');
+        this.optionGb = StringFactory.getGbOne();
+        this.variationGb = optionGb;
+        this.optionNm = StringFactory.getStrSingleGoods();
+    }
     /**
      *
      * @param goodsInsertRequestData

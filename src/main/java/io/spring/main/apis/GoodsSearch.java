@@ -77,7 +77,7 @@ public class GoodsSearch {
     public void saveOneGoodsNo(String goodsNo, IfGoodsMaster ifGoodsMaster) {
         // 2. itasrt, itasrn, itasrd (from if_goods_master) 저장
         // itadgs (from if_goods_add_goods) 저장
-        this.saveItasrt(ifGoodsMaster); // itasrt
+        String assortId = this.saveItasrt(ifGoodsMaster); // itasrt
         this.saveItasrn(ifGoodsMaster); // itasrn
         this.saveItasrd(ifGoodsMaster); // itasrd
 
@@ -87,9 +87,13 @@ public class GoodsSearch {
 
         // 4. itvari (from if_goods_option) 저장
         List<IfGoodsOption> ifGoodsOptionList = jpaIfGoodsOptionRepository.findByGoodsNo(goodsNo);
-        for(IfGoodsOption ifGoodsOption : ifGoodsOptionList){
-            this.saveItvari(ifGoodsOption); // itvari
-//            this.saveItitmm(ifGoodsOption); // ititmm
+        if(ifGoodsOptionList == null || ifGoodsOptionList.size() == 0){
+            this.saveSingleItvari(assortId);
+        }
+        else{
+            for(IfGoodsOption ifGoodsOption : ifGoodsOptionList){
+                this.saveItvari(ifGoodsOption); // itvari
+            }
         }
         // 5. ititmm (from if_goods_option) 저장
         for(IfGoodsOption ifGoodsOption : ifGoodsOptionList){
@@ -152,6 +156,12 @@ public class GoodsSearch {
         }
     }
 
+    private void saveSingleItvari(String assortId) {
+        // option이 없는 경우. seq 0001, 옵션구분 01, variation구분 01, 옵션명 '단품'
+        Itvari itvari = new Itvari(assortId);
+        jpaItvariRepository.save(itvari);
+    }
+
     @Transactional
     public void saveIfTables(String fromDt, String toDt, List<IfGoodsMaster> ifGoodsMasterList){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
         List<GoodsData> goodsDataList = retrieveGoods(fromDt, toDt);
@@ -160,14 +170,13 @@ public class GoodsSearch {
         // 1. if table 저장
         for(GoodsData goodsData : goodsDataList){
             // goodsNo가 겹치는 애가 있는지 확인
-            if(jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo())) != null){
-                return;
-            }
-            else{
-                ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd
-                this.saveIfGoodsOption(goodsData); // if_goods_option : itvari, ititmm
+            if(jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo())) == null){
+                ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd  * 여기서 assortId 생성
                 this.saveIfGoodsTextOption(goodsData); // if_goods_text_option : itmmot
                 this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itlkag, itadgs
+            }
+            if(jpaIfGoodsOptionRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo())) == null){
+                this.saveIfGoodsOption(goodsData); // if_goods_option : itvari, ititmm
             }
         }
     }
@@ -240,10 +249,12 @@ public class GoodsSearch {
         jpaItitmmRepository.save(ititmm);
     }
 
-    private void saveItasrt(IfGoodsMaster ifGoodsMaster) {
+    private String saveItasrt(IfGoodsMaster ifGoodsMaster) {
         Itasrt itasrt = new Itasrt(ifGoodsMaster); // itasrt
-        itasrt.setAssortId(ifGoodsMaster.getAssortId());
+        String assortId = ifGoodsMaster.getAssortId();
+        itasrt.setAssortId(assortId);
         jpaItasrtRepository.save(itasrt);
+        return assortId;
     }
 
     private void saveItasrd(IfGoodsMaster ifGoodsMaster) {
@@ -341,16 +352,15 @@ public class GoodsSearch {
         List<GoodsData.OptionData> optionDataList = goodsData.getOptionData();
         if(optionDataList == null){
             log.debug("optionDataList is null.");
-            return;
         }
-//        log.debug("----- optionDataList[0].sno : " + optionDataList.get(0).getSno());
-        for(GoodsData.OptionData optionData : optionDataList){
-            IfGoodsOption ifGoodsOption = objectMapper.convertValue(optionData,IfGoodsOption.class);
-            ifGoodsOption.setAssortId(goodsData.getAssortId());
-            ifGoodsOption.setChannelGb(StringFactory.getGbOne());
-            ifGoodsOption.setUploadStatus(StringFactory.getGbOne());
-            ifGoodsOption.setOptionName(goodsData.getOptionName());
-            jpaIfGoodsOptionRepository.save(ifGoodsOption);
+        else{
+            for(GoodsData.OptionData optionData : optionDataList){
+                IfGoodsOption ifGoodsOption = objectMapper.convertValue(optionData,IfGoodsOption.class);
+                ifGoodsOption.setAssortId(goodsData.getAssortId());
+                ifGoodsOption.setUploadStatus(StringFactory.getGbOne());
+                ifGoodsOption.setOptionName(goodsData.getOptionName());
+                jpaIfGoodsOptionRepository.save(ifGoodsOption);
+            }
         }
     }
 
@@ -437,7 +447,7 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + StringFactory.getKey() +"&goodsNo=1000032220";
+                + "=" + StringFactory.getKey();// +"&goodsNo=1000032220";
         NodeList nodeList =  getXmlNodes(urlstr);
 
         List<GoodsData> goodsDatas = new ArrayList<>();

@@ -145,4 +145,8 @@ public class StringFactory {
     private final static String strGoodsMustInfoData = "goodsMustInfoData";
     @Getter
     private final static String strClaimData = "claimData";
+
+    // Itvari
+    @Getter
+    private final static String strSingleGoods = "단품";
 }
