@@ -1,15 +1,17 @@
 package io.spring.backoffice_batch.job;
 
+import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
+//import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+//import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
 import io.spring.main.apis.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,6 +32,7 @@ public class GetGoodsJobConfiguration {
     public Job getGoodsJob(){
         return jobBuilderFactory.get("getGoodsJob")
                 .start(getGoodsStep1())
+                .incrementer(new UniqueRunIdIncrementer())
                 .build();
     }
 

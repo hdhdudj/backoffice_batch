@@ -53,42 +53,42 @@ public class GoodsSearch {
 
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
-    @Transactional
+//    @Transactional
     public void getGoodsSeq(String fromDt, String toDt){
+        // objectMapper 설정
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-        List<GoodsData> goodsDataList = retrieveGoods(fromDt, toDt);
 
+        // if table entity 리스트 생성
         List<IfGoodsMaster> ifGoodsMasterList = new ArrayList<>(); // if_goods_master
-        List<IfGoodsOption> ifGoodsOptionList = new ArrayList<>(); // if_goods_option
-        List<IfGoodsTextOption> ifGoodsTextOptionList = new ArrayList<>(); // if_goods_text_option
-        List<IfGoodsAddGoods> ifGoodsAddGoodsList = new ArrayList<>(); // if_goods_add_goods
-        String assortId = "";
+//        List<IfGoodsOption> ifGoodsOptionList = new ArrayList<>(); // if_goods_option
+//        List<IfGoodsTextOption> ifGoodsTextOptionList = new ArrayList<>(); // if_goods_text_option
+//        List<IfGoodsAddGoods> ifGoodsAddGoodsList = new ArrayList<>(); // if_goods_add_goods
+        
+        // 트랜잭션1. if table 저장 함수
+        saveIfTables(fromDt, toDt, ifGoodsMasterList); //, ifGoodsOptionList, ifGoodsTextOptionList, ifGoodsAddGoodsList);
 
-        // 1. if table 저장
-        for(GoodsData goodsData : goodsDataList){
-            ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd
-            this.saveIfGoodsOption(goodsData, ifGoodsOptionList); // if_goods_option : itvari, ititmm
-            this.saveIfGoodsTextOption(goodsData, ifGoodsTextOptionList); // if_goods_text_option : itmmot
-            this.saveIfGoodsAddGoods(goodsData, ifGoodsAddGoodsList); // if_goods_add_goods : itlkag, itadgs
+        // 트랜잭션2. if table의 한 줄을 자체 table에 저장할 때 goodsNo 하나 기준으로 어떤 if table에서 실패하면 주루룩 실패해야 함.
+        for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){
+            saveOneGoodsNo(ifGoodsMaster.getGoodsNo(), ifGoodsMaster);
         }
+    }
 
+    @Transactional
+    public void saveOneGoodsNo(String goodsNo, IfGoodsMaster ifGoodsMaster) {
         // 2. itasrt, itasrn, itasrd (from if_goods_master) 저장
         // itadgs (from if_goods_add_goods) 저장
-        for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){
-            this.saveItasrt(ifGoodsMaster); // itasrt
-            this.saveItasrn(ifGoodsMaster); // itasrn
-            this.saveItasrd(ifGoodsMaster); // itasrd
-        }
+        this.saveItasrt(ifGoodsMaster); // itasrt
+        this.saveItasrn(ifGoodsMaster); // itasrn
+        this.saveItasrd(ifGoodsMaster); // itasrd
 
         // 3. if_goods_master 테이블 updateStatus 02로 업데이트
-        for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){
-            ifGoodsMaster.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
-            jpaIfGoodsMasterRepository.save(ifGoodsMaster);
-        }
+        ifGoodsMaster.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
+        jpaIfGoodsMasterRepository.save(ifGoodsMaster);
 
         // 4. itvari (from if_goods_option) 저장
+        List<IfGoodsOption> ifGoodsOptionList = jpaIfGoodsOptionRepository.findByGoodsNo(goodsNo);
         for(IfGoodsOption ifGoodsOption : ifGoodsOptionList){
             this.saveItvari(ifGoodsOption); // itvari
 //            this.saveItitmm(ifGoodsOption); // ititmm
@@ -104,6 +104,7 @@ public class GoodsSearch {
             jpaIfGoodsOptionRepository.save(ifGoodsOption);
         }
 
+        List<IfGoodsTextOption> ifGoodsTextOptionList = jpaIfGoodsTextOptionRepository.findByGoodsNo(goodsNo);
         // 7. itmmot (from if_goods_text_option) 저장
         for(IfGoodsTextOption ifGoodsTextOption : ifGoodsTextOptionList){
             this.saveItmmot(ifGoodsTextOption);
@@ -115,6 +116,7 @@ public class GoodsSearch {
             jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
         }
 
+        List<IfGoodsAddGoods> ifGoodsAddGoodsList = jpaIfGoodsAddGoodsRepository.findByGoodsNo(goodsNo);
         // 9. itlkag (from if_goods_add_goods) 저장
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
             // add_goods_id 채번
@@ -122,11 +124,10 @@ public class GoodsSearch {
             Itlkag itlkag = new Itlkag(ifGoodsAddGoods);
             itlkag.setAddGoodsId(addGoodsId);
             jpaItlkagRepository.save(itlkag);
-            
+
             // if_goods_add_goods에도 add_goods_id 저장 (아직 save는 노노.. 이따가 uploadStatus 저장할 때 같이)
             ifGoodsAddGoods.setAddGoodsId(addGoodsId);
         }
-        System.out.println("-----3 ifGoodsAddGoodsList.size() : "+ifGoodsAddGoodsList.size());
         // 10. itadgs (from if_goods_add_goods) 저장
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
             //OpenApi호출
@@ -139,6 +140,7 @@ public class GoodsSearch {
             ifGoodsAddGoods.setGoodsPrice(addGoodsData.getGoodsPrice());
             ifGoodsAddGoods.setStockCnt(addGoodsData.getStockCnt());
             ifGoodsAddGoods.setViewFl(addGoodsData.getViewFl());
+            ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne());
             ifGoodsAddGoods.setSoldOutFl(addGoodsData.getSoldOutFl());
             Itadgs itadgs = new Itadgs(ifGoodsAddGoods);
             jpaItadgsRepository.save(itadgs);
@@ -147,15 +149,23 @@ public class GoodsSearch {
 
         // 11. if_goods_add_goods 테이블에 add_goods_id 삽입하고 updateStatus 02로 업데이트
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
-            ifGoodsAddGoods.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
+            StringFactory.getGbTwo(); // 02 하드코딩
             jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
         }
+    }
 
-//        System.out.println("----- 길이 : " + ifGoodsOptionList.size());
-//        System.out.println("----- 길이 : " + ifGoodsTextOptionList.size());
-//        for(){
-//
-        // itadgs
+    @Transactional
+    public void saveIfTables(String fromDt, String toDt, List<IfGoodsMaster> ifGoodsMasterList){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
+        List<GoodsData> goodsDataList = retrieveGoods(fromDt, toDt);
+//        String assortId = "";
+
+        // 1. if table 저장
+        for(GoodsData goodsData : goodsDataList){
+            ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd
+            this.saveIfGoodsOption(goodsData); // if_goods_option : itvari, ititmm
+            this.saveIfGoodsTextOption(goodsData); // if_goods_text_option : itmmot
+            this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itlkag, itadgs
+        }
     }
 
     private void saveItmmot(IfGoodsTextOption ifGoodsTextOption) {
@@ -178,14 +188,17 @@ public class GoodsSearch {
             itvariColor.setSeq(seq);
             jpaItvariRepository.save(itvariColor);
         }
-        if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length <= 1){
-            return;
-        } // 옵션이 한 개면 여기서 멈춤
-        // 옵션 02 : 사이즈 저장
+
         Itvari itvariSize = new Itvari(ifGoodsOption);
-        itvariSize.setOptionGb(StringFactory.getGbTwo()); // 02 하드코딩
-        itvariSize.setVariationGb(StringFactory.getGbTwo()); // 02 하드코딩
-        itvariSize.setOptionNm(ifGoodsOption.getOptionValue2());
+        if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
+            itvariSize.setOptionGb(StringFactory.getGbTwo()); // 02 하드코딩
+            itvariSize.setVariationGb(StringFactory.getGbTwo()); // 02 하드코딩
+            itvariSize.setOptionNm(ifGoodsOption.getOptionValue2());
+        }
+        else{
+            return;
+        }
+        // 옵션 02 : 사이즈 저장
         if(!seq.equals("")){
             seq = Utilities.plusOne(seq,4);
         }
@@ -204,16 +217,16 @@ public class GoodsSearch {
         String itemId = jpaItitmmRepository.findMaxItemIdByAssortId(ititmm.getAssortId());
         itemId = getSeq(itemId, 4);
         ititmm.setItemId(itemId);
+        // op1이 없으면 단품으로 처리
         Itvari itvariOp1 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue1());
+        // null 처리, 없으면 단품으로(01, 01, 단품)
         ititmm.setVariationGb1(itvariOp1.getVariationGb());
         ititmm.setVariationSeq1(itvariOp1.getSeq());
-        jpaItitmmRepository.save(ititmm);
-        if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length <= 1){
-            return;
-        } // 옵션이 한 개면 여기서 멈춤
-        Itvari itvariOp2 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue2());
-        ititmm.setVariationGb2(itvariOp2.getVariationGb());
-        ititmm.setVariationSeq2(itvariOp2.getSeq());
+        if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
+            Itvari itvariOp2 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue2());
+            ititmm.setVariationGb2(itvariOp2.getVariationGb());
+            ititmm.setVariationSeq2(itvariOp2.getSeq());
+        }
         jpaItitmmRepository.save(ititmm);
     }
 
@@ -294,7 +307,6 @@ public class GoodsSearch {
         return nextVal;
     }
 
-
     private IfGoodsMaster saveIfGoodsMaster(GoodsData goodsData) {
         String assortId = "";
         if(goodsData.getAssortId() == null){
@@ -315,11 +327,11 @@ public class GoodsSearch {
         return ifGoodsMaster;
     }
 
-    private List<IfGoodsOption> saveIfGoodsOption(GoodsData goodsData, List<IfGoodsOption> ifGoodsOptionList) {
+    private void saveIfGoodsOption(GoodsData goodsData){ //, List<IfGoodsOption> ifGoodsOptionList) {
         List<GoodsData.OptionData> optionDataList = goodsData.getOptionData();
         if(optionDataList == null){
             log.debug("optionDataList is null.");
-            return null;
+            return;
         }
 //        log.debug("----- optionDataList[0].sno : " + optionDataList.get(0).getSno());
         for(GoodsData.OptionData optionData : optionDataList){
@@ -328,30 +340,26 @@ public class GoodsSearch {
             ifGoodsOption.setChannelGb(StringFactory.getGbOne());
             ifGoodsOption.setUploadStatus(StringFactory.getGbOne());
             ifGoodsOption.setOptionName(goodsData.getOptionName());
-            ifGoodsOptionList.add(ifGoodsOption);
             jpaIfGoodsOptionRepository.save(ifGoodsOption);
         }
-        return ifGoodsOptionList;
     }
 
-    private List<IfGoodsTextOption> saveIfGoodsTextOption(GoodsData goodsData, List<IfGoodsTextOption> ifGoodsTextOptionList) {
+    private void saveIfGoodsTextOption(GoodsData goodsData){ //, List<IfGoodsTextOption> ifGoodsTextOptionList) {
         List<GoodsData.TextOptionData> textOptionDataList = goodsData.getTextOptionData();
         if(textOptionDataList == null){
             log.debug("textOptionDataList is null.");
-            return null;
+            return;
         }
         for(GoodsData.TextOptionData textOptionData : textOptionDataList){
             IfGoodsTextOption ifGoodsTextOption = objectMapper.convertValue(textOptionData,IfGoodsTextOption.class);
             ifGoodsTextOption.setAssortId(goodsData.getAssortId());
             ifGoodsTextOption.setChannelGb(StringFactory.getGbOne());
             ifGoodsTextOption.setUploadStatus(StringFactory.getGbOne());
-            ifGoodsTextOptionList.add(ifGoodsTextOption);
             jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
         }
-        return ifGoodsTextOptionList;
     }
 
-    private void saveIfGoodsAddGoods(GoodsData goodsData, List<IfGoodsAddGoods> addGoodsDataListOut) {
+    private void saveIfGoodsAddGoods(GoodsData goodsData){ //, List<IfGoodsAddGoods> addGoodsDataListOut) {
         List<GoodsData.AddGoodsData> addGoodsDataList = goodsData.getAddGoodsData();
 //        System.out.println("addGoodsData length : " + addGoodsDataList.size());
         if(addGoodsDataList == null){
@@ -367,7 +375,6 @@ public class GoodsSearch {
                 ifGoodsAddGoods.setTitle(addGoodsData.getTitle());
                 ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne()); // 01 하드코딩
 
-                addGoodsDataListOut.add(ifGoodsAddGoods);
                 jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
             }
         }
@@ -420,7 +427,7 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + StringFactory.getKey()+"&goodsNo=1000032220";
+                + "=" + StringFactory.getKey() +"&goodsNo=1000032220";
         NodeList nodeList =  getXmlNodes(urlstr);
 
         List<GoodsData> goodsDatas = new ArrayList<>();

@@ -15,7 +15,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class BackofficeBatchApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BackofficeBatchApplication.class, args);
+//        SpringApplication.run(BackofficeBatchApplication.class, args);
+        System.exit(SpringApplication.exit(SpringApplication.run(BackofficeBatchApplication.class, args)));
+//        int exitCode = SpringApplication.exit(context);
+//        System.exit(exitCode);
     }
-
 }
