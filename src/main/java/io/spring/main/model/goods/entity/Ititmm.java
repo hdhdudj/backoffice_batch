@@ -1,5 +1,6 @@
 package io.spring.main.model.goods.entity;
 
+import com.ctc.wstx.util.StringUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.ItitmmId;
@@ -7,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,6 +22,15 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItitmmId.class)
 public class Ititmm {
+    public Ititmm(Itasrt itasrt, Itvari itvari){ // 옵션데이터 없을때(단품일때)
+        this.assortId = itasrt.getAssortId();
+        this.shortYn = itasrt.getShortageYn();
+        variationGb1 = itvari.getVariationGb();
+        variationSeq1 = itvari.getSeq();
+        itemId = StringUtils.leftPad(StringFactory.getStrOne(), 4, '0');
+        itemNm = itvari.getOptionNm();
+        addPrice = StringFactory.getStrZero();
+    }
     public Ititmm(IfGoodsOption ifGoodsOption){
         this.assortId = ifGoodsOption.getAssortId();
         this.shortYn = ifGoodsOption.getSoldOutFl();

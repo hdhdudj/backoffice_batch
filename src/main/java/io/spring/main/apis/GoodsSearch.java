@@ -77,7 +77,7 @@ public class GoodsSearch {
     public void saveOneGoodsNo(String goodsNo, IfGoodsMaster ifGoodsMaster) {
         // 2. itasrt, itasrn, itasrd (from if_goods_master) 저장
         // itadgs (from if_goods_add_goods) 저장
-        String assortId = this.saveItasrt(ifGoodsMaster); // itasrt
+        Itasrt itasrt = this.saveItasrt(ifGoodsMaster); // itasrt
         this.saveItasrn(ifGoodsMaster); // itasrn
         this.saveItasrd(ifGoodsMaster); // itasrd
 
@@ -88,15 +88,17 @@ public class GoodsSearch {
         // 4. itvari (from if_goods_option) 저장
         List<IfGoodsOption> ifGoodsOptionList = jpaIfGoodsOptionRepository.findByGoodsNo(goodsNo);
         if(ifGoodsOptionList == null || ifGoodsOptionList.size() == 0){
-            this.saveSingleItvari(assortId);
+            Itvari itvari = this.saveSingleItvari(itasrt.getAssortId());
+            saveSingleItitmm(itasrt, itvari);
         }
         else{
             for(IfGoodsOption ifGoodsOption : ifGoodsOptionList){
                 this.saveItvari(ifGoodsOption); // itvari
             }
         }
+
         // 5. ititmm (from if_goods_option) 저장
-        for(IfGoodsOption ifGoodsOption : ifGoodsOptionList){
+        for (IfGoodsOption ifGoodsOption : ifGoodsOptionList) {
             this.saveItitmm(ifGoodsOption); // ititmm
         }
 
@@ -156,10 +158,17 @@ public class GoodsSearch {
         }
     }
 
-    private void saveSingleItvari(String assortId) {
+    private void saveSingleItitmm(Itasrt itasrt, Itvari itvari) {
+        // option이 없는 경우. seq 0001, 옵션구분 01, variation구분 01, 옵션명 '단품'
+        Ititmm ititmm = new Ititmm(itasrt, itvari);
+        jpaItitmmRepository.save(ititmm);
+    }
+
+    private Itvari saveSingleItvari(String assortId) {
         // option이 없는 경우. seq 0001, 옵션구분 01, variation구분 01, 옵션명 '단품'
         Itvari itvari = new Itvari(assortId);
         jpaItvariRepository.save(itvari);
+        return itvari;
     }
 
     @Transactional
@@ -249,12 +258,12 @@ public class GoodsSearch {
         jpaItitmmRepository.save(ititmm);
     }
 
-    private String saveItasrt(IfGoodsMaster ifGoodsMaster) {
+    private Itasrt saveItasrt(IfGoodsMaster ifGoodsMaster) {
         Itasrt itasrt = new Itasrt(ifGoodsMaster); // itasrt
         String assortId = ifGoodsMaster.getAssortId();
         itasrt.setAssortId(assortId);
         jpaItasrtRepository.save(itasrt);
-        return assortId;
+        return itasrt;
     }
 
     private void saveItasrd(IfGoodsMaster ifGoodsMaster) {
