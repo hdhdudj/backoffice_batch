@@ -364,7 +364,9 @@ public class GoodsSearch {
     // 'y'는 '01'로, 'n'은 '02'로 변환
     private String ynToOneTwo(String yn){
         String returnStr = null;
-        if(yn.equals(StringFactory.getStrY())){
+        if(yn == null){
+        }
+        else if(yn.equals(StringFactory.getStrY())){
             returnStr = StringFactory.getGbOne();
         }
         else if(yn.equals(StringFactory.getStrN())){
@@ -474,7 +476,7 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + StringFactory.getKey();// +"&goodsNo=1000032220";
+                + "=" + StringFactory.getKey() +"&goodsNo=1000032220";
         NodeList nodeList =  getXmlNodes(urlstr);
 
         List<GoodsData> goodsDatas = new ArrayList<>();

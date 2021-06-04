@@ -2,7 +2,9 @@ package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.spring.main.model.goods.idclass.IfGoodsMasterId;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,7 +20,49 @@ import java.util.Date;
 @Getter
 @Setter
 @IdClass(IfGoodsMasterId.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class IfGoodsMaster {
+    public IfGoodsMaster(Itasrt itasrt, Itasrn itasrn, Itasrd itasrd){
+        // itasrt
+        this.goodsNm = itasrt.getAssortNm();
+        this.goodsDisplayFl = itasrt.getAssortState();
+        this.sizeType = itasrt.getAssortGb();
+        this.goodsSellFl = itasrt.getShortageYn();
+        this.cateCd = itasrt.getDispCategoryId();
+        this.goodsColor = itasrt.getAssortColor();
+        this.commission = itasrt.getMargin();
+        this.brandCd = itasrt.getBrandId();
+        this.makerNm = itasrt.getManufactureNm();
+        this.goodsModelNo = itasrt.getAssortModel();
+        this.taxFreeFl = itasrt.getTaxGb();
+        this.salesStartYmd = itasrt.getSellStaDt();
+        this.salesEndYmd = itasrt.getSellEndDt();
+        this.goodsPrice = itasrt.getLocalSale();
+        this.fixedPrice = itasrt.getLocalPrice();
+        this.costPrice = itasrt.getDeliPrice();
+        this.optionName = itasrt.getOptionGbName();
+        this.optionFl = itasrt.getOptionUseYn();
+        this.mdRrp = itasrt.getMdRrp();
+        this.mdTax = itasrt.getMdTax();
+        this.mdYear = itasrt.getMdYear();
+        this.mdMargin = itasrt.getMdMargin();
+        this.mdVatrate = itasrt.getMdVatrate();
+        this.mdOfflinePrice = itasrt.getMdOfflinePrice();
+        this.mdOnlinePrice = itasrt.getMdOnlinePrice();
+        this.mdGoodsVatrate = itasrt.getMdGoodsVatrate();
+        this.buyWhere = itasrt.getBuyWhere();
+        this.buySupplyDiscount = itasrt.getBuySupplyDiscount();
+        this.buyRrpIncrement = itasrt.getBuyRrpIncrement();
+        this.buyExchangeRate = itasrt.getBuyExchangeRate();
+        this.width = itasrt.getAsWidth();
+        this.height = itasrt.getAsHeight();
+        this.depth = itasrt.getAsLength();
+        this.goodsWeight = itasrt.getWeight();
+        // itasrn
+        this.goodsSellFl = itasrn.getShortageYn();
+        this.goodsPrice = itasrn.getLocalSale();
+        // itasrd
+    }
     @Id
     private String channelGb;
     @Id

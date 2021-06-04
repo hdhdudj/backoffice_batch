@@ -32,6 +32,7 @@ public class Itasrt extends CommonProps{
 		super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getModDt());
 		this.assortNm = ifGoodsMaster.getGoodsNm();
 		this.assortState = ifGoodsMaster.getGoodsDisplayFl();
+		this.assortGb = ifGoodsMaster.getSizeType();
 		this.shortageYn = ifGoodsMaster.getGoodsSellFl();
 		this.dispCategoryId = ifGoodsMaster.getCateCd();
 		this.assortColor = ifGoodsMaster.getGoodsColor();
@@ -166,7 +167,7 @@ public class Itasrt extends CommonProps{
 	private Float buySupplyDiscount;
 	private Float buyRrpIncrement;
 	private Float buyExchangeRate;
-	private String sizeType;
+//	private String sizeType;
 	private Float mdDiscountRate;
 	private String optionGbName;
 	private String optionUseYn;
