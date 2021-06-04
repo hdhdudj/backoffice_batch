@@ -50,10 +50,4 @@ public class Ititmc extends CommonProps{
     private Float stockAmt;
     private String vendorId;
     private String siteGb;
-//    private Long regId;
-//    @CreationTimestamp
-//    private Date regDt;
-//    private Long updId;
-//    @UpdateTimestamp
-//    private Date updDt;
 }

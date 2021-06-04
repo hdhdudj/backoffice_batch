@@ -22,11 +22,8 @@ import java.util.Date;
 public class Itasrd extends CommonProps {
     public Itasrd(IfGoodsMaster ifGoodsMaster){
         super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getModDt());
-//        this.regDt = ifGoodsMaster.getRegDt();
-//        this.updDt = ifGoodsMaster.getModDt();
-//        this.regId = ifGoodsMaster.getRegId();
-//        this.updId = ifGoodsMaster.getUpdId();
     }
+
 //    public Itasrd(GoodsInsertRequestData goodsInsertRequestData){
 //        this.assortId = goodsInsertRequestData.getAssortId();
 ////        this.ordDetCd = "01";
@@ -47,17 +44,6 @@ public class Itasrd extends CommonProps {
     private String delYn = StringFactory.getGbTwo(); // 01 : 삭제, 02 : 사용  하드코딩
     private String textHtmlGb;
     private String memo2;
-
-//    @Column(nullable = true)
-//    private Long regId;
-//    @Column(nullable = true)
-//    private Long updId;
-//    @CreationTimestamp
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-//    private Date regDt;
-//    @UpdateTimestamp
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-//    private Date updDt;
 
     // 연관 관계
     @ManyToOne(fetch = FetchType.LAZY)

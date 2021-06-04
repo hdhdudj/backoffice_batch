@@ -65,10 +65,6 @@ public class Itasrt extends CommonProps{
 		this.asHeight = ifGoodsMaster.getHeight();
 		this.asLength = ifGoodsMaster.getDepth();
 		this.weight = ifGoodsMaster.getGoodsWeight();
-//		this.regDt = ifGoodsMaster.getRegDt();
-//		this.updDt = ifGoodsMaster.getModDt();
-//		this.regId = 1l;//ifGoodsMaster.getRegId();
-//		this.updId = 1l;//ifGoodsMaster.getUpdId();
 	}
 
 //	public Itasrt(GoodsInsertRequestData goodsInsertRequestData){
@@ -118,15 +114,6 @@ public class Itasrt extends CommonProps{
 
 	@Id
 	private String assortId;
-
-//	private Long regId;
-//	private Long updId;
-//	@CreationTimestamp
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-//	private Date regDt;
-//	@UpdateTimestamp
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-//	private Date updDt;
 
 	private String assortNm;
 	private String assortModel;

@@ -46,12 +46,6 @@ public class Itcatg extends CommonProps {
     private String dispGb;
     private String templateId;
     private Long userId;
-//    private Long regId;
-//    @CreationTimestamp
-//    private Date regDt;
-//    private Long updId;
-//    @UpdateTimestamp
-//    private Date updDt;
     private String rootCategoryId;
     private String linkUrl;
 }

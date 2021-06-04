@@ -149,4 +149,10 @@ public class StringFactory {
     // Itvari
     @Getter
     private final static String strSingleGoods = "단품";
+
+    // sizeType, 직구 or 수입
+    @Getter
+    private final static String strLight = "light";
+    @Getter
+    private final static String strFurn = "furn";
 }

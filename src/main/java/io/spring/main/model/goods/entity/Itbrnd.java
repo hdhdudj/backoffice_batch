@@ -22,12 +22,6 @@ public class Itbrnd extends CommonProps{
     private String brandId;
     private String brandNm;
     private String brandEnm;
-//    private Long regId;
-//    private Long updId;
-//    @CreationTimestamp
-//    private Date regDt;
-//    @UpdateTimestamp
-//    private Date updDt;
 
     @Override
     public String toString() {

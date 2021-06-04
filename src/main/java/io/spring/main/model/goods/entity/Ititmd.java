@@ -56,11 +56,4 @@ public class Ititmd extends CommonProps{
     @CreationTimestamp
     private Date effStaDt;
     private String shortYn;
-
-//    private Long regId;
-//    private Long updId;
-//    @CreationTimestamp
-//    private Date regDt;
-//    @UpdateTimestamp
-//    private Date updDt;
 }

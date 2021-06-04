@@ -351,12 +351,13 @@ public class GoodsSearch {
             ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
         }
         ifGoodsMaster.setAssortId(goodsData.getAssortId()); // assort_id 설정
-        ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 채널 하드코딩
-        ifGoodsMaster.setUploadStatus(StringFactory.getGbOne()); // update_status 하드코딩
+        ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 채널 01 하드코딩
+        ifGoodsMaster.setUploadStatus(StringFactory.getGbOne()); // update_status 01 하드코딩
         // y/n을 01/02로 바꾸기
         ifGoodsMaster.setGoodsSellFl(ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
         ifGoodsMaster.setGoodsDisplayFl(ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
         ifGoodsMaster.setOptionFl(ynToOneTwo(ifGoodsMaster.getOptionFl()));
+        ifGoodsMaster.setSizeType(ynToOneTwo(ifGoodsMaster.getSizeType()));
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
         return ifGoodsMaster;
     }
@@ -366,10 +367,16 @@ public class GoodsSearch {
         String returnStr = null;
         if(yn == null){
         }
-        else if(yn.equals(StringFactory.getStrY())){
+        else if(yn.equals(StringFactory.getStrY())){ // 'y'
             returnStr = StringFactory.getGbOne();
         }
-        else if(yn.equals(StringFactory.getStrN())){
+        else if(yn.equals(StringFactory.getStrN())){ // 'n'
+            returnStr = StringFactory.getGbTwo();
+        }
+        else if(yn.equals(StringFactory.getStrLight())){ // 'light'
+            returnStr = StringFactory.getGbOne();
+        }
+        else if(yn.equals(StringFactory.getStrFurn())){ // 'furn' 02
             returnStr = StringFactory.getGbTwo();
         }
         return returnStr;
