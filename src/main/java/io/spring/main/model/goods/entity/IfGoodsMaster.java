@@ -67,6 +67,7 @@ public class IfGoodsMaster {
     private Float buySupplyDiscount;
     private Float buyRrpIncrement;
     private Float buyExchangeRate;
+    private String sizeType;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date regDt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")

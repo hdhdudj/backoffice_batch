@@ -2,6 +2,7 @@ package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.GoodsData;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -132,57 +133,40 @@ public class Itasrt extends CommonProps{
 	private String taxGb;
 	private String assortGb;
 	private String assortState;
-	@Column(nullable = true)
 	private Float asWidth;
-	@Column(nullable = true)
 	private Float asLength;
-	@Column(nullable = true)
 	private Float asHeight;
-	@Column(nullable = true)
 	private Float weight;
 	private String origin;
 	private String shortageYn; // itasrn에도
 	private String brandId;
 	private String dispCategoryId;
-	private String siteGb;
-	private String asVendorId;
+	private String siteGb = StringFactory.getGbOne(); // 01 하드코딩
+	private String asVendorId = StringFactory.getFourStartCd(); // 0001 하드코딩
 	private String manufactureNm;
-	@Column(nullable = true)
 	private Float deliPrice;
-	@Column(nullable = true)
 	private Float localPrice;
 	private Float localDeliFee;
-	@Column(nullable = true)
 	private Float localSale; // itasrn에도 들어감
 	private String assortColor;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
 	private Date sellStaDt;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
 	private Date sellEndDt;
-	@Column(nullable = true)
 	private Float mdRrp;
 	private String mdTax;
 	private String mdYear;
-	@Column(nullable = true)
 	private Float mdMargin;
-	@Column(nullable = true)
 	private Float mdVatrate;
-	@Column(nullable = true)
 	private Float mdOfflinePrice;
-	@Column(nullable = true)
 	private Float mdOnlinePrice;
-	@Column(nullable = true)
 	private Float mdGoodsVatrate;
 	private String buyWhere;
 	private String buyTax;
-	@Column(nullable = true)
 	private Float buySupplyDiscount;
-	@Column(nullable = true)
 	private Float buyRrpIncrement;
-	@Column(nullable = true)
 	private Float buyExchangeRate;
 	private String sizeType;
-	@Column(nullable = true)
 	private Float mdDiscountRate;
 	private String optionGbName;
 	private String optionUseYn;
