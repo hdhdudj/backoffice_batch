@@ -59,6 +59,10 @@ public class Itasrt extends CommonProps{
 		this.buySupplyDiscount = ifGoodsMaster.getBuySupplyDiscount();
 		this.buyRrpIncrement = ifGoodsMaster.getBuyRrpIncrement();
 		this.buyExchangeRate = ifGoodsMaster.getBuyExchangeRate();
+		this.asWidth = ifGoodsMaster.getWidth();
+		this.asHeight = ifGoodsMaster.getHeight();
+		this.asLength = ifGoodsMaster.getDepth();
+		this.weight = ifGoodsMaster.getGoodsWeight();
 //		this.regDt = ifGoodsMaster.getRegDt();
 //		this.updDt = ifGoodsMaster.getModDt();
 //		this.regId = 1l;//ifGoodsMaster.getRegId();

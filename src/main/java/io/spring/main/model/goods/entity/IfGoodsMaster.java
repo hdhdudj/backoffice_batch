@@ -54,6 +54,10 @@ public class IfGoodsMaster {
     private Float mdRrp;
     private String mdTax;
     private String mdYear;
+    private Float width;
+    private Float height;
+    private Float depth;
+    private Float goodsWeight;
     private Float mdMargin;
     private Float mdVatrate;
     private Float mdOfflinePrice;
