@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter
 @Table(name="ititmd")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Ititmd {
+public class Ititmd extends CommonProps{
     private final static Logger logger = LoggerFactory.getLogger(Ititmd.class);
     public Ititmd(Ititmd ititmd){
         this.assortId = ititmd.getAssortId();
@@ -57,12 +57,10 @@ public class Ititmd {
     private Date effStaDt;
     private String shortYn;
 
-    @Column(nullable = true)
-    private Long regId;
-    @Column(nullable = true)
-    private Long updId;
-    @CreationTimestamp
-    private Date regDt;
-    @UpdateTimestamp
-    private Date updDt;
+//    private Long regId;
+//    private Long updId;
+//    @CreationTimestamp
+//    private Date regDt;
+//    @UpdateTimestamp
+//    private Date updDt;
 }

@@ -19,17 +19,14 @@ import java.util.Date;
 @Table(name = "itmmot")
 @IdClass(ItmmotId.class)
 @NoArgsConstructor
-public class Itmmot {
+public class Itmmot extends CommonProps{
     public Itmmot(IfGoodsTextOption ifGoodsTextOption){
+        super(ifGoodsTextOption.getRegDt(), ifGoodsTextOption.getModDt());
         this.assortId = ifGoodsTextOption.getAssortId();
         this.optionNm = ifGoodsTextOption.getOptionName();
         this.addPrice = ifGoodsTextOption.getAddPrice();
         this.mustFl = ifGoodsTextOption.getMustFl();
         this.inputLimit = ifGoodsTextOption.getInputLimit();
-        this.regDt = ifGoodsTextOption.getRegDt();
-        this.updDt = ifGoodsTextOption.getModDt();
-        this.regId = ifGoodsTextOption.getRegId();
-        this.updId = ifGoodsTextOption.getUpdId();
     }
     @Id
     private String assortId;
@@ -37,13 +34,13 @@ public class Itmmot {
     private String optionTextId;
     private String optionNm;
     private Float addPrice;
-    private String delYn = StringFactory.getStrN(); // n 하드코딩
+    private String delYn = StringFactory.getGbTwo(); // n 하드코딩
     private String mustFl;
     private Long inputLimit;
-    private Long regId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date regDt;
-    private Long updId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date updDt;
+//    private Long regId;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date regDt;
+//    private Long updId;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date updDt;
 }

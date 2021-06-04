@@ -17,21 +17,21 @@ import java.util.Date;
 @Setter
 @Table(name="itbrnd")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Itbrnd {
+public class Itbrnd extends CommonProps{
     @Id
     private String brandId;
     private String brandNm;
     private String brandEnm;
-    private Long regId;
-    private Long updId;
-    @CreationTimestamp
-    private Date regDt;
-    @UpdateTimestamp
-    private Date updDt;
+//    private Long regId;
+//    private Long updId;
+//    @CreationTimestamp
+//    private Date regDt;
+//    @UpdateTimestamp
+//    private Date updDt;
 
     @Override
     public String toString() {
-        return "Itbrnd [brandId=" + brandId + ", brandNm=" + brandNm + ", brandEnm=" + brandEnm + ", regId=" + regId
-                + ", updId=" + updId + ", regDt=" + regDt + ", updDt=" + updDt + "]";
+        return "Itbrnd [brandId=" + brandId + ", brandNm=" + brandNm + ", brandEnm=" + brandEnm + ", regId=" + getRegId()
+                + ", updId=" + getUpdId() + ", regDt=" + getRegDt() + ", updDt=" + getUpdDt() + "]";
     }
 }

@@ -143,9 +143,9 @@ public class GoodsSearch {
             ifGoodsAddGoods.setMakerNm(addGoodsData.getMakerNm());
             ifGoodsAddGoods.setGoodsPrice(addGoodsData.getGoodsPrice());
             ifGoodsAddGoods.setStockCnt(addGoodsData.getStockCnt());
-            ifGoodsAddGoods.setViewFl(addGoodsData.getViewFl());
+            ifGoodsAddGoods.setViewFl(ynToOneTwo(addGoodsData.getViewFl()));
             ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne());
-            ifGoodsAddGoods.setSoldOutFl(addGoodsData.getSoldOutFl());
+            ifGoodsAddGoods.setSoldOutFl(ynToOneTwo(addGoodsData.getSoldOutFl()));
             Itadgs itadgs = new Itadgs(ifGoodsAddGoods);
             jpaItadgsRepository.save(itadgs);
 //            jpaIfGoodsAddGoodsRepository.save(addGoodsData);
@@ -353,8 +353,24 @@ public class GoodsSearch {
         ifGoodsMaster.setAssortId(goodsData.getAssortId()); // assort_id 설정
         ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 채널 하드코딩
         ifGoodsMaster.setUploadStatus(StringFactory.getGbOne()); // update_status 하드코딩
+        // y/n을 01/02로 바꾸기
+        ifGoodsMaster.setGoodsSellFl(ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
+        ifGoodsMaster.setGoodsDisplayFl(ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
+        ifGoodsMaster.setOptionFl(ynToOneTwo(ifGoodsMaster.getOptionFl()));
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
         return ifGoodsMaster;
+    }
+    
+    // 'y'는 '01'로, 'n'은 '02'로 변환
+    private String ynToOneTwo(String yn){
+        String returnStr = null;
+        if(yn.equals(StringFactory.getStrY())){
+            returnStr = StringFactory.getGbOne();
+        }
+        else if(yn.equals(StringFactory.getStrN())){
+            returnStr = StringFactory.getGbTwo();
+        }
+        return returnStr;
     }
 
     private void saveIfGoodsOption(GoodsData goodsData){ //, List<IfGoodsOption> ifGoodsOptionList) {
@@ -383,6 +399,8 @@ public class GoodsSearch {
             IfGoodsTextOption ifGoodsTextOption = objectMapper.convertValue(textOptionData,IfGoodsTextOption.class);
             ifGoodsTextOption.setAssortId(goodsData.getAssortId());
             ifGoodsTextOption.setChannelGb(StringFactory.getGbOne());
+            // yn을 0102로
+            ifGoodsTextOption.setMustFl(ynToOneTwo(ifGoodsTextOption.getMustFl()));
             ifGoodsTextOption.setUploadStatus(StringFactory.getGbOne());
             jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
         }

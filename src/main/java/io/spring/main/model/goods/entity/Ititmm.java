@@ -21,23 +21,22 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItitmmId.class)
-public class Ititmm {
+public class Ititmm extends CommonProps{
     public Ititmm(Itasrt itasrt, Itvari itvari){ // 옵션데이터 없을때(단품일때)
         this.assortId = itasrt.getAssortId();
         this.shortYn = itasrt.getShortageYn();
         variationGb1 = itvari.getVariationGb();
         variationSeq1 = itvari.getSeq();
         itemId = StringUtils.leftPad(StringFactory.getStrOne(), 4, '0');
-        itemNm = itvari.getOptionNm();
+        itemNm = itasrt.getAssortNm();
         addPrice = StringFactory.getStrZero();
     }
     public Ititmm(IfGoodsOption ifGoodsOption){
+        super(ifGoodsOption.getRegDt(), ifGoodsOption.getModDt());
         this.assortId = ifGoodsOption.getAssortId();
         this.shortYn = ifGoodsOption.getSoldOutFl();
-        this.regDt = ifGoodsOption.getRegDt();
-        this.updDt = ifGoodsOption.getModDt();
-        this.regId = ifGoodsOption.getRegId();
-        this.updId = ifGoodsOption.getUpdId();
+//        this.regDt = ifGoodsOption.getRegDt();
+//        this.updDt = ifGoodsOption.getModDt();
     }
 //    public Ititmm(String assortId, GoodsInsertRequestData.Items items){
 //        this.assortId = assortId;
@@ -55,16 +54,14 @@ public class Ititmm {
     private String variationGb2;
     private String variationSeq2;
     private String addPrice;
-    @Column(nullable = true)
-    private Long regId;
-    @Column(nullable = true)
-    private Long updId;
-    @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date regDt;
-    @UpdateTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date updDt;
+//    private Long regId;
+//    private Long updId;
+//    @CreationTimestamp
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date regDt;
+//    @UpdateTimestamp
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date updDt;
 
     // itasrt 연관 관계
     @ManyToOne(fetch = FetchType.LAZY)

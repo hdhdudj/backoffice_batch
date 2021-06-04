@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItvariId.class)
-public class Itvari {
+public class Itvari extends CommonProps{
     public Itvari(String assortId){ // 단품인 경우
         this.assortId = assortId;
         this.seq = StringUtils.leftPad(StringFactory.getStrOne(), 4, '0');
@@ -49,11 +49,8 @@ public class Itvari {
      * }
      */
     public Itvari(IfGoodsOption ifGoodsOption){
+        super(ifGoodsOption.getRegDt(), ifGoodsOption.getModDt());
         this.assortId = ifGoodsOption.getAssortId();
-        this.regDt = ifGoodsOption.getRegDt();
-        this.updDt = ifGoodsOption.getModDt();
-        this.regId = ifGoodsOption.getRegId();
-        this.updId = ifGoodsOption.getUpdId();
     }
 //    public Itvari(GoodsInsertRequestData goodsInsertRequestData){
 //        this.assortId = goodsInsertRequestData.getAssortId();
@@ -74,16 +71,16 @@ public class Itvari {
     private String imgYn;
     private String optionNm;
     private String variationGb;
-    private String delYn = StringFactory.getStrN(); // n 하드코딩
+    private String delYn = StringFactory.getGbTwo(); // n 하드코딩
 
-    @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date regDt;
-    @UpdateTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date updDt;
-    private Long regId;
-    private Long updId;
+//    @CreationTimestamp
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date regDt;
+//    @UpdateTimestamp
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date updDt;
+//    private Long regId;
+//    private Long updId;
 
     // itasrt 연관 관계
     @ManyToOne(fetch = FetchType.LAZY)

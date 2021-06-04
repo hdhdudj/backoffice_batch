@@ -24,8 +24,9 @@ import java.util.Date;
 @Table(name = "itlkag")
 @IdClass(ItlkagId.class)
 @NoArgsConstructor
-public class Itlkag {
+public class Itlkag extends CommonProps{
     public Itlkag(IfGoodsAddGoods ifGoodsAddGoods){
+        super(ifGoodsAddGoods.getRegDt(), ifGoodsAddGoods.getModDt());
         this.assortId = ifGoodsAddGoods.getAssortId();
         try
         {
@@ -41,10 +42,6 @@ public class Itlkag {
         catch(Exception e){
             log.debug(e.getMessage());
         }
-        this.regId = ifGoodsAddGoods.getRegId();
-        this.updId = ifGoodsAddGoods.getUpdId();
-        this.regDt = ifGoodsAddGoods.getRegDt();
-        this.updDt = ifGoodsAddGoods.getModDt();
     }
     @Id
     private String assortId;
@@ -56,12 +53,12 @@ public class Itlkag {
     @Id
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date effEndDt;
-    private Long regId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    @CreationTimestamp
-    private Date regDt;
-    private Long updId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    @UpdateTimestamp
-    private Date updDt;
+//    private Long regId;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    @CreationTimestamp
+//    private Date regDt;
+//    private Long updId;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    @UpdateTimestamp
+//    private Date updDt;
 }

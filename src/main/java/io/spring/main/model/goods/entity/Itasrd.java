@@ -19,12 +19,13 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItasrdId.class)
-public class Itasrd {
+public class Itasrd extends CommonProps {
     public Itasrd(IfGoodsMaster ifGoodsMaster){
-        this.regDt = ifGoodsMaster.getRegDt();
-        this.updDt = ifGoodsMaster.getModDt();
-        this.regId = ifGoodsMaster.getRegId();
-        this.updId = ifGoodsMaster.getUpdId();
+        super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getModDt());
+//        this.regDt = ifGoodsMaster.getRegDt();
+//        this.updDt = ifGoodsMaster.getModDt();
+//        this.regId = ifGoodsMaster.getRegId();
+//        this.updId = ifGoodsMaster.getUpdId();
     }
 //    public Itasrd(GoodsInsertRequestData goodsInsertRequestData){
 //        this.assortId = goodsInsertRequestData.getAssortId();
@@ -47,16 +48,16 @@ public class Itasrd {
     private String textHtmlGb;
     private String memo2;
 
-    @Column(nullable = true)
-    private Long regId;
-    @Column(nullable = true)
-    private Long updId;
-    @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date regDt;
-    @UpdateTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date updDt;
+//    @Column(nullable = true)
+//    private Long regId;
+//    @Column(nullable = true)
+//    private Long updId;
+//    @CreationTimestamp
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date regDt;
+//    @UpdateTimestamp
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date updDt;
 
     // 연관 관계
     @ManyToOne(fetch = FetchType.LAZY)

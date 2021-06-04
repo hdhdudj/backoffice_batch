@@ -18,7 +18,7 @@ import java.util.Date;
 @Getter
 @Table(name="itcatg")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Itcatg {
+public class Itcatg extends CommonProps {
     @Id
     private String categoryId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
@@ -46,12 +46,12 @@ public class Itcatg {
     private String dispGb;
     private String templateId;
     private Long userId;
-    private Long regId;
-    @CreationTimestamp
-    private Date regDt;
-    private Long updId;
-    @UpdateTimestamp
-    private Date updDt;
+//    private Long regId;
+//    @CreationTimestamp
+//    private Date regDt;
+//    private Long updId;
+//    @UpdateTimestamp
+//    private Date updDt;
     private String rootCategoryId;
     private String linkUrl;
 }

@@ -26,8 +26,9 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Itasrt {
+public class Itasrt extends CommonProps{
 	public Itasrt(IfGoodsMaster ifGoodsMaster){
+		super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getModDt());
 		this.assortNm = ifGoodsMaster.getGoodsNm();
 		this.assortState = ifGoodsMaster.getGoodsDisplayFl();
 		this.shortageYn = ifGoodsMaster.getGoodsSellFl();
@@ -58,10 +59,10 @@ public class Itasrt {
 		this.buySupplyDiscount = ifGoodsMaster.getBuySupplyDiscount();
 		this.buyRrpIncrement = ifGoodsMaster.getBuyRrpIncrement();
 		this.buyExchangeRate = ifGoodsMaster.getBuyExchangeRate();
-		this.regDt = ifGoodsMaster.getRegDt();
-		this.updDt = ifGoodsMaster.getModDt();
-		this.regId = ifGoodsMaster.getRegId();
-		this.updId = ifGoodsMaster.getUpdId();
+//		this.regDt = ifGoodsMaster.getRegDt();
+//		this.updDt = ifGoodsMaster.getModDt();
+//		this.regId = 1l;//ifGoodsMaster.getRegId();
+//		this.updId = 1l;//ifGoodsMaster.getUpdId();
 	}
 
 //	public Itasrt(GoodsInsertRequestData goodsInsertRequestData){
@@ -112,14 +113,14 @@ public class Itasrt {
 	@Id
 	private String assortId;
 
-	private Long regId;
-	private Long updId;
-	@CreationTimestamp
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-	private Date regDt;
-	@UpdateTimestamp
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-	private Date updDt;
+//	private Long regId;
+//	private Long updId;
+//	@CreationTimestamp
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//	private Date regDt;
+//	@UpdateTimestamp
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//	private Date updDt;
 
 	private String assortNm;
 	private String assortModel;

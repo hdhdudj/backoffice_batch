@@ -21,7 +21,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "itasrn")
-public class Itasrn {
+public class Itasrn extends CommonProps{
     private final static Logger logger = LoggerFactory.getLogger(Itasrn.class);
     public Itasrn(Itasrn itasrn){
         this.historyGb = itasrn.getHistoryGb();
@@ -38,6 +38,7 @@ public class Itasrn {
         }
     }
     public Itasrn(IfGoodsMaster ifGoodsMaster){
+        super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getModDt());
         this.shortageYn = ifGoodsMaster.getGoodsSellFl();
         this.localSale = ifGoodsMaster.getGoodsPrice();
         try
@@ -47,10 +48,10 @@ public class Itasrn {
         catch (Exception e){
             logger.debug(e.getMessage());
         }
-        this.regDt = ifGoodsMaster.getRegDt();
-        this.updDt = ifGoodsMaster.getModDt();
-        this.regId = ifGoodsMaster.getRegId();
-        this.updId = ifGoodsMaster.getUpdId();
+//        this.regDt = ifGoodsMaster.getRegDt();
+//        this.updDt = ifGoodsMaster.getModDt();
+//        this.regId = 1l;//ifGoodsMaster.getRegId();
+//        this.updId = 1l;//ifGoodsMaster.getUpdId();
     }
 //    public Itasrn(GoodsInsertRequestData goodsInsertRequestData){
 //        this.historyGb = "01"; // default 값
@@ -79,16 +80,16 @@ public class Itasrn {
 //    private String seq;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date effEndDt;
-    @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date regDt;
-    @UpdateTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date updDt;
-    @Column(nullable = true)
-    private Long updId;
-    @Column(nullable = true)
-    private Long regId;
+//    @CreationTimestamp
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date regDt;
+//    @UpdateTimestamp
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private Date updDt;
+//    @Column(nullable = true)
+//    private Long updId;
+//    @Column(nullable = true)
+//    private Long regId;
 
     @Column(nullable = true)
     private Float localSale;

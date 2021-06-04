@@ -20,7 +20,7 @@ import java.util.Date;
 @Table(name="ititmt")
 @IdClass(ItitmtId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Ititmt {
+public class Ititmt extends CommonProps{
     public Ititmt(ItitmtId ititmtId){
         this.storageId = ititmtId.getStorageId();
         this.assortId = ititmtId.getAssortId();
@@ -47,10 +47,10 @@ public class Ititmt {
     private Float stockAmt;
     private String vendorId;
     private String siteGb;
-    private Long regId;
-    private Long updId;
-    @CreationTimestamp
-    private Date regDt;
-    @UpdateTimestamp
-    private Date updDt;
+//    private Long regId;
+//    private Long updId;
+//    @CreationTimestamp
+//    private Date regDt;
+//    @UpdateTimestamp
+//    private Date updDt;
 }
