@@ -68,19 +68,10 @@ public class Itvari extends CommonProps{
     private String seq;
 
     private String optionGb;
-    private String imgYn;
+    private String imgYn = StringFactory.getGbTwo(); // 02 하드코딩
     private String optionNm;
     private String variationGb;
-    private String delYn = StringFactory.getGbTwo(); // n 하드코딩
-
-//    @CreationTimestamp
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-//    private Date regDt;
-//    @UpdateTimestamp
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-//    private Date updDt;
-//    private Long regId;
-//    private Long updId;
+    private String delYn = StringFactory.getGbTwo(); // 02 하드코딩
 
     // itasrt 연관 관계
     @ManyToOne(fetch = FetchType.LAZY)

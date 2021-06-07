@@ -86,8 +86,8 @@ public class Ititmm extends CommonProps{
 
     private String orderLmtYn;
     private String orderLmtCnt;
-//    private String minCnt;
-//    private String maxCnt;
+    private Long minCnt = 0l;
+    private Long maxCnt = 0l;
     private String dayDeliCnt;
     private String totDeliCnt;
     private String setYn = StringFactory.getGbTwo(); // 02 하드코딩

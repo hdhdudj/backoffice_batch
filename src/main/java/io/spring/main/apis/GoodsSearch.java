@@ -49,6 +49,8 @@ public class GoodsSearch {
     private final JpaItmmotRepository jpaItmmotRepository;
     private final JpaItlkagRepository jpaItlkagRepository;
     private final JpaItadgsRepository jpaItadgsRepository;
+    private final JpaIfBrandRepository jpaIfBrandRepository;
+    private final JpaIfCategoryRepository jpaIfCategoryRepository;
     private final ObjectMapper objectMapper;
 
 //    private static PoolManager poolManager = null;
@@ -358,10 +360,14 @@ public class GoodsSearch {
         ifGoodsMaster.setGoodsDisplayFl(ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
         ifGoodsMaster.setOptionFl(ynToOneTwo(ifGoodsMaster.getOptionFl()));
         ifGoodsMaster.setSizeType(ynToOneTwo(ifGoodsMaster.getSizeType()));
+        // 매핑 테이블 이용해 고도몰 코드를 백오피스 코드로 전환 (brandCd, cateCd)
+        ifGoodsMaster.setBrandCd(jpaIfBrandRepository.findByChannelBrandId(ifGoodsMaster.getBrandCd()).getBrandId());
+        ifGoodsMaster.setCateCd(jpaIfCategoryRepository.findByChannelCategoryId(ifGoodsMaster.getCateCd()).getCategoryId());
+
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
         return ifGoodsMaster;
     }
-    
+
     // 'y'는 '01'로, 'n'은 '02'로 변환
     private String ynToOneTwo(String yn){
         String returnStr = null;
