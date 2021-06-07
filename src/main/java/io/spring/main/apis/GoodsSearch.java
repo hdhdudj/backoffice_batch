@@ -186,7 +186,7 @@ public class GoodsSearch {
                 this.saveIfGoodsTextOption(goodsData); // if_goods_text_option : itmmot
                 this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itlkag, itadgs
             }
-            if(jpaIfGoodsOptionRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo())) == null){
+            if(jpaIfGoodsOptionRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo())).size() == 0){
                 this.saveIfGoodsOption(goodsData); // if_goods_option : itvari, ititmm
             }
         }
@@ -240,6 +240,7 @@ public class GoodsSearch {
         // itemId 채번
         String itemId = jpaItitmmRepository.findMaxItemIdByAssortId(ititmm.getAssortId());
         itemId = getSeq(itemId, 4);
+        ifGoodsOption.setItemId(itemId);
         ititmm.setItemId(itemId);
         // op1이 없으면 단품으로 처리
         Itvari itvariOp1 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue1());
