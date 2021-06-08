@@ -361,8 +361,6 @@ public class GoodsSearch {
             ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
         }
         ifGoodsMaster.setAssortId(goodsData.getAssortId()); // assort_id 설정
-        ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 채널 01 하드코딩
-        ifGoodsMaster.setUploadStatus(StringFactory.getGbOne()); // update_status 01 하드코딩
         // y/n을 01/02로 바꾸기
         ifGoodsMaster.setGoodsSellFl(ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
         ifGoodsMaster.setGoodsDisplayFl(ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
@@ -449,7 +447,6 @@ public class GoodsSearch {
                 ifGoodsAddGoods.setAssortId(goodsData.getAssortId());
                 ifGoodsAddGoods.setAddGoodsNo(addGoods);
                 ifGoodsAddGoods.setTitle(addGoodsData.getTitle());
-                ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne()); // 01 하드코딩
 
                 jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
             }

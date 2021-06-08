@@ -1,5 +1,6 @@
 package io.spring.main.model.goods.entity;
 
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.IfCategoryId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 @IdClass(value = IfCategoryId.class)
 public class IfCategory extends CommonProps{
     @Id
-    private String channelGb;
+    private String channelGb = StringFactory.getGbOne(); // 01 하드코딩;
     @Id
     private String channelCategoryId;
     private String channelCategoryNm;

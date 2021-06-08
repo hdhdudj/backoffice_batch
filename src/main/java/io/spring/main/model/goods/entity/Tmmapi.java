@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.TmmapiId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,7 +22,7 @@ import java.util.Date;
 @IdClass(TmmapiId.class)
 public class Tmmapi extends CommonProps{
     @Id
-    private String channelGb;
+    private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     @Id
     private String assortId;
     private String assortNm;

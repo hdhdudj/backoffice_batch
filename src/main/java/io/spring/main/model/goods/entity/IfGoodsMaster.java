@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.IfGoodsMasterId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -64,7 +65,7 @@ public class IfGoodsMaster {
         // itasrd
     }
     @Id
-    private String channelGb;
+    private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     @Id
     private String goodsNo;
     private String assortId;
@@ -118,5 +119,5 @@ public class IfGoodsMaster {
     private Date modDt;
     private Long regId;
     private Long updId;
-    private String uploadStatus;
+    private String uploadStatus = StringFactory.getGbOne(); // 01 하드코딩
 }
