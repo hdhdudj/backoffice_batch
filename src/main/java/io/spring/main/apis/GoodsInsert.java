@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class GoodsInsert {
     public void insertGoods() {
-        
+
     }
 }
