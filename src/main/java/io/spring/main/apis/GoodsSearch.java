@@ -362,8 +362,14 @@ public class GoodsSearch {
         ifGoodsMaster.setOptionFl(ynToOneTwo(ifGoodsMaster.getOptionFl()));
         ifGoodsMaster.setSizeType(ynToOneTwo(ifGoodsMaster.getSizeType()));
         // 매핑 테이블 이용해 고도몰 코드를 백오피스 코드로 전환 (brandCd, cateCd)
-        ifGoodsMaster.setBrandCd(jpaIfBrandRepository.findByChannelBrandId(ifGoodsMaster.getBrandCd()).getBrandId());
-        ifGoodsMaster.setCateCd(jpaIfCategoryRepository.findByChannelCategoryId(ifGoodsMaster.getCateCd()).getCategoryId());
+        IfBrand ifBrand = jpaIfBrandRepository.findByChannelBrandId(ifGoodsMaster.getBrandCd());
+        if(ifBrand != null){
+            ifGoodsMaster.setBrandCd(ifBrand.getBrandId());
+        }
+        IfCategory ifCategory = jpaIfCategoryRepository.findByChannelCategoryId(ifGoodsMaster.getCateCd());
+        if(ifCategory != null){
+            ifGoodsMaster.setCateCd(ifCategory.getCategoryId());
+        }
 
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
         return ifGoodsMaster;
@@ -490,7 +496,7 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + StringFactory.getKey() +"&goodsNo=1000032220";
+                + "=" + StringFactory.getKey();// +"&goodsNo=1000032220";
         NodeList nodeList =  getXmlNodes(urlstr);
 
         List<GoodsData> goodsDatas = new ArrayList<>();
