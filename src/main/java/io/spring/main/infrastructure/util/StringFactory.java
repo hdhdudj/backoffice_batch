@@ -155,4 +155,7 @@ public class StringFactory {
     private final static String strLight = "light";
     @Getter
     private final static String strFurn = "furn";
+
+    @Getter
+    private final static String strDataImage = "data:image";
 }

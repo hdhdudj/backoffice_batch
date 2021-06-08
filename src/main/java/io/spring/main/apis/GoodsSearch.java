@@ -180,6 +180,13 @@ public class GoodsSearch {
 
         // 1. if table 저장
         for(GoodsData goodsData : goodsDataList){
+            System.out.println();
+            // goodsDescription에 너무 긴 애가 들어있는 애 거르기
+            String goodsDescription = goodsData.getGoodsDescription();
+            if(goodsDescription.split(StringFactory.getStrDataImage()).length >= 2){
+                log.debug("goodsDescription is too long. goodsNo :" + goodsData.getGoodsNo());
+                continue;
+            }
             // goodsNo가 겹치는 애가 있는지 확인
             if(jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo())) == null){
                 ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd  * 여기서 assortId 생성
