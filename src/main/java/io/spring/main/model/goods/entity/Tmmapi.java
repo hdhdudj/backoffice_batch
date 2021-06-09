@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.idclass.TmmapiId;
 import lombok.AccessLevel;
@@ -8,11 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -49,4 +48,13 @@ public class Tmmapi extends CommonProps{
     private String uploadRmk;
     private String joinStatus;
     private String errorMsg;
+
+    // tmitem 연관관계
+    @JoinColumns({
+        @JoinColumn(name = "assortId", referencedColumnName="assortId", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none")),
+        @JoinColumn(name = "channelGb", referencedColumnName="channelGb", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
+    })
+    @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Tmitem> tmitemList;
 }
