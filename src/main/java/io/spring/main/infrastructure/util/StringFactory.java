@@ -1,23 +1,26 @@
 package io.spring.main.infrastructure.util;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 
 public class StringFactory {
-    // Godo Key
-    @Getter
-    private static String pKey ="JUJDJTExJTg4byUyNSUzQ1olRDE=";
-    @Getter
-    private static String key = "JURBaSU4OGU3LnMlMjElM0ElQUIlQzQ2NiU5RiVFQiUyOCVBOCUwNSVFMSUxQyU4RiVCM0klMTMlOEMlMkElN0QlQTIlQjJ4ZyVCRVMlOTglMDclMEFSQjYlODM=";//"JUMxJTAyJTExJUJBJUQwJTJBcyUzQSU5RVglMkZKJTEwRiVDNSVFQSUwRSVGQyU4NTYlQzUlRTV3MFhGJURESCVBMzElRDklRTRCJTEwJTE4diUyOCVGRCUwMHY=";
-
-    // Godo api page
-    @Getter
-    private final static String godoUrl = "https://openhub.godo.co.kr/godomall5/";
-    // 상품조회
-    @Getter
-    private final static String goodsSearch = "goods/Goods_Search.php";
-    // 추가상품조회
-    @Getter
-    private final static String addGoodsSearch = "goods/Goods_Add_Search.php";
+//    // Godo Key
+//    @Getter
+//    @Value("${pKey}")
+//    private String pKey;// ="JUJDJTExJTg4byUyNSUzQ1olRDE=";
+//    @Getter
+//    private String key = "JURBaSU4OGU3LnMlMjElM0ElQUIlQzQ2NiU5RiVFQiUyOCVBOCUwNSVFMSUxQyU4RiVCM0klMTMlOEMlMkElN0QlQTIlQjJ4ZyVCRVMlOTglMDclMEFSQjYlODM=";//"JUMxJTAyJTExJUJBJUQwJTJBcyUzQSU5RVglMkZKJTEwRiVDNSVFQSUwRSVGQyU4NTYlQzUlRTV3MFhGJURESCVBMzElRDklRTRCJTEwJTE4diUyOCVGRCUwMHY=";
+//
+//    // Godo api page
+//    @Getter
+//    private final static String godoUrl = "https://openhub.godo.co.kr/godomall5/";
+//    // 상품조회
+//    @Getter
+//    private final static String goodsSearch = "goods/Goods_Search.php";
+//    // 추가상품조회
+//    @Getter
+//    private final static String addGoodsSearch = "goods/Goods_Add_Search.php";
     @Getter
     private final static String[] goodsSearchParams = {"partner_key",
             "key","goodsNm","goodsNo","goodsCd","makerNm","originNm",

@@ -89,5 +89,6 @@ bin/
 
 ### properties ###
 application.properties
+godourl.yml
 
 

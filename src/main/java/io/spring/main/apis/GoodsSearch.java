@@ -12,6 +12,8 @@ import io.spring.main.util.Utilities;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -35,6 +37,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 @Component
+@PropertySource("classpath:godourl.yml")
 public class GoodsSearch {
     private final JpaIfGoodsMasterRepository jpaIfGoodsMasterRepository;
     private final JpaIfGoodsOptionRepository jpaIfGoodsOptionRepository;
@@ -52,6 +55,16 @@ public class GoodsSearch {
     private final JpaIfBrandRepository jpaIfBrandRepository;
     private final JpaIfCategoryRepository jpaIfCategoryRepository;
     private final ObjectMapper objectMapper;
+
+    // 고도몰 관련 값들
+    @Value("${pKey}")
+    private String pKey;
+    @Value("${key}")
+    private String key;
+    @Value("${url.goodsSearch}")
+    private String goodsSearchUrl;
+    @Value("${url.goodsAddSearch}")
+    private String goodsAddSearchUrl;
 
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
@@ -456,9 +469,9 @@ public class GoodsSearch {
     // addGoods xml 받아오는 함수
     private AddGoodsData retrieveAddGoods(String goodsNo){
         //OpenApi호출
-        String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
-                StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + StringFactory.getKey()+"&"+goodsNo+"="+goodsNo;
+        String urlstr = goodsAddSearchUrl + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
+                pKey + "&" +StringFactory.getGoodsSearchParams()[1]
+                + "=" + key+"&"+goodsNo+"="+goodsNo;
         NodeList nodeList =  getXmlNodes(urlstr);
         AddGoodsData map = null;
 
@@ -498,9 +511,9 @@ public class GoodsSearch {
     private List<GoodsData> retrieveGoods(String fromDt, String toDt) {
 
         //OpenApi호출
-        String urlstr = StringFactory.getGodoUrl() + StringFactory.getGoodsSearch() + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
-                StringFactory.getPKey() + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + StringFactory.getKey();// +"&goodsNo=1000032220";
+        String urlstr = goodsSearchUrl + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
+                pKey + "&" +StringFactory.getGoodsSearchParams()[1]
+                + "=" + key;// +"&goodsNo=1000032220";
         NodeList nodeList =  getXmlNodes(urlstr);
 
         List<GoodsData> goodsDatas = new ArrayList<>();

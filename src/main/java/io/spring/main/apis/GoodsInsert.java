@@ -27,6 +27,7 @@ public class GoodsInsert {
     private final JpaIfBrandRepository jpaIfBrandRepository;
     private final JpaIfCategoryRepository jpaIfCategoryRepository;
     private final ObjectMapper objectMapper;
+
     public void insertGoods() {
 
     }
