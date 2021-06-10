@@ -92,6 +92,7 @@ public class GoodsInsert {
             // api 전송
             sendXmlToGodo(xmlUrl);
         }
+        // joinStatus를 02로 바꾸기
     }
 
     private void sendXmlToGodo(String xmlUrl) {
@@ -133,6 +134,8 @@ public class GoodsInsert {
                 }
             }
         }
+        // itasrt에서 optionUseYn이 02인 애는 null로 해버리기
+        itasrt.setOptionUseYn(itasrt.getOptionUseYn().equals(StringFactory.getGbTwo())? null : itasrt.getOptionUseYn());
         return new GoodsInsertData(new GoodsInsertData.GoodsData(itasrt, itasrd1, itasrd2));
     }
     // goodsInsertData를 xml로 만들고 db에 저장 후 해당 xml을 가져올 수 있는 주소를 반환

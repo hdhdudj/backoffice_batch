@@ -379,8 +379,6 @@ public class GoodsSearch {
         ifGoodsMaster.setGoodsDisplayFl(ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
         ifGoodsMaster.setOptionFl(ynToOneTwo(ifGoodsMaster.getOptionFl()));
         ifGoodsMaster.setSizeType(ynToOneTwo(ifGoodsMaster.getSizeType()));
-        // optionUseYn이 02면 null로 바꾸기
-        ifGoodsMaster.setOptionFl(ifGoodsMaster.getOptionFl().equals(StringFactory.getGbTwo())? null:ifGoodsMaster.getOptionFl());
         // 매핑 테이블 이용해 고도몰 코드를 백오피스 코드로 전환 (brandCd, cateCd)
         IfBrand ifBrand = jpaIfBrandRepository.findByChannelBrandId(ifGoodsMaster.getBrandCd());
         if(ifBrand != null){

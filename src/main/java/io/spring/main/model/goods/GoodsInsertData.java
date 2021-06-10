@@ -1,6 +1,7 @@
 package io.spring.main.model.goods;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.gson.annotations.Expose;
 import io.spring.main.model.goods.entity.Itasrd;
 import io.spring.main.model.goods.entity.Itasrt;
 import lombok.Getter;
@@ -130,6 +131,7 @@ public class GoodsInsertData {
         private Float goodsPrice;
         private Float fixedPrice;
         private Float costPrice;
+        @Expose // null이면 json에 들어가지 않게
         private String optionFl;
         private String optionDisplayFl;
         private String optionName;
