@@ -44,5 +44,5 @@ public class IfGoodsAddGoods {
     private Date modDt;
     private Long regId;
     private Long updId;
-    private String uploadStatus;
+    private String uploadStatus = StringFactory.getGbOne(); // 01 하드코딩
 }

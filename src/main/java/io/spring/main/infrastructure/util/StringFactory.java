@@ -143,6 +143,11 @@ public class StringFactory {
     @Getter
     private final static String strFurn = "furn";
 
+    // 잘못된 상세 메모 split 지표 문구
     @Getter
     private final static String strDataImage = "data:image";
+
+    // http 방법
+    @Getter
+    private final static String strPost = "POST";
 }

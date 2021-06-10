@@ -70,10 +70,10 @@ public class GoodsSearch {
 //    private static SqlSession session = null;
 //    @Transactional
     public void getGoodsSeq(String fromDt, String toDt){
-        // objectMapper 설정
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+//        // objectMapper 설정
+//        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+//        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 
         // if table entity 리스트 생성
         List<IfGoodsMaster> ifGoodsMasterList = new ArrayList<>(); // if_goods_master
@@ -379,6 +379,8 @@ public class GoodsSearch {
         ifGoodsMaster.setGoodsDisplayFl(ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
         ifGoodsMaster.setOptionFl(ynToOneTwo(ifGoodsMaster.getOptionFl()));
         ifGoodsMaster.setSizeType(ynToOneTwo(ifGoodsMaster.getSizeType()));
+        // optionUseYn이 02면 null로 바꾸기
+        ifGoodsMaster.setOptionFl(ifGoodsMaster.getOptionFl().equals(StringFactory.getGbTwo())? null:ifGoodsMaster.getOptionFl());
         // 매핑 테이블 이용해 고도몰 코드를 백오피스 코드로 전환 (brandCd, cateCd)
         IfBrand ifBrand = jpaIfBrandRepository.findByChannelBrandId(ifGoodsMaster.getBrandCd());
         if(ifBrand != null){
@@ -513,7 +515,7 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = goodsSearchUrl + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 pKey + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + key;// +"&goodsNo=1000032220";
+                + "=" + key +"&goodsNo=1000032220";
         NodeList nodeList =  getXmlNodes(urlstr);
 
         List<GoodsData> goodsDatas = new ArrayList<>();

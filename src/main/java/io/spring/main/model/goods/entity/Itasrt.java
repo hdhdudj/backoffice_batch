@@ -2,6 +2,7 @@ package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.GoodsData;
 import lombok.AccessLevel;
@@ -157,6 +158,7 @@ public class Itasrt extends CommonProps{
 //	private String sizeType;
 	private Float mdDiscountRate;
 	private String optionGbName;
+	@Expose
 	private String optionUseYn;
 
 	//// 다른 테이블과 엮으면 나오는 프로퍼티들

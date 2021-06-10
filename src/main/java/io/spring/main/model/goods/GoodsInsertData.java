@@ -1,6 +1,8 @@
 package io.spring.main.model.goods;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.entity.Itasrd;
+import io.spring.main.model.goods.entity.Itasrt;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +13,10 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class GoodsInsert {
+public class GoodsInsertData {
+    public GoodsInsertData(GoodsData goodsData){
+        this.goodsData = goodsData;
+    }
     private GoodsData goodsData;
     private OptionData optionData;
     private TextOptionData textOptionData;
@@ -19,7 +24,54 @@ public class GoodsInsert {
 
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class GoodsData{
+
+        public GoodsData(Itasrt itasrt, Itasrd itasrd1, Itasrd itasrd2){
+            /**
+             *  Itasrt 로부터 값을 얻는 부분
+             */
+            this.goodsNm = itasrt.getAssortNm();
+            this.goodsDisplayFl = itasrt.getAssortState();
+            this.sizeType = itasrt.getAssortGb();
+            this.goodsSellFl = itasrt.getShortageYn();
+            this.cateCd = itasrt.getDispCategoryId();
+            this.goodsColor = itasrt.getAssortColor();
+            this.commission = itasrt.getMargin();
+//            this.brandCd = itasrt.getBrandId(); // 변환 필요
+            this.makerNm = itasrt.getManufactureNm();
+            this.goodsModelNo = itasrt.getAssortModel();
+            this.taxFreeFl = itasrt.getTaxGb();
+            this.salesStartYmd = itasrt.getSellStaDt();
+            this.salesEndYmd = itasrt.getSellEndDt();
+            this.goodsPrice = itasrt.getLocalSale();
+            this.fixedPrice = itasrt.getLocalPrice();
+            this.costPrice = itasrt.getDeliPrice();
+            this.optionName = itasrt.getOptionGbName();
+            this.optionFl = itasrt.getOptionUseYn();
+            this.mdRrp = itasrt.getMdRrp();
+            this.mdRrpTax = itasrt.getMdTax();
+            this.mdYear = itasrt.getMdYear();
+            this.mdMargin = itasrt.getMdMargin();
+            this.mdVatrate = itasrt.getMdVatrate();
+            this.mdOfflinePrice = itasrt.getMdOfflinePrice();
+            this.mdOnlinePrice = itasrt.getMdOnlinePrice();
+            this.mdGoodsVatrate = itasrt.getMdGoodsVatrate();
+            this.buyWhere = itasrt.getBuyWhere();
+            this.buySupplyDiscount = itasrt.getBuySupplyDiscount();
+            this.buyRrpIncrement = itasrt.getBuyRrpIncrement();
+            this.buyExchangeRate = itasrt.getBuyExchangeRate();
+            this.width = itasrt.getAsWidth();
+            this.height = itasrt.getAsHeight();
+            this.depth = itasrt.getAsLength();
+            this.goodsWeight = itasrt.getWeight();
+
+            /**
+             * Itasrd로부터 값을 얻는 부분
+             */
+            this.shortDescription = itasrd1.getMemo();
+            this.goodsDescription = itasrd2.getMemo();
+        }
         private String goodsNmFl;
         private String goodsNm;
         private String goodsNmMain;
@@ -53,7 +105,7 @@ public class GoodsInsert {
         private String onlyAdultFl;
         private String taxFreeFl;
         private Float taxPercent;
-        private Long goodsWeight;
+        private Float goodsWeight;
         private Long totalStock;
         private String stockFl;
         private String soldOutFl;
@@ -83,8 +135,8 @@ public class GoodsInsert {
         private String optionName;
         private String optionTextFl;
         private String addGoodsFl;
-        private String shortDescription;
-        private String goodsDescription;
+        private String shortDescription; // 짧은 설명
+        private String goodsDescription; // 상세 설명
         private String goodsDescriptionMobile;
         private Long deliverySno;
         private String relationFl;
@@ -136,6 +188,26 @@ public class GoodsInsert {
         private String seoTagDescription;
         private String seoTagKeyword;
         private String daumFl;
+        // 원래 고도몰 api에는 없던거
+        private Float mdRrp;
+        private String mdTax;
+        private String mdRrpTax;
+        private String mdYear;
+        private Float mdMargin;
+        private Float mdVatrate;
+        private Float mdOfflinePrice;
+        private Float mdOnlinePrice;
+        private Float mdGoodsVatrate;
+        private String buyWhere;
+        private String buyTax;
+        private Float buySupplyDiscount;
+        private Float buyRrpIncrement;
+        private Float buyExchangeRate;
+        private Float commission;
+        private String sizeType;
+        private Float width;
+        private Float height;
+        private Float depth;
     }
     @Getter
     @Setter
