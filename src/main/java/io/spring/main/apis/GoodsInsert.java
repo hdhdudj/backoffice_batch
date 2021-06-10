@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -33,6 +35,7 @@ import javax.xml.xpath.XPathFactory;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -62,7 +65,7 @@ public class GoodsInsert {
     private final JpaTmmapiRepository jpaTmmapiRepository;
     private final JpaTmitemRepository jpaTmitemRepository;
     private final JpaXmlTestRepository jpaXmlTestRepository;
-//    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 //    private MappingJackson2XmlHttpMessageConverter xmlConverter;
 //    private final XmlMapper xmlMapper = new XmlMapper();
 
@@ -84,15 +87,15 @@ public class GoodsInsert {
 
         GoodsInsertData goodsInsertData = null;
 
-        // tmmapi에서 해당 상품정보 불러서 고도몰 api 모양으로 만들기
         for(Tmmapi tmmapi : tmmapiList){
+            // tmmapi에서 해당 상품정보 불러서 고도몰 api 모양으로 만들기
             goodsInsertData = makeGoodsSearchObject(tmmapi);
             // tmitem에서 해당 상품정보 불러서 고도몰 api 모양으로 만들기
             String xmlUrl = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
             // api 전송
             sendXmlToGodo(xmlUrl);
+            // joinStatus를 02로 바꾸기
         }
-        // joinStatus를 02로 바꾸기
     }
 
     private void sendXmlToGodo(String xmlUrl) {
@@ -102,7 +105,7 @@ public class GoodsInsert {
             URL url = new URL(urlstr);
             System.out.println("url : " + urlstr);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            System.out.println("con properties : " + con.getRequestProperties());
+//            System.out.println("con properties : " + con.getRequestProperties());
 
             // 응답 읽기
             br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
@@ -135,45 +138,38 @@ public class GoodsInsert {
             }
         }
         // itasrt에서 optionUseYn이 02인 애는 null로 해버리기
-        itasrt.setOptionUseYn(itasrt.getOptionUseYn().equals(StringFactory.getGbTwo())? null : itasrt.getOptionUseYn());
-        return new GoodsInsertData(new GoodsInsertData.GoodsData(itasrt, itasrd1, itasrd2));
+        itasrt.setOptionUseYn(itasrt.getOptionUseYn() != null && itasrt.getOptionUseYn().equals(StringFactory.getGbTwo())? null : itasrt.getOptionUseYn());
+
+        GoodsInsertData goodsInsertData = new GoodsInsertData(new GoodsInsertData.GoodsData(itasrt, itasrd1, itasrd2));
+        return goodsInsertData;
     }
     // goodsInsertData를 xml로 만들고 db에 저장 후 해당 xml을 가져올 수 있는 주소를 반환
     private String makeGoodsSearchXml(GoodsInsertData goodsInsertData, String assortId){
-        String xmlString = null;
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder;
-        Document doc = null;
+        String xmlContent = null;
+        goodsInsertData.getGoodsData()[0].setAssortId(null);
+        try {
+            // Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(GoodsInsertData.class);
 
-        // xml 만들기
-        try{
-            XmlMapper xmlMapper = new XmlMapper();
+            // Create Marshaller
+            Marshaller marshaller = jaxbContext.createMarshaller();
 
-            Map<String, GoodsInsertData.GoodsData> map = new HashMap<>();
-            map.put("data",goodsInsertData.getGoodsData());
-            xmlString = xmlMapper.writeValueAsString(map);
-            System.out.println("xmlString : +++++ " + xmlString);
-            // key값 교체
-            InputSource is = new InputSource(new StringReader(xmlString));
+            // Print XML String to Console
+            StringWriter stringWriter = new StringWriter();
 
-            builder = factory.newDocumentBuilder();
-            doc = builder.parse(is);
-            XPathFactory xPathFactory = XPathFactory.newInstance();
-            XPath xPath = xPathFactory.newXPath();
-            XPathExpression expr = xPath.compile("//HashMap/data");
-            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node node = (Node) expr.evaluate(nodeList.item(i), XPathConstants.NODE);
-                System.out.println("====== "+node.getNodeValue());
-            }
+            // Write XML to StringWriter
+            marshaller.marshal(goodsInsertData, stringWriter);
+
+            // Verify XML Content
+            xmlContent = stringWriter.toString();
+            System.out.println(xmlContent);
+
+        } catch (Exception e) {
+            e.getMessage();
         }
-        catch (Exception e){
-            log.debug(e.getMessage());
-        }
-        
+
         // 만든 xml DB에 저장하기
-        XmlTest xmlTest = new XmlTest(assortId, xmlString);
+        XmlTest xmlTest = new XmlTest(assortId, xmlContent);
         jpaXmlTestRepository.save(xmlTest);
 
         return xmlSaveUrl + "?assortId=" + assortId;

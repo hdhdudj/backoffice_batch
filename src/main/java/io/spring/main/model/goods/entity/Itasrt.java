@@ -158,7 +158,6 @@ public class Itasrt extends CommonProps{
 //	private String sizeType;
 	private Float mdDiscountRate;
 	private String optionGbName;
-	@Expose
 	private String optionUseYn;
 
 	//// 다른 테이블과 엮으면 나오는 프로퍼티들

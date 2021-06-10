@@ -8,30 +8,42 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
+@XmlRootElement(name = "data")
+@XmlAccessorType(XmlAccessType.FIELD)
 @NoArgsConstructor
 public class GoodsInsertData {
     public GoodsInsertData(GoodsData goodsData){
-        this.goodsData = goodsData;
+        this.goodsData = new GoodsData[1];
+        this.goodsData[0] = goodsData;
     }
-    private GoodsData goodsData;
-    private OptionData optionData;
-    private TextOptionData textOptionData;
-    private AddGoodsData addGoodsData;
+    @XmlElement(name = "goods_data")
+    private GoodsData[] goodsData;
+//    private OptionData optionData;
+//    private TextOptionData textOptionData;
+//    private AddGoodsData addGoodsData;
 
     @Getter
     @Setter
     @NoArgsConstructor
+    @XmlRootElement(name = "goods_data")
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class GoodsData{
 
         public GoodsData(Itasrt itasrt, Itasrd itasrd1, Itasrd itasrd2){
             /**
              *  Itasrt 로부터 값을 얻는 부분
              */
+            this.assortId = itasrt.getAssortId();
             this.goodsNm = itasrt.getAssortNm();
             this.goodsDisplayFl = itasrt.getAssortState();
             this.sizeType = itasrt.getAssortGb();
@@ -73,6 +85,8 @@ public class GoodsInsertData {
             this.shortDescription = itasrd1.getMemo();
             this.goodsDescription = itasrd2.getMemo();
         }
+        @Expose
+        private String assortId;
         private String goodsNmFl;
         private String goodsNm;
         private String goodsNmMain;
@@ -210,6 +224,10 @@ public class GoodsInsertData {
         private Float width;
         private Float height;
         private Float depth;
+
+        private List<OptionData> optionData;
+        private List<TextOptionData> textOptionData;
+        private List<AddGoodsData> addGoodsData;
     }
     @Getter
     @Setter
