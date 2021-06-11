@@ -148,7 +148,7 @@ public class GoodsInsert {
             String headerCode = null;
 
             // <header/> 아래에 있는 <code/>의 값을 가져옴. 000 : 성공, 그 외 값은 실패.
-            headerCode = nodeList.item(0).getFirstChild().getFirstChild().getNodeValue();
+            headerCode = (String)GoodsSearch.getNodeValue(nodeList.item(0).getFirstChild());
             if(headerCode.equals(StringFactory.getStrSuccessCode())){
                 return true;
             }
