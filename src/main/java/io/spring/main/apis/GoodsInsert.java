@@ -105,21 +105,32 @@ public class GoodsInsert {
     private boolean sendXmlToGodo(String xmlUrl) {
         BufferedReader br = null;
         boolean isSendXmlSuccess = false;
-        String urlstr = goodsInsertUrl + "?partner_key=" + pKey + "&key=" + key + "&data_url=" + xmlUrl;
+        String urlstr = goodsInsertUrl
+                + StringFactory.getStrQuestion()
+                + StringFactory.getGoodsSearchParams()[0] //"partner_key"
+                + StringFactory.getStrEqual()
+                + pKey
+                + StringFactory.getStrAnd()
+                + StringFactory.getGoodsSearchParams()[1] //"key"
+                + StringFactory.getStrEqual()
+                + key
+                + StringFactory.getStrAnd()
+                + StringFactory.getStrDataUrl() //"data_url"
+                + StringFactory.getStrEqual()
+                + xmlUrl;
         try{
             URL url = new URL(urlstr);
-            System.out.println("url : " + urlstr);
+//            System.out.println("url : " + urlstr);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 //            System.out.println("con properties : " + con.getRequestProperties());
 
             // 응답 읽기
-            br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+            br = new BufferedReader(new InputStreamReader(con.getInputStream(), StringFactory.getStrUtf8()));
             String result = "";
             String line;
             while ((line = br.readLine()) != null) {
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
-            System.out.println("+++++ " + result);
             isSendXmlSuccess = parseReturnXml(result);
         }
         catch (Exception e){
@@ -210,6 +221,10 @@ public class GoodsInsert {
         XmlTest xmlTest = new XmlTest(assortId, xmlContent);
         jpaXmlTestRepository.save(xmlTest);
 
-        return xmlSaveUrl + "?assortId=" + assortId;
+        return xmlSaveUrl
+                + StringFactory.getStrQuestion()
+                + StringFactory.getStrAssortId()
+                + StringFactory.getStrEqual()
+                + assortId;
     }
 }

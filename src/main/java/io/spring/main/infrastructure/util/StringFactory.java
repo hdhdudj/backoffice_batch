@@ -6,10 +6,20 @@ import org.springframework.context.annotation.PropertySource;
 
 public class StringFactory {
     @Getter
+    private final static String strUtf8 = "UTF-8";
+
+    @Getter
     private final static String[] goodsSearchParams = {"partner_key",
             "key","goodsNm","goodsNo","goodsCd","makerNm","originNm",
             "goodsSearchWord","goodsModelNo","companyNm","searchDateType",
             "startDate","endDate","page","size","scmNo","cateCd"};
+    // request param 관련
+    @Getter
+    private final static String strQuestion = "?";
+    @Getter
+    private final static String strEqual = "=";
+    @Getter
+    private final static String strAnd = "&";
 
     // GoodsController
     @Getter
@@ -132,6 +142,8 @@ public class StringFactory {
     private final static String strGoodsMustInfoData = "goodsMustInfoData";
     @Getter
     private final static String strClaimData = "claimData";
+    @Getter
+    private final static String strDataUrl = "data_url";
 
     // Itvari
     @Getter
