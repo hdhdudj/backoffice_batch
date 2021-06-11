@@ -8,10 +8,7 @@ import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.*;
 import io.spring.main.model.goods.GoodsInsertData;
-import io.spring.main.model.goods.entity.Itasrd;
-import io.spring.main.model.goods.entity.Itasrt;
-import io.spring.main.model.goods.entity.Tmmapi;
-import io.spring.main.model.goods.entity.XmlTest;
+import io.spring.main.model.goods.entity.*;
 import io.swagger.models.Xml;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -88,23 +85,27 @@ public class GoodsInsert {
         GoodsInsertData goodsInsertData = null;
 
         for(Tmmapi tmmapi : tmmapiList){
-            // tmmapi에서 해당 상품정보 불러서 고도몰 api 모양으로 만들기
+            // tmmapi에 해당하는 tmitem 리스트 가져오기
+//            List<Tmitem> tmitemList = jpaTmitemRepository.findBy
+            // tmmapi에서 해당 상품정보 불러서 전달용 객체로 만들기
             goodsInsertData = makeGoodsSearchObject(tmmapi);
-            // tmitem에서 해당 상품정보 불러서 고도몰 api 모양으로 만들기
+            // 객체를 고도몰 api 모양으로 만들기
             String xmlUrl = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
             // api 전송
-            boolean isSuccess = sendXmlToGodo(xmlUrl);
-            // joinStatus를 02로 바꾸기
-            if(isSuccess == true){
+            String goodsNoifSuccess = sendXmlToGodo(xmlUrl);
+            if(goodsNoifSuccess != null){
+                // tmmapi의 joinStatus를 02로 바꾸기
                 tmmapi.setJoinStatus(StringFactory.getGbTwo());
-                jpaTmmapiRepository.save(tmmapi);
+                // tmmapi의 channelGoodsNo를
+//                jpaTmmapiRepository.save(tmmapi);
             }
+            // tmitem의 channelGoodsNo와 channelOptionsNo 값 api로 받아오기
         }
     }
 
-    private boolean sendXmlToGodo(String xmlUrl) {
+    private String sendXmlToGodo(String xmlUrl) {
         BufferedReader br = null;
-        boolean isSendXmlSuccess = false;
+        String goodsNoIfSuccess = null;
         String urlstr = goodsInsertUrl
                 + StringFactory.getStrQuestion()
                 + StringFactory.getGoodsSearchParams()[0] //"partner_key"
@@ -131,16 +132,17 @@ public class GoodsInsert {
             while ((line = br.readLine()) != null) {
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
-            isSendXmlSuccess = parseReturnXml(result);
+            System.out.println("            " + result);
+            goodsNoIfSuccess = parseReturnXml(result);
         }
         catch (Exception e){
             log.debug(e.getMessage());
         }
-        return isSendXmlSuccess;
+        return goodsNoIfSuccess;
     }
 
-    // xml을 고도몰 goods_insert에 보내고 돌아오는 응답 xml을 parse해서 성공했으면 true, 실패했으면 false를 리턴
-    private boolean parseReturnXml(String result) {
+    // xml을 고도몰 goods_insert에 보내고 돌아오는 응답 xml을 parse해서 성공했으면 고도몰의 goodsNo, 실패했으면 null을 리턴
+    private String parseReturnXml(String result) {
         BufferedReader br = null;
         // DocumentBuilderFactory 생성
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -162,13 +164,18 @@ public class GoodsInsert {
             // <header/> 아래에 있는 <code/>의 값을 가져옴. 000 : 성공, 그 외 값은 실패.
             headerCode = (String)GoodsSearch.getNodeValue(nodeList.item(0).getFirstChild());
             if(headerCode.equals(StringFactory.getStrSuccessCode())){
-                return true;
+                // <data/> 아래에 있는 <goodsno/>의 값을 가져옴.
+                expr = xPath.compile("//goodsno");
+                Node node = (Node) expr.evaluate(doc, XPathConstants.NODE);
+                String successGoodsNo = (String)GoodsSearch.getNodeValue(node);
+                System.out.println("+++++ " + successGoodsNo);
+                return successGoodsNo;
             }
         }
         catch(Exception e){
             log.debug(e.getMessage());
         }
-        return false;
+        return null;
     }
 
     // itasrt, itasrd에서 불러옴
@@ -196,7 +203,8 @@ public class GoodsInsert {
     // goodsInsertData를 xml로 만들고 db에 저장 후 해당 xml을 가져올 수 있는 주소를 반환
     private String makeGoodsSearchXml(GoodsInsertData goodsInsertData, String assortId){
         String xmlContent = null;
-        goodsInsertData.getGoodsData()[0].setAssortId(null);
+//        goodsInsertData.getGoodsData()[0].setAssortId(null); // xml에 assortId를 포함시키지 않기 위해 null로 설정
+
         try {
             // Create JAXB Context
             JAXBContext jaxbContext = JAXBContext.newInstance(GoodsInsertData.class);

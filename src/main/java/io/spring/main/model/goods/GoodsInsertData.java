@@ -44,7 +44,7 @@ public class GoodsInsertData {
             /**
              *  Itasrt 로부터 값을 얻는 부분
              */
-            this.assortId = itasrt.getAssortId();
+            this.goodsCd = itasrt.getAssortId();
             this.goodsNm = itasrt.getAssortNm();
             this.goodsDisplayFl = itasrt.getAssortState();
             this.sizeType = itasrt.getAssortGb();
@@ -87,7 +87,7 @@ public class GoodsInsertData {
             this.goodsDescription = itasrd2.getMemo();
         }
 //        @Expose
-        private String assortId;
+//        private String assortId;
         private Long deliverySno = 310l;
         private String goodsNmFl;
         private String goodsNm;
