@@ -2,6 +2,7 @@ package io.spring.main.model.goods;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.gson.annotations.Expose;
+import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.entity.Itasrd;
 import io.spring.main.model.goods.entity.Itasrt;
 import lombok.Getter;
@@ -87,6 +88,7 @@ public class GoodsInsertData {
         }
         @Expose
         private String assortId;
+        private Long deliverySno = 310l;
         private String goodsNmFl;
         private String goodsNm;
         private String goodsNmMain;
@@ -96,7 +98,7 @@ public class GoodsInsertData {
         private String goodsDisplayMobileFl;
         private String goodsSellFl;
         private String goodsSellMobileFl;
-        private String scmNo;
+        private String scmNo = StringFactory.getStrOne();
         private String goodsCd;
         private String cateCd;
         private String goodsSearchWord;
@@ -154,7 +156,6 @@ public class GoodsInsertData {
         private String shortDescription; // 짧은 설명
         private String goodsDescription; // 상세 설명
         private String goodsDescriptionMobile;
-        private Long deliverySno;
         private String relationFl;
         private String relationSameFl;
         private Long relationCnt;

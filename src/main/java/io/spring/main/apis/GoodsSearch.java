@@ -1,7 +1,5 @@
 package io.spring.main.apis;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
@@ -188,26 +186,26 @@ public class GoodsSearch {
 
     @Transactional
     public void saveIfTables(String fromDt, String toDt, List<IfGoodsMaster> ifGoodsMasterList){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
-        List<GoodsData> goodsDataList = retrieveGoods(fromDt, toDt);
+        List<GoodsSearchData> goodsSearchDataList = retrieveGoods(fromDt, toDt);
 //        String assortId = "";
 
         // 1. if table 저장
-        for(GoodsData goodsData : goodsDataList){
+        for(GoodsSearchData goodsSearchData : goodsSearchDataList){
             System.out.println();
             // goodsDescription에 너무 긴 애가 들어있는 애 거르기
-            String goodsDescription = goodsData.getGoodsDescription();
+            String goodsDescription = goodsSearchData.getGoodsDescription();
             if(goodsDescription.split(StringFactory.getStrDataImage()).length >= 2){
-                log.debug("goodsDescription is too long. goodsNo :" + goodsData.getGoodsNo());
+                log.debug("goodsDescription is too long. goodsNo :" + goodsSearchData.getGoodsNo());
                 continue;
             }
             // goodsNo가 겹치는 애가 있는지 확인
-            if(jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo())) == null){
-                ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsData)); // if_goods_master : itasrt, itasrn, itasrd  * 여기서 assortId 생성
-                this.saveIfGoodsTextOption(goodsData); // if_goods_text_option : itmmot
-                this.saveIfGoodsAddGoods(goodsData); // if_goods_add_goods : itlkag, itadgs
+            if(jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo())) == null){
+                ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsSearchData)); // if_goods_master : itasrt, itasrn, itasrd  * 여기서 assortId 생성
+                this.saveIfGoodsTextOption(goodsSearchData); // if_goods_text_option : itmmot
+                this.saveIfGoodsAddGoods(goodsSearchData); // if_goods_add_goods : itlkag, itadgs
             }
-            if(jpaIfGoodsOptionRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo())).size() == 0){
-                this.saveIfGoodsOption(goodsData); // if_goods_option : itvari, ititmm
+            if(jpaIfGoodsOptionRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo())).size() == 0){
+                this.saveIfGoodsOption(goodsSearchData); // if_goods_option : itvari, ititmm
             }
         }
     }
@@ -360,20 +358,20 @@ public class GoodsSearch {
         return nextVal;
     }
 
-    private IfGoodsMaster saveIfGoodsMaster(GoodsData goodsData) {
+    private IfGoodsMaster saveIfGoodsMaster(GoodsSearchData goodsSearchData) {
         String assortId = "";
-        if(goodsData.getAssortId() == null){
+        if(goodsSearchData.getAssortId() == null){
             assortId = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9, '0');
-            goodsData.setAssortId(assortId);
+            goodsSearchData.setAssortId(assortId);
         }
         else{
-            assortId = goodsData.getAssortId();
+            assortId = goodsSearchData.getAssortId();
         }
-        IfGoodsMaster ifGoodsMaster = jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsData.getGoodsNo()));
+        IfGoodsMaster ifGoodsMaster = jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo()));
         if(ifGoodsMaster == null){
-            ifGoodsMaster = objectMapper.convertValue(goodsData, IfGoodsMaster.class);
+            ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);
         }
-        ifGoodsMaster.setAssortId(goodsData.getAssortId()); // assort_id 설정
+        ifGoodsMaster.setAssortId(goodsSearchData.getAssortId()); // assort_id 설정
         // y/n을 01/02로 바꾸기
         ifGoodsMaster.setGoodsSellFl(ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
         ifGoodsMaster.setGoodsDisplayFl(ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
@@ -413,31 +411,31 @@ public class GoodsSearch {
         return returnStr;
     }
 
-    private void saveIfGoodsOption(GoodsData goodsData){ //, List<IfGoodsOption> ifGoodsOptionList) {
-        List<GoodsData.OptionData> optionDataList = goodsData.getOptionData();
+    private void saveIfGoodsOption(GoodsSearchData goodsSearchData){ //, List<IfGoodsOption> ifGoodsOptionList) {
+        List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
         if(optionDataList == null){
             log.debug("optionDataList is null.");
         }
         else{
-            for(GoodsData.OptionData optionData : optionDataList){
+            for(GoodsSearchData.OptionData optionData : optionDataList){
                 IfGoodsOption ifGoodsOption = objectMapper.convertValue(optionData,IfGoodsOption.class);
-                ifGoodsOption.setAssortId(goodsData.getAssortId());
+                ifGoodsOption.setAssortId(goodsSearchData.getAssortId());
                 ifGoodsOption.setUploadStatus(StringFactory.getGbOne());
-                ifGoodsOption.setOptionName(goodsData.getOptionName());
+                ifGoodsOption.setOptionName(goodsSearchData.getOptionName());
                 jpaIfGoodsOptionRepository.save(ifGoodsOption);
             }
         }
     }
 
-    private void saveIfGoodsTextOption(GoodsData goodsData){ //, List<IfGoodsTextOption> ifGoodsTextOptionList) {
-        List<GoodsData.TextOptionData> textOptionDataList = goodsData.getTextOptionData();
+    private void saveIfGoodsTextOption(GoodsSearchData goodsSearchData){ //, List<IfGoodsTextOption> ifGoodsTextOptionList) {
+        List<GoodsSearchData.TextOptionData> textOptionDataList = goodsSearchData.getTextOptionData();
         if(textOptionDataList == null){
             log.debug("textOptionDataList is null.");
             return;
         }
-        for(GoodsData.TextOptionData textOptionData : textOptionDataList){
+        for(GoodsSearchData.TextOptionData textOptionData : textOptionDataList){
             IfGoodsTextOption ifGoodsTextOption = objectMapper.convertValue(textOptionData,IfGoodsTextOption.class);
-            ifGoodsTextOption.setAssortId(goodsData.getAssortId());
+            ifGoodsTextOption.setAssortId(goodsSearchData.getAssortId());
             ifGoodsTextOption.setChannelGb(StringFactory.getGbOne());
             // yn을 0102로
             ifGoodsTextOption.setMustFl(ynToOneTwo(ifGoodsTextOption.getMustFl()));
@@ -446,18 +444,18 @@ public class GoodsSearch {
         }
     }
 
-    private void saveIfGoodsAddGoods(GoodsData goodsData){ //, List<IfGoodsAddGoods> addGoodsDataListOut) {
-        List<GoodsData.AddGoodsData> addGoodsDataList = goodsData.getAddGoodsData();
+    private void saveIfGoodsAddGoods(GoodsSearchData goodsSearchData){ //, List<IfGoodsAddGoods> addGoodsDataListOut) {
+        List<GoodsSearchData.AddGoodsData> addGoodsDataList = goodsSearchData.getAddGoodsData();
 //        System.out.println("addGoodsData length : " + addGoodsDataList.size());
         if(addGoodsDataList == null){
             log.debug("addGoodsDataList is null.");
             return;
         }
-        for(GoodsData.AddGoodsData addGoodsData : addGoodsDataList){ // goodsNoData 기준으로 if_goods_add_goods에 저장
+        for(GoodsSearchData.AddGoodsData addGoodsData : addGoodsDataList){ // goodsNoData 기준으로 if_goods_add_goods에 저장
             List<String> goodsNoData = addGoodsData.getGoodsNoData();
             for(String addGoods : goodsNoData){
-                IfGoodsAddGoods ifGoodsAddGoods = objectMapper.convertValue(goodsData, IfGoodsAddGoods.class);
-                ifGoodsAddGoods.setAssortId(goodsData.getAssortId());
+                IfGoodsAddGoods ifGoodsAddGoods = objectMapper.convertValue(goodsSearchData, IfGoodsAddGoods.class);
+                ifGoodsAddGoods.setAssortId(goodsSearchData.getAssortId());
                 ifGoodsAddGoods.setAddGoodsNo(addGoods);
                 ifGoodsAddGoods.setTitle(addGoodsData.getTitle());
 
@@ -508,7 +506,7 @@ public class GoodsSearch {
     }
 
     // goods xml 받아오는 함수
-    private List<GoodsData> retrieveGoods(String fromDt, String toDt) {
+    private List<GoodsSearchData> retrieveGoods(String fromDt, String toDt) {
 
         //OpenApi호출
         String urlstr = goodsSearchUrl + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
@@ -516,7 +514,7 @@ public class GoodsSearch {
                 + "=" + key +"&goodsNo=1000032220";
         NodeList nodeList =  getXmlNodes(urlstr);
 
-        List<GoodsData> goodsDatas = new ArrayList<>();
+        List<GoodsSearchData> goodsSearchData = new ArrayList<>();
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 NodeList child = nodeList.item(i).getChildNodes();
@@ -531,18 +529,18 @@ public class GoodsSearch {
                             Node mNode = mNodes.item(mi);
                             if (mNode.getNodeName() == StringFactory.getStrGoodsData()) {
 //                                EsGoods map = makeGoodsmaster(mNode);
-                                GoodsData map = makeGoodsmaster(mNode);
-                                goodsDatas.add(map);
+                                GoodsSearchData map = makeGoodsmaster(mNode);
+                                goodsSearchData.add(map);
                                 // order master array append
                             }
                         }
                         System.out.println("-----------------------------------------------------------------");
-                        System.out.println(goodsDatas.size());
+                        System.out.println(goodsSearchData.size());
                         System.out.println("-----------------------------------------------------------------");
                     }
                 }
             }
-            return goodsDatas;
+            return goodsSearchData;
     }
 
     private NodeList getXmlNodes(String urlstr){
@@ -554,7 +552,7 @@ public class GoodsSearch {
         DocumentBuilder builder;
         Document doc = null;
 
-        List<GoodsData> goodsDatas = new ArrayList<>();
+        List<GoodsSearchData> goodsSearchData = new ArrayList<>();
 
         try {
             //OpenApi호출
@@ -589,18 +587,18 @@ public class GoodsSearch {
         }
     }
 
-    private GoodsData makeGoodsmaster(Node root) {
+    private GoodsSearchData makeGoodsmaster(Node root) {
         Map<String, Object> map = new HashMap<String, Object>();
         // List<Map<String, Object>> deliveryDatas = new ArrayList<Map<String,
         // Object>>();
-        List<GoodsData.OptionData> optionDataList = new ArrayList<>();
+        List<GoodsSearchData.OptionData> optionDataList = new ArrayList<>();
 
-        List<GoodsData.TextOptionData> textOptionDataList = new ArrayList<>();
+        List<GoodsSearchData.TextOptionData> textOptionDataList = new ArrayList<>();
         // List<Map<String, Object>> goodsDatas = new ArrayList<Map<String, Object>>();
-        List<GoodsData.AddGoodsData> adGoodsDataList = new ArrayList<>();
+        List<GoodsSearchData.AddGoodsData> adGoodsDataList = new ArrayList<>();
         // List<Map<String, Object>> addGoodsDatas = new ArrayList<Map<String,
         // Object>>();
-        List<GoodsData.GoodsMustInfoData> goodsMustInfoDataList = new ArrayList<>();
+        List<GoodsSearchData.GoodsMustInfoData> goodsMustInfoDataList = new ArrayList<>();
 
         NodeList cNodes = root.getChildNodes();
         for (int i = 0; i < cNodes.getLength(); i++) {
@@ -609,19 +607,19 @@ public class GoodsSearch {
             // System.out.println(cNode.getAttributes().getNamedItem("idx").getNodeValue());
 //            log.debug("+++++ nodeName : " + cNode.getNodeName());
             if (cNode.getNodeName().equals(StringFactory.getStrOptionData())) {
-                GoodsData.OptionData optionData = makeOptionData(cNode);
+                GoodsSearchData.OptionData optionData = makeOptionData(cNode);
                 optionDataList.add(optionData);
             } else if (cNode.getNodeName().equals(StringFactory.getStrTextOptionData())) {
-                GoodsData.TextOptionData textOptionData = makeTextOptionData(cNode);
+                GoodsSearchData.TextOptionData textOptionData = makeTextOptionData(cNode);
                 textOptionDataList.add(textOptionData);
             } else if (cNode.getNodeName().equals(StringFactory.getStrAddGoodsData())) {
                 // Map<String, Object> goodsData = makeOrderGoodsData(cNode);
-                GoodsData.AddGoodsData addGoodsData = makeAddGoodsData(cNode);
+                GoodsSearchData.AddGoodsData addGoodsData = makeAddGoodsData(cNode);
 //                log.debug("----- addGoodsData : " + addGoodsData.getGoodsNoData().size());
                 adGoodsDataList.add(addGoodsData);
             } else if (cNode.getNodeName().equals(StringFactory.getStrGoodsMustInfoData())) {
                 // Map<String, Object> addGoodsData = makeAddGoodsData(cNode);
-                GoodsData.GoodsMustInfoData goodsMustInfoData = makeGoodsMustInfoData(cNode);
+                GoodsSearchData.GoodsMustInfoData goodsMustInfoData = makeGoodsMustInfoData(cNode);
                 goodsMustInfoDataList.add(goodsMustInfoData);
             } else {
 
@@ -646,7 +644,7 @@ public class GoodsSearch {
             map.put(StringFactory.getStrGoodsMustInfoData(),goodsMustInfoDataList);
         }
 
-        GoodsData o = objectMapper.convertValue(map, GoodsData.class);
+        GoodsSearchData o = objectMapper.convertValue(map, GoodsSearchData.class);
         return o;
     }
 
@@ -667,7 +665,7 @@ public class GoodsSearch {
         return str;
     }
 
-    private GoodsData.AddGoodsData makeAddGoodsData(Node cNode) {
+    private GoodsSearchData.AddGoodsData makeAddGoodsData(Node cNode) {
         Map<String, Object> map = new HashMap<String, Object>();
         NodeList cNodes = cNode.getChildNodes();
         List<String> goodsNoDataList = new ArrayList<>();
@@ -682,26 +680,26 @@ public class GoodsSearch {
             }
         }
         map.put("goodsNoData", goodsNoDataList);
-        GoodsData.AddGoodsData o = objectMapper.convertValue(map, GoodsData.AddGoodsData.class);
+        GoodsSearchData.AddGoodsData o = objectMapper.convertValue(map, GoodsSearchData.AddGoodsData.class);
         return o;
     }
 
-    private static GoodsData.GoodsMustInfoData makeGoodsMustInfoData(Node cNode) {
+    private static GoodsSearchData.GoodsMustInfoData makeGoodsMustInfoData(Node cNode) {
         return null;
     }
 
-    private GoodsData.TextOptionData makeTextOptionData(Node cNode) {
+    private GoodsSearchData.TextOptionData makeTextOptionData(Node cNode) {
         Map<String, Object> map = new HashMap<String, Object>();
         NodeList cNodes = cNode.getChildNodes();
         for (int i = 0; i < cNodes.getLength(); i++) {
             Node node = cNodes.item(i);
             map.put(node.getNodeName(),getNodeValue(node));
         }
-        GoodsData.TextOptionData o = objectMapper.convertValue(map, GoodsData.TextOptionData.class);
+        GoodsSearchData.TextOptionData o = objectMapper.convertValue(map, GoodsSearchData.TextOptionData.class);
         return o;
     }
 
-    private GoodsData.OptionData makeOptionData(Node cNode) {
+    private GoodsSearchData.OptionData makeOptionData(Node cNode) {
         Map<String, Object> map = new HashMap<String, Object>();
         NodeList cNodes = cNode.getChildNodes();
         for (int i = 0; i < cNodes.getLength(); i++) {
@@ -709,7 +707,7 @@ public class GoodsSearch {
             map.put(node.getNodeName(),getNodeValue(node));
 
         }
-        GoodsData.OptionData o = objectMapper.convertValue(map, GoodsData.OptionData.class);
+        GoodsSearchData.OptionData o = objectMapper.convertValue(map, GoodsSearchData.OptionData.class);
         return o;
     }
 

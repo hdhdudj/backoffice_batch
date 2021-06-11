@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class GoodsData {
+public class GoodsSearchData {
     private Long goodsNo;
     private String goodsNmFl;
     private String goodsNm;
