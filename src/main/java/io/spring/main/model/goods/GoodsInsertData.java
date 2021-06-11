@@ -86,7 +86,7 @@ public class GoodsInsertData {
             this.shortDescription = itasrd1.getMemo();
             this.goodsDescription = itasrd2.getMemo();
         }
-        @Expose
+//        @Expose
         private String assortId;
         private Long deliverySno = 310l;
         private String goodsNmFl;
@@ -226,12 +226,17 @@ public class GoodsInsertData {
         private Float height;
         private Float depth;
 
+        @XmlElement(name = "optionData")
         private List<OptionData> optionData;
+        @XmlElement(name = "textOptionData")
         private List<TextOptionData> textOptionData;
+        @XmlElement(name = "addGoodsData")
         private List<AddGoodsData> addGoodsData;
     }
     @Getter
     @Setter
+    @XmlRootElement(name = "optionData")
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class OptionData{
         private Long optionNo;
         private String optionValue1;
@@ -247,6 +252,8 @@ public class GoodsInsertData {
     }
     @Getter
     @Setter
+    @XmlRootElement(name = "textOptionData")
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class TextOptionData{
         private String optionName;
         private String mustFl;
@@ -255,6 +262,8 @@ public class GoodsInsertData {
     }
     @Getter
     @Setter
+    @XmlRootElement(name = "addGoodsData")
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class AddGoodsData{
         private String title;
         private String mustFl;
@@ -262,11 +271,15 @@ public class GoodsInsertData {
     }
     @Getter
     @Setter
+    @XmlRootElement(name = "goodsMustInfoData")
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class GoodsMustInfoData{
         private List<StepData> stepData;
     }
     @Getter
     @Setter
+    @XmlRootElement(name = "goods_data")
+    @XmlAccessorType(XmlAccessType.FIELD)
     private static class StepData{
         private String infoTitle;
         private String infoValue;

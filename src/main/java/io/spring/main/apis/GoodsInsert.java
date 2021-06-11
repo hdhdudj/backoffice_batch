@@ -148,7 +148,8 @@ public class GoodsInsert {
         DocumentBuilder builder;
         Document doc = null;
 
-        try{        // xml 파싱하기
+        // xml 파싱하기
+        try{
             InputSource is = new InputSource(new StringReader(result));
             builder = factory.newDocumentBuilder();
             doc = builder.parse(is);
