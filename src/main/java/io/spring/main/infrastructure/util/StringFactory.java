@@ -150,4 +150,8 @@ public class StringFactory {
     // http 방법
     @Getter
     private final static String strPost = "POST";
+
+    // xml 코드
+    @Getter
+    private final static String strSuccessCode = "000";
 }

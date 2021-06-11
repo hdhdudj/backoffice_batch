@@ -93,13 +93,18 @@ public class GoodsInsert {
             // tmitem에서 해당 상품정보 불러서 고도몰 api 모양으로 만들기
             String xmlUrl = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
             // api 전송
-            sendXmlToGodo(xmlUrl);
+            boolean isSuccess = sendXmlToGodo(xmlUrl);
             // joinStatus를 02로 바꾸기
+            if(isSuccess == true){
+                tmmapi.setJoinStatus(StringFactory.getGbTwo());
+                jpaTmmapiRepository.save(tmmapi);
+            }
         }
     }
 
-    private void sendXmlToGodo(String xmlUrl) {
+    private boolean sendXmlToGodo(String xmlUrl) {
         BufferedReader br = null;
+        boolean isSendXmlSuccess = false;
         String urlstr = goodsInsertUrl + "?partner_key=" + pKey + "&key=" + key + "&data_url=" + xmlUrl;
         try{
             URL url = new URL(urlstr);
@@ -115,10 +120,43 @@ public class GoodsInsert {
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
             System.out.println("+++++ " + result);
+            isSendXmlSuccess = parseReturnXml(result);
         }
         catch (Exception e){
             log.debug(e.getMessage());
         }
+        return isSendXmlSuccess;
+    }
+
+    // xml을 고도몰 goods_insert에 보내고 돌아오는 응답 xml을 parse해서 성공했으면 true, 실패했으면 false를 리턴
+    private boolean parseReturnXml(String result) {
+        BufferedReader br = null;
+        // DocumentBuilderFactory 생성
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        DocumentBuilder builder;
+        Document doc = null;
+
+        try{        // xml 파싱하기
+            InputSource is = new InputSource(new StringReader(result));
+            builder = factory.newDocumentBuilder();
+            doc = builder.parse(is);
+            XPathFactory xPathFactory = XPathFactory.newInstance();
+            XPath xPath = xPathFactory.newXPath();
+            XPathExpression expr = xPath.compile("//header");
+            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+            String headerCode = null;
+
+            // <header/> 아래에 있는 <code/>의 값을 가져옴. 000 : 성공, 그 외 값은 실패.
+            headerCode = nodeList.item(0).getFirstChild().getFirstChild().getNodeValue();
+            if(headerCode.equals(StringFactory.getStrSuccessCode())){
+                return true;
+            }
+        }
+        catch(Exception e){
+            log.debug(e.getMessage());
+        }
+        return false;
     }
 
     // itasrt, itasrd에서 불러옴
