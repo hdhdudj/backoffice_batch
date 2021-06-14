@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import javax.swing.text.html.Option;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
@@ -35,6 +36,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,7 +89,7 @@ public class GoodsInsert {
         for(Tmmapi tmmapi : tmmapiList){
             // tmmapi에 해당하는 tmitem 리스트 가져오기
 //            List<Tmitem> tmitemList = jpaTmitemRepository.findBy
-            // tmmapi에서 해당 상품정보 불러서 전달용 객체로 만들기
+            // tmmapi, tmitem에서 해당 상품정보 불러서 전달용 객체로 만들기
             goodsInsertData = makeGoodsSearchObject(tmmapi);
             // 객체를 고도몰 api 모양으로 만들기
             String xmlUrl = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
@@ -178,8 +180,15 @@ public class GoodsInsert {
         return null;
     }
 
-    // itasrt, itasrd에서 불러옴
+    // , ititmm : tmitem 고도몰 goods_insert api를 만들기 위한 GoodsInsertData 객체를 만드는 함수
     private GoodsInsertData makeGoodsSearchObject(Tmmapi tmmapi) {
+        GoodsInsertData goodsInsertData = new GoodsInsertData(makeGoodsDataFromTmmapi(tmmapi), makeOptionDataFromTmitem(tmmapi));
+
+        return goodsInsertData;
+    }
+
+    // itasrt, itasrd : tmmapi -> GoodsInsertData.GoodsData 만드는 함수
+    private GoodsInsertData.GoodsData makeGoodsDataFromTmmapi(Tmmapi tmmapi){
         Itasrt itasrt = jpaItasrtRepository.getOne(tmmapi.getAssortId());
         List<Itasrd> itasrdList = jpaItasrdRepository.findByAssortId(tmmapi.getAssortId());
         Itasrd itasrd1 = null;
@@ -197,8 +206,18 @@ public class GoodsInsert {
         // itasrt에서 optionUseYn이 02인 애는 null로 해버리기
         itasrt.setOptionUseYn(itasrt.getOptionUseYn() != null && itasrt.getOptionUseYn().equals(StringFactory.getGbTwo())? null : itasrt.getOptionUseYn());
 
-        GoodsInsertData goodsInsertData = new GoodsInsertData(new GoodsInsertData.GoodsData(itasrt, itasrd1, itasrd2));
-        return goodsInsertData;
+        return new GoodsInsertData.GoodsData(itasrt, itasrd1, itasrd2);
+    }
+
+    // ititmm : tmitem -> GoodsInsertData.OptionData 만드는 함수
+    private List<GoodsInsertData.OptionData> makeOptionDataFromTmitem(Tmmapi tmmapi){
+        List<Tmitem> tmitemList = tmmapi.getTmitemList();
+        List<GoodsInsertData.OptionData> optionDataList = new ArrayList<>();
+        for(Tmitem tmitem : tmitemList){
+            GoodsInsertData.OptionData optionData = new GoodsInsertData.OptionData(tmitem);
+            optionDataList.add(optionData);
+        }
+        return optionDataList;
     }
     
     // goodsInsertData를 xml로 만드는 함수

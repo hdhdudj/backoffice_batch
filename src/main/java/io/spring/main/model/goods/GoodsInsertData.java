@@ -5,6 +5,8 @@ import com.google.gson.annotations.Expose;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.model.goods.entity.Itasrd;
 import io.spring.main.model.goods.entity.Itasrt;
+import io.spring.main.model.goods.entity.Tmitem;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,9 +25,10 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @NoArgsConstructor
 public class GoodsInsertData {
-    public GoodsInsertData(GoodsData goodsData){
+    public GoodsInsertData(GoodsData goodsData, List<OptionData> optionDataList){
         this.goodsData = new GoodsData[1];
         this.goodsData[0] = goodsData;
+        this.goodsData[0].setOptionData(optionDataList);
     }
     @XmlElement(name = "goods_data")
     private GoodsData[] goodsData;
@@ -237,7 +240,14 @@ public class GoodsInsertData {
     @Setter
     @XmlRootElement(name = "optionData")
     @XmlAccessorType(XmlAccessType.FIELD)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class OptionData{
+        public OptionData(Tmitem tmitem){
+            this.optionCode = tmitem.getAssortId();
+            this.optionNo = Long.parseLong(tmitem.getItemId());
+            this.optionPrice = tmitem.getOptionPrice();
+            this.optionSellFl = tmitem.getShortYn();
+        }
         private Long optionNo;
         private String optionValue1;
         private String optionValue2;
@@ -248,7 +258,7 @@ public class GoodsInsertData {
         private String optionViewFl;
         private String optionSellFl;
         private String optionCode;
-        private Long stockCnt;
+        private Long stockCnt = 999l; // 999 하드코딩
     }
     @Getter
     @Setter

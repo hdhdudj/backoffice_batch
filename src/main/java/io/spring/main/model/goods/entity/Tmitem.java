@@ -37,4 +37,5 @@ public class Tmitem extends CommonProps{
     private String variationSeq2;
     private String channelGoodsNo;
     private String channelOptionsNo;
+    private Float optionPrice;
 }
