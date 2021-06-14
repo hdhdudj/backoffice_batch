@@ -99,7 +99,7 @@ public class GoodsInsert {
                 // tmmapi의 channelGoodsNo를
 //                jpaTmmapiRepository.save(tmmapi);
             }
-            // tmitem의 channelGoodsNo와 channelOptionsNo 값 api로 받아오기
+            // tmitem의 channelGoodsNo와 channelOptionsNo 값 goods_search api로 받아오기
         }
     }
 
@@ -200,7 +200,8 @@ public class GoodsInsert {
         GoodsInsertData goodsInsertData = new GoodsInsertData(new GoodsInsertData.GoodsData(itasrt, itasrd1, itasrd2));
         return goodsInsertData;
     }
-    // goodsInsertData를 xml로 만들고 db에 저장 후 해당 xml을 가져올 수 있는 주소를 반환
+    
+    // goodsInsertData를 xml로 만드는 함수
     private String makeGoodsSearchXml(GoodsInsertData goodsInsertData, String assortId){
         String xmlContent = null;
 //        goodsInsertData.getGoodsData()[0].setAssortId(null); // xml에 assortId를 포함시키지 않기 위해 null로 설정
@@ -226,6 +227,11 @@ public class GoodsInsert {
             e.getMessage();
         }
 
+        return getXmlUrl(assortId, xmlContent);
+    }
+
+    // xml string을 db에 저장하고 주소 반환
+    private String getXmlUrl(String assortId, String xmlContent){
         // 만든 xml DB에 저장하기
         XmlTest xmlTest = new XmlTest(assortId, xmlContent);
         jpaXmlTestRepository.save(xmlTest);
