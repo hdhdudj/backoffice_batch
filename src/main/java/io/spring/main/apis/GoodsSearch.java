@@ -186,7 +186,7 @@ public class GoodsSearch {
 
     @Transactional
     public void saveIfTables(String fromDt, String toDt, List<IfGoodsMaster> ifGoodsMasterList){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
-        List<GoodsSearchData> goodsSearchDataList = retrieveGoods(fromDt, toDt);
+        List<GoodsSearchData> goodsSearchDataList = retrieveGoods(fromDt, toDt, null);
 //        String assortId = "";
 
         // 1. if table 저장
@@ -506,12 +506,14 @@ public class GoodsSearch {
     }
 
     // goods xml 받아오는 함수
-    private List<GoodsSearchData> retrieveGoods(String fromDt, String toDt) {
+    public List<GoodsSearchData> retrieveGoods(String goodsNo, String fromDt, String toDt) {
 
         //OpenApi호출
-        String urlstr = goodsSearchUrl + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
-                pKey + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + key +"&goodsNo=1000032220";
+        String urlstr = goodsSearchUrl + StringFactory.getStrQuestion() + StringFactory.getGoodsSearchParams()[0] + StringFactory.getStrEqual() +
+                pKey + StringFactory.getStrAnd() +StringFactory.getGoodsSearchParams()[1]
+                + StringFactory.getStrEqual() + key + StringFactory.getStrAnd() + StringFactory.getGoodsSearchParams()[3] + StringFactory.getStrEqual()
+                + goodsNo;
+//        System.out.println("##### " + urlstr);
         NodeList nodeList =  getXmlNodes(urlstr);
 
         List<GoodsSearchData> goodsSearchData = new ArrayList<>();
@@ -568,7 +570,7 @@ public class GoodsSearch {
             while ((line = br.readLine()) != null) {
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
-//            System.out.println(result);
+            System.out.println(result);
 //
             // xml 파싱하기
             InputSource is = new InputSource(new StringReader(result));

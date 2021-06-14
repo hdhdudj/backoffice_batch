@@ -1,27 +1,23 @@
 package io.spring.main.apis;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.*;
 import io.spring.main.model.goods.GoodsInsertData;
+import io.spring.main.model.goods.GoodsSearchData;
 import io.spring.main.model.goods.entity.*;
-import io.swagger.models.Xml;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
@@ -36,10 +32,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -65,6 +59,7 @@ public class GoodsInsert {
     private final JpaTmitemRepository jpaTmitemRepository;
     private final JpaXmlTestRepository jpaXmlTestRepository;
     private final ObjectMapper objectMapper;
+    private final GoodsSearch goodsSearch;
 //    private MappingJackson2XmlHttpMessageConverter xmlConverter;
 //    private final XmlMapper xmlMapper = new XmlMapper();
 
@@ -80,6 +75,7 @@ public class GoodsInsert {
     private String xmlSaveUrl;
 
     // tmmapi, tmitem을 뒤져서 jobStatus가 01인 애들을 훑어서 고도몰에 보낸 후 joinStatus를 02로 바꿈.
+    @Transactional
     public void insertGoods() {
         // tmmapi에서 joinStatus가 01인 애들 찾아오기 (tmitem도 엮여서 옴)
         List<Tmmapi> tmmapiList = jpaTmmapiRepository.findByJoinStatus(StringFactory.getGbOne()); // 02
@@ -94,18 +90,36 @@ public class GoodsInsert {
             // 객체를 고도몰 api 모양으로 만들기
             String xmlUrl = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
             // api 전송
-            String goodsNoifSuccess = sendXmlToGodo(xmlUrl);
-            if(goodsNoifSuccess != null){
+            String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlUrl);
+            if(goodsNoIfSuccess != null){
                 // tmmapi의 joinStatus를 02로 바꾸기
                 tmmapi.setJoinStatus(StringFactory.getGbTwo());
-                // tmmapi의 channelGoodsNo를
-//                jpaTmmapiRepository.save(tmmapi);
+                // tmmapi의 channelGoodsNo를 return 받은 goodsNo로 설정한 후 저장
+                tmmapi.setChannelGoodsNo(goodsNoIfSuccess);
+                jpaTmmapiRepository.save(tmmapi);
+
+                // 위에서 받은 goodsNoIfSuccess로 goods_search api로 받아오기
+                GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(goodsNoIfSuccess,"", "").get(0);
+                List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
+                List<Tmitem> tmitemList = tmmapi.getTmitemList();
+//                System.out.println("tmitemList.size() : ----- " + tmitemList.size());
+                // tmitem에 channelGoodsNo(goodsNo), channelOptionsNo(optionData의 sno) set해주기
+                tmitemList.stream().forEach(x -> {
+                    optionDataList.stream().forEach(y -> {
+                        if(x.getItemId().equals(y.getOptionCode())){
+                            x.setChannelGoodsNo(goodsNoIfSuccess);
+                            x.setChannelOptionsNo(Long.toString(y.getSno()));
+                        }
+                    });
+                    // tmitem 저장
+                    jpaTmitemRepository.save(x);
+                });
             }
-            // tmitem의 channelGoodsNo와 channelOptionsNo 값 goods_search api로 받아오기
+
         }
     }
 
-    private String sendXmlToGodo(String xmlUrl) {
+    private String sendXmlToGoodsInsert(String xmlUrl) {
         BufferedReader br = null;
         String goodsNoIfSuccess = null;
         String urlstr = goodsInsertUrl
