@@ -11,10 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +22,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @NoArgsConstructor
 public class GoodsInsertData {
-    public GoodsInsertData(GoodsData goodsData, List<OptionData> optionDataList){
+    public GoodsInsertData(GoodsData goodsData, OptionData[] optionDataList){
         this.goodsData = new GoodsData[1];
         this.goodsData[0] = goodsData;
         this.goodsData[0].setOptionData(optionDataList);
@@ -49,23 +46,23 @@ public class GoodsInsertData {
              */
             this.goodsCd = itasrt.getAssortId();
             this.goodsNm = itasrt.getAssortNm();
-            this.goodsDisplayFl = itasrt.getAssortState();
+            this.goodsDisplayFl = itasrt.getAssortState().equals(StringFactory.getGbOne())? StringFactory.getStrY():StringFactory.getStrN();
             this.sizeType = itasrt.getAssortGb();
-            this.goodsSellFl = itasrt.getShortageYn();
+            this.goodsSellFl = itasrt.getShortageYn().equals(StringFactory.getGbOne())? StringFactory.getStrY():StringFactory.getStrN();
             this.cateCd = itasrt.getDispCategoryId();
             this.goodsColor = itasrt.getAssortColor();
             this.commission = itasrt.getMargin();
 //            this.brandCd = itasrt.getBrandId(); // 변환 필요
             this.makerNm = itasrt.getManufactureNm();
             this.goodsModelNo = itasrt.getAssortModel();
-            this.taxFreeFl = itasrt.getTaxGb();
+            this.taxFreeFl = itasrt.getTaxGb().equals(StringFactory.getGbOne())? StringFactory.getStrY():StringFactory.getStrN();
             this.salesStartYmd = itasrt.getSellStaDt();
             this.salesEndYmd = itasrt.getSellEndDt();
             this.goodsPrice = itasrt.getLocalSale();
             this.fixedPrice = itasrt.getLocalPrice();
             this.costPrice = itasrt.getDeliPrice();
             this.optionName = itasrt.getOptionGbName();
-            this.optionFl = itasrt.getOptionUseYn();
+            this.optionFl = itasrt.getOptionUseYn().equals(StringFactory.getGbOne())? StringFactory.getStrY():StringFactory.getStrN();
             this.mdRrp = itasrt.getMdRrp();
             this.mdRrpTax = itasrt.getMdTax();
             this.mdYear = itasrt.getMdYear();
@@ -150,12 +147,11 @@ public class GoodsInsertData {
         private Float goodsPrice;
         private Float fixedPrice;
         private Float costPrice;
-        @Expose // null이면 json에 들어가지 않게
         private String optionFl;
-        private String optionDisplayFl;
+        private String optionDisplayFl = StringFactory.getStrD(); // d 하드코딩
         private String optionName;
-        private String optionTextFl;
-        private String addGoodsFl;
+        private String optionTextFl = StringFactory.getStrY(); // y 하드코딩
+        private String addGoodsFl = StringFactory.getStrD(); // d 하드코딩
         private String shortDescription; // 짧은 설명
         private String goodsDescription; // 상세 설명
         private String goodsDescriptionMobile;
@@ -230,7 +226,7 @@ public class GoodsInsertData {
         private Float depth;
 
         @XmlElement(name = "optionData")
-        private List<OptionData> optionData;
+        private OptionData[] optionData;
         @XmlElement(name = "textOptionData")
         private List<TextOptionData> textOptionData;
         @XmlElement(name = "addGoodsData")
@@ -243,11 +239,16 @@ public class GoodsInsertData {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class OptionData{
         public OptionData(Tmitem tmitem){
-            this.optionCode = tmitem.getAssortId();
+            this.optionCode = tmitem.getItemId();
             this.optionNo = Long.parseLong(tmitem.getItemId());
             this.optionPrice = tmitem.getOptionPrice();
-            this.optionSellFl = tmitem.getShortYn();
+            this.optionSellFl = tmitem.getShortYn().equals(StringFactory.getGbOne())? StringFactory.getStrY():StringFactory.getStrN();
+            this.optionValue1 = tmitem.getItvari1() == null? null: tmitem.getItvari1().getOptionNm();
+            this.optionValue2 = tmitem.getItvari2() == null? null:tmitem.getItvari2().getOptionNm();
         }
+
+        @XmlAttribute(name="idx")
+        int idx;
         private Long optionNo;
         private String optionValue1;
         private String optionValue2;
@@ -255,11 +256,12 @@ public class GoodsInsertData {
         private String optionValue4;
         private String optionValue5;
         private Float optionPrice;
-        private String optionViewFl;
+        private String optionViewFl = StringFactory.getStrY(); // y 하드코딩
         private String optionSellFl;
         private String optionCode;
         private Long stockCnt = 999l; // 999 하드코딩
     }
+
     @Getter
     @Setter
     @XmlRootElement(name = "textOptionData")

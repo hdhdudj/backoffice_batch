@@ -210,12 +210,15 @@ public class GoodsInsert {
     }
 
     // ititmm : tmitem -> GoodsInsertData.OptionData 만드는 함수
-    private List<GoodsInsertData.OptionData> makeOptionDataFromTmitem(Tmmapi tmmapi){
+    private GoodsInsertData.OptionData[] makeOptionDataFromTmitem(Tmmapi tmmapi){
         List<Tmitem> tmitemList = tmmapi.getTmitemList();
-        List<GoodsInsertData.OptionData> optionDataList = new ArrayList<>();
+        GoodsInsertData.OptionData[] optionDataList = new GoodsInsertData.OptionData[tmitemList.size()];
+        int i = 0;
         for(Tmitem tmitem : tmitemList){
             GoodsInsertData.OptionData optionData = new GoodsInsertData.OptionData(tmitem);
-            optionDataList.add(optionData);
+            optionData.setIdx(i + 1);
+            optionDataList[i] = optionData;
+            i++;
         }
         return optionDataList;
     }
