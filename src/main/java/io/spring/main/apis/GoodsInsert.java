@@ -92,8 +92,8 @@ public class GoodsInsert {
             // api 전송
             String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlUrl);
             if(goodsNoIfSuccess != null){
-                // tmmapi의 joinStatus를 02로 바꾸기
-                tmmapi.setJoinStatus(StringFactory.getGbTwo());
+                // tmmapi의 joinStatus를 01로 바꾸기
+                tmmapi.setJoinStatus(StringFactory.getGbOne());
                 // tmmapi의 channelGoodsNo를 return 받은 goodsNo로 설정한 후 저장
                 tmmapi.setChannelGoodsNo(goodsNoIfSuccess);
                 jpaTmmapiRepository.save(tmmapi);
