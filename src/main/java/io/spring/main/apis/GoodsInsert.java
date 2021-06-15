@@ -77,8 +77,8 @@ public class GoodsInsert {
     // tmmapi, tmitem을 뒤져서 jobStatus가 01인 애들을 훑어서 고도몰에 보낸 후 joinStatus를 02로 바꿈.
     @Transactional
     public void insertGoods() {
-        // tmmapi에서 joinStatus가 01인 애들 찾아오기 (tmitem도 엮여서 옴)
-        List<Tmmapi> tmmapiList = jpaTmmapiRepository.findByJoinStatus(StringFactory.getGbOne()); // 02
+        // tmmapi에서 joinStatus가 02인 애들 찾아오기 (tmitem도 엮여서 옴)
+        List<Tmmapi> tmmapiList = jpaTmmapiRepository.findByJoinStatus(StringFactory.getGbTwo()); // 02
 
         GoodsInsertData goodsInsertData = null;
 
@@ -88,12 +88,13 @@ public class GoodsInsert {
             // tmmapi, tmitem에서 해당 상품정보 불러서 전달용 객체로 만들기
             goodsInsertData = makeGoodsSearchObject(tmmapi);
             // 객체를 고도몰 api 모양으로 만들기
-            String xmlUrl = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
+            XmlTest xmlTest = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
             // api 전송
-            String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlUrl);
+            String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlTest);
             if(goodsNoIfSuccess != null){
-                // tmmapi의 joinStatus를 01로 바꾸기
+                // tmmapi의 joinStatus와 uploadYn을 01로 바꾸기
                 tmmapi.setJoinStatus(StringFactory.getGbOne());
+                tmmapi.setUploadYn(StringFactory.getGbOne());
                 // tmmapi의 channelGoodsNo를 return 받은 goodsNo로 설정한 후 저장
                 tmmapi.setChannelGoodsNo(goodsNoIfSuccess);
                 jpaTmmapiRepository.save(tmmapi);
@@ -119,9 +120,14 @@ public class GoodsInsert {
         }
     }
 
-    private String sendXmlToGoodsInsert(String xmlUrl) {
+    private String sendXmlToGoodsInsert(XmlTest xmlTest) {
         BufferedReader br = null;
         String goodsNoIfSuccess = null;
+        String xmlUrl = xmlSaveUrl
+                + StringFactory.getStrQuestion()
+                + StringFactory.getStrAssortId()
+                + StringFactory.getStrEqual()
+                + xmlTest.getAssortId();
         String urlstr = goodsInsertUrl
                 + StringFactory.getStrQuestion()
                 + StringFactory.getGoodsSearchParams()[0] //"partner_key"
@@ -137,7 +143,7 @@ public class GoodsInsert {
                 + xmlUrl;
         try{
             URL url = new URL(urlstr);
-//            System.out.println("url : " + urlstr);
+            System.out.println("url : " + urlstr);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 //            System.out.println("con properties : " + con.getRequestProperties());
 
@@ -238,7 +244,7 @@ public class GoodsInsert {
     }
     
     // goodsInsertData를 xml로 만드는 함수
-    private String makeGoodsSearchXml(GoodsInsertData goodsInsertData, String assortId){
+    private XmlTest makeGoodsSearchXml(GoodsInsertData goodsInsertData, String assortId){
         String xmlContent = null;
 //        goodsInsertData.getGoodsData()[0].setAssortId(null); // xml에 assortId를 포함시키지 않기 위해 null로 설정
 
@@ -267,15 +273,15 @@ public class GoodsInsert {
     }
 
     // xml string을 db에 저장하고 주소 반환
-    private String getXmlUrl(String assortId, String xmlContent){
+    private XmlTest getXmlUrl(String assortId, String xmlContent){
         // 만든 xml DB에 저장하기
         XmlTest xmlTest = new XmlTest(assortId, xmlContent);
         jpaXmlTestRepository.save(xmlTest);
-
-        return xmlSaveUrl
-                + StringFactory.getStrQuestion()
-                + StringFactory.getStrAssortId()
-                + StringFactory.getStrEqual()
-                + assortId;
+        return xmlTest;
+//        return xmlSaveUrl
+//                + StringFactory.getStrQuestion()
+//                + StringFactory.getStrAssortId()
+//                + StringFactory.getStrEqual()
+//                + assortId;
     }
 }
