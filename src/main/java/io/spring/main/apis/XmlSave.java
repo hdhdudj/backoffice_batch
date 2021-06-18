@@ -1,12 +1,15 @@
 package io.spring.main.apis;
 
+import io.spring.main.DataShareBean;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.jparepos.goods.JpaTmmapiRepository;
 import io.spring.main.model.goods.GoodsInsertData;
 import io.spring.main.model.goods.entity.Tmmapi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +22,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Component
 @PropertySource("classpath:godourl.yml")
+@ComponentScan(basePackages={"io.spring.main"})
 public class XmlSave {
     private final JpaTmmapiRepository jpaTmmapiRepository;
     private final GoodsInsert goodsInsert;
+    private final DataShareBean<Tmmapi> dataShareBean;
 
     // 고도몰 관련 값들
     @Value("${pKey}")
@@ -35,12 +40,12 @@ public class XmlSave {
     private String xmlSaveUrl;
 
     @Transactional
-    public void insertGoods(){
+    public void getXmlMap(){
         // tmmapi에서 joinStatus가 02인 애들 찾아오기 (tmitem도 엮여서 옴)
         List<Tmmapi> tmmapiList = jpaTmmapiRepository.findByJoinStatus(StringFactory.getGbTwo()); // 02
 
         GoodsInsertData goodsInsertData = null;
-        Map<String, Tmmapi> map = new HashMap<>();
+//        Map<String, Tmmapi> map = new HashMap<>();
         for(Tmmapi tmmapi : tmmapiList){
             // tmmapi에 해당하는 tmitem 리스트 가져오기
 //            List<Tmitem> tmitemList = jpaTmitemRepository.findBy
@@ -51,7 +56,8 @@ public class XmlSave {
 
             String xmlTest = goodsInsert.makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
             // map에 저장
-            map.put(xmlTest, tmmapi);
+//            map.put(xmlTest, tmmapi);
+            dataShareBean.putData(xmlTest,tmmapi);
         }
     }
 }

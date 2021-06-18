@@ -1,12 +1,15 @@
 package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.spring.main.DataShareBean;
 import io.spring.main.infrastructure.util.StringFactory;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.*;
 import io.spring.main.model.goods.GoodsInsertData;
 import io.spring.main.model.goods.GoodsSearchData;
 import io.spring.main.model.goods.entity.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import lombok.RequiredArgsConstructor;
@@ -39,12 +42,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 @PropertySource("classpath:godourl.yml")
+@ComponentScan(basePackages={"io.spring.main"})
 public class GoodsInsert {
     private final JpaIfGoodsMasterRepository jpaIfGoodsMasterRepository;
     private final JpaIfGoodsOptionRepository jpaIfGoodsOptionRepository;
@@ -67,6 +72,7 @@ public class GoodsInsert {
     private final ObjectMapper objectMapper;
     private final GoodsSearch goodsSearch;
     private final EntityManager entityManager;
+    private final DataShareBean<Tmmapi> dataShareBean;
 //    private final EntityManagerFactory entityManagerFactory;
 
 //    private MappingJackson2XmlHttpMessageConverter xmlConverter;
@@ -83,77 +89,67 @@ public class GoodsInsert {
     @Value("${url.xmlUrl}")
     private String xmlSaveUrl;
 
-    @Transactional
-    public void insertAndSend(){
-        Map<String, Tmmapi> map = insertGoods();
-//        for(String xmlUrl : map.keySet()){
-//            log.debug("xml은 저장되었나 : " +jpaXmlTestRepository.getOne(xmlUrl).getXml());
+//    // tmmapi, tmitem을 뒤져서 jobStatus가 01인 애들을 훑어서 고도몰에 보낸 후 joinStatus를 02로 바꿈.
+//    @Transactional
+//    public Map<String, Tmmapi> insertGoods(){
+//        // tmmapi에서 joinStatus가 02인 애들 찾아오기 (tmitem도 엮여서 옴)
+//        List<Tmmapi> tmmapiList = jpaTmmapiRepository.findByJoinStatus(StringFactory.getGbTwo()); // 02
+//
+//        System.out.println("insertGoods : 1"  );
+//
+//        GoodsInsertData goodsInsertData = null;
+//        Map<String, Tmmapi> map = new HashMap<>();
+//        for(Tmmapi tmmapi : tmmapiList){
+//            // tmmapi에 해당하는 tmitem 리스트 가져오기
+////            List<Tmitem> tmitemList = jpaTmitemRepository.findBy
+//            // tmmapi, tmitem에서 해당 상품정보 불러서 전달용 객체로 만들기
+//            goodsInsertData = makeGoodsSearchObject(tmmapi);
+//            // 객체를 고도몰 api 모양으로 만들기
+//
+//            System.out.println("insertGoods : 2"  );
+//
+//            String xmlTest = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
+//            // map에 저장
+//            map.put(xmlTest, tmmapi);
 //        }
-        sendApi(map);
-    }
-
-    // tmmapi, tmitem을 뒤져서 jobStatus가 01인 애들을 훑어서 고도몰에 보낸 후 joinStatus를 02로 바꿈.
-    @Transactional
-    public Map<String, Tmmapi> insertGoods(){
-        // tmmapi에서 joinStatus가 02인 애들 찾아오기 (tmitem도 엮여서 옴)
-        List<Tmmapi> tmmapiList = jpaTmmapiRepository.findByJoinStatus(StringFactory.getGbTwo()); // 02
-
-        System.out.println("insertGoods : 1"  );
-
-        GoodsInsertData goodsInsertData = null;
-        Map<String, Tmmapi> map = new HashMap<>();
-        for(Tmmapi tmmapi : tmmapiList){
-            // tmmapi에 해당하는 tmitem 리스트 가져오기
-//            List<Tmitem> tmitemList = jpaTmitemRepository.findBy
-            // tmmapi, tmitem에서 해당 상품정보 불러서 전달용 객체로 만들기
-            goodsInsertData = makeGoodsSearchObject(tmmapi);
-            // 객체를 고도몰 api 모양으로 만들기
-
-            System.out.println("insertGoods : 2"  );
-
-            String xmlTest = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
-            // map에 저장
-            map.put(xmlTest, tmmapi);
-        }
-        return map;
-    }
+//        return map;
+//    }
 
     @Transactional
-    public void sendApi(Map<String, Tmmapi> map){
-        System.out.println("insertGoods : 5"  );
-            for(String xmlUrl : map.keySet()){
-                // api 전송
-                String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlUrl);
-                Tmmapi tmmapi = map.get(xmlUrl);
-                System.out.println("##### "+tmmapi.getAssortNm());
-                // tmmapi의 joinStatus와 uploadYn을 01로 바꾸기
-                tmmapi.setJoinStatus(StringFactory.getGbOne());
-                tmmapi.setUploadYn(StringFactory.getGbOne());
-                // tmmapi의 channelGoodsNo를 return 받은 goodsNo로 설정한 후 저장
-                tmmapi.setChannelGoodsNo(goodsNoIfSuccess);
-                jpaTmmapiRepository.save(tmmapi);
+    public void sendApi(){
+        Map<String, Tmmapi> map = this.dataShareBean.getMap();
+        for(String xmlUrl : map.keySet()){
+            // api 전송
+            String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlUrl);
+            Tmmapi tmmapi = map.get(xmlUrl);
+            System.out.println("##### "+tmmapi.getAssortNm());
+            // tmmapi의 joinStatus와 uploadYn을 01로 바꾸기
+            tmmapi.setJoinStatus(StringFactory.getGbOne());
+            tmmapi.setUploadYn(StringFactory.getGbOne());
+            // tmmapi의 channelGoodsNo를 return 받은 goodsNo로 설정한 후 저장
+            tmmapi.setChannelGoodsNo(goodsNoIfSuccess);
+            jpaTmmapiRepository.save(tmmapi);
 
-                if(goodsNoIfSuccess == null){
-                    break;
-                }
-                // 위에서 받은 goodsNoIfSuccess로 goods_search api로 받아오기
-                GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(goodsNoIfSuccess,"", "").get(0);
-                List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
-                List<Tmitem> tmitemList = tmmapi.getTmitemList();
-        //                System.out.println("tmitemList.size() : ----- " + tmitemList.size());
-                // tmitem에 channelGoodsNo(goodsNo), channelOptionsNo(optionData의 sno) set해주기
-                tmitemList.stream().forEach(x -> {
-                    optionDataList.stream().forEach(y -> {
-                        if(x.getItemId().equals(y.getOptionCode())){
-                            x.setChannelGoodsNo(goodsNoIfSuccess);
-                            x.setChannelOptionsNo(Long.toString(y.getSno()));
-                        }
-                    });
-                    System.out.println("insertGoods : 6"  );
-                    // tmitem 저장
-                    jpaTmitemRepository.save(x);
-                });
+            if(goodsNoIfSuccess == null){
+                break;
             }
+            // 위에서 받은 goodsNoIfSuccess로 goods_search api로 받아오기
+            GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(goodsNoIfSuccess,"", "").get(0);
+            List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
+            List<Tmitem> tmitemList = tmmapi.getTmitemList();
+    //                System.out.println("tmitemList.size() : ----- " + tmitemList.size());
+            // tmitem에 channelGoodsNo(goodsNo), channelOptionsNo(optionData의 sno) set해주기
+            tmitemList.stream().forEach(x -> {
+                optionDataList.stream().forEach(y -> {
+                    if(x.getItemId().equals(y.getOptionCode())){
+                        x.setChannelGoodsNo(goodsNoIfSuccess);
+                        x.setChannelOptionsNo(Long.toString(y.getSno()));
+                    }
+                });
+                // tmitem 저장
+                jpaTmitemRepository.save(x);
+            });
+        }
     }
 
     private String sendXmlToGoodsInsert(String xmlUrl) {
@@ -315,7 +311,6 @@ public class GoodsInsert {
     // xml string을 db에 저장하고 주소 반환
     private String getXmlUrl(String assortId, String xmlContent){
         // 만든 xml DB에 저장하기
-        System.out.println("insertGoods : 4"  );
         XmlTest xmlTest = new XmlTest(assortId, xmlContent);
 //        jpaXmlTestRepository.save(xmlTest);
         entityManager.persist(xmlTest);

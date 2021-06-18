@@ -3,7 +3,6 @@ package io.spring.backoffice_batch.job;
 import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
 import io.spring.main.apis.GoodsInsert;
 import io.spring.main.apis.XmlSave;
-import io.swagger.models.Xml;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -39,7 +38,7 @@ public class GoodsInsertJobConfiguration {
         return stepBuilderFactory.get("insertGoodsStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is insertGoodsStep1");
-                    xmlSave.insertGoods();
+                    xmlSave.getXmlMap();
                     return RepeatStatus.FINISHED;
                 })
                 .build();
@@ -50,7 +49,7 @@ public class GoodsInsertJobConfiguration {
         return stepBuilderFactory.get("insertGoodsStep2")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is insertGoodsStep2");
-                    goodsInsert.insertAndSend();
+                    goodsInsert.sendApi();
                     return RepeatStatus.FINISHED;
                 })
                 .build();

@@ -1,13 +1,10 @@
 package io.spring.main;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Slf4j
@@ -15,7 +12,7 @@ public class DataShareBean <T> {
     private Map<String, T> shareDataMap;
 
     public DataShareBean(){
-        shareDataMap = new HashMap<String, T>();
+        shareDataMap = new ConcurrentHashMap<String, T>();
     }
 
     public T getData(String key){
@@ -40,5 +37,9 @@ public class DataShareBean <T> {
             return;
         }
         shareDataMap.put(key,data);
+    }
+
+    public Map<String, T> getMap(){
+        return this.shareDataMap;
     }
 }
