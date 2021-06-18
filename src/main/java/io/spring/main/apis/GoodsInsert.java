@@ -17,6 +17,10 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import javax.batch.runtime.StepExecution;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.transaction.Transactional;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -32,7 +36,9 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -60,6 +66,9 @@ public class GoodsInsert {
     private final JpaXmlTestRepository jpaXmlTestRepository;
     private final ObjectMapper objectMapper;
     private final GoodsSearch goodsSearch;
+    private final EntityManager entityManager;
+//    private final EntityManagerFactory entityManagerFactory;
+
 //    private MappingJackson2XmlHttpMessageConverter xmlConverter;
 //    private final XmlMapper xmlMapper = new XmlMapper();
 
@@ -74,24 +83,49 @@ public class GoodsInsert {
     @Value("${url.xmlUrl}")
     private String xmlSaveUrl;
 
+    @Transactional
+    public void insertAndSend(){
+        Map<String, Tmmapi> map = insertGoods();
+//        for(String xmlUrl : map.keySet()){
+//            log.debug("xml은 저장되었나 : " +jpaXmlTestRepository.getOne(xmlUrl).getXml());
+//        }
+        sendApi(map);
+    }
+
     // tmmapi, tmitem을 뒤져서 jobStatus가 01인 애들을 훑어서 고도몰에 보낸 후 joinStatus를 02로 바꿈.
     @Transactional
-    public void insertGoods() {
+    public Map<String, Tmmapi> insertGoods(){
         // tmmapi에서 joinStatus가 02인 애들 찾아오기 (tmitem도 엮여서 옴)
         List<Tmmapi> tmmapiList = jpaTmmapiRepository.findByJoinStatus(StringFactory.getGbTwo()); // 02
 
-        GoodsInsertData goodsInsertData = null;
+        System.out.println("insertGoods : 1"  );
 
+        GoodsInsertData goodsInsertData = null;
+        Map<String, Tmmapi> map = new HashMap<>();
         for(Tmmapi tmmapi : tmmapiList){
             // tmmapi에 해당하는 tmitem 리스트 가져오기
 //            List<Tmitem> tmitemList = jpaTmitemRepository.findBy
             // tmmapi, tmitem에서 해당 상품정보 불러서 전달용 객체로 만들기
             goodsInsertData = makeGoodsSearchObject(tmmapi);
             // 객체를 고도몰 api 모양으로 만들기
-            XmlTest xmlTest = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
-            // api 전송
-            String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlTest);
-            if(goodsNoIfSuccess != null){
+
+            System.out.println("insertGoods : 2"  );
+
+            String xmlTest = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
+            // map에 저장
+            map.put(xmlTest, tmmapi);
+        }
+        return map;
+    }
+
+    @Transactional
+    public void sendApi(Map<String, Tmmapi> map){
+        System.out.println("insertGoods : 5"  );
+            for(String xmlUrl : map.keySet()){
+                // api 전송
+                String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlUrl);
+                Tmmapi tmmapi = map.get(xmlUrl);
+                System.out.println("##### "+tmmapi.getAssortNm());
                 // tmmapi의 joinStatus와 uploadYn을 01로 바꾸기
                 tmmapi.setJoinStatus(StringFactory.getGbOne());
                 tmmapi.setUploadYn(StringFactory.getGbOne());
@@ -99,11 +133,14 @@ public class GoodsInsert {
                 tmmapi.setChannelGoodsNo(goodsNoIfSuccess);
                 jpaTmmapiRepository.save(tmmapi);
 
+                if(goodsNoIfSuccess == null){
+                    break;
+                }
                 // 위에서 받은 goodsNoIfSuccess로 goods_search api로 받아오기
                 GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(goodsNoIfSuccess,"", "").get(0);
                 List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
                 List<Tmitem> tmitemList = tmmapi.getTmitemList();
-//                System.out.println("tmitemList.size() : ----- " + tmitemList.size());
+        //                System.out.println("tmitemList.size() : ----- " + tmitemList.size());
                 // tmitem에 channelGoodsNo(goodsNo), channelOptionsNo(optionData의 sno) set해주기
                 tmitemList.stream().forEach(x -> {
                     optionDataList.stream().forEach(y -> {
@@ -112,22 +149,21 @@ public class GoodsInsert {
                             x.setChannelOptionsNo(Long.toString(y.getSno()));
                         }
                     });
+                    System.out.println("insertGoods : 6"  );
                     // tmitem 저장
                     jpaTmitemRepository.save(x);
                 });
             }
-
-        }
     }
 
-    private String sendXmlToGoodsInsert(XmlTest xmlTest) {
+    private String sendXmlToGoodsInsert(String xmlUrl) {
         BufferedReader br = null;
         String goodsNoIfSuccess = null;
-        String xmlUrl = xmlSaveUrl
-                + StringFactory.getStrQuestion()
-                + StringFactory.getStrAssortId()
-                + StringFactory.getStrEqual()
-                + xmlTest.getAssortId();
+//        String xmlUrl = xmlSaveUrl
+//                + StringFactory.getStrQuestion()
+//                + StringFactory.getStrAssortId()
+//                + StringFactory.getStrEqual()
+//                + xmlTest.getAssortId();
         String urlstr = goodsInsertUrl
                 + StringFactory.getStrQuestion()
                 + StringFactory.getGoodsSearchParams()[0] //"partner_key"
@@ -154,7 +190,7 @@ public class GoodsInsert {
             while ((line = br.readLine()) != null) {
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
-            System.out.println("            " + result);
+            System.out.println(" ----- result : " + result);
             goodsNoIfSuccess = parseReturnXml(result);
         }
         catch (Exception e){
@@ -201,7 +237,7 @@ public class GoodsInsert {
     }
 
     // , ititmm : tmitem 고도몰 goods_insert api를 만들기 위한 GoodsInsertData 객체를 만드는 함수
-    private GoodsInsertData makeGoodsSearchObject(Tmmapi tmmapi) {
+    public GoodsInsertData makeGoodsSearchObject(Tmmapi tmmapi) {
         GoodsInsertData goodsInsertData = new GoodsInsertData(makeGoodsDataFromTmmapi(tmmapi), makeOptionDataFromTmitem(tmmapi));
 
         return goodsInsertData;
@@ -244,9 +280,10 @@ public class GoodsInsert {
     }
     
     // goodsInsertData를 xml로 만드는 함수
-    private XmlTest makeGoodsSearchXml(GoodsInsertData goodsInsertData, String assortId){
+    public String makeGoodsSearchXml(GoodsInsertData goodsInsertData, String assortId){
         String xmlContent = null;
 //        goodsInsertData.getGoodsData()[0].setAssortId(null); // xml에 assortId를 포함시키지 않기 위해 null로 설정
+        String ret="";
 
         try {
             // Create JAXB Context
@@ -263,25 +300,30 @@ public class GoodsInsert {
 
             // Verify XML Content
             xmlContent = stringWriter.toString();
-            System.out.println(xmlContent);
+            System.out.println("저장할 xml : "+xmlContent);
+            ret =  getXmlUrl(assortId, xmlContent);
+
+            System.out.println("ret : "+ret);
 
         } catch (Exception e) {
             e.getMessage();
         }
 
-        return getXmlUrl(assortId, xmlContent);
+        return ret;
     }
 
     // xml string을 db에 저장하고 주소 반환
-    private XmlTest getXmlUrl(String assortId, String xmlContent){
+    private String getXmlUrl(String assortId, String xmlContent){
         // 만든 xml DB에 저장하기
+        System.out.println("insertGoods : 4"  );
         XmlTest xmlTest = new XmlTest(assortId, xmlContent);
-        jpaXmlTestRepository.save(xmlTest);
-        return xmlTest;
-//        return xmlSaveUrl
-//                + StringFactory.getStrQuestion()
-//                + StringFactory.getStrAssortId()
-//                + StringFactory.getStrEqual()
-//                + assortId;
+//        jpaXmlTestRepository.save(xmlTest);
+        entityManager.persist(xmlTest);
+//        return xmlTest;
+        return xmlSaveUrl
+                + StringFactory.getStrQuestion()
+                + StringFactory.getStrAssortId()
+                + StringFactory.getStrEqual()
+                + assortId;
     }
 }

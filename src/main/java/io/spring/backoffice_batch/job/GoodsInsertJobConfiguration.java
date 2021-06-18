@@ -2,6 +2,8 @@ package io.spring.backoffice_batch.job;
 
 import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
 import io.spring.main.apis.GoodsInsert;
+import io.spring.main.apis.XmlSave;
+import io.swagger.models.Xml;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -21,11 +23,13 @@ public class GoodsInsertJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final GoodsInsert goodsInsert;
+    private final XmlSave xmlSave;
 
     @Bean
     public Job insertGoodsJob(){
         return jobBuilderFactory.get("insertGoodsJob")
                 .start(insertGoodsStep1())
+                .next(insertGoodsStep2())
                 .incrementer(new UniqueRunIdIncrementer())
                 .build();
     }
@@ -35,7 +39,18 @@ public class GoodsInsertJobConfiguration {
         return stepBuilderFactory.get("insertGoodsStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is insertGoodsStep1");
-                    goodsInsert.insertGoods();
+                    xmlSave.insertGoods();
+                    return RepeatStatus.FINISHED;
+                })
+                .build();
+    }
+
+    @Bean
+    public Step insertGoodsStep2(){
+        return stepBuilderFactory.get("insertGoodsStep2")
+                .tasklet((contribution, chunkContext) -> {
+                    log.info("----- This is insertGoodsStep2");
+                    goodsInsert.insertAndSend();
                     return RepeatStatus.FINISHED;
                 })
                 .build();
