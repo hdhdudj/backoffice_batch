@@ -45,18 +45,13 @@ public class XmlSave {
         List<Tmmapi> tmmapiList = jpaTmmapiRepository.findByJoinStatus(StringFactory.getGbTwo()); // 02
 
         GoodsInsertData goodsInsertData = null;
-//        Map<String, Tmmapi> map = new HashMap<>();
         for(Tmmapi tmmapi : tmmapiList){
-            // tmmapi에 해당하는 tmitem 리스트 가져오기
-//            List<Tmitem> tmitemList = jpaTmitemRepository.findBy
             // tmmapi, tmitem에서 해당 상품정보 불러서 전달용 객체로 만들기
             goodsInsertData = goodsInsert.makeGoodsSearchObject(tmmapi);
             // 객체를 고도몰 api 모양으로 만들기
 
-
             String xmlTest = goodsInsert.makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
             // map에 저장
-//            map.put(xmlTest, tmmapi);
             dataShareBean.putData(xmlTest,tmmapi);
         }
     }

@@ -89,32 +89,6 @@ public class GoodsInsert {
     @Value("${url.xmlUrl}")
     private String xmlSaveUrl;
 
-//    // tmmapi, tmitem을 뒤져서 jobStatus가 01인 애들을 훑어서 고도몰에 보낸 후 joinStatus를 02로 바꿈.
-//    @Transactional
-//    public Map<String, Tmmapi> insertGoods(){
-//        // tmmapi에서 joinStatus가 02인 애들 찾아오기 (tmitem도 엮여서 옴)
-//        List<Tmmapi> tmmapiList = jpaTmmapiRepository.findByJoinStatus(StringFactory.getGbTwo()); // 02
-//
-//        System.out.println("insertGoods : 1"  );
-//
-//        GoodsInsertData goodsInsertData = null;
-//        Map<String, Tmmapi> map = new HashMap<>();
-//        for(Tmmapi tmmapi : tmmapiList){
-//            // tmmapi에 해당하는 tmitem 리스트 가져오기
-////            List<Tmitem> tmitemList = jpaTmitemRepository.findBy
-//            // tmmapi, tmitem에서 해당 상품정보 불러서 전달용 객체로 만들기
-//            goodsInsertData = makeGoodsSearchObject(tmmapi);
-//            // 객체를 고도몰 api 모양으로 만들기
-//
-//            System.out.println("insertGoods : 2"  );
-//
-//            String xmlTest = makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
-//            // map에 저장
-//            map.put(xmlTest, tmmapi);
-//        }
-//        return map;
-//    }
-
     @Transactional
     public void sendApi(){
         Map<String, Tmmapi> map = this.dataShareBean.getMap();
@@ -122,7 +96,7 @@ public class GoodsInsert {
             // api 전송
             String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlUrl);
             Tmmapi tmmapi = map.get(xmlUrl);
-            System.out.println("##### "+tmmapi.getAssortNm());
+//            System.out.println("##### "+tmmapi.getAssortNm());
             // tmmapi의 joinStatus와 uploadYn을 01로 바꾸기
             tmmapi.setJoinStatus(StringFactory.getGbOne());
             tmmapi.setUploadYn(StringFactory.getGbOne());
@@ -137,7 +111,6 @@ public class GoodsInsert {
             GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(goodsNoIfSuccess,"", "").get(0);
             List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
             List<Tmitem> tmitemList = tmmapi.getTmitemList();
-    //                System.out.println("tmitemList.size() : ----- " + tmitemList.size());
             // tmitem에 channelGoodsNo(goodsNo), channelOptionsNo(optionData의 sno) set해주기
             tmitemList.stream().forEach(x -> {
                 optionDataList.stream().forEach(y -> {
@@ -155,11 +128,6 @@ public class GoodsInsert {
     private String sendXmlToGoodsInsert(String xmlUrl) {
         BufferedReader br = null;
         String goodsNoIfSuccess = null;
-//        String xmlUrl = xmlSaveUrl
-//                + StringFactory.getStrQuestion()
-//                + StringFactory.getStrAssortId()
-//                + StringFactory.getStrEqual()
-//                + xmlTest.getAssortId();
         String urlstr = goodsInsertUrl
                 + StringFactory.getStrQuestion()
                 + StringFactory.getGoodsSearchParams()[0] //"partner_key"
@@ -177,7 +145,6 @@ public class GoodsInsert {
             URL url = new URL(urlstr);
             System.out.println("url : " + urlstr);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//            System.out.println("con properties : " + con.getRequestProperties());
 
             // 응답 읽기
             br = new BufferedReader(new InputStreamReader(con.getInputStream(), StringFactory.getStrUtf8()));
@@ -186,7 +153,7 @@ public class GoodsInsert {
             while ((line = br.readLine()) != null) {
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
-            System.out.println(" ----- result : " + result);
+//            System.out.println(" ----- result : " + result);
             goodsNoIfSuccess = parseReturnXml(result);
         }
         catch (Exception e){
@@ -222,7 +189,7 @@ public class GoodsInsert {
                 expr = xPath.compile("//goodsno");
                 Node node = (Node) expr.evaluate(doc, XPathConstants.NODE);
                 String successGoodsNo = (String)GoodsSearch.getNodeValue(node);
-                System.out.println("+++++ " + successGoodsNo);
+//                System.out.println("+++++ " + successGoodsNo);
                 return successGoodsNo;
             }
         }
@@ -278,7 +245,6 @@ public class GoodsInsert {
     // goodsInsertData를 xml로 만드는 함수
     public String makeGoodsSearchXml(GoodsInsertData goodsInsertData, String assortId){
         String xmlContent = null;
-//        goodsInsertData.getGoodsData()[0].setAssortId(null); // xml에 assortId를 포함시키지 않기 위해 null로 설정
         String ret="";
 
         try {
@@ -296,10 +262,9 @@ public class GoodsInsert {
 
             // Verify XML Content
             xmlContent = stringWriter.toString();
-            System.out.println("저장할 xml : "+xmlContent);
+//            System.out.println("저장할 xml : "+xmlContent);
             ret =  getXmlUrl(assortId, xmlContent);
-
-            System.out.println("ret : "+ret);
+//            System.out.println("ret : "+ret);
 
         } catch (Exception e) {
             e.getMessage();
@@ -314,7 +279,6 @@ public class GoodsInsert {
         XmlTest xmlTest = new XmlTest(assortId, xmlContent);
 //        jpaXmlTestRepository.save(xmlTest);
         entityManager.persist(xmlTest);
-//        return xmlTest;
         return xmlSaveUrl
                 + StringFactory.getStrQuestion()
                 + StringFactory.getStrAssortId()
