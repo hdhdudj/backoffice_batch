@@ -68,23 +68,28 @@ public class GoodsSearch {
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
 //    @Transactional
-    public void searchGoodsSeq(String fromDt, String toDt){
-//        // objectMapper 설정
-//        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-//        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-//        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+//    public void searchGoodsSeq(String fromDt, String toDt){
+////        // objectMapper 설정
+////        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+////        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+////        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+//
+//        // if table entity 리스트 생성
+//        List<IfGoodsMaster> ifGoodsMasterList = new ArrayList<>(); // if_goods_master
+//
+//        // 트랜잭션1. if table 저장 함수
+//        saveIfTables(fromDt, toDt); //, ifGoodsOptionList, ifGoodsTextOptionList, ifGoodsAddGoodsList);
+//
+//        // 트랜잭션2. if table의 한 줄을 자체 table에 저장할 때 goodsNo 하나 기준으로 어떤 if table에서 실패하면 주루룩 실패해야 함.
+//        ifGoodsMasterList = jpaIfGoodsMasterRepository.findByUploadStatus(StringFactory.getGbOne()); // if_goods_master에서 upload_status가 01인 애 전부 가져옴
+//        for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){
+//            saveOneGoodsNo(ifGoodsMaster.getGoodsNo(), ifGoodsMaster);
+//        }
+//    }
 
-        // if table entity 리스트 생성
-        List<IfGoodsMaster> ifGoodsMasterList = new ArrayList<>(); // if_goods_master
-        
-        // 트랜잭션1. if table 저장 함수
-        saveIfTables(fromDt, toDt, ifGoodsMasterList); //, ifGoodsOptionList, ifGoodsTextOptionList, ifGoodsAddGoodsList);
-
-        // 트랜잭션2. if table의 한 줄을 자체 table에 저장할 때 goodsNo 하나 기준으로 어떤 if table에서 실패하면 주루룩 실패해야 함.
-        ifGoodsMasterList = jpaIfGoodsMasterRepository.findByUploadStatus(StringFactory.getGbOne()); // if_goods_master에서 upload_status가 01인 애 전부 가져옴
-        for(IfGoodsMaster ifGoodsMaster : ifGoodsMasterList){
-            saveOneGoodsNo(ifGoodsMaster.getGoodsNo(), ifGoodsMaster);
-        }
+    public List<IfGoodsMaster> getIfGoodsMasterListWhereUploadStatus01(){
+        List<IfGoodsMaster> ifGoodsMasterList = jpaIfGoodsMasterRepository.findByUploadStatus(StringFactory.getGbOne()); // if_goods_master에서 upload_status가 01인 애 전부 가져옴
+        return ifGoodsMasterList;
     }
 
     @Transactional
@@ -186,7 +191,7 @@ public class GoodsSearch {
     }
 
     @Transactional
-    public void saveIfTables(String fromDt, String toDt, List<IfGoodsMaster> ifGoodsMasterList){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
+    public void saveIfTables(String fromDt, String toDt){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
         List<GoodsSearchData> goodsSearchDataList = retrieveGoods(fromDt, toDt, null);
 //        String assortId = "";
 
@@ -201,7 +206,7 @@ public class GoodsSearch {
             }
             // goodsNo가 겹치는 애가 있는지 확인
             if(jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo())) == null){
-                ifGoodsMasterList.add(this.saveIfGoodsMaster(goodsSearchData)); // if_goods_master : itasrt, itasrn, itasrd  * 여기서 assortId 생성
+                this.saveIfGoodsMaster(goodsSearchData); // if_goods_master : itasrt, itasrn, itasrd  * 여기서 assortId 생성
                 this.saveIfGoodsTextOption(goodsSearchData); // if_goods_text_option : itmmot
                 this.saveIfGoodsAddGoods(goodsSearchData); // if_goods_add_goods : itlkag, itadgs
             }
@@ -508,12 +513,13 @@ public class GoodsSearch {
 
     // goods xml 받아오는 함수
     public List<GoodsSearchData> retrieveGoods(String goodsNo, String fromDt, String toDt) {
-
         //OpenApi호출
         String urlstr = goodsSearchUrl + StringFactory.getStrQuestion() + StringFactory.getGoodsSearchParams()[0] + StringFactory.getStrEqual() +
                 pKey + StringFactory.getStrAnd() +StringFactory.getGoodsSearchParams()[1]
-                + StringFactory.getStrEqual() + key + StringFactory.getStrAnd() + StringFactory.getGoodsSearchParams()[3] + StringFactory.getStrEqual()
-                + goodsNo;
+                + StringFactory.getStrEqual() + key
+//                + StringFactory.getStrAnd() + StringFactory.getGoodsSearchParams()[3]
+//                + StringFactory.getStrEqual()
+                + "&goodsNo=1000000040";
 //        System.out.println("##### " + urlstr);
         NodeList nodeList =  getXmlNodes(urlstr);
 
@@ -559,7 +565,7 @@ public class GoodsSearch {
 
         try {
             //OpenApi호출
-//            System.out.println(urlstr);
+            System.out.println(urlstr);
             //+ "&orderStatus=p1";
             URL url = new URL(urlstr);
             HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
@@ -569,6 +575,8 @@ public class GoodsSearch {
             String result = "";
             String line;
             while ((line = br.readLine()) != null) {
+                System.out.println(line);
+                System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
             System.out.println(result);
