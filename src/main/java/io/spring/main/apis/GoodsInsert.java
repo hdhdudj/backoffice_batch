@@ -162,7 +162,7 @@ public class GoodsInsert {
             while ((line = br.readLine()) != null) {
                 result = result + line.trim();// result = URL로 XML을 읽은 값
             }
-//            System.out.println(" ----- result : " + result);
+            System.out.println(" ----- result : " + result);
             goodsNoIfSuccess = parseReturnXml(result);
         }
         catch (Exception e){
@@ -187,7 +187,7 @@ public class GoodsInsert {
             doc = builder.parse(is);
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath xPath = xPathFactory.newXPath();
-            XPathExpression expr = xPath.compile("//header");
+            XPathExpression expr = xPath.compile("//header"); // header 하드코딩
             NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
             String headerCode = null;
 
@@ -195,7 +195,7 @@ public class GoodsInsert {
             headerCode = (String)GoodsSearch.getNodeValue(nodeList.item(0).getFirstChild());
             if(headerCode.equals(StringFactory.getStrSuccessCode())){
                 // <data/> 아래에 있는 <goodsno/>의 값을 가져옴.
-                expr = xPath.compile("//goodsno");
+                expr = xPath.compile("//goodsno"); // goodsno 하드코딩
                 Node node = (Node) expr.evaluate(doc, XPathConstants.NODE);
                 String successGoodsNo = (String)GoodsSearch.getNodeValue(node);
 //                System.out.println("+++++ " + successGoodsNo);
@@ -220,6 +220,10 @@ public class GoodsInsert {
     // itasrt, itasrd : tmmapi -> GoodsInsertData.GoodsData 만드는 함수
     private GoodsInsertData.GoodsData makeGoodsDataFromTmmapi(Tmmapi tmmapi){
         Itasrt itasrt = jpaItasrtRepository.getOne(tmmapi.getAssortId());
+        // 브랜드코드, 카테고리코드 고도몰 버전으로 교체
+        itasrt.setBrandId(getGodoBrandCd(itasrt.getBrandId(), tmmapi.getUploadType()));
+//        itasrt.setCategoryId(itasrt.getCategoryId());//(getGodoCateCd(itasrt.getDispCategoryId(), tmmapi.getUploadType()));
+        //
         List<Itasrd> itasrdList = jpaItasrdRepository.findByAssortId(tmmapi.getAssortId());
         Itasrd itasrd1 = null;
         Itasrd itasrd2 = null;
@@ -233,10 +237,38 @@ public class GoodsInsert {
                 }
             }
         }
-        // itasrt에서 optionUseYn이 02인 애는 null로 해버리기
-//        itasrt.setOptionUseYn(itasrt.getOptionUseYn().equals(StringFactory.getGbTwo())? null : itasrt.getOptionUseYn());
-
         return new GoodsInsertData.GoodsData(itasrt, itasrd1, itasrd2);
+    }
+    
+    // 우리 브랜드코드로 고도몰 브랜드코드 가져오기
+    private String getGodoBrandCd(String brandId, String uploadType){
+        String brandCd = null;
+//        if(uploadType.equals(StringFactory.getGbOne())){
+            IfBrand ifBrand = jpaIfBrandRepository.findByChannelGbAndBrandId(StringFactory.getGbOne(), brandId);
+            if(ifBrand == null){
+                log.debug("brand code is not exist.");
+                return brandId;
+            }
+            brandCd = ifBrand.getChannelBrandId();
+//        }
+        return brandCd;
+    }
+    
+    // 우리 카테고리로 고도몰 카테고리코드 가져오기
+    private String getGodoCateCd(String cateId, String uploadType){
+        System.out.println("+++++ cateId 전 : " + cateId);
+        String cateCd = null;
+        if(uploadType.equals(StringFactory.getGbOne())) {
+            IfCategory ifCategory = jpaIfCategoryRepository.findByChannelGbAndCategoryId(StringFactory.getGbOne(), cateId);
+            if (ifCategory == null) {
+                log.debug("category code is not exist.");
+                return cateCd;
+            }
+            cateCd = ifCategory.getChannelCategoryId();
+
+            System.out.println("+++++ cateId 후 : " + cateId);
+        }
+        return cateCd;
     }
 
     // ititmm : tmitem -> GoodsInsertData.OptionData 만드는 함수

@@ -5,5 +5,7 @@ import io.spring.main.model.goods.idclass.IfCategoryId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JpaIfCategoryRepository extends JpaRepository<IfCategory, IfCategoryId> {
-    IfCategory findByChannelCategoryId(String channelCategoryId);
+    IfCategory findByChannelGbAndChannelCategoryId(String channelGb, String channelCategoryId);
+
+    IfCategory findByChannelGbAndCategoryId(String channelGb, String categoryId);
 }

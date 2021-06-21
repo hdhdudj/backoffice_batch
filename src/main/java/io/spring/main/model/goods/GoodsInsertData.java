@@ -9,11 +9,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.xml.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Getter
 @Setter
 @XmlRootElement(name = "data")
@@ -47,10 +49,18 @@ public class GoodsInsertData {
             this.goodsDisplayFl = itasrt.getAssortState().equals(StringFactory.getGbOne())? StringFactory.getStrY():StringFactory.getStrN();
             this.sizeType = itasrt.getAssortGb();
             this.goodsSellFl = itasrt.getShortageYn().equals(StringFactory.getGbOne())? StringFactory.getStrY():StringFactory.getStrN();
-            this.cateCd = itasrt.getDispCategoryId();
             this.goodsColor = itasrt.getAssortColor();
             this.commission = itasrt.getMargin();
-//            this.brandCd = itasrt.getBrandId(); // 변환 필요
+            // 변환 필요
+            this.cateCd = itasrt.getCategoryId();
+            System.out.println("+++++ cateCd : " + cateCd);
+            try {
+                this.brandCd = Long.parseLong(itasrt.getBrandId());
+            }
+            catch(Exception e){
+                log.debug(e.getMessage());
+            }
+            //
             this.makerNm = itasrt.getManufactureNm();
             this.goodsModelNo = itasrt.getAssortModel();
             this.taxFreeFl = itasrt.getTaxGb().equals(StringFactory.getGbOne())? StringFactory.getStrY():StringFactory.getStrN();
