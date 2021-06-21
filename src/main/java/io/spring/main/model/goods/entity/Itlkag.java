@@ -1,15 +1,13 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.spring.main.infrastructure.util.StringFactory;
-import io.spring.main.infrastructure.util.Utilities;
+import io.spring.main.util.StringFactory;
 import io.spring.main.model.goods.idclass.ItlkagId;
+import io.spring.main.util.Utilities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

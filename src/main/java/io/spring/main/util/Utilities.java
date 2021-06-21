@@ -1,6 +1,5 @@
 package io.spring.main.util;
 
-import io.spring.main.infrastructure.util.StringFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.internal.util.StringUtils;
 

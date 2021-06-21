@@ -1,7 +1,6 @@
 package io.spring.main.model.goods.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.util.StringFactory;
 import io.spring.main.model.goods.idclass.ItmmotId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-import java.util.Date;
 
 @Entity
 @Getter

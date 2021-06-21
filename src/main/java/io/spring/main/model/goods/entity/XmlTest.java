@@ -14,9 +14,8 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor
 public class XmlTest {
-    public XmlTest(String assortId, String xml){
+    public XmlTest(String assortId){
         this.assortId = assortId;
-        this.xml = xml;
     }
     @Id
     private String assortId;

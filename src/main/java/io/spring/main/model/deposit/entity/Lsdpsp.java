@@ -1,7 +1,7 @@
 package io.spring.main.model.deposit.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.util.StringFactory;
 import io.spring.main.model.purchase.request.PurchaseInsertRequestData;
 import lombok.AccessLevel;
 import lombok.Getter;

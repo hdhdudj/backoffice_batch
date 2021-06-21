@@ -2,13 +2,12 @@ package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.DataShareBean;
-import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.util.StringFactory;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.*;
 import io.spring.main.model.goods.GoodsInsertData;
 import io.spring.main.model.goods.GoodsSearchData;
 import io.spring.main.model.goods.entity.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -20,10 +19,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import javax.batch.runtime.StepExecution;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.transaction.Transactional;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -39,11 +35,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -85,6 +78,8 @@ public class GoodsInsert {
     private String key;
     @Value("${url.goodsInsert}")
     private String goodsInsertUrl;
+    @Value("${url.goodsUpdate}")
+    private String goodsUpdateUrl;
     // xml 저장 주소
     @Value("${url.xmlUrl}")
     private String xmlSaveUrl;
@@ -94,7 +89,7 @@ public class GoodsInsert {
         Map<String, Tmmapi> map = this.dataShareBean.getMap();
         for(String xmlUrl : map.keySet()){
             // api 전송
-            String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlUrl);
+            String goodsNoIfSuccess = sendXmlToGoodsInsert(xmlUrl, map.get(xmlUrl));
             Tmmapi tmmapi = map.get(xmlUrl);
 //            System.out.println("##### "+tmmapi.getAssortNm());
             // tmmapi의 joinStatus와 uploadYn을 01로 바꾸기
@@ -108,7 +103,14 @@ public class GoodsInsert {
                 break;
             }
             // 위에서 받은 goodsNoIfSuccess로 goods_search api로 받아오기
-            GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(goodsNoIfSuccess,"", "").get(0);
+            List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(goodsNoIfSuccess,"", "");
+            GoodsSearchData goodsSearchData = null;
+            if(goodsSearchDataList.size() > 0){
+                goodsSearchData = goodsSearchDataList.get(0);
+            }
+            else{
+                break;
+            }
             List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
             List<Tmitem> tmitemList = tmmapi.getTmitemList();
             // tmitem에 channelGoodsNo(goodsNo), channelOptionsNo(optionData의 sno) set해주기
@@ -125,10 +127,17 @@ public class GoodsInsert {
         }
     }
 
-    private String sendXmlToGoodsInsert(String xmlUrl) {
+    private String sendXmlToGoodsInsert(String xmlUrl, Tmmapi tmmapi) {
         BufferedReader br = null;
         String goodsNoIfSuccess = null;
-        String urlstr = goodsInsertUrl
+        String urlStr = null;
+        if(tmmapi.getUploadType().equals(StringFactory.getGbTwo())){
+            urlStr = this.goodsUpdateUrl;
+        }
+        else {
+            urlStr = this.goodsInsertUrl;
+        }
+        urlStr = urlStr
                 + StringFactory.getStrQuestion()
                 + StringFactory.getGoodsSearchParams()[0] //"partner_key"
                 + StringFactory.getStrEqual()
@@ -142,8 +151,8 @@ public class GoodsInsert {
                 + StringFactory.getStrEqual()
                 + xmlUrl;
         try{
-            URL url = new URL(urlstr);
-            System.out.println("url : " + urlstr);
+            URL url = new URL(urlStr);
+            System.out.println("url : " + urlStr);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
             // 응답 읽기
@@ -202,7 +211,9 @@ public class GoodsInsert {
     // , ititmm : tmitem 고도몰 goods_insert api를 만들기 위한 GoodsInsertData 객체를 만드는 함수
     public GoodsInsertData makeGoodsSearchObject(Tmmapi tmmapi) {
         GoodsInsertData goodsInsertData = new GoodsInsertData(makeGoodsDataFromTmmapi(tmmapi), makeOptionDataFromTmitem(tmmapi));
-
+        System.out.println("----- : "+tmmapi.getChannelGoodsNo());
+        goodsInsertData.getGoodsData()[0].setGoodsNo(tmmapi.getChannelGoodsNo());
+        System.out.println("----- goodsInsertData.getGoodsData()[0].goodsNo : "+goodsInsertData.getGoodsData()[0].getGoodsNo());
         return goodsInsertData;
     }
 
@@ -223,7 +234,7 @@ public class GoodsInsert {
             }
         }
         // itasrt에서 optionUseYn이 02인 애는 null로 해버리기
-        itasrt.setOptionUseYn(itasrt.getOptionUseYn() != null && itasrt.getOptionUseYn().equals(StringFactory.getGbTwo())? null : itasrt.getOptionUseYn());
+//        itasrt.setOptionUseYn(itasrt.getOptionUseYn().equals(StringFactory.getGbTwo())? null : itasrt.getOptionUseYn());
 
         return new GoodsInsertData.GoodsData(itasrt, itasrd1, itasrd2);
     }
@@ -262,7 +273,7 @@ public class GoodsInsert {
 
             // Verify XML Content
             xmlContent = stringWriter.toString();
-//            System.out.println("저장할 xml : "+xmlContent);
+            System.out.println("----- : 저장할 xml : "+xmlContent);
             ret =  getXmlUrl(assortId, xmlContent);
 //            System.out.println("ret : "+ret);
 
@@ -276,7 +287,8 @@ public class GoodsInsert {
     // xml string을 db에 저장하고 주소 반환
     private String getXmlUrl(String assortId, String xmlContent){
         // 만든 xml DB에 저장하기
-        XmlTest xmlTest = new XmlTest(assortId, xmlContent);
+        XmlTest xmlTest = jpaXmlTestRepository.findById(assortId).orElseGet(() -> new XmlTest(assortId));
+        xmlTest.setXml(xmlContent);
 //        jpaXmlTestRepository.save(xmlTest);
         entityManager.persist(xmlTest);
         return xmlSaveUrl

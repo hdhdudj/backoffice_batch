@@ -1,7 +1,7 @@
 package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.util.StringFactory;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.*;
 import io.spring.main.model.goods.*;
@@ -67,7 +67,7 @@ public class GoodsSearch {
 //    private static PoolManager poolManager = null;
 //    private static SqlSession session = null;
 //    @Transactional
-    public void getGoodsSeq(String fromDt, String toDt){
+    public void searchGoodsSeq(String fromDt, String toDt){
 //        // objectMapper 설정
 //        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 //        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

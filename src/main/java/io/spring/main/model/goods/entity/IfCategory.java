@@ -1,6 +1,6 @@
 package io.spring.main.model.goods.entity;
 
-import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.util.StringFactory;
 import io.spring.main.model.goods.idclass.IfCategoryId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

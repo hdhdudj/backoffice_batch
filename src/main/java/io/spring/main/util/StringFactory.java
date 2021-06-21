@@ -1,4 +1,4 @@
-package io.spring.main.infrastructure.util;
+package io.spring.main.util;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

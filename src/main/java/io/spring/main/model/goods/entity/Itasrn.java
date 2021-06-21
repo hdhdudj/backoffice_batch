@@ -1,19 +1,17 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.spring.main.infrastructure.util.StringFactory;
-import io.spring.main.infrastructure.util.Utilities;
+import io.spring.main.util.StringFactory;
+import io.spring.main.util.Utilities;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity

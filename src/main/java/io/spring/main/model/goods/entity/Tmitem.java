@@ -1,13 +1,12 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.util.StringFactory;
 import io.spring.main.model.goods.idclass.TmitemId;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.*;
 import java.util.Date;
 
 @Entity

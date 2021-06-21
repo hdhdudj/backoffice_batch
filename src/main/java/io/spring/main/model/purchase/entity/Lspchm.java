@@ -1,9 +1,9 @@
 package io.spring.main.model.purchase.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.spring.main.infrastructure.util.StringFactory;
-import io.spring.main.infrastructure.util.Utilities;
+import io.spring.main.util.StringFactory;
 import io.spring.main.model.purchase.request.PurchaseInsertRequestData;
+import io.spring.main.util.Utilities;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

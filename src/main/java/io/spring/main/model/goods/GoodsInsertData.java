@@ -1,8 +1,7 @@
 package io.spring.main.model.goods;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.gson.annotations.Expose;
-import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.util.StringFactory;
 import io.spring.main.model.goods.entity.Itasrd;
 import io.spring.main.model.goods.entity.Itasrt;
 import io.spring.main.model.goods.entity.Tmitem;
@@ -12,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.xml.bind.annotation.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,7 +60,7 @@ public class GoodsInsertData {
             this.fixedPrice = itasrt.getLocalPrice();
             this.costPrice = itasrt.getDeliPrice();
             this.optionName = itasrt.getOptionGbName();
-            this.optionFl = itasrt.getOptionUseYn().equals(StringFactory.getGbOne())? StringFactory.getStrY():StringFactory.getStrN();
+            this.optionFl = itasrt.getOptionUseYn().equals(StringFactory.getGbTwo())? StringFactory.getStrN():StringFactory.getStrY();
             this.mdRrp = itasrt.getMdRrp();
             this.mdRrpTax = itasrt.getMdTax();
             this.mdYear = itasrt.getMdYear();
@@ -88,6 +86,7 @@ public class GoodsInsertData {
         }
 //        @Expose
 //        private String assortId;
+        private String goodsNo;
         private Long deliverySno = 310l;
         private String goodsNmFl;
         private String goodsNm;

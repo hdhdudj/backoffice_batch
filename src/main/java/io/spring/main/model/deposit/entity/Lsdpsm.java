@@ -1,10 +1,10 @@
 package io.spring.main.model.deposit.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.spring.main.infrastructure.util.StringFactory;
-import io.spring.main.infrastructure.util.Utilities;
+import io.spring.main.util.StringFactory;
 import io.spring.main.model.deposit.request.DepositInsertRequestData;
 import io.spring.main.model.vendor.entity.Cmvdmr;
+import io.spring.main.util.Utilities;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

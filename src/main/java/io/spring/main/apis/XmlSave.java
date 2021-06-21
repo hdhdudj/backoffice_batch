@@ -1,22 +1,19 @@
 package io.spring.main.apis;
 
 import io.spring.main.DataShareBean;
-import io.spring.main.infrastructure.util.StringFactory;
+import io.spring.main.util.StringFactory;
 import io.spring.main.jparepos.goods.JpaTmmapiRepository;
 import io.spring.main.model.goods.GoodsInsertData;
 import io.spring.main.model.goods.entity.Tmmapi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -51,6 +48,7 @@ public class XmlSave {
             // 객체를 고도몰 api 모양으로 만들기
 
             String xmlTest = goodsInsert.makeGoodsSearchXml(goodsInsertData, tmmapi.getAssortId());
+
             // map에 저장
             dataShareBean.putData(xmlTest,tmmapi);
         }
