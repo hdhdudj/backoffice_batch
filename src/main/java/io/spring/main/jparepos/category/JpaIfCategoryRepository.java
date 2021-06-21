@@ -1,4 +1,4 @@
-package io.spring.main.jparepos.goods;
+package io.spring.main.jparepos.category;
 
 import io.spring.main.model.goods.entity.IfCategory;
 import io.spring.main.model.goods.idclass.IfCategoryId;

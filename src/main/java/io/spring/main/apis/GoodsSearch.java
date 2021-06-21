@@ -1,6 +1,7 @@
 package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.spring.main.jparepos.category.JpaIfCategoryRepository;
 import io.spring.main.util.StringFactory;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.*;

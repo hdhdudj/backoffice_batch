@@ -53,6 +53,7 @@ public class GoodsInsertData {
             this.commission = itasrt.getMargin();
             // 변환 필요
             this.cateCd = itasrt.getCategoryId();
+            this.allCateCd = cateCd;
             System.out.println("+++++ cateCd : " + cateCd);
             try {
                 this.brandCd = Long.parseLong(itasrt.getBrandId());
@@ -110,6 +111,7 @@ public class GoodsInsertData {
         private String scmNo = StringFactory.getStrOne();
         private String goodsCd;
         private String cateCd;
+        private String allCateCd;
         private String goodsSearchWord;
         private String goodsOpenDt;
         private String goodsState;
@@ -186,7 +188,6 @@ public class GoodsInsertData {
         private String detailInfoRefund;
         private String detailInfoExchange;
         private String memo;
-        private String allCateCd;
         private List<String> magnifyImageData;
         private List<String> detailImageData;
         private List<String> listImageData;

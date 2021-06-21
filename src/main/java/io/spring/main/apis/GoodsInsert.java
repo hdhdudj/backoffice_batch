@@ -2,6 +2,7 @@ package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.DataShareBean;
+import io.spring.main.jparepos.category.JpaIfCategoryRepository;
 import io.spring.main.util.StringFactory;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.*;
@@ -221,7 +222,7 @@ public class GoodsInsert {
     private GoodsInsertData.GoodsData makeGoodsDataFromTmmapi(Tmmapi tmmapi){
         Itasrt itasrt = jpaItasrtRepository.getOne(tmmapi.getAssortId());
         // 브랜드코드, 카테고리코드 고도몰 버전으로 교체
-        itasrt.setBrandId(getGodoBrandCd(itasrt.getBrandId(), tmmapi.getUploadType()));
+        itasrt.setBrandId(getGodoBrandCd(itasrt.getBrandId()));
 //        itasrt.setCategoryId(itasrt.getCategoryId());//(getGodoCateCd(itasrt.getDispCategoryId(), tmmapi.getUploadType()));
         //
         List<Itasrd> itasrdList = jpaItasrdRepository.findByAssortId(tmmapi.getAssortId());
@@ -241,35 +242,35 @@ public class GoodsInsert {
     }
     
     // 우리 브랜드코드로 고도몰 브랜드코드 가져오기
-    private String getGodoBrandCd(String brandId, String uploadType){
+    private String getGodoBrandCd(String brandId){
         String brandCd = null;
 //        if(uploadType.equals(StringFactory.getGbOne())){
             IfBrand ifBrand = jpaIfBrandRepository.findByChannelGbAndBrandId(StringFactory.getGbOne(), brandId);
             if(ifBrand == null){
                 log.debug("brand code is not exist.");
-                return brandId;
+                return brandCd;
             }
             brandCd = ifBrand.getChannelBrandId();
 //        }
         return brandCd;
     }
     
-    // 우리 카테고리로 고도몰 카테고리코드 가져오기
-    private String getGodoCateCd(String cateId, String uploadType){
-        System.out.println("+++++ cateId 전 : " + cateId);
-        String cateCd = null;
-        if(uploadType.equals(StringFactory.getGbOne())) {
-            IfCategory ifCategory = jpaIfCategoryRepository.findByChannelGbAndCategoryId(StringFactory.getGbOne(), cateId);
-            if (ifCategory == null) {
-                log.debug("category code is not exist.");
-                return cateCd;
-            }
-            cateCd = ifCategory.getChannelCategoryId();
-
-            System.out.println("+++++ cateId 후 : " + cateId);
-        }
-        return cateCd;
-    }
+//    // 우리 카테고리로 고도몰 카테고리코드 가져오기
+//    private String getGodoCateCd(String cateId, String uploadType){
+//        System.out.println("+++++ cateId 전 : " + cateId);
+//        String cateCd = null;
+//        if(uploadType.equals(StringFactory.getGbOne())) {
+//            IfCategory ifCategory = jpaIfCategoryRepository.findByChannelGbAndCategoryId(StringFactory.getGbOne(), cateId);
+//            if (ifCategory == null) {
+//                log.debug("category code is not exist.");
+//                return cateCd;
+//            }
+//            cateCd = ifCategory.getChannelCategoryId();
+//
+//            System.out.println("+++++ cateId 후 : " + cateId);
+//        }
+//        return cateCd;
+//    }
 
     // ititmm : tmitem -> GoodsInsertData.OptionData 만드는 함수
     private GoodsInsertData.OptionData[] makeOptionDataFromTmitem(Tmmapi tmmapi){
