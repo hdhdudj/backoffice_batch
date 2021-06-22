@@ -15,6 +15,10 @@ public class DataShareBean <T> {
         shareDataMap = new ConcurrentHashMap<String, T>();
     }
 
+    public void initShareDataMap(){
+        this.shareDataMap = new ConcurrentHashMap<String, T>();
+    }
+
     public T getData(String key){
         if(shareDataMap == null){
             log.debug("shareDataMap is null.");

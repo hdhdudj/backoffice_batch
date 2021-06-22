@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.internal.util.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -47,5 +48,17 @@ public class Utilities {
             log.debug(e.getMessage());
         }
         return getDate;
+    }
+
+    /**
+     * mode : Calendar.DATE, Calendar.MONTH 등...
+     * n : +는 현재 날짜에서 더하기, -는 현재 날짜에서 빼기
+     */
+    public static Date getAnotherDate(int mode, int n){
+        //한달 전
+        Calendar mon = Calendar.getInstance();
+        mon.add(mode , n);
+        String beforeMonth = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(mon.getTime());
+        return getStringToDate(beforeMonth);
     }
 }

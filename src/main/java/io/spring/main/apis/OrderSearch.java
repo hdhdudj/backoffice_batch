@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -26,5 +28,12 @@ public class OrderSearch {
     private String key;
     @Value("${url.orderSearch}")
     private String orderSearchUrl;
+
+    // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
+    @Transactional
+    public void saveIfTables(Date startDt, Date endDt){
+
+    }
+
 
 }
