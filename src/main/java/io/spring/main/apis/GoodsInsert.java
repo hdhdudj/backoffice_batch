@@ -193,12 +193,12 @@ public class GoodsInsert {
             String headerCode = null;
 
             // <header/> 아래에 있는 <code/>의 값을 가져옴. 000 : 성공, 그 외 값은 실패.
-            headerCode = (String)GoodsSearch.getNodeValue(nodeList.item(0).getFirstChild());
+            headerCode = (String) CommonFunctions.getNodeValue(nodeList.item(0).getFirstChild());
             if(headerCode.equals(StringFactory.getStrSuccessCode())){
                 // <data/> 아래에 있는 <goodsno/>의 값을 가져옴.
                 expr = xPath.compile("//goodsno"); // goodsno 하드코딩
                 Node node = (Node) expr.evaluate(doc, XPathConstants.NODE);
-                String successGoodsNo = (String)GoodsSearch.getNodeValue(node);
+                String successGoodsNo = (String)CommonFunctions.getNodeValue(node);
 //                System.out.println("+++++ " + successGoodsNo);
                 return successGoodsNo;
             }

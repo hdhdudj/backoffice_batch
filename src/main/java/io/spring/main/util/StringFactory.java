@@ -13,6 +13,10 @@ public class StringFactory {
             "key","goodsNm","goodsNo","goodsCd","makerNm","originNm",
             "goodsSearchWord","goodsModelNo","companyNm","searchDateType",
             "startDate","endDate","page","size","scmNo","cateCd"};
+    @Getter
+    private final static String[] orderSearchParams = {"partner_key",
+            "key","dateType","startDate","endDate","orderNo","orderStatus",
+            "orderChannel","searchType","searchKeyword","sort"};
     // request param 관련
     @Getter
     private final static String strQuestion = "?";
@@ -82,7 +86,9 @@ public class StringFactory {
     @Getter
     private final static String doomDay = "9999-12-31 23:59:59";
     @Getter
-    private final static String dateFormat = "yyyy-MM-dd HH:mm:ss";
+    private final static String dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+    @Getter
+    private final static String dateFormat = "yyyy-MM-dd";
 
     // deposit controller
     @Getter
@@ -127,7 +133,7 @@ public class StringFactory {
     @Getter
     private final static String strNormal = "normal";
 
-    // xml 파싱 관련
+    // xml 파싱 관련 - goods_search
     @Getter
     private final static String strReturn = "return";
     @Getter
@@ -144,6 +150,22 @@ public class StringFactory {
     private final static String strClaimData = "claimData";
     @Getter
     private final static String strDataUrl = "data_url";
+
+    // xml 파싱 관련 - order_search 관련
+    @Getter
+    private final static String strOrderData = "order_data";
+    @Getter
+    private final static String strOrderInfoData = "orderInfoData";
+    @Getter
+    private final static String strOrderDeliveryData = "orderDeliveryData";
+    @Getter
+    private final static String strGiftData = "giftData";
+    @Getter
+    private final static String strOrderGoodsData = "orderGoodsData";
+    @Getter
+    private final static String strExchangeInfoData = "exchageInfoData";
+    @Getter
+    private final static String strOrderConsultData = "orderConsultData";
 
     // Itvari
     @Getter

@@ -3,6 +3,7 @@ package io.spring.backoffice_batch.job;
 import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
 import io.spring.main.apis.OrderSearch;
 import io.spring.main.apis.XmlSave;
+import io.spring.main.util.StringFactory;
 import io.spring.main.util.Utilities;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ public class OrderSearchJobConfiguration {
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchOrderStep1");
                     //
-                    orderSearch.saveIfTables(Utilities.getAnotherDate(Calendar.DATE, -7), new Date());
+                    orderSearch.saveIfTables(Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7), Utilities.getDateToString(StringFactory.getDateFormat(), new Date()));
                     return RepeatStatus.FINISHED;
                 })
                 .build();

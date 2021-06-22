@@ -28,7 +28,7 @@ public class Lsdpsp implements Serializable {
     public Lsdpsp(PurchaseInsertRequestData purchaseInsertRequestData, PurchaseInsertRequestData.Items items){
         this.depositPlanId = purchaseInsertRequestData.getDepositPlanId();
         try{
-            this.smReservationDt = new SimpleDateFormat(StringFactory.getDateFormat()).parse(StringFactory.getDoomDay());
+            this.smReservationDt = new SimpleDateFormat(StringFactory.getDateTimeFormat()).parse(StringFactory.getDoomDay());
         }
         catch(Exception e){
             log.debug(e.getMessage());

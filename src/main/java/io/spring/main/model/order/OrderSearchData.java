@@ -1,12 +1,16 @@
 package io.spring.main.model.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderSearchData {
     private Long orderNo;
     private Long memNo;
@@ -59,8 +63,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    private static class OrderDeliveryData {
+    public static class OrderDeliveryData {
         private Long scmNo;
         private Float commission;
         private Long scmAdjustNo;
@@ -74,8 +77,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    private static class OrderInfoData {
+    public static class OrderInfoData {
         private Long sno;
         private Long orderInfoCd;
         private String orderName;
@@ -101,8 +103,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    private static class AddGoodsData {
+    public static class AddGoodsData {
         private Long sno;
         private Long addGoodsNo;
         private Long orderNo;
@@ -168,8 +169,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    private static class GiftData {
+    public static class GiftData {
         private Long sno;
         private String presentTitle;
         private Long giftNo;
@@ -180,7 +180,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
-    private static class OrderGoodsData {
+    public static class OrderGoodsData {
         private Long sno;
         private Long orderNo;
         private Long orderCd;
@@ -245,7 +245,7 @@ public class OrderSearchData {
     }
     @Getter
     @Setter
-    private static class ClaimData {
+    public static class ClaimData {
         private String beforeStatus;
         private String handleMode;
         private String handleCompleteFl;
@@ -264,7 +264,7 @@ public class OrderSearchData {
     }
     @Getter
     @Setter
-    private static class ExchageInfoData {
+    public static class ExchageInfoData {
         private Float ehDifferencePrice;
         private Float ehCancelDeliveryPrice;
         private Float ehAddDeliveryPrice;
@@ -278,7 +278,7 @@ public class OrderSearchData {
     }
     @Getter
     @Setter
-    private static class OrderConsultData{
+    public static class OrderConsultData{
         private Long sno;
         private Long orderNo;
         private String requestMemo;

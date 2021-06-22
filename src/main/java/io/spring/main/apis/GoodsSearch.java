@@ -14,23 +14,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import javax.transaction.Transactional;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
 
 @Slf4j
@@ -476,7 +463,7 @@ public class GoodsSearch {
         String urlstr = goodsAddSearchUrl + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 pKey + "&" +StringFactory.getGoodsSearchParams()[1]
                 + "=" + key+"&"+goodsNo+"="+goodsNo;
-        NodeList nodeList =  getXmlNodes(urlstr);
+        NodeList nodeList = CommonFunctions.getXmlNodes(urlstr);
         AddGoodsData map = null;
 
         // xml 파싱
@@ -505,7 +492,7 @@ public class GoodsSearch {
         List<String> goodsNoDataList = new ArrayList<>();
         for (int i = 0; i < cNodes.getLength(); i++) {
             Node node = cNodes.item(i);
-            map.put(node.getNodeName(),getNodeValue(node));
+            map.put(node.getNodeName(), CommonFunctions.getNodeValue(node));
         }
         AddGoodsData o = objectMapper.convertValue(map, AddGoodsData.class);
         return o;
@@ -516,12 +503,12 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = goodsSearchUrl + StringFactory.getStrQuestion() + StringFactory.getGoodsSearchParams()[0] + StringFactory.getStrEqual() +
                 pKey + StringFactory.getStrAnd() +StringFactory.getGoodsSearchParams()[1]
-                + StringFactory.getStrEqual() + key
+                + StringFactory.getStrEqual() + key;
 //                + StringFactory.getStrAnd() + StringFactory.getGoodsSearchParams()[3]
 //                + StringFactory.getStrEqual()
-                + "&goodsNo=1000000040";
+//                + "&goodsNo=1000000040";
 //        System.out.println("##### " + urlstr);
-        NodeList nodeList =  getXmlNodes(urlstr);
+        NodeList nodeList =  CommonFunctions.getXmlNodes(urlstr);
 
         List<GoodsSearchData> goodsSearchData = new ArrayList<>();
 
@@ -552,51 +539,51 @@ public class GoodsSearch {
             return goodsSearchData;
     }
 
-    private NodeList getXmlNodes(String urlstr){
-        // TODO Auto-generated method stub
-        BufferedReader br = null;
-        // DocumentBuilderFactory 생성
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder;
-        Document doc = null;
-
-        List<GoodsSearchData> goodsSearchData = new ArrayList<>();
-
-        try {
-            //OpenApi호출
-            System.out.println(urlstr);
-            //+ "&orderStatus=p1";
-            URL url = new URL(urlstr);
-            HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
-
-            // 응답 읽기
-            br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
-            String result = "";
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-                System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
-                result = result + line.trim();// result = URL로 XML을 읽은 값
-            }
-            System.out.println(result);
+//    private NodeList getXmlNodes(String urlstr){
+//        // TODO Auto-generated method stub
+//        BufferedReader br = null;
+//        // DocumentBuilderFactory 생성
+//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//        factory.setNamespaceAware(true);
+//        DocumentBuilder builder;
+//        Document doc = null;
 //
-            // xml 파싱하기
-            InputSource is = new InputSource(new StringReader(result));
-
-            builder = factory.newDocumentBuilder();
-            doc = builder.parse(is);
-            XPathFactory xpathFactory = XPathFactory.newInstance();
-            XPath xpath = xpathFactory.newXPath();
-            // XPathExpression expr = xpath.compile("/response/body/items/item");
-            XPathExpression expr = xpath.compile("//data");
-            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            return nodeList;
-        }catch(Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
+//        List<GoodsSearchData> goodsSearchData = new ArrayList<>();
+//
+//        try {
+//            //OpenApi호출
+//            System.out.println(urlstr);
+//            //+ "&orderStatus=p1";
+//            URL url = new URL(urlstr);
+//            HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
+//
+//            // 응답 읽기
+//            br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
+//            String result = "";
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                System.out.println(line);
+//                System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+//                result = result + line.trim();// result = URL로 XML을 읽은 값
+//            }
+//            System.out.println(result);
+////
+//            // xml 파싱하기
+//            InputSource is = new InputSource(new StringReader(result));
+//
+//            builder = factory.newDocumentBuilder();
+//            doc = builder.parse(is);
+//            XPathFactory xpathFactory = XPathFactory.newInstance();
+//            XPath xpath = xpathFactory.newXPath();
+//            // XPathExpression expr = xpath.compile("/response/body/items/item");
+//            XPathExpression expr = xpath.compile("//data");
+//            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+//            return nodeList;
+//        }catch(Exception e) {
+//            System.out.println(e.getMessage());
+//            return null;
+//        }
+//    }
 
     private GoodsSearchData makeGoodsmaster(Node root) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -638,13 +625,13 @@ public class GoodsSearch {
                     System.out.println("claimData 데이타 이상 - 확인필요");
                 }
 
-                if ("확인필요한값!".equals((String) getNodeValue(cNode))) {
+                if ("확인필요한값!".equals((String) CommonFunctions.getNodeValue(cNode))) {
                     System.out.println("-----------------------------------------------------------------");
                     System.out.println("데이타 이상 - 확인필요");
                     System.out.println("-----------------------------------------------------------------");
                 } else {
 //                    log.debug("----- " + cNode.getNodeName() + " : "+  getNodeValue(cNode));
-                    map.put(this.controlSnakeCaseException(cNode.getNodeName()), getNodeValue(cNode));
+                    map.put(this.controlSnakeCaseException(cNode.getNodeName()), CommonFunctions.getNodeValue(cNode));
                 }
 
             }
@@ -684,10 +671,10 @@ public class GoodsSearch {
             Node node = cNodes.item(i);
             if(node.getNodeName().equals("goodsNoData")){
 //                System.out.println("===== : "+getNodeValue(node).toString());
-                goodsNoDataList.add(getNodeValue(node).toString());//node.getNodeValue());
+                goodsNoDataList.add(CommonFunctions.getNodeValue(node).toString());//node.getNodeValue());
             }
             else{
-                map.put(node.getNodeName(),getNodeValue(node));
+                map.put(node.getNodeName(),CommonFunctions.getNodeValue(node));
             }
         }
         map.put("goodsNoData", goodsNoDataList);
@@ -704,7 +691,7 @@ public class GoodsSearch {
         NodeList cNodes = cNode.getChildNodes();
         for (int i = 0; i < cNodes.getLength(); i++) {
             Node node = cNodes.item(i);
-            map.put(node.getNodeName(),getNodeValue(node));
+            map.put(node.getNodeName(),CommonFunctions.getNodeValue(node));
         }
         GoodsSearchData.TextOptionData o = objectMapper.convertValue(map, GoodsSearchData.TextOptionData.class);
         return o;
@@ -715,34 +702,14 @@ public class GoodsSearch {
         NodeList cNodes = cNode.getChildNodes();
         for (int i = 0; i < cNodes.getLength(); i++) {
             Node node = cNodes.item(i);
-            map.put(node.getNodeName(),getNodeValue(node));
+            map.put(node.getNodeName(),CommonFunctions.getNodeValue(node));
 
         }
         GoodsSearchData.OptionData o = objectMapper.convertValue(map, GoodsSearchData.OptionData.class);
         return o;
     }
 
-    public static Object getNodeValue(Node n) {
 
-        if (n.getChildNodes().getLength() == 0) {
-            return n.getNodeValue();
-        } else {
-            if (n.getNodeValue() == null && n.getFirstChild().getNodeType() == 3) {
-
-                return n.getFirstChild().getNodeValue();
-            } else if (n.getNodeValue() == null && n.getFirstChild().getNodeType() == 4) {
-
-                return n.getFirstChild().getNodeValue();
-
-            } else {
-                return "확인필요한값!";
-            }
-
-        }
-
-
-
-    }
 
     public static void printTree(Node root, int level) {
 

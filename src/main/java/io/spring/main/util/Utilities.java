@@ -42,7 +42,7 @@ public class Utilities {
     public static Date getStringToDate(String strDate){
         Date getDate = null;
         try{
-            getDate = new SimpleDateFormat(StringFactory.getDateFormat()).parse(strDate);
+            getDate = new SimpleDateFormat(StringFactory.getDateTimeFormat()).parse(strDate);
         }
         catch(Exception e){
             log.debug(e.getMessage());
@@ -51,14 +51,25 @@ public class Utilities {
     }
 
     /**
+     * 21-05-04 Pecan
+     * 유틸 함수 : "9999-12-31 23:59:59"를 yyyy-MM-dd HH:mm:ss꼴 Date로 반환
+     * @return Date
+     */
+    public static String getDateToString(String dateFormat, Date strDate){
+        String str = new java.text.SimpleDateFormat(dateFormat).format(strDate);
+//        System.out.println("date -------------------- " + str);
+        return str;
+    }
+
+    /**
      * mode : Calendar.DATE, Calendar.MONTH 등...
      * n : +는 현재 날짜에서 더하기, -는 현재 날짜에서 빼기
      */
-    public static Date getAnotherDate(int mode, int n){
+    public static String getAnotherDate(String dataFormat, int mode, int n){
         //한달 전
         Calendar mon = Calendar.getInstance();
         mon.add(mode , n);
-        String beforeMonth = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(mon.getTime());
-        return getStringToDate(beforeMonth);
+        String beforeMonth = new java.text.SimpleDateFormat(dataFormat).format(mon.getTime());
+        return beforeMonth;
     }
 }
