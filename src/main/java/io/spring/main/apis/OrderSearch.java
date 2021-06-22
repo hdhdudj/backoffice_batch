@@ -58,13 +58,6 @@ public class OrderSearch {
 
         NodeList nodeList =  CommonFunctions.getXmlNodes(urlstr);
 
-
-
-
-
-
-
-
         List<OrderSearchData> orderSearchData = new ArrayList<>();
 
         for (int i = 0; i < nodeList.getLength(); i++) {

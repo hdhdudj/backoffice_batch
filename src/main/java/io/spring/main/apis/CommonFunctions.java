@@ -1,6 +1,7 @@
 package io.spring.main.apis;
 
 import io.spring.main.model.goods.GoodsSearchData;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -19,14 +20,18 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class CommonFunctions {
+
+    /**
+     * get xml by open api and return node list of xml.
+     * @param urlstr
+     * @return
+     */
     public static NodeList getXmlNodes(String urlstr){
         // TODO Auto-generated method stub
         BufferedReader br = null;
@@ -40,13 +45,10 @@ public class CommonFunctions {
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
-            System.out.println("111111111111111111111111111111111111111111111111111111111111111111111111111 : " + System.currentTimeMillis());
-            Long start = System.currentTimeMillis();
+        Long start = System.currentTimeMillis();
         try {
             //OpenApi호출
-            System.out.println(urlstr);
-            //+ "&orderStatus=p1";
-//            URL url = new URL(urlstr);
+            log.debug("godomall open api url : " + urlstr);
             HttpGet request = new HttpGet(urlstr);
             CloseableHttpResponse response = httpClient.execute(request);
 
@@ -59,7 +61,6 @@ public class CommonFunctions {
                 System.out.println(result);
             }
 //            HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
-//
 //            // 응답 읽기
 //            br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
 //            String result = "";
@@ -68,14 +69,7 @@ public class CommonFunctions {
 //                result = result + line.trim();// result = URL로 XML을 읽은 값
 //                System.out.println(line);
 //            }
-
-
-            System.out.println("222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222 : " + (System.currentTimeMillis() - start)/1000);
-
-
-
-//            System.out.println(result);
-//
+            log.debug("get xml time : " + (System.currentTimeMillis() - start)/1000);
             // xml 파싱하기
             InputSource is = new InputSource(new StringReader(result));
 
@@ -93,6 +87,11 @@ public class CommonFunctions {
         }
     }
 
+    /**
+     * get node value of one xml node.
+     * @param n
+     * @return
+     */
     public static Object getNodeValue(Node n) {
 
         if (n.getChildNodes().getLength() == 0) {
