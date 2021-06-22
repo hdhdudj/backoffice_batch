@@ -1,6 +1,7 @@
 package io.spring.main.model.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.idclass.IfBrandId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,12 +9,15 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "if_order_master")
 public class ifOrderMaster {
     @Id
     private String ifNo;
