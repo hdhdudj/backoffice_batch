@@ -2,6 +2,7 @@ package io.spring.main.apis;
 
 import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
 import io.spring.main.model.goods.entity.IfGoodsMaster;
+import io.spring.main.model.order.entity.IfOrderMaster;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -32,7 +33,7 @@ public class OrderSearch {
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
     public void saveIfTables(Date startDt, Date endDt){
-
+        List<IfOrderMaster> ifOrderMasterList = jpa
     }
 
 

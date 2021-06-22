@@ -18,7 +18,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "if_order_master")
-public class ifOrderMaster {
+public class IfOrderMaster {
     @Id
     private String ifNo;
     private String channelGb;

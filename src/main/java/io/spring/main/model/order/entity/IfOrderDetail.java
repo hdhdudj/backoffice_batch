@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "if_order_detail")
 @IdClass(value = IfOrderDetailId.class)
-public class ifOrderDetail extends CommonProps {
+public class IfOrderDetail extends CommonProps {
     @Id
     private String ifNo;
     @Id
