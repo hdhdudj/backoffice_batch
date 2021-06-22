@@ -103,7 +103,67 @@ public class OrderSearchData {
     @Setter
     @NoArgsConstructor
     private class AddGoodsData {
-
+        private Long sno;
+        private Long addGoodsNo;
+        private Long orderNo;
+        private Long orderCd;
+        private Long parentGoodsNo;
+        private Long orderGroupCd;
+        private String orderStatus;
+        private Long invoiceCompanySno;
+        private String invoiceCompany;
+        private String invoiceNo;
+        private Long scmNo;
+        private Float commission;
+        private Long goodsCd;
+        private String listImageData;
+        private String goodsModelNo;
+        private String goodsNm;
+        private String goodsCnt;
+        private Float goodsPrice;
+        private Float divisionUseMileage;
+        private Float divisionGoodsDeliveryUseDeposit;
+        private Float divisionGoodsDeliveryUseMileage;
+        private Float divisionCouponOrderDcPrice;
+        private Float divisionUseDeposit;
+        private Float divisionCouponOrderMileage;
+        private Float addGoodsPrice;
+        private Float optionPrice;
+        private Float optionTextPrice;
+        private Float fixedPrice;
+        private Float costPrice;
+        private Float goodsDcPrice;
+        private Float memberDcPrice;
+        private Float memberOverlapDcPrice;
+        private Float couponGoodsDcPrice;
+        private Float goodsMileage;
+        private Float memberMileage;
+        private Float couponGoodsMileage;
+        private String minusDepositFl;
+        private String minusRestoreDepositFl;
+        private String minusMileageFl;
+        private String minusRestoreMileageFl;
+        private String plusMileageFl;
+        private String plusRestoreMileageFl;
+        private String minusStockFl;
+        private String minusRestoreStockFl;
+        private Long optionSno;
+        private String optionInfo;
+        private String optionTextInfo;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date cancelDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date paymentDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date invoiceDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date deliveryDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date deliveryCompleteDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date finishDt;
+        private ClaimData claimData;
+        private Long enuri;
     }
 
     @Getter
@@ -120,8 +180,112 @@ public class OrderSearchData {
 
     @Getter
     @Setter
-    @NoArgsConstructor
     private class OrderGoodsData {
+        private Long sno;
+        private Long orderNo;
+        private Long orderCd;
+        private Long orderGroupCd;
+        private String orderStatus;
+        private Long invoiceCompanySno;
+        private String invoiceCompany;
+        private String invoiceNo;
+        private Long scmNo;
+        private Float commission;
+        private Long goodsNo;
+        private Long goodsCd;
+        private String listImageData;
+        private String goodsModelNo;
+        private String goodsNm;
+        private Long goodsCnt;
+        private Float goodsPrice;
+        private Float divisionUseMileage;
+        private Float divisionGoodsDeliveryUseDeposit;
+        private Float divisionGoodsDeliveryUseMileage;
+        private Float divisionCouponOrderDcPrice;
+        private Float divisionUseDeposit;
+        private Float divisionCouponOrderMileage;
+        private Float addGoodsPrice;
+        private Float optionPrice;
+        private Float optionTextPrice;
+        private Float fixedPrice;
+        private Float costPrice;
+        private Float goodsDcPrice;
+        private Float memberDcPrice;
+        private Float memberOverlapDcPrice;
+        private Float couponGoodsDcPrice;
+        private Float goodsMileage;
+        private Float memberMileage;
+        private Float couponGoodsMileage;
+        private String minusDepositFl;
+        private String minusRestoreDepositFl;
+        private String minusMileageFl;
+        private String minusRestoreMileageFl;
+        private String plusMileageFl;
+        private String plusRestoreMileageFl;
+        private String minusStockFl;
+        private String minusRestoreStockFl;
+        private Long optionSno;
+        private String optionInfo;
+        private String optionTextInfo;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date cancelDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date paymentDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date invoiceDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date deliveryDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date deliveryCompleteDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date finishDt;
+        private ClaimData claimData;
+        private Long enuri;
 
+    }
+    @Getter
+    @Setter
+    private class ClaimData {
+        private String beforeStatus;
+        private String handleMode;
+        private String handleCompleteFl;
+        private String handleReason;
+        private String handleDetailReason;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date handleDt;
+        private Float refundPrice;
+        private Float refundUseDeposit;
+        private Float refundUseMileage;
+        private Float refundDeliveryCharge;
+        private Float refundCharge;
+        private ExchageInfoData exchageInfoData;
+
+
+    }
+    @Getter
+    @Setter
+    private class ExchageInfoData {
+        private Float ehDifferencePrice;
+        private Float ehCancelDeliveryPrice;
+        private Float ehAddDeliveryPrice;
+        private String ehRefundMethod;
+        private String ehRefundName;
+        private String ehRefundBankName;
+        private String ehRefundBankAccountNumber;
+        private String ehSettleName;
+        private String ehSettleBankAccountInfo;
+        private Float ehEnuri;
+    }
+    @Getter
+    @Setter
+    private class OrderConsultData{
+        private Long sno;
+        private Long orderNo;
+        private String requestMemo;
+        private String consultMemo;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date regDt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date modDt;
     }
 }
