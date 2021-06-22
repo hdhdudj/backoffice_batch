@@ -60,7 +60,7 @@ public class OrderSearchData {
     @Getter
     @Setter
     @NoArgsConstructor
-    private class OrderDeliveryData {
+    private static class OrderDeliveryData {
         private Long scmNo;
         private Float commission;
         private Long scmAdjustNo;
@@ -75,7 +75,7 @@ public class OrderSearchData {
     @Getter
     @Setter
     @NoArgsConstructor
-    private class OrderInfoData {
+    private static class OrderInfoData {
         private Long sno;
         private Long orderInfoCd;
         private String orderName;
@@ -102,7 +102,7 @@ public class OrderSearchData {
     @Getter
     @Setter
     @NoArgsConstructor
-    private class AddGoodsData {
+    private static class AddGoodsData {
         private Long sno;
         private Long addGoodsNo;
         private Long orderNo;
@@ -169,7 +169,7 @@ public class OrderSearchData {
     @Getter
     @Setter
     @NoArgsConstructor
-    private class GiftData {
+    private static class GiftData {
         private Long sno;
         private String presentTitle;
         private Long giftNo;
@@ -180,7 +180,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
-    private class OrderGoodsData {
+    private static class OrderGoodsData {
         private Long sno;
         private Long orderNo;
         private Long orderCd;
@@ -245,7 +245,7 @@ public class OrderSearchData {
     }
     @Getter
     @Setter
-    private class ClaimData {
+    private static class ClaimData {
         private String beforeStatus;
         private String handleMode;
         private String handleCompleteFl;
@@ -264,7 +264,7 @@ public class OrderSearchData {
     }
     @Getter
     @Setter
-    private class ExchageInfoData {
+    private static class ExchageInfoData {
         private Float ehDifferencePrice;
         private Float ehCancelDeliveryPrice;
         private Float ehAddDeliveryPrice;
@@ -278,7 +278,7 @@ public class OrderSearchData {
     }
     @Getter
     @Setter
-    private class OrderConsultData{
+    private static class OrderConsultData{
         private Long sno;
         private Long orderNo;
         private String requestMemo;
