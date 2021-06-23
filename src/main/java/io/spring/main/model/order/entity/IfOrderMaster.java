@@ -2,6 +2,8 @@ package io.spring.main.model.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.spring.main.model.goods.idclass.IfBrandId;
+import io.spring.main.model.order.OrderSearchData;
+import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +21,15 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "if_order_master")
 public class IfOrderMaster {
+    public IfOrderMaster(OrderSearchData orderSearchData){
+        channelOrderNo = Long.toString(orderSearchData.getOrderNo());
+        ifStatus = StringFactory.getGbOne(); // 01 하드코딩
+        memNo = Long.toString(orderSearchData.getMemNo());
+        orderName = orderSearchData.getOrderInfoData().get(0).getOrderName();
+    }
     @Id
     private String ifNo;
-    private String channelGb;
+    private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     private String channelOrderNo;
     private String ifStatus;
     private String channelOrderStatus;

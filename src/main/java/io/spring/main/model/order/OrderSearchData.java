@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderSearchData {
     private Long orderNo;
     private Long memNo;
@@ -50,16 +50,50 @@ public class OrderSearchData {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date paymentDt;
     private String addField; // json 주문추가정보. name : 추가항목명, data : 추가항목 입력값 (입력방법이 order인 경우 Text 타입, goods인 경우 Array 타입), goodsNm : 상품명(goods인 경우 존재함), process : 입력방법(order=공통입력, goods=상품별입력)
-    private OrderDeliveryData orderDeliveryData;
-    private OrderInfoData orderInfoData;
-    private AddGoodsData addGoodsData;
-    private GiftData giftData;
-    private OrderGoodsData orderGoodsData;
+    private List<OrderDeliveryData> orderDeliveryData;
+    private List<OrderInfoData> orderInfoData;
+    private List<AddGoodsData> addGoodsData;
+    private List<GiftData> giftData;
+    private List<OrderGoodsData> orderGoodsData;
     private String bankName;
     private Long accountNumber;
     private String depositor;
     private String memId;
     private String memGroupNm;
+
+    // 고도몰 스펙에 없지만 실제로 xml 호출하면 있는 props
+    private String apiOrderNo;
+    private String mallSno;
+    private String appOs;
+    private String pushCode;
+    private String statisticsAppOrderCntFl;
+    private String orderGoodsNmStandard;
+    private String overseasSettleCurrency;
+    private String overseasSettlePrice;
+    private String totalDeliveryInsuranceFee;
+    private String totalMemberBankDcPrice;
+    private String totalMemberDeliveryDcPrice;
+    private String totalMyappDcPrice;
+    private String totalEnuriDcPrice;
+    private String totalDeliveryWeight;
+    private String currencyPolicy;
+    private String exchangeRatePolicy;
+    private String myappPolicy;
+    private String adminMemo;
+    private String pgRealTaxSupplyPrice;
+    private String pgRealTaxVatPrice;
+    private String pgRealTaxFreePrice;
+    private String bankdaManualNo;
+    private String bankdaManualFl;
+    private String bankdaManualMangerId;
+    private String trackingKey;
+    private String userHandleProcess;
+    private String pgChargeBack;
+    private String fbPixelKey;
+    private String depositSale;
+    private String orderDate;
+    private String orderGoodsStatusCnt;
+    //
 
     @Getter
     @Setter

@@ -1,8 +1,11 @@
 package io.spring.main.apis;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.jparepos.order.JpaIfOrderDetailRepository;
 import io.spring.main.jparepos.order.JpaIfOrderMasterRepository;
+import io.spring.main.model.goods.GoodsSearchData;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.util.StringFactory;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,7 @@ public class OrderSearch {
     private final JpaIfOrderMasterRepository jpaIfOrderMasterRepository;
     private final JpaIfOrderDetailRepository jpaIfOrderDetailRepository;
     private final ObjectMapper objectMapper;
+    private final CommonFunctions commonFunctions;
 
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
@@ -39,7 +43,7 @@ public class OrderSearch {
         List<OrderSearchData> orderSearchDataList = retrieveOrders(null, startDt, endDt);
 
         for(OrderSearchData orderSearchData : orderSearchDataList){
-            System.out.println("===== : " + orderSearchData.getMemNo());
+            System.out.println("===== : " + orderSearchData.getOrderGoodsNm());
         }
     }
 
@@ -145,8 +149,8 @@ public class OrderSearch {
                     System.out.println("데이타 이상 - 확인필요");
                     System.out.println("-----------------------------------------------------------------");
                 } else {
-//                    log.debug("----- " + cNode.getNodeName() + " : "+  getNodeValue(cNode));
-                    map.put(this.controlSnakeCaseException(cNode.getNodeName()), CommonFunctions.getNodeValue(cNode));
+//                    log.debug("----- " + cNode.getNodeName() + " : "+  CommonFunctions.getNodeValue(cNode));
+                    map.put(CommonFunctions.controlSnakeCaseException(cNode.getNodeName()), CommonFunctions.getNodeValue(cNode));
                 }
 
             }
@@ -165,53 +169,49 @@ public class OrderSearch {
     }
 
     private OrderSearchData.OrderGoodsData makeOrderGoodsData(Node cNode) {
-        return null;
+        Map<String, Object> map = new HashMap<String, Object>();
+        NodeList cNodes = cNode.getChildNodes();
+        List<String> goodsNoDataList = new ArrayList<>();
+        for (int i = 0; i < cNodes.getLength(); i++) {
+            Node node = cNodes.item(i);
+            map.put(CommonFunctions.getNodeValue(node).toString(),CommonFunctions.getNodeValue(node));
+        }
+        map.put("goodsNoData", goodsNoDataList);
+        OrderSearchData.OrderGoodsData o = objectMapper.convertValue(map, OrderSearchData.OrderGoodsData.class);
+        return o;
     }
 
     private OrderSearchData.GiftData makeGiftData(Node cNode) {
-        return null;
+        return commonFunctions.makeSimpleNodeToObj(cNode, OrderSearchData.GiftData.class);
     }
 
     private OrderSearchData.AddGoodsData makeAddGoodsData(Node cNode) {
-        return null;
+
+        return commonFunctions.makeSimpleNodeToObj(cNode, OrderSearchData.AddGoodsData.class);
     }
 
     private OrderSearchData.ClaimData makeClaimData(Node cNode) {
-        return null;
+
+        return commonFunctions.makeSimpleNodeToObj(cNode, OrderSearchData.ClaimData.class);
     }
 
     private OrderSearchData.ExchageInfoData makeExchangeInfoData(Node cNode) {
-        return null;
-    }
 
-    // 고도몰 table column명이 camleCase로 돼있는데 몇 개만 snake로 돼있어서 걔네 처리용
-    private String controlSnakeCaseException(String nodeNm){
-        String[] splitStrs = nodeNm.split("_");
-        if(splitStrs.length > 2){
-            nodeNm = this.snakeToCamel(nodeNm);
-        }
-        return nodeNm;
-    }
-    private String snakeToCamel(String str){
-        String[] miniStrs = str.split("_");
-        str = miniStrs[0];
-        for(int j = 1 ; j < miniStrs.length; j++){
-            str += miniStrs[j].substring(0,1).toUpperCase() + miniStrs[j].substring(1);
-        }
-        return str;
+        return commonFunctions.makeSimpleNodeToObj(cNode, OrderSearchData.ExchageInfoData.class);
     }
 
     private OrderSearchData.OrderConsultData makeOrderConsultData(Node cNode) {
-        return null;
+
+        return commonFunctions.makeSimpleNodeToObj(cNode, OrderSearchData.OrderConsultData.class);
     }
 
     private OrderSearchData.OrderDeliveryData makeOrderDeliveryData(Node cNode) {
-        return null;
+
+        return commonFunctions.makeSimpleNodeToObj(cNode, OrderSearchData.OrderDeliveryData.class);
     }
 
     private OrderSearchData.OrderInfoData makeOrderInfoData(Node cNode) {
-        return null;
+
+        return commonFunctions.makeSimpleNodeToObj(cNode, OrderSearchData.OrderInfoData.class);
     }
-
-
 }
