@@ -9,6 +9,7 @@ import io.spring.main.jparepos.goods.*;
 import io.spring.main.model.goods.GoodsInsertData;
 import io.spring.main.model.goods.GoodsSearchData;
 import io.spring.main.model.goods.entity.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;

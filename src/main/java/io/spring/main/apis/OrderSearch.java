@@ -36,6 +36,9 @@ public class OrderSearch {
     private final JpaIfOrderDetailRepository jpaIfOrderDetailRepository;
     private final ObjectMapper objectMapper;
     private final CommonFunctions commonFunctions;
+    private final Map<String, List<Object>> listMap;
+    private final Map<String, Class> classMap;
+
 
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
@@ -43,7 +46,7 @@ public class OrderSearch {
         List<OrderSearchData> orderSearchDataList = retrieveOrders(null, startDt, endDt);
 
         for(OrderSearchData orderSearchData : orderSearchDataList){
-            System.out.println("===== : " + orderSearchData.getOrderGoodsNm());
+
         }
     }
 
@@ -93,75 +96,94 @@ public class OrderSearch {
     private OrderSearchData makeOrderMaster(Node root) {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        List<OrderSearchData.OrderInfoData> orderInfoDataList = new ArrayList<>();
-        List<OrderSearchData.OrderDeliveryData> orderDeliveryDataList = new ArrayList<>();
-        List<OrderSearchData.GiftData> giftDataList = new ArrayList<>();
-        List<OrderSearchData.OrderGoodsData> orderGoodsDataList = new ArrayList<>();
-        List<OrderSearchData.AddGoodsData> addGoodsDataList = new ArrayList<>();
-        List<OrderSearchData.ClaimData> claimDataList = new ArrayList<>();
-        List<OrderSearchData.ExchageInfoData> exchageInfoDataList = new ArrayList<>();
-        List<OrderSearchData.OrderConsultData> orderConsultDataList = new ArrayList<>();
+//        List<OrderSearchData.OrderInfoData> orderInfoDataList = new ArrayList<>();
+//        List<OrderSearchData.OrderDeliveryData> orderDeliveryDataList = new ArrayList<>();
+//        List<OrderSearchData.GiftData> giftDataList = new ArrayList<>();
+//        List<OrderSearchData.OrderGoodsData> orderGoodsDataList = new ArrayList<>();
+//        List<OrderSearchData.AddGoodsData> addGoodsDataList = new ArrayList<>();
+//        List<OrderSearchData.ClaimData> claimDataList = new ArrayList<>();
+//        List<OrderSearchData.ExchageInfoData> exchageInfoDataList = new ArrayList<>();
+//        List<OrderSearchData.OrderConsultData> orderConsultDataList = new ArrayList<>();
 
         NodeList cNodes = root.getChildNodes();
         for (int i = 0; i < cNodes.getLength(); i++) {
             Node cNode = cNodes.item(i);
-            //String idx = cNode.getAttributes().getNamedItem("idx").getNodeValue();
-            // System.out.println(cNode.getAttributes().getNamedItem("idx").getNodeValue());
-//            log.debug("+++++ nodeName : " + cNode.getNodeName());
-            if (cNode.getNodeName().equals(StringFactory.getStrOrderInfoData())) { // orderInfoData
-                OrderSearchData.OrderInfoData orderSearchData = makeOrderInfoData(cNode);
-                orderInfoDataList.add(orderSearchData);
-            } else if (cNode.getNodeName().equals(StringFactory.getStrOrderDeliveryData())) { // orderDeliveryData
-                OrderSearchData.OrderDeliveryData orderDeliveryData = makeOrderDeliveryData(cNode);
-                orderDeliveryDataList.add(orderDeliveryData);
-            } else if (cNode.getNodeName().equals(StringFactory.getStrGiftData())) { // giftData
-                OrderSearchData.GiftData giftData = makeGiftData(cNode);
-                giftDataList.add(giftData);
-            } else if (cNode.getNodeName().equals(StringFactory.getStrOrderGoodsData())) { // orderGoodsData
-                OrderSearchData.OrderGoodsData orderGoodsData = makeOrderGoodsData(cNode);
-                orderGoodsDataList.add(orderGoodsData);
-            }
-            else if (cNode.getNodeName().equals(StringFactory.getStrAddGoodsData())) { // addGoodsData
-                // Map<String, Object> addGoodsData = makeAddGoodsData(cNode);
-                OrderSearchData.AddGoodsData addGoodsData = makeAddGoodsData(cNode);
-                addGoodsDataList.add(addGoodsData);
-            }
-            else if (cNode.getNodeName().equals(StringFactory.getStrClaimData())) { // claimData
-                OrderSearchData.ClaimData claimData = makeClaimData(cNode);
-                claimDataList.add(claimData);
-            }
-            else if (cNode.getNodeName().equals(StringFactory.getStrExchangeInfoData())) { // exchageInfoData
-                OrderSearchData.ExchageInfoData exchageInfoData = makeExchangeInfoData(cNode);
-                exchageInfoDataList.add(exchageInfoData);
-            }
-            else if (cNode.getNodeName().equals(StringFactory.getStrOrderConsultData())) { // orderConsultData
-                OrderSearchData.OrderConsultData orderConsultData = makeOrderConsultData(cNode);
-                orderConsultDataList.add(orderConsultData);
-            }
-            else {
-
-                if (cNode.getNodeName() == StringFactory.getStrClaimData()) {
-                    System.out.println("claimData 데이타 이상 - 확인필요");
+            /////////////
+            for(String key : classMap.keySet()){
+                if(key.equals(cNode.getNodeName())){
+                    listMap.get(key).add(commonFunctions.makeSimpleNodeToObj(cNode, classMap.get(key)));
                 }
-
-                if ("확인필요한값!".equals((String) CommonFunctions.getNodeValue(cNode))) {
-                    System.out.println("-----------------------------------------------------------------");
-                    System.out.println("데이타 이상 - 확인필요");
-                    System.out.println("-----------------------------------------------------------------");
-                } else {
-//                    log.debug("----- " + cNode.getNodeName() + " : "+  CommonFunctions.getNodeValue(cNode));
-                    map.put(CommonFunctions.controlSnakeCaseException(cNode.getNodeName()), CommonFunctions.getNodeValue(cNode));
-                }
-
+            }
+            if (cNode.getNodeName() == StringFactory.getStrClaimData()) {
+                System.out.println("claimData 데이타 이상 - 확인필요");
             }
 
-            map.put(StringFactory.getStrOrderInfoData(), orderInfoDataList);
-            map.put(StringFactory.getStrOrderDeliveryData(), orderDeliveryDataList);
-            map.put(StringFactory.getStrOrderGoodsData(), orderGoodsDataList);
-            map.put(StringFactory.getStrAddGoodsData(), addGoodsDataList);
-            map.put(StringFactory.getStrClaimData(), claimDataList);
-            map.put(StringFactory.getStrExchangeInfoData(), exchageInfoDataList);
-            map.put(StringFactory.getStrOrderConsultData(), orderConsultDataList);
+            if ("확인필요한값!".equals((String) CommonFunctions.getNodeValue(cNode))) {
+                System.out.println("-----------------------------------------------------------------");
+                System.out.println("데이타 이상 - 확인필요");
+                System.out.println("-----------------------------------------------------------------");
+            } else {
+                map.put(CommonFunctions.controlSnakeCaseException(cNode.getNodeName()), CommonFunctions.getNodeValue(cNode));
+            }
+            //////////////
+//            if (cNode.getNodeName().equals(StringFactory.getStrOrderInfoData())) { // orderInfoData
+//                OrderSearchData.OrderInfoData orderSearchData = makeOrderInfoData(cNode);
+//                orderInfoDataList.add(orderSearchData);
+//            } else if (cNode.getNodeName().equals(StringFactory.getStrOrderDeliveryData())) { // orderDeliveryData
+//                OrderSearchData.OrderDeliveryData orderDeliveryData = makeOrderDeliveryData(cNode);
+//                orderDeliveryDataList.add(orderDeliveryData);
+//            } else if (cNode.getNodeName().equals(StringFactory.getStrGiftData())) { // giftData
+//                OrderSearchData.GiftData giftData = makeGiftData(cNode);
+//                giftDataList.add(giftData);
+//            } else if (cNode.getNodeName().equals(StringFactory.getStrOrderGoodsData())) { // orderGoodsData
+//                OrderSearchData.OrderGoodsData orderGoodsData = makeOrderGoodsData(cNode);
+//                orderGoodsDataList.add(orderGoodsData);
+//            }
+//            else if (cNode.getNodeName().equals(StringFactory.getStrAddGoodsData())) { // addGoodsData
+//                // Map<String, Object> addGoodsData = makeAddGoodsData(cNode);
+//                OrderSearchData.AddGoodsData addGoodsData = makeAddGoodsData(cNode);
+//                addGoodsDataList.add(addGoodsData);
+//            }
+//            else if (cNode.getNodeName().equals(StringFactory.getStrClaimData())) { // claimData
+//                OrderSearchData.ClaimData claimData = makeClaimData(cNode);
+//                claimDataList.add(claimData);
+//            }
+//            else if (cNode.getNodeName().equals(StringFactory.getStrExchangeInfoData())) { // exchageInfoData
+//                OrderSearchData.ExchageInfoData exchageInfoData = makeExchangeInfoData(cNode);
+//                exchageInfoDataList.add(exchageInfoData);
+//            }
+//            else if (cNode.getNodeName().equals(StringFactory.getStrOrderConsultData())) { // orderConsultData
+//                OrderSearchData.OrderConsultData orderConsultData = makeOrderConsultData(cNode);
+//                orderConsultDataList.add(orderConsultData);
+//            }
+//            else {
+//
+//                if (cNode.getNodeName() == StringFactory.getStrClaimData()) {
+//                    System.out.println("claimData 데이타 이상 - 확인필요");
+//                }
+//
+//                if ("확인필요한값!".equals((String) CommonFunctions.getNodeValue(cNode))) {
+//                    System.out.println("-----------------------------------------------------------------");
+//                    System.out.println("데이타 이상 - 확인필요");
+//                    System.out.println("-----------------------------------------------------------------");
+//                } else {
+////                    log.debug("----- " + cNode.getNodeName() + " : "+  CommonFunctions.getNodeValue(cNode));
+//                    map.put(CommonFunctions.controlSnakeCaseException(cNode.getNodeName()), CommonFunctions.getNodeValue(cNode));
+//                }
+//
+//            }
+
+//            map.put(StringFactory.getStrOrderInfoData(), orderInfoDataList);
+//            map.put(StringFactory.getStrOrderDeliveryData(), orderDeliveryDataList);
+//            map.put(StringFactory.getStrOrderGoodsData(), orderGoodsDataList);
+//            map.put(StringFactory.getStrAddGoodsData(), addGoodsDataList);
+//            map.put(StringFactory.getStrClaimData(), claimDataList);
+//            map.put(StringFactory.getStrExchangeInfoData(), exchageInfoDataList);
+//            map.put(StringFactory.getStrOrderConsultData(), orderConsultDataList);
+
+            for(String key : listMap.keySet()){
+                map.put(key,listMap.get(key));
+            }
         }
 
         OrderSearchData o = objectMapper.convertValue(map, OrderSearchData.class);

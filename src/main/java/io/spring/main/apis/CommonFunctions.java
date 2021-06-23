@@ -9,6 +9,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -93,15 +95,26 @@ public class CommonFunctions {
      * @return
      */
     public <T> T makeSimpleNodeToObj(Node cNode, Class<T> clss) {
+        Map<String, Object> map = makeSimpleNodToMap(cNode);
+
+        T o = objectMapper.convertValue(map, clss);
+        return o;
+    }
+
+    private Map<String, Object> makeSimpleNodToMap(Node cNode){
         Map<String, Object> map = new HashMap<String, Object>();
         NodeList cNodes = cNode.getChildNodes();
         for (int i = 0; i < cNodes.getLength(); i++) {
             Node node = cNodes.item(i);
-//            System.out.println("----- : " + node.getNodeName() + "-------------" + getNodeValue(node));
-            map.put(node.getNodeName(), getNodeValue(node));
+            if(node.getChildNodes().getLength() > 1){
+//                System.out.println("------ node.getNodeName() : " + node.getNodeName());
+                map.put(node.getNodeName(), makeSimpleNodToMap(node));
+            }
+            else{
+                map.put(node.getNodeName(), getNodeValue(node));
+            }
         }
-        T o = objectMapper.convertValue(map, clss);
-        return o;
+        return map;
     }
 
     /**

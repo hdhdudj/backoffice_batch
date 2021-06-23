@@ -130,9 +130,11 @@ public class OrderSearchData {
         private String receiverAddress;
         private String receiverAddressSub;
         private String customIdNumber;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-        private Date orderMemo;
+        private String orderMemo;
         private String receiverUseSafeNumberFl;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private Date receiverSafeNumberDt;
+        private String receiverSafeNumber;
     }
 
     @Getter
@@ -150,7 +152,7 @@ public class OrderSearchData {
         private String invoiceNo;
         private Long scmNo;
         private Float commission;
-        private Long goodsCd;
+        private String goodsCd; // 고도몰 페이지에선 integer라는데 문자와 숫자가 섞인 값이 옴..
         private String listImageData;
         private String goodsModelNo;
         private String goodsNm;
@@ -226,7 +228,7 @@ public class OrderSearchData {
         private Long scmNo;
         private Float commission;
         private Long goodsNo;
-        private Long goodsCd;
+        private String goodsCd; // 고도몰 페이지에선 integer라는데 문자와 숫자가 섞여서 옴.
         private String listImageData;
         private String goodsModelNo;
         private String goodsNm;
@@ -293,8 +295,6 @@ public class OrderSearchData {
         private Float refundDeliveryCharge;
         private Float refundCharge;
         private ExchageInfoData exchageInfoData;
-
-
     }
     @Getter
     @Setter
