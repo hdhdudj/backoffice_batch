@@ -2,6 +2,8 @@ package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.model.goods.GoodsSearchData;
+import io.spring.main.model.order.OrderSearchData;
+import io.spring.main.util.StringFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -36,6 +38,7 @@ import java.util.Map;
 @Component
 public class CommonFunctions {
     private final ObjectMapper objectMapper;
+    private final List<String> goodsSearchGotListPropsMap;
 
     /**
      * get xml by open api and return node list of xml.
@@ -90,7 +93,7 @@ public class CommonFunctions {
     }
 
     /**
-     * depth가 없는 xml node를 object와 매핑해주는 함수
+     * xml node를 object와 매핑해주는 함수
      * @param cNode
      * @return
      */
@@ -101,16 +104,22 @@ public class CommonFunctions {
         return o;
     }
 
+    /**
+     * xml node를 map과 매핑해주는 함수
+     * @param cNode
+     * @return
+     */
     private Map<String, Object> makeSimpleNodToMap(Node cNode){
         Map<String, Object> map = new HashMap<String, Object>();
         NodeList cNodes = cNode.getChildNodes();
         for (int i = 0; i < cNodes.getLength(); i++) {
             Node node = cNodes.item(i);
             if(node.getChildNodes().getLength() > 1){
-//                System.out.println("------ node.getNodeName() : " + node.getNodeName());
                 map.put(node.getNodeName(), makeSimpleNodToMap(node));
             }
             else{
+                System.out.println("------ node.getNodeName() : " + node.getNodeName());
+                System.out.println("------ node.getNodeValue() : " + getNodeValue(node));
                 map.put(node.getNodeName(), getNodeValue(node));
             }
         }
@@ -152,6 +161,66 @@ public class CommonFunctions {
             str += miniStrs[j].substring(0,1).toUpperCase() + miniStrs[j].substring(1);
         }
         return str;
+    }
+
+    // xml 받아오는 함수
+    public List<Map<String, Object>> retrieveNodeMaps(String dataName, NodeList nodeList, Map<String, Class> classMap, Map<String, List<Object>> listMap) {
+        List<Map<String, Object>> dataList = new ArrayList<>();
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            NodeList child = nodeList.item(i).getChildNodes();
+            for (int y = 0; y < child.getLength(); y++) {
+                Node lNode = child.item(y);
+//                 printTree(lNode, 1);
+                if (lNode.getNodeName() == StringFactory.getStrReturn()) {
+                    NodeList mNodes = lNode.getChildNodes();
+                    for (int mi = 0; mi < mNodes.getLength(); mi++) {
+//								for (int mi = 0; mi < 1; mi++) {
+                        Node mNode = mNodes.item(mi);
+                        if (mNode.getNodeName() == dataName) {
+                            Map<String, Object> map = makeMasterNode(mNode, classMap, listMap);
+                            dataList.add(map);
+                            // order master array append
+                        }
+                    }
+                    System.out.println("-----------------------------------------------------------------");
+                    System.out.println(dataList.size());
+                    System.out.println("-----------------------------------------------------------------");
+                }
+            }
+        }
+        return dataList;
+    }
+
+    private Map<String, Object> makeMasterNode(Node root, Map<String, Class> classMap, Map<String, List<Object>> listMap) {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        NodeList cNodes = root.getChildNodes();
+        for (int i = 0; i < cNodes.getLength(); i++) {
+            Node cNode = cNodes.item(i);
+
+            for(String key : classMap.keySet()){
+                if(key.equals(cNode.getNodeName())){
+                    listMap.get(key).add(makeSimpleNodeToObj(cNode, classMap.get(key)));
+                }
+            }
+            if (cNode.getNodeName() == StringFactory.getStrClaimData()) {
+                System.out.println("claimData 데이타 이상 - 확인필요");
+            }
+
+            if ("확인필요한값!".equals((String) CommonFunctions.getNodeValue(cNode))) {
+                System.out.println("-----------------------------------------------------------------");
+                System.out.println("데이타 이상 - 확인필요");
+                System.out.println("-----------------------------------------------------------------");
+            } else {
+                map.put(CommonFunctions.controlSnakeCaseException(cNode.getNodeName()), CommonFunctions.getNodeValue(cNode));
+            }
+            for(String key : listMap.keySet()){
+                map.put(key,listMap.get(key));
+            }
+        }
+
+        return map;
     }
 
     public static void printTree(Node root, int level) {

@@ -149,6 +149,10 @@ public class StringFactory {
     @Getter
     private final static String strClaimData = "claimData";
     @Getter
+    private final static String strStepData = "stepData";
+    @Getter
+    private final static String strGoodsNoData = "goodsNoData"; // 예외
+    @Getter
     private final static String strDataUrl = "data_url";
 
     // xml 파싱 관련 - order_search 관련

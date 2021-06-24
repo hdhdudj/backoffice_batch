@@ -269,7 +269,7 @@ public class GoodsSearchData {
     }
     @Getter
     @Setter
-    private static class StepData{
+    public static class StepData{
         private String infoTitle;
         private String infoValue;
     }
