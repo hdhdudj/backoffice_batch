@@ -240,7 +240,10 @@ public class CommonFunctions {
             else {
                 String key = controlSnakeCaseException(cNode.getNodeName()); // claimData, orderNo, ...
                 if(map.get(cNode.getNodeName()) == null){ // key가 없는 경우
-                    if(goodsSearchGotListPropsMap.contains(cNode.getNodeName())){ // list로 들어가야 하는 key 인 경우
+                    // list로 들어가야 하는 key 인 경우
+                    // list로 들어가야 하는 key인지 미리 알고 있어야 하는 이유 :
+                    // list로 들어가야 하는 값이지만 xml에서 해당 값을 한 개만 보냈을 경우 그 값은 map에 list가 아닌 단일 value로 들어가게 되는데, 그러면 objectMapper에서 변환시 에러가 난다.
+                    if(goodsSearchGotListPropsMap.contains(cNode.getNodeName())){
                         map.put(key, singleValToList(makeSimpleNodToMap(cNode, goodsSearchGotListPropsMap)));
                     }
                     else{ // 단일값으로 들어가야 하는 key인 경우
