@@ -241,10 +241,10 @@ public class GoodsSearchData {
 
     private String allCateCd;
     private String detailInfoAS;
-    private String magnifyImageData;
-    private String detailImageData;
-    private String listImageData;
-    private String mainImageData;
+    private List<String> magnifyImageData;
+    private List<String> detailImageData;
+    private List<String> listImageData;
+    private List<String> mainImageData;
     private String purchaseNm;
     private String purchaseCategory;
     private String purchasePhone;

@@ -1,6 +1,7 @@
 package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import io.spring.main.jparepos.order.JpaIfOrderDetailRepository;
 import io.spring.main.jparepos.order.JpaIfOrderMasterRepository;
 import io.spring.main.model.order.OrderSearchData;
@@ -32,8 +33,6 @@ public class OrderSearch {
     private final JpaIfOrderDetailRepository jpaIfOrderDetailRepository;
     private final ObjectMapper objectMapper;
     private final CommonFunctions commonFunctions;
-    private final Map<String, List<Object>> orderSearchListMap;
-    private final Map<String, Class> orderSearchClassMap;
 
 
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
@@ -42,14 +41,7 @@ public class OrderSearch {
         List<OrderSearchData> orderSearchDataList = retrieveOrders(null, startDt, endDt);
 
         for(OrderSearchData orderSearchData : orderSearchDataList){
-            for (int i = 0; i < orderSearchData.getOrderGoodsData().size() ; i++) {
-                try{
-                    System.out.println("===== : "+orderSearchData.getOrderGoodsData().get(i).getClaimData().getHandleDetailReason());
-                }
-                catch(Exception e){
-
-                }
-            }
+            System.out.println(orderSearchData.getOrderGoodsData().get(0).getOrderNo());
         }
     }
 
@@ -62,15 +54,15 @@ public class OrderSearch {
                 + StringFactory.getStrAnd() + StringFactory.getOrderSearchParams()[3]
                 + StringFactory.getStrEqual() + fromDt
                 + StringFactory.getStrAnd() + StringFactory.getOrderSearchParams()[4]
-                + StringFactory.getStrEqual() + toDt;
-//                + "&orderNo=1000000040";
+                + StringFactory.getStrEqual() + toDt
+                + "&orderNo=2106231208001241";
 //        System.out.println("##### " + urlstr);
 
         NodeList nodeList =  CommonFunctions.getXmlNodes(urlstr);
 
         List<OrderSearchData> orderSearchDataList = new ArrayList<>();
 
-        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrOrderData(), nodeList, orderSearchClassMap, orderSearchListMap);
+        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrOrderData(), nodeList);
 
         for(Map<String, Object> item : list){
             OrderSearchData orderSearchData = objectMapper.convertValue(item, OrderSearchData.class);

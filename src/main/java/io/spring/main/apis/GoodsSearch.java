@@ -44,9 +44,6 @@ public class GoodsSearch {
     private final ObjectMapper objectMapper;
     private final CommonFunctions commonFunctions;
 
-    private final Map<String, List<Object>> goodsSearchListMap;
-    private final Map<String, Class> goodsSearchClassMap;
-
     // 고도몰 관련 값들
     @Value("${pKey}")
     private String pKey;
@@ -451,6 +448,9 @@ public class GoodsSearch {
         }
         for(GoodsSearchData.AddGoodsData addGoodsData : addGoodsDataList){ // goodsNoData 기준으로 if_goods_add_goods에 저장
             List<String> goodsNoData = addGoodsData.getGoodsNoData();
+            if(goodsNoData == null){
+                break;
+            }
             for(String addGoods : goodsNoData){
                 IfGoodsAddGoods ifGoodsAddGoods = objectMapper.convertValue(goodsSearchData, IfGoodsAddGoods.class);
                 ifGoodsAddGoods.setAssortId(goodsSearchData.getAssortId());
@@ -508,127 +508,41 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = goodsSearchUrl + StringFactory.getStrQuestion() + StringFactory.getGoodsSearchParams()[0] + StringFactory.getStrEqual() +
                 pKey + StringFactory.getStrAnd() +StringFactory.getGoodsSearchParams()[1]
-                + StringFactory.getStrEqual() + key;
+                + StringFactory.getStrEqual() + key
 //                + StringFactory.getStrAnd() + StringFactory.getGoodsSearchParams()[3]
 //                + StringFactory.getStrEqual()
-//                + "&goodsNo=1000000040";
+                + "&goodsNo=1000000040";
 //        System.out.println("##### " + urlstr);
         NodeList nodeList =  CommonFunctions.getXmlNodes(urlstr);
         List<GoodsSearchData> goodsSearchData = new ArrayList<>();
 /////
-        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList, goodsSearchClassMap, goodsSearchListMap);
+        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList);
 
+//        // AddGoodsData의 goodsNo가 String으로 저장돼있는 경우 array로 바꿔주는 과정 필요
+//        for(Map<String, Object> item : list){
+//            List<Object> addGoodsList = (List<Object>)item.get(StringFactory.getStrAddGoodsData());
+//            if(addGoodsList != null) {
+//                for(Object addGoodsData : addGoodsList){
+//                    Object goodsNoData = ((HashMap<String, Object>)addGoodsData).get(StringFactory.getStrGoodsNoData());
+//                    if(goodsNoData instanceof String){
+//                        List<Object> newList = new ArrayList<>();
+//                        newList.add(goodsNoData);
+//                        ((HashMap<String, Object>)addGoodsData).put(StringFactory.getStrGoodsNoData(), newList);
+//                    }
+//                }
+//            }
+//        }
+        //
         for(Map<String, Object> item : list){
             GoodsSearchData gsData = objectMapper.convertValue(item, GoodsSearchData.class);
             goodsSearchData.add(gsData);
         }
         return goodsSearchData;
         /////
-
-
-//            for (int i = 0; i < nodeList.getLength(); i++) {
-//                NodeList child = nodeList.item(i).getChildNodes();
-//                for (int y = 0; y < child.getLength(); y++) {
-//                    Node lNode = child.item(y);
-//                    // printTree(lNode, 1);
-//                    if (lNode.getNodeName() == StringFactory.getStrReturn()) {
-//                        NodeList mNodes = lNode.getChildNodes();
-//                        for (int mi = 0; mi < mNodes.getLength(); mi++) {
-////								for (int mi = 0; mi < 1; mi++) {
-//                            Node mNode = mNodes.item(mi);
-//                            if (mNode.getNodeName() == StringFactory.getStrGoodsData()) {
-////                                EsGoods map = makeGoodsmaster(mNode);
-//                                GoodsSearchData map = makeGoodsmaster(mNode);
-//                                goodsSearchData.add(map);
-//                                // order master array append
-//                            }
-//                        }
-//                        System.out.println("-----------------------------------------------------------------");
-//                        System.out.println(goodsSearchData.size());
-//                        System.out.println("-----------------------------------------------------------------");
-//                    }
-//                }
-//            }
-//            return goodsSearchData;
     }
 
-//    private GoodsSearchData makeGoodsmaster(Node root) {
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        // List<Map<String, Object>> deliveryDatas = new ArrayList<Map<String,
-//        // Object>>();
-//        List<GoodsSearchData.OptionData> optionDataList = new ArrayList<>();
-//
-//        List<GoodsSearchData.TextOptionData> textOptionDataList = new ArrayList<>();
-//        // List<Map<String, Object>> goodsDatas = new ArrayList<Map<String, Object>>();
-//        List<GoodsSearchData.AddGoodsData> adGoodsDataList = new ArrayList<>();
-//        // List<Map<String, Object>> addGoodsDatas = new ArrayList<Map<String,
-//        // Object>>();
-//        List<GoodsSearchData.GoodsMustInfoData> goodsMustInfoDataList = new ArrayList<>();
-//
-//        NodeList cNodes = root.getChildNodes();
-//        for (int i = 0; i < cNodes.getLength(); i++) {
-//            Node cNode = cNodes.item(i);
-//            //String idx = cNode.getAttributes().getNamedItem("idx").getNodeValue();
-//            // System.out.println(cNode.getAttributes().getNamedItem("idx").getNodeValue());
-////            log.debug("+++++ nodeName : " + cNode.getNodeName());
-//            if (cNode.getNodeName().equals(StringFactory.getStrOptionData())) {
-//                GoodsSearchData.OptionData optionData = commonFunctions.makeSimpleNodeToObj(cNode, GoodsSearchData.OptionData.class);
-//                optionDataList.add(optionData);
-//            } else if (cNode.getNodeName().equals(StringFactory.getStrTextOptionData())) {
-//                GoodsSearchData.TextOptionData textOptionData = commonFunctions.makeSimpleNodeToObj(cNode, GoodsSearchData.TextOptionData.class);
-//                textOptionDataList.add(textOptionData);
-//            } else if (cNode.getNodeName().equals(StringFactory.getStrAddGoodsData())) {
-//                // Map<String, Object> goodsData = makeOrderGoodsData(cNode);
-//                GoodsSearchData.AddGoodsData addGoodsData = makeAddGoodsData(cNode);
-////                log.debug("----- addGoodsData : " + addGoodsData.getGoodsNoData().size());
-//                adGoodsDataList.add(addGoodsData);
-//            } else if (cNode.getNodeName().equals(StringFactory.getStrGoodsMustInfoData())) {
-//                // Map<String, Object> addGoodsData = makeAddGoodsData(cNode);
-//                GoodsSearchData.GoodsMustInfoData goodsMustInfoData = commonFunctions.makeSimpleNodeToObj(cNode, GoodsSearchData.GoodsMustInfoData.class);
-//                goodsMustInfoDataList.add(goodsMustInfoData);
-//            } else {
-//
-//                if (cNode.getNodeName() == StringFactory.getStrClaimData()) {
-//                    System.out.println("claimData 데이타 이상 - 확인필요");
-//                }
-//
-//                if ("확인필요한값!".equals((String) CommonFunctions.getNodeValue(cNode))) {
-//                    System.out.println("-----------------------------------------------------------------");
-//                    System.out.println("데이타 이상 - 확인필요");
-//                    System.out.println("-----------------------------------------------------------------");
-//                } else {
-////                    log.debug("----- " + cNode.getNodeName() + " : "+  getNodeValue(cNode));
-//                    map.put(CommonFunctions.controlSnakeCaseException(cNode.getNodeName()), CommonFunctions.getNodeValue(cNode));
-//                }
-//
-//            }
-//
-//            map.put(StringFactory.getStrOptionData(),optionDataList);
-//            map.put(StringFactory.getStrTextOptionData(),textOptionDataList);
-//            map.put(StringFactory.getStrAddGoodsData(),adGoodsDataList);
-//            map.put(StringFactory.getStrGoodsMustInfoData(),goodsMustInfoDataList);
-//        }
-//
-//        GoodsSearchData o = objectMapper.convertValue(map, GoodsSearchData.class);
-//        return o;
-//    }
-
-//    private GoodsSearchData.AddGoodsData makeAddGoodsData(Node cNode) {
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        NodeList cNodes = cNode.getChildNodes();
-//        List<String> goodsNoDataList = new ArrayList<>();
-//        for (int i = 0; i < cNodes.getLength(); i++) {
-//            Node node = cNodes.item(i);
-//            if(node.getNodeName().equals("goodsNoData")){
-////                System.out.println("===== : "+getNodeValue(node).toString());
-//                goodsNoDataList.add(CommonFunctions.getNodeValue(node).toString());//node.getNodeValue());
-//            }
-//            else{
-//                map.put(node.getNodeName(),CommonFunctions.getNodeValue(node));
-//            }
-//        }
-//        map.put("goodsNoData", goodsNoDataList);
-//        GoodsSearchData.AddGoodsData o = objectMapper.convertValue(map, GoodsSearchData.AddGoodsData.class);
-//        return o;
-//    }
+    private List<String> makeAddGoodsData(String goodsNoData) {
+        System.out.println("goodsNoData : " + goodsNoData);
+        return null;
+    }
 }

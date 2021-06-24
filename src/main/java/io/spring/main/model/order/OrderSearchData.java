@@ -275,7 +275,7 @@ public class OrderSearchData {
         private Date deliveryCompleteDt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private Date finishDt;
-        private ClaimData claimData;
+        private List<ClaimData> claimData;
         private Long enuri;
 
     }

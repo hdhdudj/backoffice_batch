@@ -28,10 +28,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.io.BufferedReader;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -92,38 +89,68 @@ public class CommonFunctions {
         }
     }
 
-    /**
-     * xml node를 object와 매핑해주는 함수
-     * @param cNode
-     * @return
-     */
-    public <T> T makeSimpleNodeToObj(Node cNode, Class<T> clss) {
-        Map<String, Object> map = makeSimpleNodToMap(cNode);
-
-        T o = objectMapper.convertValue(map, clss);
-        return o;
-    }
+//    /**
+//     * xml node를 object와 매핑해주는 함수
+//     * @param cNode
+//     * @return
+//     */
+//    public <T> T makeSimpleNodeToObj(Node cNode, Class<T> clss) {
+//        Map<String, Object> map = makeSimpleNodToMap(cNode);
+//
+//        T o = objectMapper.convertValue(map, clss);
+//        return o;
+//    }
 
     /**
      * xml node를 map과 매핑해주는 함수
      * @param cNode
      * @return
      */
-    private Map<String, Object> makeSimpleNodToMap(Node cNode){
+    private Object makeSimpleNodToMap(Node cNode){ // cNode : orderNo, claimData, addGoodsData, ...
         Map<String, Object> map = new HashMap<String, Object>();
-        NodeList cNodes = cNode.getChildNodes();
-        for (int i = 0; i < cNodes.getLength(); i++) {
-            Node node = cNodes.item(i);
-            if(node.getChildNodes().getLength() > 1){
-                map.put(node.getNodeName(), makeSimpleNodToMap(node));
+        NodeList cNodes = cNode.getChildNodes(); // cNodes : sno, goodsNo, ....
+        int nodeNum = cNodes.getLength();
+
+        for (int i = 0; i < nodeNum; i++) {
+            Node node = cNodes.item(i); // goodsNo, ...
+            log.debug("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ " + node.getNodeName());
+            if(nodeNum > 1) {
+                NodeList dNodes = node.getChildNodes();
+                if(map.get(node.getNodeName()) == null){ // 아예 key가 없는 경우 (단일 값으로 생성함)
+                    if(goodsSearchGotListPropsMap.contains(node.getNodeName()) && !(node.getNodeValue() instanceof String)){ // list로 존재해야만 하는 key일 경우
+                        map.put(node.getNodeName(), singleValToList(makeSimpleNodToMap(node)));
+                    }
+                    else{ // 단일 값으로 존재하는 key인 경우
+                        map.put(node.getNodeName(), makeSimpleNodToMap(node));
+                    }
+                }
+                else{
+                    if(map.get(node.getNodeName()) instanceof List){ // 이미 list로 들어있는 경우 (이미 존재하는 list에 이번 값을 넣어줌)
+                       ((List<Object>)map.get(node.getNodeName())).add(makeSimpleNodToMap(node));
+                    }
+                    else{ // 값이 있지만 list가 아닌 단일값으로 들어가 있는 경우 (새로 list를 만들어 기존 값을 넣고 이번 값도 넣어줌)
+                        List<Object> newList = singleValToList(map.get(node.getNodeName()));
+                        newList.add(makeSimpleNodToMap(node));
+                        map.put(node.getNodeName(), newList);
+                    }
+                }
             }
-            else{
-                System.out.println("------ node.getNodeName() : " + node.getNodeName());
-                System.out.println("------ node.getNodeValue() : " + getNodeValue(node));
-                map.put(node.getNodeName(), getNodeValue(node));
+            else {
+                if(goodsSearchGotListPropsMap.contains(cNode.getNodeName()) && !(node.getNodeValue() instanceof String)){ // list로 존재해야만 하는 key일 경우
+                    return singleValToList(makeSimpleNodToMap(node));
+                }
+                else{ // 단일 값으로 존재하는 key인 경우
+                    return getNodeValue(node);
+                }
             }
         }
         return map;
+    }
+
+    private List<Object> singleValToList(Object val){
+        List<Object> newList = new ArrayList<>();
+        newList.add(val);
+        return newList;
     }
 
     /**
@@ -164,7 +191,7 @@ public class CommonFunctions {
     }
 
     // xml 받아오는 함수
-    public List<Map<String, Object>> retrieveNodeMaps(String dataName, NodeList nodeList, Map<String, Class> classMap, Map<String, List<Object>> listMap) {
+    public List<Map<String, Object>> retrieveNodeMaps(String dataName, NodeList nodeList) {
         List<Map<String, Object>> dataList = new ArrayList<>();
 
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -178,7 +205,7 @@ public class CommonFunctions {
 //								for (int mi = 0; mi < 1; mi++) {
                         Node mNode = mNodes.item(mi);
                         if (mNode.getNodeName() == dataName) {
-                            Map<String, Object> map = makeMasterNode(mNode, classMap, listMap);
+                            Map<String, Object> map = makeMasterNode(mNode);
                             dataList.add(map);
                             // order master array append
                         }
@@ -192,18 +219,12 @@ public class CommonFunctions {
         return dataList;
     }
 
-    private Map<String, Object> makeMasterNode(Node root, Map<String, Class> classMap, Map<String, List<Object>> listMap) {
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        NodeList cNodes = root.getChildNodes();
+    private Map<String, Object> makeMasterNode(Node root){//, Map<String, Class> classMap, Map<String, List<Object>> listMap) {
+        Map<String, Object> map = new HashMap<>();
+        NodeList cNodes = root.getChildNodes(); // root : order_search 등 최상위
         for (int i = 0; i < cNodes.getLength(); i++) {
-            Node cNode = cNodes.item(i);
+            Node cNode = cNodes.item(i); // cNode : orderNo, claimData 등 바로 밑
 
-            for(String key : classMap.keySet()){
-                if(key.equals(cNode.getNodeName())){
-                    listMap.get(key).add(makeSimpleNodeToObj(cNode, classMap.get(key)));
-                }
-            }
             if (cNode.getNodeName() == StringFactory.getStrClaimData()) {
                 System.out.println("claimData 데이타 이상 - 확인필요");
             }
@@ -212,11 +233,27 @@ public class CommonFunctions {
                 System.out.println("-----------------------------------------------------------------");
                 System.out.println("데이타 이상 - 확인필요");
                 System.out.println("-----------------------------------------------------------------");
-            } else {
-                map.put(CommonFunctions.controlSnakeCaseException(cNode.getNodeName()), CommonFunctions.getNodeValue(cNode));
             }
-            for(String key : listMap.keySet()){
-                map.put(key,listMap.get(key));
+            else {
+                String key = controlSnakeCaseException(cNode.getNodeName()); // claimData, orderNo, ...
+                log.debug("----------- cNode.getNodeName in makeMasterNode : " + cNode.getNodeName());
+                if(map.get(cNode.getNodeName()) == null){ // key가 없는 경우
+                    if(goodsSearchGotListPropsMap.contains(cNode.getNodeName())){ // list로 들어가야 하는 key 인 경우
+                        map.put(key, singleValToList(makeSimpleNodToMap(cNode)));
+                    }
+                    else{ // 단일값으로 들어가야 하는 key인 경우
+                        map.put(key, makeSimpleNodToMap(cNode));
+                    }
+                }
+                else if(map.get(cNode.getNodeName()) instanceof List){
+                    ((List<Object>)map.get(cNode.getNodeName())).add(makeSimpleNodToMap(cNode));
+                }
+                else { // key가 이미 존재 -> 무조건 list에 넣어줘야 함
+                    List<Object> newList = new ArrayList<>();
+                    newList.add(map.get(cNode.getNodeName()));
+                    newList.add(makeSimpleNodToMap(cNode));
+                    map.put(key, newList);
+                }
             }
         }
 
