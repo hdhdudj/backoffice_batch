@@ -42,7 +42,7 @@ public class OrderSearch {
 
         for(OrderSearchData orderSearchData : orderSearchDataList){
             System.out.println(orderSearchData.getOrderGoodsData().get(0).getOrderNo());
-
+            // if 에 저장
         }
     }
 
