@@ -199,7 +199,7 @@ public class OrderSearchData {
         private Date deliveryCompleteDt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private Date finishDt;
-        private ClaimData claimData;
+        private List<ClaimData> claimData;
         private Long enuri;
     }
 
@@ -294,7 +294,7 @@ public class OrderSearchData {
         private Float refundUseMileage;
         private Float refundDeliveryCharge;
         private Float refundCharge;
-        private ExchageInfoData exchageInfoData;
+        private List<ExchageInfoData> exchageInfoData;
     }
     @Getter
     @Setter

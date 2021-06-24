@@ -33,6 +33,7 @@ public class OrderSearch {
     private final JpaIfOrderDetailRepository jpaIfOrderDetailRepository;
     private final ObjectMapper objectMapper;
     private final CommonFunctions commonFunctions;
+    private final List<String> orderSearchGotListPropsMap;
 
 
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
@@ -62,7 +63,7 @@ public class OrderSearch {
 
         List<OrderSearchData> orderSearchDataList = new ArrayList<>();
 
-        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrOrderData(), nodeList);
+        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrOrderData(), nodeList, orderSearchGotListPropsMap);
 
         for(Map<String, Object> item : list){
             OrderSearchData orderSearchData = objectMapper.convertValue(item, OrderSearchData.class);

@@ -11,8 +11,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -35,7 +33,6 @@ import java.util.*;
 @Component
 public class CommonFunctions {
     private final ObjectMapper objectMapper;
-    private final List<String> goodsSearchGotListPropsMap;
 
     /**
      * get xml by open api and return node list of xml.
@@ -106,38 +103,39 @@ public class CommonFunctions {
      * @param cNode
      * @return
      */
-    private Object makeSimpleNodToMap(Node cNode){ // cNode : orderNo, claimData, addGoodsData, ...
+    private Object makeSimpleNodToMap(Node cNode, List<String> goodsSearchGotListPropsMap){ // cNode : orderNo, claimData, addGoodsData, ...
         Map<String, Object> map = new HashMap<String, Object>();
         NodeList cNodes = cNode.getChildNodes(); // cNodes : sno, goodsNo, ....
         int nodeNum = cNodes.getLength();
 
         for (int i = 0; i < nodeNum; i++) {
             Node node = cNodes.item(i); // goodsNo, ...
-            log.debug("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ " + node.getNodeName());
             if(nodeNum > 1) {
                 NodeList dNodes = node.getChildNodes();
                 if(map.get(node.getNodeName()) == null){ // 아예 key가 없는 경우 (단일 값으로 생성함)
-                    if(goodsSearchGotListPropsMap.contains(node.getNodeName()) && !(node.getNodeValue() instanceof String)){ // list로 존재해야만 하는 key일 경우
-                        map.put(node.getNodeName(), singleValToList(makeSimpleNodToMap(node)));
+                    // list로 존재해야만 하는 key일 경우 (단, value가 string일 경우 더 이상의 재귀는 x..)
+                    if(goodsSearchGotListPropsMap.contains(node.getNodeName()) && !(node.getNodeValue() instanceof String)){
+                        map.put(node.getNodeName(), singleValToList(makeSimpleNodToMap(node, goodsSearchGotListPropsMap)));
                     }
                     else{ // 단일 값으로 존재하는 key인 경우
-                        map.put(node.getNodeName(), makeSimpleNodToMap(node));
+                        map.put(node.getNodeName(), makeSimpleNodToMap(node, goodsSearchGotListPropsMap));
                     }
                 }
                 else{
                     if(map.get(node.getNodeName()) instanceof List){ // 이미 list로 들어있는 경우 (이미 존재하는 list에 이번 값을 넣어줌)
-                       ((List<Object>)map.get(node.getNodeName())).add(makeSimpleNodToMap(node));
+                       ((List<Object>)map.get(node.getNodeName())).add(makeSimpleNodToMap(node, goodsSearchGotListPropsMap));
                     }
                     else{ // 값이 있지만 list가 아닌 단일값으로 들어가 있는 경우 (새로 list를 만들어 기존 값을 넣고 이번 값도 넣어줌)
                         List<Object> newList = singleValToList(map.get(node.getNodeName()));
-                        newList.add(makeSimpleNodToMap(node));
+                        newList.add(makeSimpleNodToMap(node, goodsSearchGotListPropsMap));
                         map.put(node.getNodeName(), newList);
                     }
                 }
             }
             else {
-                if(goodsSearchGotListPropsMap.contains(cNode.getNodeName()) && !(node.getNodeValue() instanceof String)){ // list로 존재해야만 하는 key일 경우
-                    return singleValToList(makeSimpleNodToMap(node));
+                // list로 존재해야만 하는 key일 경우 (단, value가 string일 경우 더 이상의 재귀는 x..)
+                if(goodsSearchGotListPropsMap.contains(cNode.getNodeName()) && !(node.getNodeValue() instanceof String)){
+                    return singleValToList(makeSimpleNodToMap(node, goodsSearchGotListPropsMap));
                 }
                 else{ // 단일 값으로 존재하는 key인 경우
                     return getNodeValue(node);
@@ -147,6 +145,11 @@ public class CommonFunctions {
         return map;
     }
 
+    /**
+     * return list that has input value
+     * @param val
+     * @return
+     */
     private List<Object> singleValToList(Object val){
         List<Object> newList = new ArrayList<>();
         newList.add(val);
@@ -191,7 +194,7 @@ public class CommonFunctions {
     }
 
     // xml 받아오는 함수
-    public List<Map<String, Object>> retrieveNodeMaps(String dataName, NodeList nodeList) {
+    public List<Map<String, Object>> retrieveNodeMaps(String dataName, NodeList nodeList, List<String> goodsSearchGotListPropsMap) {
         List<Map<String, Object>> dataList = new ArrayList<>();
 
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -205,7 +208,7 @@ public class CommonFunctions {
 //								for (int mi = 0; mi < 1; mi++) {
                         Node mNode = mNodes.item(mi);
                         if (mNode.getNodeName() == dataName) {
-                            Map<String, Object> map = makeMasterNode(mNode);
+                            Map<String, Object> map = makeMasterNode(mNode, goodsSearchGotListPropsMap);
                             dataList.add(map);
                             // order master array append
                         }
@@ -219,7 +222,7 @@ public class CommonFunctions {
         return dataList;
     }
 
-    private Map<String, Object> makeMasterNode(Node root){//, Map<String, Class> classMap, Map<String, List<Object>> listMap) {
+    private Map<String, Object> makeMasterNode(Node root, List<String> goodsSearchGotListPropsMap){//, Map<String, Class> classMap, Map<String, List<Object>> listMap) {
         Map<String, Object> map = new HashMap<>();
         NodeList cNodes = root.getChildNodes(); // root : order_search 등 최상위
         for (int i = 0; i < cNodes.getLength(); i++) {
@@ -236,22 +239,21 @@ public class CommonFunctions {
             }
             else {
                 String key = controlSnakeCaseException(cNode.getNodeName()); // claimData, orderNo, ...
-                log.debug("----------- cNode.getNodeName in makeMasterNode : " + cNode.getNodeName());
                 if(map.get(cNode.getNodeName()) == null){ // key가 없는 경우
                     if(goodsSearchGotListPropsMap.contains(cNode.getNodeName())){ // list로 들어가야 하는 key 인 경우
-                        map.put(key, singleValToList(makeSimpleNodToMap(cNode)));
+                        map.put(key, singleValToList(makeSimpleNodToMap(cNode, goodsSearchGotListPropsMap)));
                     }
                     else{ // 단일값으로 들어가야 하는 key인 경우
-                        map.put(key, makeSimpleNodToMap(cNode));
+                        map.put(key, makeSimpleNodToMap(cNode, goodsSearchGotListPropsMap));
                     }
                 }
                 else if(map.get(cNode.getNodeName()) instanceof List){
-                    ((List<Object>)map.get(cNode.getNodeName())).add(makeSimpleNodToMap(cNode));
+                    ((List<Object>)map.get(cNode.getNodeName())).add(makeSimpleNodToMap(cNode, goodsSearchGotListPropsMap));
                 }
                 else { // key가 이미 존재 -> 무조건 list에 넣어줘야 함
                     List<Object> newList = new ArrayList<>();
                     newList.add(map.get(cNode.getNodeName()));
-                    newList.add(makeSimpleNodToMap(cNode));
+                    newList.add(makeSimpleNodToMap(cNode, goodsSearchGotListPropsMap));
                     map.put(key, newList);
                 }
             }

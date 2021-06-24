@@ -44,6 +44,8 @@ public class GoodsSearch {
     private final ObjectMapper objectMapper;
     private final CommonFunctions commonFunctions;
 
+    private final List<String> goodsSearchGotListPropsMap;
+
     // 고도몰 관련 값들
     @Value("${pKey}")
     private String pKey;
@@ -516,22 +518,8 @@ public class GoodsSearch {
         NodeList nodeList =  CommonFunctions.getXmlNodes(urlstr);
         List<GoodsSearchData> goodsSearchData = new ArrayList<>();
 /////
-        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList);
+        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList, goodsSearchGotListPropsMap);
 
-//        // AddGoodsData의 goodsNo가 String으로 저장돼있는 경우 array로 바꿔주는 과정 필요
-//        for(Map<String, Object> item : list){
-//            List<Object> addGoodsList = (List<Object>)item.get(StringFactory.getStrAddGoodsData());
-//            if(addGoodsList != null) {
-//                for(Object addGoodsData : addGoodsList){
-//                    Object goodsNoData = ((HashMap<String, Object>)addGoodsData).get(StringFactory.getStrGoodsNoData());
-//                    if(goodsNoData instanceof String){
-//                        List<Object> newList = new ArrayList<>();
-//                        newList.add(goodsNoData);
-//                        ((HashMap<String, Object>)addGoodsData).put(StringFactory.getStrGoodsNoData(), newList);
-//                    }
-//                }
-//            }
-//        }
         //
         for(Map<String, Object> item : list){
             GoodsSearchData gsData = objectMapper.convertValue(item, GoodsSearchData.class);

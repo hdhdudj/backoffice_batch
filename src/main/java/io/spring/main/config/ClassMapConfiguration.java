@@ -18,90 +18,8 @@ import java.util.*;
 @Slf4j
 public class ClassMapConfiguration {
 
-//    /**
-//     * OrderSearch의 list를 가지고 있는 맵
-//     * @return
-//     */
-//    @Bean
-//    public Map<String, List<Object>> orderSearchListMap() {
-//        Map<String, List<Object>> orderSearchListMap = new HashMap() {{
-//            put(StringFactory.getStrOrderInfoData(), new ArrayList<OrderSearchData.OrderInfoData>());
-//            put(StringFactory.getStrOrderDeliveryData(), new ArrayList<OrderSearchData.OrderDeliveryData>());
-//            put(StringFactory.getStrGiftData(), new ArrayList<OrderSearchData.GiftData>());
-//            put(StringFactory.getStrOrderGoodsData(), new ArrayList<OrderSearchData.OrderGoodsData>());
-//            put(StringFactory.getStrAddGoodsData(), new ArrayList<OrderSearchData.AddGoodsData>());
-//            put(StringFactory.getStrClaimData(), new ArrayList<OrderSearchData.ClaimData>());
-//            put(StringFactory.getStrExchangeInfoData(), new ArrayList<OrderSearchData.ExchageInfoData>());
-//            put(StringFactory.getStrOrderConsultData(), new ArrayList<OrderSearchData.OrderConsultData>());
-//        }};
-//
-//        log.debug("ClassMapConfiguration orderSearchListMap 실행.");
-//
-//        return orderSearchListMap;
-//    }
-//
-//    /**
-//     * OrderSearch 클래스 정보를 가지고 있는 맵
-//     * @return
-//     */
-//    @Bean
-//    public Map<String, Class> orderSearchClassMap() {
-//        Map<String, Class> orderSearchClassMap = new HashMap() {{
-//            put(StringFactory.getStrOrderInfoData(), OrderSearchData.OrderInfoData.class);
-//            put(StringFactory.getStrOrderDeliveryData(), OrderSearchData.OrderDeliveryData.class);
-//            put(StringFactory.getStrGiftData(), OrderSearchData.GiftData.class);
-//            put(StringFactory.getStrOrderGoodsData(), OrderSearchData.OrderGoodsData.class);
-//            put(StringFactory.getStrAddGoodsData(), OrderSearchData.AddGoodsData.class);
-//            put(StringFactory.getStrClaimData(), OrderSearchData.ClaimData.class);
-//            put(StringFactory.getStrExchangeInfoData(), OrderSearchData.ExchageInfoData.class);
-//            put(StringFactory.getStrOrderConsultData(), OrderSearchData.OrderConsultData.class);
-//        }};
-//
-//        log.debug("ClassMapConfiguration orderSearchClassMap 실행.");
-//
-//        return orderSearchClassMap;
-//    }
-//
-//    /**
-//     * GoodsSearch의 list를 가지고 있는 맵
-//     * @return
-//     */
-//    @Bean
-//    public Map<String, List<Object>> goodsSearchListMap() {
-//        Map<String, List<Object>> goodsSearchListMap = new HashMap() {{
-//            put(StringFactory.getStrOptionData(), new ArrayList<GoodsSearchData.OptionData>());
-//            put(StringFactory.getStrTextOptionData(), new ArrayList<GoodsSearchData.TextOptionData>());
-//            put(StringFactory.getStrAddGoodsData(), new ArrayList<GoodsSearchData.AddGoodsData>());
-//            put(StringFactory.getStrGoodsMustInfoData(), new ArrayList<GoodsSearchData.GoodsMustInfoData>());
-//            put(StringFactory.getStrStepData(), new ArrayList<GoodsSearchData.StepData>());
-//        }};
-//
-//        log.debug("ClassMapConfiguration goodsSearchListMap 실행.");
-//
-//        return goodsSearchListMap;
-//    }
-//
-//    /**
-//     * GoodSearch 클래스 정보를 가지고 있는 맵
-//     * @return
-//     */
-//    @Bean
-//    public Map<String, Class> goodsSearchClassMap() {
-//        Map<String, Class> goodsSearchClassMap = new HashMap() {{
-//            put(StringFactory.getStrGoodsMustInfoData(), GoodsSearchData.GoodsMustInfoData.class);
-//            put(StringFactory.getStrStepData(), GoodsSearchData.StepData.class);
-//            put(StringFactory.getStrOption(), GoodsSearchData.OptionData.class);
-//            put(StringFactory.getStrTextOptionData(), GoodsSearchData.TextOptionData.class);
-//            put(StringFactory.getStrAddGoodsData(), GoodsSearchData.AddGoodsData.class);
-//        }};
-//
-//        log.debug("ClassMapConfiguration goodsSearchClassMap 실행.");
-//
-//        return goodsSearchClassMap;
-//    }
-
     /**
-     * GoodSearch list를 가진 props의 정보를 가지고 있는 맵
+     * GoodSearch에서 list를 가진 props의 정보를 가지고 있는 맵
      * @return
      */
     @Bean
@@ -117,17 +35,16 @@ public class ClassMapConfiguration {
     }
 
     /**
-     * 2뎁스에서 value의 list를 가져야 하는 GoodSearch list를 가진 props의 정보를 가지고 있는 맵
+     * OrderSearch에서 list를 가진 props의 정보를 가지고 있는 맵
      * @return
      */
     @Bean
-    public List<String> goodsSearchGotListPropsMap2() {
-        List<String> goodsSearchGotListPropsMap = Arrays.asList("magnifyImageData",
-                "detailImageData", "listImageData", "mainImageData"
-                , "goodsMustInfoData", "optionData", "addGoodsData", "textOptionData"
-                , "stepData", "goodsNoData");
+    public List<String> orderSearchGotListPropsMap() {
+        List<String> goodsSearchGotListPropsMap = Arrays.asList("orderDeliveryData",
+                "orderInfoData", "addGoodsData", "giftData"
+                , "orderGoodsData", "exchageInfoData", "claimData");
 
-        log.debug("ClassMapConfiguration goodsSearchClassMap 실행.");
+        log.debug("ClassMapConfiguration orderSearchGotListPropsMap 실행.");
 
         return goodsSearchGotListPropsMap;
     }
