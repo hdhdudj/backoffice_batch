@@ -2,7 +2,6 @@ package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.jparepos.category.JpaIfCategoryRepository;
-import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.util.StringFactory;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.*;
@@ -15,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.transaction.Transactional;
@@ -42,7 +40,7 @@ public class GoodsSearch {
     private final JpaIfBrandRepository jpaIfBrandRepository;
     private final JpaIfCategoryRepository jpaIfCategoryRepository;
     private final ObjectMapper objectMapper;
-    private final CommonFunctions commonFunctions;
+    private final CommonXmlParse commonXmlParse;
 
     private final List<String> goodsSearchGotListPropsMap;
 
@@ -153,9 +151,9 @@ public class GoodsSearch {
             ifGoodsAddGoods.setMakerNm(addGoodsData.getMakerNm());
             ifGoodsAddGoods.setGoodsPrice(addGoodsData.getGoodsPrice());
             ifGoodsAddGoods.setStockCnt(addGoodsData.getStockCnt());
-            ifGoodsAddGoods.setViewFl(ynToOneTwo(addGoodsData.getViewFl()));
+            ifGoodsAddGoods.setViewFl(Utilities.ynToOneTwo(addGoodsData.getViewFl()));
             ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne());
-            ifGoodsAddGoods.setSoldOutFl(ynToOneTwo(addGoodsData.getSoldOutFl()));
+            ifGoodsAddGoods.setSoldOutFl(Utilities.ynToOneTwo(addGoodsData.getSoldOutFl()));
             Itadgs itadgs = new Itadgs(ifGoodsAddGoods);
             jpaItadgsRepository.save(itadgs);
 //            jpaIfGoodsAddGoodsRepository.save(addGoodsData);
@@ -370,10 +368,10 @@ public class GoodsSearch {
         }
         ifGoodsMaster.setAssortId(goodsSearchData.getAssortId()); // assort_id 설정
         // y/n을 01/02로 바꾸기
-        ifGoodsMaster.setGoodsSellFl(ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
-        ifGoodsMaster.setGoodsDisplayFl(ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
-        ifGoodsMaster.setOptionFl(ynToOneTwo(ifGoodsMaster.getOptionFl()));
-        ifGoodsMaster.setSizeType(ynToOneTwo(ifGoodsMaster.getSizeType()));
+        ifGoodsMaster.setGoodsSellFl(Utilities.ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
+        ifGoodsMaster.setGoodsDisplayFl(Utilities.ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
+        ifGoodsMaster.setOptionFl(Utilities.ynToOneTwo(ifGoodsMaster.getOptionFl()));
+        ifGoodsMaster.setSizeType(Utilities.ynToOneTwo(ifGoodsMaster.getSizeType()));
         // 매핑 테이블 이용해 고도몰 코드를 백오피스 코드로 전환 (brandCd, cateCd)
         IfBrand ifBrand = jpaIfBrandRepository.findByChannelGbAndChannelBrandId(StringFactory.getGbOne(), ifGoodsMaster.getBrandCd()); // 채널구분 01 하드코딩
         if(ifBrand != null){
@@ -388,25 +386,7 @@ public class GoodsSearch {
         return ifGoodsMaster;
     }
 
-    // 'y'는 '01'로, 'n'은 '02'로 변환
-    private String ynToOneTwo(String yn){
-        String returnStr = null;
-        if(yn == null){
-        }
-        else if(yn.equals(StringFactory.getStrY())){ // 'y'
-            returnStr = StringFactory.getGbOne();
-        }
-        else if(yn.equals(StringFactory.getStrN())){ // 'n'
-            returnStr = StringFactory.getGbTwo();
-        }
-        else if(yn.equals(StringFactory.getStrLight())){ // 'light'
-            returnStr = StringFactory.getGbOne();
-        }
-        else if(yn.equals(StringFactory.getStrFurn())){ // 'furn' 02
-            returnStr = StringFactory.getGbTwo();
-        }
-        return returnStr;
-    }
+
 
     private void saveIfGoodsOption(GoodsSearchData goodsSearchData){ //, List<IfGoodsOption> ifGoodsOptionList) {
         List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
@@ -435,7 +415,7 @@ public class GoodsSearch {
             ifGoodsTextOption.setAssortId(goodsSearchData.getAssortId());
             ifGoodsTextOption.setChannelGb(StringFactory.getGbOne());
             // yn을 0102로
-            ifGoodsTextOption.setMustFl(ynToOneTwo(ifGoodsTextOption.getMustFl()));
+            ifGoodsTextOption.setMustFl(Utilities.ynToOneTwo(ifGoodsTextOption.getMustFl()));
             ifGoodsTextOption.setUploadStatus(StringFactory.getGbOne());
             jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
         }
@@ -470,39 +450,17 @@ public class GoodsSearch {
         String urlstr = goodsAddSearchUrl + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 pKey + "&" +StringFactory.getGoodsSearchParams()[1]
                 + "=" + key+"&"+goodsNo+"="+goodsNo;
-        NodeList nodeList = CommonFunctions.getXmlNodes(urlstr);
-        AddGoodsData map = null;
+        NodeList nodeList = CommonXmlParse.getXmlNodes(urlstr);
+        List<AddGoodsData> addGoodsDataList = new ArrayList<>();
 
-        // xml 파싱
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            NodeList child = nodeList.item(i).getChildNodes();
-            for (int j = 0; j < child.getLength(); j++) {
-                Node lNode = child.item(j);
-                if(lNode.getNodeName().equals(StringFactory.getStrReturn())){
-                    NodeList mNodes = lNode.getChildNodes();
-                    for (int k = 0; k < mNodes.getLength(); k++) {
-                        Node mNode = mNodes.item(k);
-                        if(mNode.getNodeName().equals(StringFactory.getStrGoodsData())) { // goods_data
-                            map = makeAddGoodsDataForGoodsAddSearch(mNode);
-                        }
-                    }
-                }
-            }
+        List<Map<String, Object>> list = commonXmlParse.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList, goodsSearchGotListPropsMap);
+
+        //
+        for(Map<String, Object> item : list){
+            AddGoodsData adData = objectMapper.convertValue(item, AddGoodsData.class);
+            addGoodsDataList.add(adData);
         }
-
-        return map;
-    }
-
-    private AddGoodsData makeAddGoodsDataForGoodsAddSearch(Node cNode) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        NodeList cNodes = cNode.getChildNodes();
-        List<String> goodsNoDataList = new ArrayList<>();
-        for (int i = 0; i < cNodes.getLength(); i++) {
-            Node node = cNodes.item(i);
-            map.put(node.getNodeName(), CommonFunctions.getNodeValue(node));
-        }
-        AddGoodsData o = objectMapper.convertValue(map, AddGoodsData.class);
-        return o;
+        return addGoodsDataList.get(0);
     }
 
     // goods xml 받아오는 함수
@@ -515,22 +473,14 @@ public class GoodsSearch {
 //                + StringFactory.getStrEqual()
                 + "&goodsNo=1000000040";
 //        System.out.println("##### " + urlstr);
-        NodeList nodeList =  CommonFunctions.getXmlNodes(urlstr);
+        NodeList nodeList =  CommonXmlParse.getXmlNodes(urlstr);
         List<GoodsSearchData> goodsSearchData = new ArrayList<>();
-/////
-        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList, goodsSearchGotListPropsMap);
+        List<Map<String, Object>> list = commonXmlParse.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList, goodsSearchGotListPropsMap);
 
-        //
         for(Map<String, Object> item : list){
             GoodsSearchData gsData = objectMapper.convertValue(item, GoodsSearchData.class);
             goodsSearchData.add(gsData);
         }
         return goodsSearchData;
-        /////
-    }
-
-    private List<String> makeAddGoodsData(String goodsNoData) {
-        System.out.println("goodsNoData : " + goodsNoData);
-        return null;
     }
 }

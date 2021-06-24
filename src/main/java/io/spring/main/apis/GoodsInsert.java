@@ -9,7 +9,6 @@ import io.spring.main.jparepos.goods.*;
 import io.spring.main.model.goods.GoodsInsertData;
 import io.spring.main.model.goods.GoodsSearchData;
 import io.spring.main.model.goods.entity.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -194,12 +193,12 @@ public class GoodsInsert {
             String headerCode = null;
 
             // <header/> 아래에 있는 <code/>의 값을 가져옴. 000 : 성공, 그 외 값은 실패.
-            headerCode = (String) CommonFunctions.getNodeValue(nodeList.item(0).getFirstChild());
+            headerCode = (String) CommonXmlParse.getNodeValue(nodeList.item(0).getFirstChild());
             if(headerCode.equals(StringFactory.getStrSuccessCode())){
                 // <data/> 아래에 있는 <goodsno/>의 값을 가져옴.
                 expr = xPath.compile("//goodsno"); // goodsno 하드코딩
                 Node node = (Node) expr.evaluate(doc, XPathConstants.NODE);
-                String successGoodsNo = (String)CommonFunctions.getNodeValue(node);
+                String successGoodsNo = (String) CommonXmlParse.getNodeValue(node);
 //                System.out.println("+++++ " + successGoodsNo);
                 return successGoodsNo;
             }

@@ -2,7 +2,6 @@ package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.model.goods.GoodsSearchData;
-import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.util.StringFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +30,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class CommonFunctions {
+public class CommonXmlParse {
     private final ObjectMapper objectMapper;
 
     /**
@@ -232,7 +231,7 @@ public class CommonFunctions {
                 System.out.println("claimData 데이타 이상 - 확인필요");
             }
 
-            if ("확인필요한값!".equals((String) CommonFunctions.getNodeValue(cNode))) {
+            if ("확인필요한값!".equals((String) CommonXmlParse.getNodeValue(cNode))) {
                 System.out.println("-----------------------------------------------------------------");
                 System.out.println("데이타 이상 - 확인필요");
                 System.out.println("-----------------------------------------------------------------");

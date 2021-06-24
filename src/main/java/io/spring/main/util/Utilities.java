@@ -52,7 +52,7 @@ public class Utilities {
 
     /**
      * 21-05-04 Pecan
-     * 유틸 함수 : "9999-12-31 23:59:59"를 yyyy-MM-dd HH:mm:ss꼴 Date로 반환
+     * 유틸 함수 : Date "9999-12-31 23:59:59"를 String으로 반환
      * @return Date
      */
     public static String getDateToString(String dateFormat, Date strDate){
@@ -71,5 +71,27 @@ public class Utilities {
         mon.add(mode , n);
         String beforeMonth = new java.text.SimpleDateFormat(dataFormat).format(mon.getTime());
         return beforeMonth;
+    }
+
+    /**
+     * 'y'는 '01'로, 'n'은 '02'로 변환
+     */
+    public static String ynToOneTwo(String yn){
+        String returnStr = null;
+        if(yn == null){
+        }
+        else if(yn.equals(StringFactory.getStrY())){ // 'y'
+            returnStr = StringFactory.getGbOne();
+        }
+        else if(yn.equals(StringFactory.getStrN())){ // 'n'
+            returnStr = StringFactory.getGbTwo();
+        }
+        else if(yn.equals(StringFactory.getStrLight())){ // 'light'
+            returnStr = StringFactory.getGbOne();
+        }
+        else if(yn.equals(StringFactory.getStrFurn())){ // 'furn' 02
+            returnStr = StringFactory.getGbTwo();
+        }
+        return returnStr;
     }
 }

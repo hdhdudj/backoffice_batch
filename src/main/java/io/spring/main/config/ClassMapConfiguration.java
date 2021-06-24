@@ -19,7 +19,7 @@ import java.util.*;
 public class ClassMapConfiguration {
 
     /**
-     * GoodSearch에서 list를 가진 props의 정보를 가지고 있는 맵
+     * GoodSearch에서 list를 가진 props의 정보를 가지고 있는 리스트
      * @return
      */
     @Bean
@@ -35,7 +35,7 @@ public class ClassMapConfiguration {
     }
 
     /**
-     * OrderSearch에서 list를 가진 props의 정보를 가지고 있는 맵
+     * OrderSearch에서 list를 가진 props의 정보를 가지고 있는 리스트
      * @return
      */
     @Bean

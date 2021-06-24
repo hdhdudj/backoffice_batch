@@ -1,7 +1,6 @@
 package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import io.spring.main.jparepos.order.JpaIfOrderDetailRepository;
 import io.spring.main.jparepos.order.JpaIfOrderMasterRepository;
 import io.spring.main.model.order.OrderSearchData;
@@ -32,7 +31,7 @@ public class OrderSearch {
     private final JpaIfOrderMasterRepository jpaIfOrderMasterRepository;
     private final JpaIfOrderDetailRepository jpaIfOrderDetailRepository;
     private final ObjectMapper objectMapper;
-    private final CommonFunctions commonFunctions;
+    private final CommonXmlParse commonXmlParse;
     private final List<String> orderSearchGotListPropsMap;
 
 
@@ -43,6 +42,7 @@ public class OrderSearch {
 
         for(OrderSearchData orderSearchData : orderSearchDataList){
             System.out.println(orderSearchData.getOrderGoodsData().get(0).getOrderNo());
+
         }
     }
 
@@ -59,11 +59,11 @@ public class OrderSearch {
                 + "&orderNo=2106231208001241";
 //        System.out.println("##### " + urlstr);
 
-        NodeList nodeList =  CommonFunctions.getXmlNodes(urlstr);
+        NodeList nodeList =  CommonXmlParse.getXmlNodes(urlstr);
 
         List<OrderSearchData> orderSearchDataList = new ArrayList<>();
 
-        List<Map<String, Object>> list = commonFunctions.retrieveNodeMaps(StringFactory.getStrOrderData(), nodeList, orderSearchGotListPropsMap);
+        List<Map<String, Object>> list = commonXmlParse.retrieveNodeMaps(StringFactory.getStrOrderData(), nodeList, orderSearchGotListPropsMap);
 
         for(Map<String, Object> item : list){
             OrderSearchData orderSearchData = objectMapper.convertValue(item, OrderSearchData.class);
