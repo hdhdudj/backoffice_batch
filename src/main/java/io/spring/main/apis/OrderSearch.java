@@ -40,9 +40,17 @@ public class OrderSearch {
     public void saveIfTables(String startDt, String endDt){
         List<OrderSearchData> orderSearchDataList = retrieveOrders(null, startDt, endDt);
 
+        // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
-            System.out.println(orderSearchData.getOrderGoodsData().get(0).getOrderNo());
-            // if 에 저장
+            // ifNo가 겹치는 애가 있는지 확인
+//            if(jpaIfOrderMasterRepository.findByOrderNo(Long.toString(orderSearchData.getOrderNo())) == null){
+//                this.saveIfOrderMaster(orderSearchData); // if_order_master : itasrt, itasrn, itasrd  * 여기서 ifNo 생성
+//                this.saveIfOrderDetail(orderSearchData); // if_order_detail : itmmot
+//            }
+//            if(jpaIfOrderDetailRepository.findByGoodsNo(Long.toString(orderSearchData.getGoodsNo())).size() == 0){
+//                this.saveIfGoodsOption(goodsSearchData); // if_goods_option : itvari, ititmm
+//            }
+            
         }
     }
 

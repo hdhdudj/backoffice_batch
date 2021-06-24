@@ -30,7 +30,6 @@ public class OrderSearchJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final OrderSearch orderSearch;
-    private final XmlSave xmlSave;
 
 
     @Bean
