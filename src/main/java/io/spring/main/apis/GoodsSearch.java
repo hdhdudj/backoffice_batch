@@ -186,7 +186,6 @@ public class GoodsSearch {
 
         // 1. if table 저장
         for(GoodsSearchData goodsSearchData : goodsSearchDataList){
-            System.out.println();
             // goodsDescription에 너무 긴 애가 들어있는 애 거르기
             String goodsDescription = goodsSearchData.getGoodsDescription();
             if(goodsDescription.split(StringFactory.getStrDataImage()).length >= 2){

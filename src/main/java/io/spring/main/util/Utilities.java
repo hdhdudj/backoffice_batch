@@ -1,11 +1,15 @@
 package io.spring.main.util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.internal.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 21-05-26 Pecan
@@ -93,5 +97,16 @@ public class Utilities {
             returnStr = StringFactory.getGbTwo();
         }
         return returnStr;
+    }
+
+    public static Map<String, Object> makeStringToMap(String addField) {
+        Map<String, Object> map = new HashMap<>(); // convert JSON string to Map
+        try{
+            map = new ObjectMapper().readValue(addField, new TypeReference<Map<String, Object>>(){});
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return map;
     }
 }

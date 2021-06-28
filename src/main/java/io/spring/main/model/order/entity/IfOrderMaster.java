@@ -31,7 +31,7 @@ public class IfOrderMaster {
     private String ifNo;
     private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     private String channelOrderNo;
-    private String ifStatus;
+    private String ifStatus; // 01 신규 02 수정
     private String channelOrderStatus;
     private String memNo;
     private String orderName;
@@ -55,4 +55,9 @@ public class IfOrderMaster {
     private String orderMemo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date orderDate;
+
+    @Override
+    public String toString(){
+        return "ifNo : " + ifNo + ", channelOrderNo : " + channelOrderNo + ", ifStatus : " + ifStatus;
+    }
 }

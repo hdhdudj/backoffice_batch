@@ -1,10 +1,12 @@
 package io.spring.main.model.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderSearchData {
+    private String ifNo;
+
     private Long orderNo;
     private Long memNo;
     private Long apiOrderGoodsNo;
@@ -91,7 +95,8 @@ public class OrderSearchData {
     private String pgChargeBack;
     private String fbPixelKey;
     private String depositSale;
-    private String orderDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+    private Date orderDate;
     private String orderGoodsStatusCnt;
     //
 
