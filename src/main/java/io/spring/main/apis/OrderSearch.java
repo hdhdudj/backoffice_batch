@@ -42,6 +42,7 @@ public class OrderSearch {
     private final JpaTbOrderMasterRepository jpaTbOrderMasterRepository;
     private final JpaTbOrderHistoryRepository jpaTbOrderHistoryRepository;
     private final JpaTbMemberRepository jpaTbMemberRepository;
+    private final JpaTbMemberAddressRepository jpaTbMemberAddressRepository;
     private final EntityManager em;
     private final ObjectMapper objectMapper;
     private final CommonXmlParse commonXmlParse;
@@ -174,8 +175,8 @@ public class OrderSearch {
         // tb_order_master, tb_order_history, tb_member, tb_member_address 저장
         TbOrderMaster tbOrderMaster = saveTbOrderMaster(ifOrderMaster);
         saveTbOrderHistory(ifOrderMaster, tbOrderMaster);
-        saveTbMember(ifOrderMaster);
-        saveTbMemberAddress(ifOrderMaster);
+        TbMember tbMember = saveTbMember(ifOrderMaster);
+        saveTbMemberAddress(ifOrderMaster, tbMember);
         
         // tb_order_detail
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
@@ -232,7 +233,7 @@ public class OrderSearch {
         em.persist(tbOrderHistory);
     }
 
-    private void saveTbMember(IfOrderMaster ifOrderMaster) {
+    private TbMember saveTbMember(IfOrderMaster ifOrderMaster) {
         TbMember tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail().split("@")[0]);
         if(tbMember == null){
             tbMember = new TbMember(ifOrderMaster);
@@ -243,8 +244,21 @@ public class OrderSearch {
         tbMember.setCustAddr1(ifOrderMaster.getOrderAddr1());
         tbMember.setCustAddr2(ifOrderMaster.getOrderAddr2());
         em.persist(tbMember);
+
+        return tbMember;
     }
 
-    private void saveTbMemberAddress(IfOrderMaster ifOrderMaster) {
+    private void saveTbMemberAddress(IfOrderMaster ifOrderMaster, TbMember tbMember) {
+        TbMemberAddress tbMemberAddress = jpaTbMemberAddressRepository.findByCustId(tbMember.getCustId());
+        if(tbMemberAddress == null){
+            tbMemberAddress = new TbMemberAddress(ifOrderMaster, tbMember);
+        }
+        tbMemberAddress.setDeliTel(ifOrderMaster.getReceiverTel());
+        tbMemberAddress.setDeliHp(ifOrderMaster.getReceiverTel());
+        tbMemberAddress.setDeliZipcode(ifOrderMaster.getReceiverZipcode());
+        tbMemberAddress.setDeliAddr1(ifOrderMaster.getReceiverAddr1());
+        tbMemberAddress.setDeliAddr2(ifOrderMaster.getReceiverAddr2());
+
+        em.persist(tbMemberAddress);
     }
 }
