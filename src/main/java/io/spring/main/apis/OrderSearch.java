@@ -7,6 +7,7 @@ import io.spring.main.jparepos.order.*;
 import io.spring.main.model.goods.entity.IfGoodsMaster;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.model.order.entity.*;
+import io.spring.main.model.order.idclass.TbOrderDetailId;
 import io.spring.main.util.StringFactory;
 import io.spring.main.util.Utilities;
 import lombok.RequiredArgsConstructor;
