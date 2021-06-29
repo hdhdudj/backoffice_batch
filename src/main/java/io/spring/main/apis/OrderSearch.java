@@ -3,16 +3,10 @@ package io.spring.main.apis;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
-import io.spring.main.jparepos.order.JpaIfOrderDetailRepository;
-import io.spring.main.jparepos.order.JpaIfOrderMasterRepository;
-import io.spring.main.jparepos.order.JpaTbOrderHistoryRepository;
-import io.spring.main.jparepos.order.JpaTbOrderMasterRepository;
+import io.spring.main.jparepos.order.*;
 import io.spring.main.model.goods.entity.IfGoodsMaster;
 import io.spring.main.model.order.OrderSearchData;
-import io.spring.main.model.order.entity.IfOrderDetail;
-import io.spring.main.model.order.entity.IfOrderMaster;
-import io.spring.main.model.order.entity.TbOrderHistory;
-import io.spring.main.model.order.entity.TbOrderMaster;
+import io.spring.main.model.order.entity.*;
 import io.spring.main.util.StringFactory;
 import io.spring.main.util.Utilities;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +41,7 @@ public class OrderSearch {
     private final JpaSequenceDataRepository jpaSequenceDataRepository;
     private final JpaTbOrderMasterRepository jpaTbOrderMasterRepository;
     private final JpaTbOrderHistoryRepository jpaTbOrderHistoryRepository;
+    private final JpaTbMemberRepository jpaTbMemberRepository;
     private final EntityManager em;
     private final ObjectMapper objectMapper;
     private final CommonXmlParse commonXmlParse;
@@ -238,7 +233,16 @@ public class OrderSearch {
     }
 
     private void saveTbMember(IfOrderMaster ifOrderMaster) {
-
+        TbMember tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail().split("@")[0]);
+        if(tbMember == null){
+            tbMember = new TbMember(ifOrderMaster);
+        }
+        tbMember.setCustTel(ifOrderMaster.getOrderTel());
+        tbMember.setCustHp(ifOrderMaster.getOrderTel());
+        tbMember.setCustZipcode(ifOrderMaster.getOrderZipcode());
+        tbMember.setCustAddr1(ifOrderMaster.getOrderAddr1());
+        tbMember.setCustAddr2(ifOrderMaster.getOrderAddr2());
+        em.persist(tbMember);
     }
 
     private void saveTbMemberAddress(IfOrderMaster ifOrderMaster) {

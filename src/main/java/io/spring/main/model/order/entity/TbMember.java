@@ -1,6 +1,7 @@
 package io.spring.main.model.order.entity;
 
 import io.spring.main.model.goods.entity.CommonProps;
+import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="tb_member")
 public class TbMember extends CommonProps {
+    public TbMember(IfOrderMaster ifOrderMaster){
+        custNm = ifOrderMaster.getOrderName();
+        custEmail = ifOrderMaster.getOrderEmail();
+        loginId = custEmail.split("@")[0];
+        loginPw = "";
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long custId;
@@ -21,7 +28,7 @@ public class TbMember extends CommonProps {
     private String custEmail;
     private String loginId;
     private String loginPw;
-    private String channelGb;
+    private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     private String custGb;
     private String custGrade;
     private String custStatus;
