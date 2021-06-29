@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.order.JpaIfOrderDetailRepository;
 import io.spring.main.jparepos.order.JpaIfOrderMasterRepository;
+import io.spring.main.jparepos.order.JpaTbOrderHistoryRepository;
 import io.spring.main.jparepos.order.JpaTbOrderMasterRepository;
 import io.spring.main.model.goods.entity.IfGoodsMaster;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.model.order.entity.IfOrderDetail;
 import io.spring.main.model.order.entity.IfOrderMaster;
+import io.spring.main.model.order.entity.TbOrderHistory;
 import io.spring.main.model.order.entity.TbOrderMaster;
 import io.spring.main.util.StringFactory;
 import io.spring.main.util.Utilities;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.NodeList;
 
 import javax.persistence.EntityManager;
+import javax.rmi.CORBA.Util;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -43,6 +46,7 @@ public class OrderSearch {
     private final JpaIfOrderDetailRepository jpaIfOrderDetailRepository;
     private final JpaSequenceDataRepository jpaSequenceDataRepository;
     private final JpaTbOrderMasterRepository jpaTbOrderMasterRepository;
+    private final JpaTbOrderHistoryRepository jpaTbOrderHistoryRepository;
     private final EntityManager em;
     private final ObjectMapper objectMapper;
     private final CommonXmlParse commonXmlParse;
@@ -173,14 +177,14 @@ public class OrderSearch {
     @Transactional
     public void saveOneIfNo(String ifNo, IfOrderMaster ifOrderMaster) {
         // tb_order_master, tb_order_history, tb_member, tb_member_address 저장
-        saveTbOrderMaster(ifOrderMaster);
-        saveTbOrderHistory(ifOrderMaster);
+        TbOrderMaster tbOrderMaster = saveTbOrderMaster(ifOrderMaster);
+        saveTbOrderHistory(ifOrderMaster, tbOrderMaster);
         saveTbMember(ifOrderMaster);
         saveTbMemberAddress(ifOrderMaster);
     }
 
-    private void saveTbOrderMaster(IfOrderMaster ifOrderMaster) {
-        System.out.println("------ + " + ifOrderMaster.toString());
+    private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster) {
+//        System.out.println("------ + " + ifOrderMaster.toString());
         TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         if(tbOrderMaster == null){
             String ordId = jpaTbOrderMasterRepository.findMaxOrderId();
@@ -203,9 +207,26 @@ public class OrderSearch {
         tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
 
         em.persist(tbOrderMaster);
+
+        return tbOrderMaster;
     }
 
-    private void saveTbOrderHistory(IfOrderMaster ifOrderMaster) {
+    private void saveTbOrderHistory(IfOrderMaster ifOrderMaster, TbOrderMaster tbOrderMaster) {
+        TbOrderHistory tbOrderHistory = jpaTbOrderHistoryRepository.findByOrderIdAndEffEndDt(tbOrderMaster.getOrderId(), Utilities.getStringToDate(StringFactory.getDoomDay()));
+        if(tbOrderHistory == null){
+            tbOrderHistory = new TbOrderHistory(tbOrderMaster.getOrderId());
+        }
+        else{
+            tbOrderHistory.setEffEndDt(new Date());
+            tbOrderHistory.setLastYn(StringUtils.leftPad(StringFactory.getStrOne(), 3,'0')); // 001 하드코딩
+
+            TbOrderHistory newTbOrderHistory = new TbOrderHistory(tbOrderMaster.getOrderId());
+            newTbOrderHistory.setOrderSeq(Utilities.plusOne(tbOrderHistory.getOrderSeq(), 3));
+            newTbOrderHistory.setStatusCd(" ?? "); // 추후 수정
+            em.persist(newTbOrderHistory);
+        }
+        tbOrderHistory.setStatusCd(" ?? "); // 추후 수정
+        em.persist(tbOrderHistory);
     }
 
     private void saveTbMember(IfOrderMaster ifOrderMaster) {
