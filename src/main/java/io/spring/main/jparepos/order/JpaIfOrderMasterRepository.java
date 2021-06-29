@@ -8,7 +8,5 @@ import java.util.List;
 public interface JpaIfOrderMasterRepository extends JpaRepository<IfOrderMaster, String> {
     IfOrderMaster findByChannelOrderNo(String ifNo);
 
-//    IfOrderMaster findByIfNo(String ifNo);
-
     List<IfOrderMaster> findByIfStatus(String ifStatus);
 }

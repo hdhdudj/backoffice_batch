@@ -1,6 +1,8 @@
 package io.spring.main.model.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.spring.main.model.goods.entity.Itbrnd;
 import io.spring.main.model.goods.idclass.IfBrandId;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.util.StringFactory;
@@ -9,11 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -60,4 +60,10 @@ public class IfOrderMaster {
     public String toString(){
         return "ifNo : " + ifNo + ", channelOrderNo : " + channelOrderNo + ", ifStatus : " + ifStatus;
     }
+
+    // ifOrderDetail 연관 관계
+    @JoinColumn(name="ifNo", referencedColumnName = "ifNo", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
+    @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<IfOrderDetail> ifOrderDetail;
 }

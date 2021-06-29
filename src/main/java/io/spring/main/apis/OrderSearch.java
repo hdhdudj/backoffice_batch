@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.order.JpaIfOrderDetailRepository;
 import io.spring.main.jparepos.order.JpaIfOrderMasterRepository;
+import io.spring.main.jparepos.order.JpaTbOrderMasterRepository;
+import io.spring.main.model.goods.entity.IfGoodsMaster;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.model.order.entity.IfOrderDetail;
 import io.spring.main.model.order.entity.IfOrderMaster;
+import io.spring.main.model.order.entity.TbOrderMaster;
 import io.spring.main.util.StringFactory;
 import io.spring.main.util.Utilities;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.NodeList;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -38,6 +42,8 @@ public class OrderSearch {
     private final JpaIfOrderMasterRepository jpaIfOrderMasterRepository;
     private final JpaIfOrderDetailRepository jpaIfOrderDetailRepository;
     private final JpaSequenceDataRepository jpaSequenceDataRepository;
+    private final JpaTbOrderMasterRepository jpaTbOrderMasterRepository;
+    private final EntityManager em;
     private final ObjectMapper objectMapper;
     private final CommonXmlParse commonXmlParse;
     private final List<String> orderSearchGotListPropsMap;
@@ -52,10 +58,12 @@ public class OrderSearch {
         for(OrderSearchData orderSearchData : orderSearchDataList){
             this.saveIfOrderMaster(orderSearchData); // if_order_master : tb_member, tb_member_address, tb_order_master, tb_order_history  * 여기서 ifNo 생성
             this.saveIfOrderDetail(orderSearchData); // if_order_detail : tb_order_detail
-//            if(jpaIfOrderDetailRepository.findByChannelOrderNo(Long.toString(orderSearchData.getGoodsNo())).size() == 0){
-//                this.saveIfGoodsOption(goodsSearchData); // if_goods_option : itvari, ititmm
-//            }
         }
+    }
+
+    public List<IfOrderMaster> getIfOrderMasterListWhereIfStatus01(){
+        List<IfOrderMaster> ifOrderMasterList = jpaIfOrderMasterRepository.findByIfStatus(StringFactory.getGbOne()); // if_order_master에서 if_status가 01인 애 전부 가져옴
+        return ifOrderMasterList;
     }
 
     private void saveIfOrderMaster(OrderSearchData orderSearchData) {
@@ -93,7 +101,7 @@ public class OrderSearch {
         ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
         ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
         ifOrderMaster.setOrderId(orderSearchData.getMemId().split("@")[0]);
-        System.out.println("----- "+ifOrderMaster.toString());
+//        System.out.println("----- "+ifOrderMaster.toString());
         jpaIfOrderMasterRepository.save(ifOrderMaster);
     }
 
@@ -162,4 +170,47 @@ public class OrderSearch {
         return orderSearchDataList;
     }
 
+    @Transactional
+    public void saveOneIfNo(String ifNo, IfOrderMaster ifOrderMaster) {
+        // tb_order_master, tb_order_history, tb_member, tb_member_address 저장
+        saveTbOrderMaster(ifOrderMaster);
+        saveTbOrderHistory(ifOrderMaster);
+        saveTbMember(ifOrderMaster);
+        saveTbMemberAddress(ifOrderMaster);
+    }
+
+    private void saveTbOrderMaster(IfOrderMaster ifOrderMaster) {
+        System.out.println("------ + " + ifOrderMaster.toString());
+        TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
+        if(tbOrderMaster == null){
+            String ordId = jpaTbOrderMasterRepository.findMaxOrderId();
+            if(ordId == null){
+                ordId = StringUtils.leftPad(StringFactory.getStrOne(), 9, '0');
+            }
+            else{
+                ordId = Utilities.plusOne(ordId, 9);
+            }
+            tbOrderMaster = new TbOrderMaster(ordId);
+        }
+        tbOrderMaster.setChannelOrderNo(ifOrderMaster.getChannelOrderNo());
+        tbOrderMaster.setFirstOrderId(ifOrderMaster.getChannelOrderNo());
+        tbOrderMaster.setOrderStatus(ifOrderMaster.getChannelOrderStatus());
+        tbOrderMaster.setChannelGb(ifOrderMaster.getChannelGb());
+        tbOrderMaster.setCustId(Long.parseLong(ifOrderMaster.getMemNo()));
+        tbOrderMaster.setReceiptAmt(ifOrderMaster.getPayAmt());
+        tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId());
+        tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
+        tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
+
+        em.persist(tbOrderMaster);
+    }
+
+    private void saveTbOrderHistory(IfOrderMaster ifOrderMaster) {
+    }
+
+    private void saveTbMember(IfOrderMaster ifOrderMaster) {
+    }
+
+    private void saveTbMemberAddress(IfOrderMaster ifOrderMaster) {
+    }
 }
