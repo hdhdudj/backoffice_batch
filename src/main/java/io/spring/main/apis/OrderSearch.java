@@ -181,6 +181,14 @@ public class OrderSearch {
         saveTbOrderHistory(ifOrderMaster, tbOrderMaster);
         saveTbMember(ifOrderMaster);
         saveTbMemberAddress(ifOrderMaster);
+        
+        // tb_order_detail
+        for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
+            saveTbOrderDetail(ifOrderDetail);
+        }
+    }
+
+    private void saveTbOrderDetail(IfOrderDetail ifOrderDetail) {
     }
 
     private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster) {
@@ -230,6 +238,7 @@ public class OrderSearch {
     }
 
     private void saveTbMember(IfOrderMaster ifOrderMaster) {
+
     }
 
     private void saveTbMemberAddress(IfOrderMaster ifOrderMaster) {
