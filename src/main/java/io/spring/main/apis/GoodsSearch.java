@@ -181,7 +181,7 @@ public class GoodsSearch {
 
     @Transactional
     public void saveIfTables(String fromDt, String toDt){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
-        List<GoodsSearchData> goodsSearchDataList = retrieveGoods(fromDt, toDt, null);
+        List<GoodsSearchData> goodsSearchDataList = retrieveGoods(null, fromDt, toDt);
 //        String assortId = "";
 
         // 1. if table 저장
@@ -470,7 +470,7 @@ public class GoodsSearch {
                 + StringFactory.getStrEqual() + key
 //                + StringFactory.getStrAnd() + StringFactory.getGoodsSearchParams()[3]
 //                + StringFactory.getStrEqual()
-                + "&goodsNo=1000000040";
+                + "&goodsNo="+goodsNo;
 //        System.out.println("##### " + urlstr);
         NodeList nodeList =  CommonXmlParse.getXmlNodes(urlstr);
         List<GoodsSearchData> goodsSearchData = new ArrayList<>();

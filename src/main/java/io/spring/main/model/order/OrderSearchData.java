@@ -232,13 +232,15 @@ public class OrderSearchData {
         private String invoiceNo;
         private Long scmNo;
         private Float commission;
-        private Long goodsNo;
+        private String goodsNo;
         private String goodsCd; // 고도몰 페이지에선 integer라는데 문자와 숫자가 섞여서 옴.
         private String listImageData;
         private String goodsModelNo;
         private String goodsNm;
         private Long goodsCnt;
         private Float goodsPrice;
+        private String goodsType;
+        private Long parentGoodsNo;
         private Float divisionUseMileage;
         private Float divisionGoodsDeliveryUseDeposit;
         private Float divisionGoodsDeliveryUseMileage;
@@ -257,6 +259,7 @@ public class OrderSearchData {
         private Float goodsMileage;
         private Float memberMileage;
         private Float couponGoodsMileage;
+        private Float goodsDeliveryCollectPrice;
         private String minusDepositFl;
         private String minusRestoreDepositFl;
         private String minusMileageFl;
@@ -268,6 +271,7 @@ public class OrderSearchData {
         private Long optionSno;
         private String optionInfo;
         private String optionTextInfo;
+        private String deliveryMethodFl;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private Date cancelDt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")

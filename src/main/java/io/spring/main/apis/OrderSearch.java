@@ -6,6 +6,7 @@ import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.order.JpaIfOrderDetailRepository;
 import io.spring.main.jparepos.order.JpaIfOrderMasterRepository;
 import io.spring.main.model.order.OrderSearchData;
+import io.spring.main.model.order.entity.IfOrderDetail;
 import io.spring.main.model.order.entity.IfOrderMaster;
 import io.spring.main.util.StringFactory;
 import io.spring.main.util.Utilities;
@@ -33,6 +34,7 @@ public class OrderSearch {
     @Value("${url.orderSearch}")
     private String orderSearchUrl;
 
+    private final GoodsSearch goodsSearch;
     private final JpaIfOrderMasterRepository jpaIfOrderMasterRepository;
     private final JpaIfOrderDetailRepository jpaIfOrderDetailRepository;
     private final JpaSequenceDataRepository jpaSequenceDataRepository;
@@ -44,12 +46,12 @@ public class OrderSearch {
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
     public void saveIfTables(String startDt, String endDt){
-        List<OrderSearchData> orderSearchDataList = retrieveOrders(null, startDt, endDt);
+        List<OrderSearchData> orderSearchDataList = retrieveOrders("2106281109256643", startDt, endDt);
 
         // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
-            this.saveIfOrderMaster(orderSearchData); // if_order_master : itasrt, itasrn, itasrd  * 여기서 ifNo 생성
-            this.saveIfOrderDetail(orderSearchData); // if_order_detail : itmmot
+            this.saveIfOrderMaster(orderSearchData); // if_order_master : tb_member, tb_member_address, tb_order_master, tb_order_history  * 여기서 ifNo 생성
+            this.saveIfOrderDetail(orderSearchData); // if_order_detail : tb_order_detail
 //            if(jpaIfOrderDetailRepository.findByChannelOrderNo(Long.toString(orderSearchData.getGoodsNo())).size() == 0){
 //                this.saveIfGoodsOption(goodsSearchData); // if_goods_option : itvari, ititmm
 //            }
@@ -57,15 +59,16 @@ public class OrderSearch {
     }
 
     private void saveIfOrderMaster(OrderSearchData orderSearchData) {
-        String ifNo = "";
+        String ifNo;
         // ifNo 채번
-        if(orderSearchData.getIfNo() == null){
+        IfOrderMaster ioMaster = jpaIfOrderMasterRepository.findByChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
+        if(ioMaster == null){
             ifNo = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9, '0');
-            orderSearchData.setIfNo(ifNo);
         }
         else {
-            ifNo = orderSearchData.getIfNo();
+            ifNo = ioMaster.getIfNo();
         }
+        orderSearchData.setIfNo(ifNo);
         IfOrderMaster ifOrderMaster = jpaIfOrderMasterRepository.findByChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
         if(ifOrderMaster == null){
             ifOrderMaster = objectMapper.convertValue(orderSearchData, IfOrderMaster.class);
@@ -89,12 +92,48 @@ public class OrderSearch {
         ifOrderMaster.setReceiverAddr2(orderSearchData.getOrderInfoData().get(0).getReceiverAddressSub());
         ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
         ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
-        ifOrderMaster.setOrderId(orderSearchData.getMemId());
+        ifOrderMaster.setOrderId(orderSearchData.getMemId().split("@")[0]);
         System.out.println("----- "+ifOrderMaster.toString());
         jpaIfOrderMasterRepository.save(ifOrderMaster);
     }
 
     private void saveIfOrderDetail(OrderSearchData orderSearchData) {
+        for(OrderSearchData.OrderGoodsData orderGoodsData : orderSearchData.getOrderGoodsData()){
+            IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByIfNoAndChannelGoodsNo(orderSearchData.getIfNo(), orderGoodsData.getGoodsNo());
+            if(ifOrderDetail == null){
+                ifOrderDetail = new IfOrderDetail(orderSearchData);
+                String seq = jpaIfOrderDetailRepository.findMaxIfNoSeq();
+                if(seq == null){
+                    seq = StringUtils.leftPad(StringFactory.getStrOne(), 3, '0');
+                }
+                else {
+                    seq = Utilities.plusOne(seq, 3);
+                }
+                ifOrderDetail.setIfNoSeq(seq);
+            }
+            // not null
+            ifOrderDetail.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
+            ifOrderDetail.setChannelOrderSeq(Long.toString(orderGoodsData.getSno()));
+            ifOrderDetail.setChannelOrderStatus(orderSearchData.getOrderStatus());
+            ifOrderDetail.setChannelGoodsType(orderGoodsData.getGoodsType());
+            ifOrderDetail.setChannelGoodsNo(orderGoodsData.getGoodsNo());
+            ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
+            ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
+            // goodsNm 가져오기
+            ifOrderDetail.setChannelGoodsNm(goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "").get(0).getGoodsNm());
+            //
+            ifOrderDetail.setChannelParentGoodsNo(Long.toString(orderGoodsData.getParentGoodsNo()));
+            ifOrderDetail.setGoodsCnt(orderGoodsData.getGoodsCnt());
+            ifOrderDetail.setGoodsPrice(orderGoodsData.getGoodsPrice());
+            ifOrderDetail.setGoodsDcPrice(orderGoodsData.getGoodsDcPrice());
+            ifOrderDetail.setCouponDcPrice(orderGoodsData.getCouponGoodsDcPrice());
+            ifOrderDetail.setMemberDcPrice(orderGoodsData.getMemberDcPrice());
+            ifOrderDetail.setDeliveryMethodGb(orderGoodsData.getDeliveryMethodFl());
+            ifOrderDetail.setDeliPrice(orderGoodsData.getGoodsDeliveryCollectPrice());
+            ifOrderDetail.setOrderId(orderSearchData.getMemId().split("@")[0]);
+
+            jpaIfOrderDetailRepository.save(ifOrderDetail);
+        }
     }
 
     // goods xml 받아오는 함수
@@ -107,7 +146,7 @@ public class OrderSearch {
                 + StringFactory.getStrEqual() + fromDt
                 + StringFactory.getStrAnd() + StringFactory.getOrderSearchParams()[4]
                 + StringFactory.getStrEqual() + toDt
-                + "&orderNo=2106281109256643";
+                + "&orderNo="+ orderNo; //2106281109256643";
 //        System.out.println("##### " + urlstr);
 
         NodeList nodeList =  CommonXmlParse.getXmlNodes(urlstr);
