@@ -3,8 +3,11 @@ package io.spring.main.apis;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
+import io.spring.main.jparepos.goods.JpaItitmmRepository;
 import io.spring.main.jparepos.order.*;
+import io.spring.main.model.goods.GoodsSearchData;
 import io.spring.main.model.goods.entity.IfGoodsMaster;
+import io.spring.main.model.goods.entity.Ititmm;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.model.order.entity.*;
 import io.spring.main.model.order.idclass.TbOrderDetailId;
@@ -44,6 +47,8 @@ public class OrderSearch {
     private final JpaTbOrderHistoryRepository jpaTbOrderHistoryRepository;
     private final JpaTbMemberRepository jpaTbMemberRepository;
     private final JpaTbMemberAddressRepository jpaTbMemberAddressRepository;
+    private final JpaTbOrderDetailRepository jpaTbOrderDetailRepository;
+    private final JpaItitmmRepository jpaItitmmRepository;
     private final EntityManager em;
     private final ObjectMapper objectMapper;
     private final CommonXmlParse commonXmlParse;
@@ -181,11 +186,36 @@ public class OrderSearch {
         
         // tb_order_detail
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
-            saveTbOrderDetail(ifOrderDetail);
+            saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
         }
     }
 
-    private void saveTbOrderDetail(IfOrderDetail ifOrderDetail) {
+    private void saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
+        GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","").get(0);
+        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndGoodsNm(ifOrderDetail.getOrderId(), goodsSearchData.getGoodsNm());
+        Ititmm ititmm = jpaItitmmRepository.findByItemNm(ifOrderDetail.getChannelGoodsNm());
+        if(tbOrderDetail == null){
+            tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);
+        }
+        tbOrderDetail.setStatusCd("A01"); // 추후 수정
+        tbOrderDetail.setAssortGb("001"); // 추후 수정
+        tbOrderDetail.setAssortId(ititmm.getAssortId());
+        tbOrderDetail.setItemId(ititmm.getItemId());
+        tbOrderDetail.setGoodsNm(ititmm.getItemNm());
+        tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
+        tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
+        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice());
+        tbOrderDetail.setGoodsDcPrice(ifOrderDetail.getGoodsDcPrice());
+        tbOrderDetail.setMemberDcPrice(ifOrderDetail.getMemberDcPrice());
+        tbOrderDetail.setCouponDcPrice(ifOrderDetail.getCouponDcPrice());
+        tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice());
+//        tbOrderDetail.setDcSumPrice(ifOrderDetail.getGoodsDcPrice() + ifOrderDetail.getMemberDcPrice() + ifOrderDetail.getCouponDcPrice() + ifOrderDetail.getAdminDcPrice());
+        tbOrderDetail.setDeliMethod(ifOrderDetail.getDeliveryMethodGb()); // 추후 수정
+        tbOrderDetail.setDeliPrice(ifOrderDetail.getDeliPrice());
+        tbOrderDetail.setChannelOrderNo(ifOrderDetail.getChannelOrderNo());
+        tbOrderDetail.setChannelOrderSeq(ifOrderDetail.getChannelOrderSeq());
+
+        em.persist(tbOrderDetail);
     }
 
     private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster) {

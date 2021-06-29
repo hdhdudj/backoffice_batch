@@ -1,7 +1,9 @@
 package io.spring.main.model.order.entity;
 
 import io.spring.main.model.goods.entity.CommonProps;
+import io.spring.main.model.goods.entity.Ititmm;
 import io.spring.main.model.order.idclass.TbOrderDetailId;
+import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,11 @@ import javax.persistence.Table;
 @IdClass(TbOrderDetailId.class)
 public class TbOrderDetail extends CommonProps
 {
+    public TbOrderDetail(TbOrderMaster tbOrderMaster, Ititmm ititmm){
+        orderId = tbOrderMaster.getOrderId();
+        orderSeq = StringFactory.getThreeStartCd(); // 001 하드코딩
+        goodsNm = ititmm.getItemNm();
+    }
     @Id
     private String orderId;
     @Id
