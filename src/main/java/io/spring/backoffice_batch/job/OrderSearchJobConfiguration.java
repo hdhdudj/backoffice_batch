@@ -63,6 +63,7 @@ public class OrderSearchJobConfiguration {
                     List<IfOrderMaster> ifOrderMasterList = orderSearch.getIfOrderMasterListWhereIfStatus01(); // if_order_master
 //                  // 트랜잭션2. if table의 한 줄을 자체 table에 저장할 때 ifNo 하나 기준으로 어떤 if table에서 실패하면 주루룩 실패해야 함.
                     for(IfOrderMaster ifOrderMaster : ifOrderMasterList){
+                        System.out.println("===== ifOrderMaster.orderName : " + ifOrderMaster.getOrderName());
                         orderSearch.saveOneIfNo(ifOrderMaster.getIfNo(), ifOrderMaster);
                     }
                     return RepeatStatus.FINISHED;

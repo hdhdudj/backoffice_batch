@@ -58,7 +58,7 @@ public class OrderSearch {
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
     public void saveIfTables(String startDt, String endDt){
-        List<OrderSearchData> orderSearchDataList = retrieveOrders("2106281109256643", startDt, endDt);
+        List<OrderSearchData> orderSearchDataList = retrieveOrders("2106301555509122", startDt, endDt);
 
         // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
@@ -116,7 +116,7 @@ public class OrderSearch {
             IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByIfNoAndChannelGoodsNo(orderSearchData.getIfNo(), orderGoodsData.getGoodsNo());
             if(ifOrderDetail == null){
                 ifOrderDetail = new IfOrderDetail(orderSearchData);
-                String seq = jpaIfOrderDetailRepository.findMaxIfNoSeq();
+                String seq = jpaIfOrderDetailRepository.findMaxIfNoSeq(orderSearchData.getIfNo());
                 if(seq == null){
                     seq = StringUtils.leftPad(StringFactory.getStrOne(), 3, '0');
                 }
@@ -142,12 +142,32 @@ public class OrderSearch {
             ifOrderDetail.setGoodsDcPrice(orderGoodsData.getGoodsDcPrice());
             ifOrderDetail.setCouponDcPrice(orderGoodsData.getCouponGoodsDcPrice());
             ifOrderDetail.setMemberDcPrice(orderGoodsData.getMemberDcPrice());
-            ifOrderDetail.setDeliveryMethodGb(orderGoodsData.getDeliveryMethodFl());
+            ifOrderDetail.setDeliveryMethodGb(changeDeliMethodToCode(orderGoodsData.getDeliveryMethodFl()));
             ifOrderDetail.setDeliPrice(orderGoodsData.getGoodsDeliveryCollectPrice());
             ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
 
             jpaIfOrderDetailRepository.save(ifOrderDetail);
         }
+    }
+
+    private String changeDeliMethodToCode(String deliveryMethodFl) {
+        String code;
+        if(deliveryMethodFl.equals(StringFactory.getStrDelivery())){
+            code = StringFactory.getThreeStartCd(); // 001
+        }
+        else if(deliveryMethodFl.equals(StringFactory.getStrAir())){
+            code = StringUtils.leftPad(StringFactory.getStrTwo(),3,'0');
+        }
+        else if(deliveryMethodFl.equals(StringFactory.getStrShip())){
+            code = StringUtils.leftPad(StringFactory.getStrThree(),3,'0');
+        }
+        else if(deliveryMethodFl.equals(StringFactory.getStrQuick())){
+            code = StringUtils.leftPad(StringFactory.getStrFour(),3,'0');
+        }
+        else{
+            code = StringUtils.leftPad(StringFactory.getStrFive(),3,'0');
+        }
+        return code;
     }
 
     // goods -> 001, add_goods -> 002로 반환
@@ -200,16 +220,21 @@ public class OrderSearch {
             TbOrderDetail tbOrderDetail = saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
             saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
         }
+        ifOrderMaster.setIfStatus(StringFactory.getGbTwo()); // ifStatus 02로 변경
+        em.persist(ifOrderMaster);
     }
 
     private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
         GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","").get(0);
-        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
+//        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndGoodsNm(tbOrderMaster.getOrderId(), goodsSearchData.getGoodsNm());
         Ititmm ititmm = jpaItitmmRepository.findByItemNm(ifOrderDetail.getChannelGoodsNm());
         if(tbOrderDetail == null){
             tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);
+            String orderSeq = Utilities.plusOne(jpaTbOrderDetailRepository.findMaxOrderSeqWhereOrderId(tbOrderDetail.getOrderId()),3);
+            tbOrderDetail.setOrderSeq(orderSeq == null? tbOrderDetail.getOrderSeq() : orderSeq);
         }
+//        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
         tbOrderDetail.setStatusCd(StringFactory.getStrAOne()); // 고도몰에서는 A01 상태만 가져옴.
         tbOrderDetail.setAssortGb(ifOrderDetail.getChannelGoodsType()); // 001 : goods, 002 : add_goods
         tbOrderDetail.setAssortId(ititmm.getAssortId());

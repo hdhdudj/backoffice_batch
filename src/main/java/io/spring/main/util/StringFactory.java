@@ -66,6 +66,12 @@ public class StringFactory {
     @Getter
     private final static String strTwo = "2";
     @Getter
+    private final static String strThree = "3";
+    @Getter
+    private final static String strFour = "4";
+    @Getter
+    private final static String strFive = "5";
+    @Getter
     private final static String strStartDt = "startDt";
     @Getter
     private final static String strEndDt = "endDt";
@@ -200,7 +206,14 @@ public class StringFactory {
     private final static String strGoods = "goods";
     @Getter
     private final static String strAddGoods = "add_goods";
-
+    @Getter
+    private final static String strDelivery = "delivery";
+    @Getter
+    private final static String strAir = "air";
+    @Getter
+    private final static String strShip = "ship";
+    @Getter
+    private final static String strQuick = "quick";
 
     // 기호
     @Getter
