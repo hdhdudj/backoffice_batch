@@ -62,8 +62,8 @@ public class OrderSearch {
 
         // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
-            this.saveIfOrderMaster(orderSearchData); // if_order_master : tb_member, tb_member_address, tb_order_master, tb_order_history  * 여기서 ifNo 생성
-            this.saveIfOrderDetail(orderSearchData); // if_order_detail : tb_order_detail
+            this.saveIfOrderMaster(orderSearchData); // if_order_master : tb_member, tb_member_address, tb_order_master  * 여기서 ifNo 생성
+            this.saveIfOrderDetail(orderSearchData); // if_order_detail : tb_order_detail, tb_order_history
         }
     }
 
@@ -106,9 +106,9 @@ public class OrderSearch {
         ifOrderMaster.setReceiverAddr2(orderSearchData.getOrderInfoData().get(0).getReceiverAddressSub());
         ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
         ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
-        ifOrderMaster.setOrderId(orderSearchData.getMemId().split("@")[0]);
+        ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
 //        System.out.println("----- "+ifOrderMaster.toString());
-        jpaIfOrderMasterRepository.save(ifOrderMaster);
+        em.persist(ifOrderMaster);
     }
 
     private void saveIfOrderDetail(OrderSearchData orderSearchData) {
@@ -129,7 +129,7 @@ public class OrderSearch {
             ifOrderDetail.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
             ifOrderDetail.setChannelOrderSeq(Long.toString(orderGoodsData.getSno()));
             ifOrderDetail.setChannelOrderStatus(orderSearchData.getOrderStatus());
-            ifOrderDetail.setChannelGoodsType(orderGoodsData.getGoodsType());
+            ifOrderDetail.setChannelGoodsType(changeGoodsAddGoodsToCode(orderGoodsData.getGoodsType()));
             ifOrderDetail.setChannelGoodsNo(orderGoodsData.getGoodsNo());
             ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
             ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
@@ -144,10 +144,22 @@ public class OrderSearch {
             ifOrderDetail.setMemberDcPrice(orderGoodsData.getMemberDcPrice());
             ifOrderDetail.setDeliveryMethodGb(orderGoodsData.getDeliveryMethodFl());
             ifOrderDetail.setDeliPrice(orderGoodsData.getGoodsDeliveryCollectPrice());
-            ifOrderDetail.setOrderId(orderSearchData.getMemId().split("@")[0]);
+            ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
 
             jpaIfOrderDetailRepository.save(ifOrderDetail);
         }
+    }
+
+    // goods -> 001, add_goods -> 002로 반환
+    private String changeGoodsAddGoodsToCode(String goodsType) {
+        String code = "";
+        if(goodsType.equals(StringFactory.getStrGoods())){
+            code = StringFactory.getThreeStartCd(); // 001
+        }
+        else if(goodsType.equals(StringFactory.getStrAddGoods())) {
+            code = StringUtils.leftPad(StringFactory.getStrTwo(),3,'0');
+        }
+        return code;
     }
 
     // goods xml 받아오는 함수
@@ -178,44 +190,55 @@ public class OrderSearch {
 
     @Transactional
     public void saveOneIfNo(String ifNo, IfOrderMaster ifOrderMaster) {
-        // tb_order_master, tb_order_history, tb_member, tb_member_address 저장
+        // tb_order_master, tb_member, tb_member_address 저장
         TbOrderMaster tbOrderMaster = saveTbOrderMaster(ifOrderMaster);
-        saveTbOrderHistory(ifOrderMaster, tbOrderMaster);
         TbMember tbMember = saveTbMember(ifOrderMaster);
         saveTbMemberAddress(ifOrderMaster, tbMember);
         
-        // tb_order_detail
+        // tb_order_detail, tb_order_history
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
-            saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
+            TbOrderDetail tbOrderDetail = saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
+            saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
         }
     }
 
-    private void saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
+    private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
         GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","").get(0);
-        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndGoodsNm(ifOrderDetail.getOrderId(), goodsSearchData.getGoodsNm());
+        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
+        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndGoodsNm(tbOrderMaster.getOrderId(), goodsSearchData.getGoodsNm());
         Ititmm ititmm = jpaItitmmRepository.findByItemNm(ifOrderDetail.getChannelGoodsNm());
         if(tbOrderDetail == null){
             tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);
         }
-        tbOrderDetail.setStatusCd("A01"); // 추후 수정
-        tbOrderDetail.setAssortGb("001"); // 추후 수정
+        tbOrderDetail.setStatusCd(StringFactory.getStrAOne()); // 고도몰에서는 A01 상태만 가져옴.
+        tbOrderDetail.setAssortGb(ifOrderDetail.getChannelGoodsType()); // 001 : goods, 002 : add_goods
         tbOrderDetail.setAssortId(ititmm.getAssortId());
         tbOrderDetail.setItemId(ititmm.getItemId());
         tbOrderDetail.setGoodsNm(ititmm.getItemNm());
         tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
         tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice());
+        float goodsDcPrice = ifOrderDetail.getGoodsDcPrice() == null? 0 : ifOrderDetail.getGoodsDcPrice();
+        float memberDcPrice = ifOrderDetail.getMemberDcPrice() == null? 0 : ifOrderDetail.getMemberDcPrice();
+        float couponDcPrice = ifOrderDetail.getCouponDcPrice() == null? 0 : ifOrderDetail.getCouponDcPrice();
+        float adminDcPrice = ifOrderDetail.getAdminDcPrice() == null? 0 : ifOrderDetail.getAdminDcPrice();
         tbOrderDetail.setGoodsDcPrice(ifOrderDetail.getGoodsDcPrice());
         tbOrderDetail.setMemberDcPrice(ifOrderDetail.getMemberDcPrice());
         tbOrderDetail.setCouponDcPrice(ifOrderDetail.getCouponDcPrice());
         tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice());
-//        tbOrderDetail.setDcSumPrice(ifOrderDetail.getGoodsDcPrice() + ifOrderDetail.getMemberDcPrice() + ifOrderDetail.getCouponDcPrice() + ifOrderDetail.getAdminDcPrice());
+        tbOrderDetail.setDcSumPrice(goodsDcPrice + memberDcPrice + couponDcPrice + adminDcPrice);
+        tbOrderDetail.setSalePrice(tbOrderDetail.getGoodsPrice() - tbOrderDetail.getDcSumPrice());
         tbOrderDetail.setDeliMethod(ifOrderDetail.getDeliveryMethodGb()); // 추후 수정
         tbOrderDetail.setDeliPrice(ifOrderDetail.getDeliPrice());
         tbOrderDetail.setChannelOrderNo(ifOrderDetail.getChannelOrderNo());
         tbOrderDetail.setChannelOrderSeq(ifOrderDetail.getChannelOrderSeq());
 
+        tbOrderDetail.setLastGb(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
+        tbOrderDetail.setLastCategoryId(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
+        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0'));
+
         em.persist(tbOrderDetail);
+        return tbOrderDetail;
     }
 
     private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster) {
@@ -246,21 +269,21 @@ public class OrderSearch {
         return tbOrderMaster;
     }
 
-    private void saveTbOrderHistory(IfOrderMaster ifOrderMaster, TbOrderMaster tbOrderMaster) {
-        TbOrderHistory tbOrderHistory = jpaTbOrderHistoryRepository.findByOrderIdAndEffEndDt(tbOrderMaster.getOrderId(), Utilities.getStringToDate(StringFactory.getDoomDay()));
+    private void saveTbOrderHistory(IfOrderDetail ifOrderDetail, TbOrderDetail tbOrderDetail) {
+        TbOrderHistory tbOrderHistory = jpaTbOrderHistoryRepository.findByOrderIdAndEffEndDt(tbOrderDetail.getOrderId(), Utilities.getStringToDate(StringFactory.getDoomDay()));
         if(tbOrderHistory == null){
-            tbOrderHistory = new TbOrderHistory(tbOrderMaster.getOrderId());
+            tbOrderHistory = new TbOrderHistory(tbOrderDetail.getOrderId());
         }
         else{
             tbOrderHistory.setEffEndDt(new Date());
             tbOrderHistory.setLastYn(StringUtils.leftPad(StringFactory.getStrOne(), 3,'0')); // 001 하드코딩
 
-            TbOrderHistory newTbOrderHistory = new TbOrderHistory(tbOrderMaster.getOrderId());
-            newTbOrderHistory.setOrderSeq(Utilities.plusOne(tbOrderHistory.getOrderSeq(), 3));
-            newTbOrderHistory.setStatusCd(" ?? "); // 추후 수정
+            TbOrderHistory newTbOrderHistory = new TbOrderHistory(tbOrderDetail.getOrderId());
+            newTbOrderHistory.setOrderSeq(tbOrderHistory.getOrderSeq());
+            newTbOrderHistory.setStatusCd(tbOrderDetail.getStatusCd()); // 추후 수정
             em.persist(newTbOrderHistory);
         }
-        tbOrderHistory.setStatusCd(" ?? "); // 추후 수정
+        tbOrderHistory.setStatusCd(tbOrderDetail.getStatusCd()); // 추후 수정
         em.persist(tbOrderHistory);
     }
 

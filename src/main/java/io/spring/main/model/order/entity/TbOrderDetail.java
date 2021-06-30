@@ -54,5 +54,7 @@ public class TbOrderDetail extends CommonProps
     private String deliMethod;
     private String channelOrderNo;
     private String channelOrderSeq;
+    private String lastGb;
+    private String lastCategoryId;
     private String storageId;
 }

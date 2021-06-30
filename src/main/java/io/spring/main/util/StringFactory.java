@@ -192,4 +192,17 @@ public class StringFactory {
     // xml 코드
     @Getter
     private final static String strSuccessCode = "000";
+
+    // 상태 코드 관련
+    @Getter
+    private final static String strAOne = "A01";
+    @Getter
+    private final static String strGoods = "goods";
+    @Getter
+    private final static String strAddGoods = "add_goods";
+
+
+    // 기호
+    @Getter
+    private final static String strAt = "@";
 }
