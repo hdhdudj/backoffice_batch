@@ -19,4 +19,5 @@ public class OrderStatus {
     @Value("${url.orderStatus}")
     private String orderStatus;
 
+
 }

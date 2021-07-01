@@ -86,7 +86,7 @@ public class TbOrderDetail extends CommonProps
     private Float deliPrice;
     private String deliMethod;
     private String channelOrderNo;
-    private String channelOrderSeq;
+    private String channelOrderSeq; // order_status의 sno
     private String lastGb;
     private String lastCategoryId;
     private String storageId;
