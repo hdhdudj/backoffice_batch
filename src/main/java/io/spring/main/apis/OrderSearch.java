@@ -76,15 +76,17 @@ public class OrderSearch {
         String ifNo;
         // ifNo 채번
         IfOrderMaster ioMaster = jpaIfOrderMasterRepository.findByChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
-        if(ioMaster == null){
-            ifNo = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9, '0');
+        IfOrderMaster ifOrderMaster = null;
+        if(ioMaster == null){ // insert
+            ifNo = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqIforderMaster()), 9, '0');
         }
-        else {
+        else { // update
             ifNo = ioMaster.getIfNo();
+            ifOrderMaster = ioMaster;
         }
         orderSearchData.setIfNo(ifNo);
-        IfOrderMaster ifOrderMaster = jpaIfOrderMasterRepository.findByChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
-        if(ifOrderMaster == null){
+        IfOrderMaster ifOrderMaster2 = null;
+        if(ifOrderMaster == null){ // insert
             ifOrderMaster = objectMapper.convertValue(orderSearchData, IfOrderMaster.class);
         }
         // not null 컬럼들 설정
@@ -107,7 +109,6 @@ public class OrderSearch {
         ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
         ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
         ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
-//        System.out.println("----- "+ifOrderMaster.toString());
         em.persist(ifOrderMaster);
     }
 
@@ -228,16 +229,17 @@ public class OrderSearch {
         GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndGoodsNm(tbOrderMaster.getOrderId(), goodsSearchData.getGoodsNm());
-        Ititmm ititmm = jpaItitmmRepository.findByItemNm(ifOrderDetail.getChannelGoodsNm());
-        if(tbOrderDetail == null){
+        Ititmm ititmm = tbOrderDetail == null? jpaItitmmRepository.findByItemNm(goodsSearchData.getGoodsNm()) : tbOrderDetail.getItitmm();
+        if(tbOrderDetail == null){ // insert
             tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);
             String orderSeq = Utilities.plusOne(jpaTbOrderDetailRepository.findMaxOrderSeqWhereOrderId(tbOrderDetail.getOrderId()),3);
             tbOrderDetail.setOrderSeq(orderSeq == null? tbOrderDetail.getOrderSeq() : orderSeq);
         }
+        tbOrderDetail.setAssortId(ititmm.getAssortId());
+        TbOrderDetail compareTbOrderDetail = new TbOrderDetail(tbOrderDetail);
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
         tbOrderDetail.setStatusCd(StringFactory.getStrAOne()); // 고도몰에서는 A01 상태만 가져옴.
         tbOrderDetail.setAssortGb(ifOrderDetail.getChannelGoodsType()); // 001 : goods, 002 : add_goods
-        tbOrderDetail.setAssortId(ititmm.getAssortId());
         tbOrderDetail.setItemId(ititmm.getItemId());
         tbOrderDetail.setGoodsNm(ititmm.getItemNm());
         tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
@@ -262,7 +264,11 @@ public class OrderSearch {
         tbOrderDetail.setLastCategoryId(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
         tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0'));
 
-        em.persist(tbOrderDetail);
+        jpaTbOrderDetailRepository.save(tbOrderDetail);
+        // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
+        if(compareTbOrderDetail.equals(tbOrderDetail)){
+            tbOrderDetail = null;
+        }
         return tbOrderDetail;
     }
 
@@ -295,16 +301,20 @@ public class OrderSearch {
     }
 
     private void saveTbOrderHistory(IfOrderDetail ifOrderDetail, TbOrderDetail tbOrderDetail) {
-        TbOrderHistory tbOrderHistory = jpaTbOrderHistoryRepository.findByOrderIdAndEffEndDt(tbOrderDetail.getOrderId(), Utilities.getStringToDate(StringFactory.getDoomDay()));
-        if(tbOrderHistory == null){
-            tbOrderHistory = new TbOrderHistory(tbOrderDetail.getOrderId());
+        if(tbOrderDetail == null){
+            log.debug("tbOrderDetail의 값이 변화 없음.");
+            return;
         }
-        else{
+        TbOrderHistory tbOrderHistory = jpaTbOrderHistoryRepository.findByOrderIdAndOrderSeqAndEffEndDt(tbOrderDetail.getOrderId(), tbOrderDetail.getOrderSeq(), Utilities.getStringToDate(StringFactory.getDoomDay()));
+        if(tbOrderHistory == null){ // insert
+            tbOrderHistory = new TbOrderHistory(tbOrderDetail);
+        }
+        else{ // update
             tbOrderHistory.setEffEndDt(new Date());
             tbOrderHistory.setLastYn(StringUtils.leftPad(StringFactory.getStrOne(), 3,'0')); // 001 하드코딩
 
-            TbOrderHistory newTbOrderHistory = new TbOrderHistory(tbOrderDetail.getOrderId());
-            newTbOrderHistory.setOrderSeq(tbOrderHistory.getOrderSeq());
+            TbOrderHistory newTbOrderHistory = new TbOrderHistory(tbOrderDetail);
+//            newTbOrderHistory.setOrderSeq(tbOrderHistory.getOrderSeq());
             newTbOrderHistory.setStatusCd(tbOrderDetail.getStatusCd()); // 추후 수정
             em.persist(newTbOrderHistory);
         }
@@ -313,7 +323,7 @@ public class OrderSearch {
     }
 
     private TbMember saveTbMember(IfOrderMaster ifOrderMaster) {
-        TbMember tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail().split("@")[0]);
+        TbMember tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail().split(StringFactory.getStrAt())[0]);
         if(tbMember == null){
             tbMember = new TbMember(ifOrderMaster);
         }

@@ -25,9 +25,15 @@ public class StringFactory {
     @Getter
     private final static String strAnd = "&";
 
-    // GoodsController
+    // seq keyword
     @Getter
     private final static String seqItasrtStr = "seq_ITASRT";
+    @Getter
+    private final static String purchaseSeqStr = "seq_LSPCHM";
+    @Getter
+    private final static String depositPlanId = "seq_LSDPSP";
+    @Getter
+    private final static String seqIforderMaster = "seq_IFORDERMASTER";
 
     //jpaCommonService
     @Getter
@@ -49,10 +55,6 @@ public class StringFactory {
     private final static String splitGb = "\\^\\|\\^";
 
     // jpaPurchaseService
-    @Getter
-    private final static String purchaseSeqStr = "seq_LSPCHM";
-    @Getter
-    private final static String depositPlanId = "seq_LSDPSP";
     @Getter
     private final static String ninetyNine = "99";
     @Getter

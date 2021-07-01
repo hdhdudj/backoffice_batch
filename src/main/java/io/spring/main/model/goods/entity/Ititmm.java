@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "ititmm")
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItitmmId.class)
-public class Ititmm extends CommonProps{
+public class Ititmm extends CommonProps implements Serializable {
     public Ititmm(Itasrt itasrt, Itvari itvari){ // 옵션데이터 없을때(단품일때)
         this.assortId = itasrt.getAssortId();
         this.shortYn = itasrt.getShortageYn();
