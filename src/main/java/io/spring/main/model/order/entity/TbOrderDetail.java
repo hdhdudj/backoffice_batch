@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(TbOrderDetailId.class)
-@EqualsAndHashCode(exclude = {"regDt", "regId", "updDt", "updId", "ititmm"})
+@EqualsAndHashCode(exclude = {"ititmm"}, callSuper = false)
 public class TbOrderDetail extends CommonProps
 {
     public TbOrderDetail(TbOrderMaster tbOrderMaster, Ititmm ititmm){

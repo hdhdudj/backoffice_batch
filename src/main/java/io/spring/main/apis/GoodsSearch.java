@@ -181,7 +181,7 @@ public class GoodsSearch {
 
     @Transactional
     public void saveIfTables(String fromDt, String toDt){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
-        List<GoodsSearchData> goodsSearchDataList = retrieveGoods(null, fromDt, toDt);
+        List<GoodsSearchData> goodsSearchDataList = retrieveGoods("", fromDt, toDt);
 //        String assortId = "";
 
         // 1. if table 저장

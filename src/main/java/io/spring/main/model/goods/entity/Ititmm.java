@@ -27,6 +27,10 @@ public class Ititmm extends CommonProps implements Serializable {
         itemNm = itasrt.getAssortNm();
         addPrice = StringFactory.getStrZero();
     }
+
+    public Ititmm(String itemNm){
+        this.itemNm = itemNm;
+    }
     public Ititmm(IfGoodsOption ifGoodsOption){
         super(ifGoodsOption.getRegDt(), ifGoodsOption.getModDt());
         this.assortId = ifGoodsOption.getAssortId();

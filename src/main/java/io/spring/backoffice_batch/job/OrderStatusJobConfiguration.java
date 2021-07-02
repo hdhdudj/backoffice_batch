@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 public class OrderStatusJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final OrderStatus orderStatus;
+//    private final OrderStatus orderStatus;
 
     @Bean
     public Job orderStatus(){

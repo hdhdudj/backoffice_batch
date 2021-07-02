@@ -1,18 +1,14 @@
 package io.spring.main.apis;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.spring.main.jparepos.common.JpaSequenceDataRepository;
-import io.spring.main.jparepos.goods.JpaItitmmRepository;
+import io.spring.main.jparepos.common.*;
+import io.spring.main.jparepos.goods.*;
 import io.spring.main.jparepos.order.*;
-import io.spring.main.model.goods.GoodsSearchData;
-import io.spring.main.model.goods.entity.IfGoodsMaster;
-import io.spring.main.model.goods.entity.Ititmm;
-import io.spring.main.model.order.OrderSearchData;
+import io.spring.main.model.goods.*;
+import io.spring.main.model.goods.entity.*;
+import io.spring.main.model.order.*;
 import io.spring.main.model.order.entity.*;
-import io.spring.main.model.order.idclass.TbOrderDetailId;
-import io.spring.main.util.StringFactory;
-import io.spring.main.util.Utilities;
+import io.spring.main.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.NodeList;
 
 import javax.persistence.EntityManager;
-import javax.rmi.CORBA.Util;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -57,8 +52,8 @@ public class OrderSearch {
 
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
-    public void saveIfTables(String startDt, String endDt){
-        List<OrderSearchData> orderSearchDataList = retrieveOrders("2106301555509122", startDt, endDt);
+    public void saveIfTables(String orderNo, String startDt, String endDt){
+        List<OrderSearchData> orderSearchDataList = retrieveOrders(orderNo, startDt, endDt);
 
         // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
@@ -147,7 +142,7 @@ public class OrderSearch {
             ifOrderDetail.setDeliPrice(orderGoodsData.getGoodsDeliveryCollectPrice());
             ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
 
-            jpaIfOrderDetailRepository.save(ifOrderDetail);
+            em.persist(ifOrderDetail);
         }
     }
 
@@ -229,6 +224,7 @@ public class OrderSearch {
         GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndGoodsNm(tbOrderMaster.getOrderId(), goodsSearchData.getGoodsNm());
+//        System.out.println("===== itemNm : " + goodsSearchData.getGoodsNm());
         Ititmm ititmm = tbOrderDetail == null? jpaItitmmRepository.findByItemNm(goodsSearchData.getGoodsNm()) : tbOrderDetail.getItitmm();
         if(tbOrderDetail == null){ // insert
             tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);
@@ -264,7 +260,7 @@ public class OrderSearch {
         tbOrderDetail.setLastCategoryId(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
         tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0'));
 
-        jpaTbOrderDetailRepository.save(tbOrderDetail);
+        em.persist(tbOrderDetail);
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         if(compareTbOrderDetail.equals(tbOrderDetail)){
             tbOrderDetail = null;
