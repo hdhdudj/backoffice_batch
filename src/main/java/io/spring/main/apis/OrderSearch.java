@@ -225,6 +225,7 @@ public class OrderSearch {
         }
         ifOrderMaster.setIfStatus(StringFactory.getGbTwo()); // ifStatus 02로 변경
 //        em.persist(ifOrderMaster);
+//        log.debug("ifNo : "+ifOrderMaster.getIfNo());
 //        System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 트랜잭션 끝");
         return ifOrderMaster;
     }

@@ -63,7 +63,7 @@ public class OrderSearchJobConfiguration {
                 .build();
     }
 
-        @Bean
+    @Bean
     public Step searchOrderStep2(){
         log.info("----- This is searchOrderStep2");
         return stepBuilderFactory.get("searchOrderStep2")

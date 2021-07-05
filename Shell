@@ -1,0 +1,4 @@
+# Jenkins에서 쓰는 Shell Script
+
+date="$(date +%Y)-$(date +%m)-$(date +%d) $(date +%H):$(date +%M):$(date +%S)"
+java -jar /var/jenkins_home/jar/backoffice_batch-0.0.1-SNAPSHOT.jar version={$date}
