@@ -57,7 +57,10 @@ public class OrderSearch {
 
         // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
-            this.saveIfOrderMaster(orderSearchData); // if_order_master : tb_member, tb_member_address, tb_order_master  * 여기서 ifNo 생성
+            IfOrderMaster ifOrderMaster = this.saveIfOrderMaster(orderSearchData); // if_order_master : tb_member, tb_member_address, tb_order_master  * 여기서 ifNo 생성
+            if(ifOrderMaster == null){
+                continue;
+            }
             this.saveIfOrderDetail(orderSearchData); // if_order_detail : tb_order_detail, tb_order_history
         }
     }
@@ -67,7 +70,7 @@ public class OrderSearch {
         return ifOrderMasterList;
     }
 
-    private void saveIfOrderMaster(OrderSearchData orderSearchData) {
+    private IfOrderMaster saveIfOrderMaster(OrderSearchData orderSearchData) {
         String ifNo;
         // ifNo 채번
         IfOrderMaster ioMaster = jpaIfOrderMasterRepository.findByChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
@@ -75,20 +78,21 @@ public class OrderSearch {
         if(ioMaster == null){ // insert
             ifNo = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqIforderMaster()), 9, '0');
         }
-        else { // update
-            ifNo = ioMaster.getIfNo();
-            ifOrderMaster = ioMaster;
+        else { // update 되는 일은 원칙적으로 없음.
+            return null;
+//            ifNo = ioMaster.getIfNo();
+//            ifOrderMaster = ioMaster;
         }
         orderSearchData.setIfNo(ifNo);
         IfOrderMaster ifOrderMaster2 = null;
         if(ifOrderMaster == null){ // insert
             ifOrderMaster = objectMapper.convertValue(orderSearchData, IfOrderMaster.class);
+            ifOrderMaster.setIfStatus(StringFactory.getGbOne());
         }
         // not null 컬럼들 설정
         ifOrderMaster.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
         ifOrderMaster.setChannelOrderStatus(orderSearchData.getOrderStatus());
         ifOrderMaster.setCustomerId((String)(((Map<String, Object>)(Utilities.makeStringToMap(orderSearchData.getAddField()).get("1"))).get("data")));
-        ifOrderMaster.setIfStatus(StringFactory.getGbOne());
         ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
         // https://docs.google.com/spreadsheets/d/1Uou2nQFtydm6Jam8LXG77v1uVnqBbxJDxCq0OcJ2MHc/edit#gid=841263646
         ifOrderMaster.setOrderName(orderSearchData.getOrderInfoData().get(0).getOrderName());
@@ -105,6 +109,8 @@ public class OrderSearch {
         ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
         ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
         em.persist(ifOrderMaster);
+
+        return ifOrderMaster;
     }
 
     private void saveIfOrderDetail(OrderSearchData orderSearchData) {
@@ -205,7 +211,8 @@ public class OrderSearch {
     }
 
     @Transactional
-    public void saveOneIfNo(String ifNo, IfOrderMaster ifOrderMaster) {
+    public void saveOneIfNo(IfOrderMaster ifOrderMaster) {
+        System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ ifNo : " + ifOrderMaster.getIfNo());
         // tb_order_master, tb_member, tb_member_address 저장
         TbOrderMaster tbOrderMaster = saveTbOrderMaster(ifOrderMaster);
         TbMember tbMember = saveTbMember(ifOrderMaster);
@@ -218,13 +225,14 @@ public class OrderSearch {
         }
         ifOrderMaster.setIfStatus(StringFactory.getGbTwo()); // ifStatus 02로 변경
         em.persist(ifOrderMaster);
+        System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 트랜잭션 끝");
     }
 
     private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
         GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndGoodsNm(tbOrderMaster.getOrderId(), goodsSearchData.getGoodsNm());
-//        System.out.println("===== itemNm : " + goodsSearchData.getGoodsNm());
+        System.out.println("===== itemNm : " + goodsSearchData.getGoodsNm());
         Ititmm ititmm = tbOrderDetail == null? jpaItitmmRepository.findByItemNm(goodsSearchData.getGoodsNm()) : tbOrderDetail.getItitmm();
         if(tbOrderDetail == null){ // insert
             tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);
