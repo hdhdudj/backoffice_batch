@@ -211,7 +211,7 @@ public class OrderSearch {
     }
 
     @Transactional
-    public void saveOneIfNo(IfOrderMaster ifOrderMaster) {
+    public IfOrderMaster saveOneIfNo(IfOrderMaster ifOrderMaster) {
         System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ ifNo : " + ifOrderMaster.getIfNo());
         // tb_order_master, tb_member, tb_member_address 저장
         TbOrderMaster tbOrderMaster = saveTbOrderMaster(ifOrderMaster);
@@ -224,8 +224,9 @@ public class OrderSearch {
             saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
         }
         ifOrderMaster.setIfStatus(StringFactory.getGbTwo()); // ifStatus 02로 변경
-        em.persist(ifOrderMaster);
-        System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 트랜잭션 끝");
+//        em.persist(ifOrderMaster);
+//        System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 트랜잭션 끝");
+        return ifOrderMaster;
     }
 
     private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
