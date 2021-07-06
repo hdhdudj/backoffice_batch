@@ -35,6 +35,7 @@ public class GoodsSearchJobConfiguration {
     private final EntityManagerFactory entityManagerFactory;
     private final GoodsSearch goodsSearch;
     private static final int chunkSize = 1;
+    private int cnt = 0;
 
     @Bean
     public Job searchGoodsJob(){
@@ -71,16 +72,25 @@ public class GoodsSearchJobConfiguration {
 
     @Bean
     public JpaPagingItemReader jpaGoodsSearchItemWriterReader() {
-        return new JpaPagingItemReaderBuilder<IfGoodsMaster>()
-                .name("jpaGoodsSearchItemWriterReader")
-                .entityManagerFactory(entityManagerFactory)
-                .pageSize(1)
-                .queryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01'")
-                .build();
+
+        JpaPagingItemReader r=null;
+    try {
+        r = new JpaPagingItemReaderBuilder<IfGoodsMaster>()
+            .name("jpaGoodsSearchItemWriterReader")
+            .entityManagerFactory(entityManagerFactory)
+            .pageSize(1)
+            .queryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' order by i.goodsNo asc")
+            .build();
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+        return r;
     }
 
     @Bean
     public ItemProcessor<IfGoodsMaster, IfGoodsMaster> jpaGoodsSearchItemProcessor() {
+//        System.out.println("----- cnt : " + cnt);
+//        cnt++;
         return ifGoodsMaster -> goodsSearch.saveOneGoodsNo(ifGoodsMaster.getGoodsNo(),ifGoodsMaster);
     }
 

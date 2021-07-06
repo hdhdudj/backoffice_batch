@@ -44,6 +44,7 @@ public class GoodsSearch {
 
     private final List<String> goodsSearchGotListPropsMap;
 
+
     // 고도몰 관련 값들
     @Value("${pKey}")
     private String pKey;
@@ -382,7 +383,10 @@ public class GoodsSearch {
         if(ifCategory != null){
             ifGoodsMaster.setCateCd(ifCategory.getCategoryId());
         }
-
+        else {
+            ifGoodsMaster.setCateCd("");
+        }
+//        log.debug("----- cateCd : " + ifGoodsMaster.getCateCd());
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
         return ifGoodsMaster;
     }

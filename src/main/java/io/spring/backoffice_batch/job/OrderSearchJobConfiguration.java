@@ -29,69 +29,69 @@ import java.util.Date;
 @Configuration
 @ComponentScan(value = "io.spring.main.apis")
 public class OrderSearchJobConfiguration {
-    private final JobBuilderFactory jobBuilderFactory;
-    private final StepBuilderFactory stepBuilderFactory;
-    private final EntityManagerFactory entityManagerFactory;
-    private final OrderSearch orderSearch;
-
-    private static final int chunkSize = 1;
-
-
-    @Bean
-    public Job searchOrderJob(){
-        return jobBuilderFactory.get("searchOrderJob")
-                .start(searchOrderStep1())
-                .next(searchOrderStep2())
-                .incrementer(new UniqueRunIdIncrementer())
-                .build();
-    }
-
-    @Bean
-    public Step searchOrderStep1(){
-        return stepBuilderFactory.get("searchOrderStep1")
-                .tasklet((contribution, chunkContext) -> {
-                    log.info("----- This is searchOrderStep1");
-                    // 트랜잭션1. if table 저장
-                    String startDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7);
-                    String endDt = Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
-                    orderSearch.saveIfTables("", startDt, endDt); //"2106301555509122"
-                    return RepeatStatus.FINISHED;
-                })
-                .build();
-    }
-
-    @Bean
-    public Step searchOrderStep2(){
-        log.info("----- This is searchOrderStep2");
-        return stepBuilderFactory.get("searchOrderStep2")
-                .<IfOrderMaster, String>chunk(chunkSize)
-                .reader(jpaOrderSearchItemWriterReader())
-                .processor(jpaOrderSearchItemProcessor())
-                .writer(jpaOrderSearchItemWriter())
-                .build();
-    }
-
-    @Bean
-    public JpaPagingItemReader jpaOrderSearchItemWriterReader() {
-        return new JpaPagingItemReaderBuilder<IfOrderMaster>()
-                .name("jpaOrderSearchItemWriterReader")
-                .entityManagerFactory(entityManagerFactory)
-                .pageSize(chunkSize)
-                .queryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01'")
-                .build();
-    }
-
-    @Bean
-    public ItemProcessor<IfOrderMaster, IfOrderMaster> jpaOrderSearchItemProcessor() {
-        return ifOrderMaster -> orderSearch.saveOneIfNo(ifOrderMaster);
-    }
-
-    @Bean
-    public JpaItemWriter jpaOrderSearchItemWriter() {
-        JpaItemWriter jpaItemWriter = new JpaItemWriter();
-        jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
-        return jpaItemWriter;
-    }
+//    private final JobBuilderFactory jobBuilderFactory;
+//    private final StepBuilderFactory stepBuilderFactory;
+//    private final EntityManagerFactory entityManagerFactory;
+//    private final OrderSearch orderSearch;
+//
+//    private static final int chunkSize = 1;
+//
+//
+//    @Bean
+//    public Job searchOrderJob(){
+//        return jobBuilderFactory.get("searchOrderJob")
+//                .start(searchOrderStep1())
+//                .next(searchOrderStep2())
+//                .incrementer(new UniqueRunIdIncrementer())
+//                .build();
+//    }
+//
+//    @Bean
+//    public Step searchOrderStep1(){
+//        return stepBuilderFactory.get("searchOrderStep1")
+//                .tasklet((contribution, chunkContext) -> {
+//                    log.info("----- This is searchOrderStep1");
+//                    // 트랜잭션1. if table 저장
+//                    String startDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7);
+//                    String endDt = Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
+//                    orderSearch.saveIfTables("", startDt, endDt); //"2106301555509122"
+//                    return RepeatStatus.FINISHED;
+//                })
+//                .build();
+//    }
+//
+//    @Bean
+//    public Step searchOrderStep2(){
+//        log.info("----- This is searchOrderStep2");
+//        return stepBuilderFactory.get("searchOrderStep2")
+//                .<IfOrderMaster, String>chunk(chunkSize)
+//                .reader(jpaOrderSearchItemWriterReader())
+//                .processor(jpaOrderSearchItemProcessor())
+//                .writer(jpaOrderSearchItemWriter())
+//                .build();
+//    }
+//
+//    @Bean
+//    public JpaPagingItemReader jpaOrderSearchItemWriterReader() {
+//        return new JpaPagingItemReaderBuilder<IfOrderMaster>()
+//                .name("jpaOrderSearchItemWriterReader")
+//                .entityManagerFactory(entityManagerFactory)
+//                .pageSize(chunkSize)
+//                .queryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01' order by i.goodsNo asc")
+//                .build();
+//    }
+//
+//    @Bean
+//    public ItemProcessor<IfOrderMaster, IfOrderMaster> jpaOrderSearchItemProcessor() {
+//        return ifOrderMaster -> orderSearch.saveOneIfNo(ifOrderMaster);
+//    }
+//
+//    @Bean
+//    public JpaItemWriter jpaOrderSearchItemWriter() {
+//        JpaItemWriter jpaItemWriter = new JpaItemWriter();
+//        jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
+//        return jpaItemWriter;
+//    }
 
 //    @Bean
 //    public Step searchOrderStep2(){
