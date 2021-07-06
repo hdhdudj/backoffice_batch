@@ -2,8 +2,6 @@ package io.spring.backoffice_batch.job;
 
 import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
 import io.spring.main.apis.OrderSearch;
-import io.spring.main.apis.XmlSave;
-import io.spring.main.model.goods.entity.IfGoodsMaster;
 import io.spring.main.model.order.entity.IfOrderMaster;
 import io.spring.main.util.StringFactory;
 import io.spring.main.util.Utilities;
@@ -25,7 +23,6 @@ import org.springframework.context.annotation.Configuration;
 import javax.persistence.EntityManagerFactory;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -68,16 +65,16 @@ public class OrderSearchJobConfiguration {
         log.info("----- This is searchOrderStep2");
         return stepBuilderFactory.get("searchOrderStep2")
                 .<IfOrderMaster, String>chunk(chunkSize)
-                .reader(jpaItemWriterReader())
-                .processor(jpaItemProcessor())
-                .writer(jpaItemWriter())
+                .reader(jpaOrderSearchItemWriterReader())
+                .processor(jpaOrderSearchItemProcessor())
+                .writer(jpaOrderSearchItemWriter())
                 .build();
     }
 
     @Bean
-    public JpaPagingItemReader jpaItemWriterReader() {
+    public JpaPagingItemReader jpaOrderSearchItemWriterReader() {
         return new JpaPagingItemReaderBuilder<IfOrderMaster>()
-                .name("jpaItemWriterReader")
+                .name("jpaOrderSearchItemWriterReader")
                 .entityManagerFactory(entityManagerFactory)
                 .pageSize(chunkSize)
                 .queryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01'")
@@ -85,12 +82,12 @@ public class OrderSearchJobConfiguration {
     }
 
     @Bean
-    public ItemProcessor<IfOrderMaster, IfOrderMaster> jpaItemProcessor() {
+    public ItemProcessor<IfOrderMaster, IfOrderMaster> jpaOrderSearchItemProcessor() {
         return ifOrderMaster -> orderSearch.saveOneIfNo(ifOrderMaster);
     }
 
     @Bean
-    public JpaItemWriter jpaItemWriter() {
+    public JpaItemWriter jpaOrderSearchItemWriter() {
         JpaItemWriter jpaItemWriter = new JpaItemWriter();
         jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
         return jpaItemWriter;

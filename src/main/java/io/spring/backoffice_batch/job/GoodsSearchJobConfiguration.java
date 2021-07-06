@@ -2,7 +2,6 @@ package io.spring.backoffice_batch.job;
 
 import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
 import io.spring.main.model.goods.entity.IfGoodsMaster;
-import io.spring.main.model.order.entity.IfOrderMaster;
 import io.spring.main.util.StringFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,30 +62,30 @@ public class GoodsSearchJobConfiguration {
     public Step searchGoodsStep2(){
         log.info("----- This is searchGoodsStep2");
         return stepBuilderFactory.get("searchGoodsStep2")
-                .<IfOrderMaster, String>chunk(chunkSize)
-                .reader(jpaItemWriterReader())
-                .processor(jpaItemProcessor())
-                .writer(jpaItemWriter())
+                .<IfGoodsMaster, String>chunk(chunkSize)
+                .reader(jpaGoodsSearchItemWriterReader())
+                .processor(jpaGoodsSearchItemProcessor())
+                .writer(jpaGoodsSearchItemWriter())
                 .build();
     }
 
     @Bean
-    public JpaPagingItemReader jpaItemWriterReader() {
-        return new JpaPagingItemReaderBuilder<IfOrderMaster>()
-                .name("jpaItemWriterReader")
+    public JpaPagingItemReader jpaGoodsSearchItemWriterReader() {
+        return new JpaPagingItemReaderBuilder<IfGoodsMaster>()
+                .name("jpaGoodsSearchItemWriterReader")
                 .entityManagerFactory(entityManagerFactory)
-                .pageSize(chunkSize)
-                .queryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01'")
+                .pageSize(1)
+                .queryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01'")
                 .build();
     }
 
     @Bean
-    public ItemProcessor<IfGoodsMaster, IfGoodsMaster> jpaItemProcessor() {
-        return ifOrderMaster -> goodsSearch.saveOneGoodsNo(ifOrderMaster);
+    public ItemProcessor<IfGoodsMaster, IfGoodsMaster> jpaGoodsSearchItemProcessor() {
+        return ifGoodsMaster -> goodsSearch.saveOneGoodsNo(ifGoodsMaster.getGoodsNo(),ifGoodsMaster);
     }
 
     @Bean
-    public JpaItemWriter jpaItemWriter() {
+    public JpaItemWriter jpaGoodsSearchItemWriter() {
         JpaItemWriter jpaItemWriter = new JpaItemWriter();
         jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
         return jpaItemWriter;

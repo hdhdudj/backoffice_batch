@@ -82,7 +82,7 @@ public class GoodsSearch {
     }
 
     @Transactional
-    public void saveOneGoodsNo(String goodsNo, IfGoodsMaster ifGoodsMaster) {
+    public IfGoodsMaster saveOneGoodsNo(String goodsNo, IfGoodsMaster ifGoodsMaster) {
         // 2. itasrt, itasrn, itasrd (from if_goods_master) 저장
         // itadgs (from if_goods_add_goods) 저장
         Itasrt itasrt = this.saveItasrt(ifGoodsMaster); // itasrt
@@ -164,6 +164,8 @@ public class GoodsSearch {
             StringFactory.getGbTwo(); // 02 하드코딩
             jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
         }
+
+        return ifGoodsMaster;
     }
 
     private void saveSingleItitmm(Itasrt itasrt, Itvari itvari) {
