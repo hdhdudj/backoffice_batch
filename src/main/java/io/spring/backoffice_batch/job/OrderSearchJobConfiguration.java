@@ -2,6 +2,7 @@ package io.spring.backoffice_batch.job;
 
 import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
 import io.spring.main.apis.OrderSearch;
+import io.spring.main.model.goods.entity.IfGoodsMaster;
 import io.spring.main.model.order.entity.IfOrderMaster;
 import io.spring.main.util.StringFactory;
 import io.spring.main.util.Utilities;
@@ -10,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
@@ -29,69 +32,74 @@ import java.util.Date;
 @Configuration
 @ComponentScan(value = "io.spring.main.apis")
 public class OrderSearchJobConfiguration {
-//    private final JobBuilderFactory jobBuilderFactory;
-//    private final StepBuilderFactory stepBuilderFactory;
-//    private final EntityManagerFactory entityManagerFactory;
-//    private final OrderSearch orderSearch;
-//
-//    private static final int chunkSize = 1;
-//
-//
-//    @Bean
-//    public Job searchOrderJob(){
-//        return jobBuilderFactory.get("searchOrderJob")
-//                .start(searchOrderStep1())
-//                .next(searchOrderStep2())
-//                .incrementer(new UniqueRunIdIncrementer())
-//                .build();
-//    }
-//
-//    @Bean
-//    public Step searchOrderStep1(){
-//        return stepBuilderFactory.get("searchOrderStep1")
-//                .tasklet((contribution, chunkContext) -> {
-//                    log.info("----- This is searchOrderStep1");
-//                    // 트랜잭션1. if table 저장
-//                    String startDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7);
-//                    String endDt = Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
-//                    orderSearch.saveIfTables("", startDt, endDt); //"2106301555509122"
-//                    return RepeatStatus.FINISHED;
-//                })
-//                .build();
-//    }
-//
-//    @Bean
-//    public Step searchOrderStep2(){
-//        log.info("----- This is searchOrderStep2");
-//        return stepBuilderFactory.get("searchOrderStep2")
-//                .<IfOrderMaster, String>chunk(chunkSize)
-//                .reader(jpaOrderSearchItemWriterReader())
-//                .processor(jpaOrderSearchItemProcessor())
-//                .writer(jpaOrderSearchItemWriter())
-//                .build();
-//    }
-//
-//    @Bean
-//    public JpaPagingItemReader jpaOrderSearchItemWriterReader() {
-//        return new JpaPagingItemReaderBuilder<IfOrderMaster>()
-//                .name("jpaOrderSearchItemWriterReader")
-//                .entityManagerFactory(entityManagerFactory)
-//                .pageSize(chunkSize)
-//                .queryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01' order by i.goodsNo asc")
-//                .build();
-//    }
-//
-//    @Bean
-//    public ItemProcessor<IfOrderMaster, IfOrderMaster> jpaOrderSearchItemProcessor() {
-//        return ifOrderMaster -> orderSearch.saveOneIfNo(ifOrderMaster);
-//    }
-//
-//    @Bean
-//    public JpaItemWriter jpaOrderSearchItemWriter() {
-//        JpaItemWriter jpaItemWriter = new JpaItemWriter();
-//        jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
-//        return jpaItemWriter;
-//    }
+    private final JobBuilderFactory jobBuilderFactory;
+    private final StepBuilderFactory stepBuilderFactory;
+    private final EntityManagerFactory entityManagerFactory;
+    private final OrderSearch orderSearch;
+
+    private static final int chunkSize = 1;
+
+
+    @Bean
+    public Job searchOrderJob(){
+        return jobBuilderFactory.get("searchOrderJob")
+                .start(searchOrderStep1())
+                .next(searchOrderStep2())
+                .incrementer(new UniqueRunIdIncrementer())
+                .build();
+    }
+
+    @Bean
+    public Step searchOrderStep1(){
+        return stepBuilderFactory.get("searchOrderStep1")
+                .tasklet((contribution, chunkContext) -> {
+                    log.info("----- This is searchOrderStep1");
+                    // 트랜잭션1. if table 저장
+                    String startDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7);
+                    String endDt = Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
+                    orderSearch.saveIfTables("", startDt, endDt); //"2106301555509122"
+                    return RepeatStatus.FINISHED;
+                })
+                .build();
+    }
+
+    @Bean
+    public Step searchOrderStep2(){
+        log.info("----- This is searchOrderStep2");
+        return stepBuilderFactory.get("searchOrderStep2")
+                .<IfOrderMaster, String>chunk(chunkSize)
+                .reader(jpaOrderSearchItemWriterReader())
+                .processor(jpaOrderSearchItemProcessor())
+                .writer(jpaOrderSearchItemWriter())
+                .build();
+    }
+
+    @Bean
+    public JpaPagingItemReader jpaOrderSearchItemWriterReader() {
+        JpaPagingItemReader<IfOrderMaster> jpaPagingItemReader = new JpaPagingItemReader<IfOrderMaster>(){
+            @Override
+            public int getPage() {
+                return 0;
+            }
+        };
+        jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
+        jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
+        jpaPagingItemReader.setPageSize(1);
+        jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01' order by i.ifNo asc");
+        return jpaPagingItemReader;
+    }
+
+    @Bean
+    public ItemProcessor<IfOrderMaster, IfOrderMaster> jpaOrderSearchItemProcessor() {
+        return ifOrderMaster -> orderSearch.saveOneIfNo(ifOrderMaster);
+    }
+
+    @Bean
+    public JpaItemWriter jpaOrderSearchItemWriter() {
+        JpaItemWriter jpaItemWriter = new JpaItemWriter();
+        jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
+        return jpaItemWriter;
+    }
 
 //    @Bean
 //    public Step searchOrderStep2(){

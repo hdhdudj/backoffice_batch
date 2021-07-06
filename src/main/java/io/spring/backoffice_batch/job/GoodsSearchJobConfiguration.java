@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
@@ -72,19 +74,17 @@ public class GoodsSearchJobConfiguration {
 
     @Bean
     public JpaPagingItemReader jpaGoodsSearchItemWriterReader() {
-
-        JpaPagingItemReader r=null;
-    try {
-        r = new JpaPagingItemReaderBuilder<IfGoodsMaster>()
-            .name("jpaGoodsSearchItemWriterReader")
-            .entityManagerFactory(entityManagerFactory)
-            .pageSize(1)
-            .queryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' order by i.goodsNo asc")
-            .build();
-    }catch(Exception e){
-        e.printStackTrace();
-    }
-        return r;
+        JpaPagingItemReader<IfGoodsMaster> jpaPagingItemReader = new JpaPagingItemReader<IfGoodsMaster>(){
+            @Override
+            public int getPage() {
+                return 0;
+            }
+        };
+        jpaPagingItemReader.setName("jpaGoodsSearchItemWriterReader");
+        jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
+        jpaPagingItemReader.setPageSize(1);
+        jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' order by i.goodsNo asc");
+        return jpaPagingItemReader;
     }
 
     @Bean
@@ -95,7 +95,7 @@ public class GoodsSearchJobConfiguration {
     }
 
     @Bean
-    public JpaItemWriter jpaGoodsSearchItemWriter() {
+    public JpaItemWriter<IfGoodsMaster> jpaGoodsSearchItemWriter() {
         JpaItemWriter jpaItemWriter = new JpaItemWriter();
         jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
         return jpaItemWriter;
