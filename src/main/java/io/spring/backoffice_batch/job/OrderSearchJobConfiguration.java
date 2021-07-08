@@ -84,8 +84,8 @@ public class OrderSearchJobConfiguration {
         };
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
-        jpaPagingItemReader.setPageSize(1);
-        jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01' order by i.ifNo asc");
+        jpaPagingItemReader.setPageSize(chunkSize);
+        jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01'");
         return jpaPagingItemReader;
     }
 

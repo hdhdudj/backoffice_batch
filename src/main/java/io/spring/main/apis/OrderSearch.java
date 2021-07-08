@@ -76,7 +76,11 @@ public class OrderSearch {
         IfOrderMaster ioMaster = jpaIfOrderMasterRepository.findByChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
         IfOrderMaster ifOrderMaster = null;
         if(ioMaster == null){ // insert
-            ifNo = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqIforderMaster()), 9, '0');
+            String num = jpaSequenceDataRepository.nextVal(StringFactory.getSeqIforderMaster());
+            if(num == null){
+                num = StringFactory.getStrOne();
+            }
+            ifNo = StringUtils.leftPad(num, 9, '0');
         }
         else { // update 되는 일은 원칙적으로 없음.
             return null;
@@ -108,7 +112,7 @@ public class OrderSearch {
         ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
         ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
         ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
-        em.persist(ifOrderMaster);
+        jpaIfOrderMasterRepository.save(ifOrderMaster);
 
         return ifOrderMaster;
     }
@@ -233,8 +237,9 @@ public class OrderSearch {
     private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
         GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
-        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndGoodsNm(tbOrderMaster.getOrderId(), goodsSearchData.getGoodsNm());
+        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeqAndGoodsNm(tbOrderMaster.getOrderId(), ifOrderDetail.getOrderSeq(), goodsSearchData.getGoodsNm());
         System.out.println("===== itemNm : " + goodsSearchData.getGoodsNm());
+        System.out.println("===== orderId : " + tbOrderMaster.getOrderId() + " ===== goodsNm : " + goodsSearchData.getGoodsNm());
         Ititmm ititmm = tbOrderDetail == null? jpaItitmmRepository.findByItemNm(goodsSearchData.getGoodsNm()) : tbOrderDetail.getItitmm();
         if(tbOrderDetail == null){ // insert
             tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);

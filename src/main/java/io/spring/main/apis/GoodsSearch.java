@@ -358,7 +358,11 @@ public class GoodsSearch {
     private IfGoodsMaster saveIfGoodsMaster(GoodsSearchData goodsSearchData) {
         String assortId = "";
         if(goodsSearchData.getAssortId() == null){
-            assortId = StringUtils.leftPad(jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr()), 9, '0');
+            String num = jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr());
+            if(num == null){
+                num = StringFactory.getStrOne();
+            }
+            assortId = StringUtils.leftPad(num, 9, '0');
             goodsSearchData.setAssortId(assortId);
         }
         else{

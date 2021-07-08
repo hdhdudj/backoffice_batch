@@ -24,7 +24,6 @@ public class TbOrderDetail extends CommonProps
     public TbOrderDetail(TbOrderMaster tbOrderMaster, Ititmm ititmm){
         orderId = tbOrderMaster.getOrderId();
         orderSeq = StringFactory.getThreeStartCd(); // 001 하드코딩
-        goodsNm = ititmm.getItemNm();
     }
     public TbOrderDetail(TbOrderDetail tbOrderDetail){
         orderId = tbOrderDetail.getOrderId();

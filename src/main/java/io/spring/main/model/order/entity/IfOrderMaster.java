@@ -2,6 +2,7 @@ package io.spring.main.model.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.model.goods.entity.Itbrnd;
 import io.spring.main.model.goods.idclass.IfBrandId;
 import io.spring.main.model.order.OrderSearchData;
@@ -20,7 +21,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "if_order_master")
-public class IfOrderMaster {
+public class IfOrderMaster extends CommonProps {
     public IfOrderMaster(OrderSearchData orderSearchData){
         ifNo = orderSearchData.getIfNo();
         channelOrderNo = Long.toString(orderSearchData.getOrderNo());
