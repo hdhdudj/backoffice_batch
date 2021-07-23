@@ -50,7 +50,7 @@ public class Utilities {
         }
         String calcRes = "";
         try{
-            calcRes = org.flywaydb.core.internal.util.StringUtils.leftPad(Long.toString(Long.parseLong(calcNeedStringNumber) + 1), length - 1, '0');
+            calcRes = org.flywaydb.core.internal.util.StringUtils.leftPad(Long.toString(Long.parseLong(calcNeedStringNumber)), length - 1, '0');
         }
         catch(Exception e){
             log.debug(e.getMessage());
