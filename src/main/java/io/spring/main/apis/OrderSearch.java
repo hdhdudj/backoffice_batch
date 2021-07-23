@@ -80,7 +80,7 @@ public class OrderSearch {
             if(num == null){
                 num = StringFactory.getStrOne();
             }
-            ifNo = StringUtils.leftPad(num, 9, '0');
+            ifNo = Utilities.getStringNo('O', num, 9);
         }
         else { // update 되는 일은 원칙적으로 없음.
             return null;
@@ -156,6 +156,8 @@ public class OrderSearch {
         }
     }
 
+    // 문자 형식 된 code를 숫자 형식으로 변환하는 함수
+    // delivery : 001, air : 002, ship : 003, quick : 004, 기타 : 005
     private String changeDeliMethodToCode(String deliveryMethodFl) {
         String code;
         if(deliveryMethodFl.equals(StringFactory.getStrDelivery())){
@@ -216,21 +218,19 @@ public class OrderSearch {
 
     @Transactional
     public IfOrderMaster saveOneIfNo(IfOrderMaster ifOrderMaster) {
-        System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ ifNo : " + ifOrderMaster.getIfNo());
         // tb_order_master, tb_member, tb_member_address 저장
-        TbOrderMaster tbOrderMaster = saveTbOrderMaster(ifOrderMaster);
-        TbMember tbMember = saveTbMember(ifOrderMaster);
-        saveTbMemberAddress(ifOrderMaster, tbMember);
+        TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster);
+        TbMember tbMember = this.saveTbMember(ifOrderMaster);
+        this.saveTbMemberAddress(ifOrderMaster, tbMember);
         
         // tb_order_detail, tb_order_history
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
-            TbOrderDetail tbOrderDetail = saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
+            TbOrderDetail tbOrderDetail = this.saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
             saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
         }
         ifOrderMaster.setIfStatus(StringFactory.getGbTwo()); // ifStatus 02로 변경
 //        em.persist(ifOrderMaster);
 //        log.debug("ifNo : "+ifOrderMaster.getIfNo());
-//        System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 트랜잭션 끝");
         return ifOrderMaster;
     }
 
@@ -287,14 +287,15 @@ public class OrderSearch {
 //        System.out.println("------ + " + ifOrderMaster.toString());
         TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         if(tbOrderMaster == null){
-            String ordId = jpaTbOrderMasterRepository.findMaxOrderId();
-            if(ordId == null){
-                ordId = StringUtils.leftPad(StringFactory.getStrOne(), 9, '0');
-            }
-            else{
-                ordId = Utilities.plusOne(ordId, 9);
-            }
-            tbOrderMaster = new TbOrderMaster(ordId);
+//            String ordId = jpaTbOrderMasterRepository.findMaxOrderId();
+//            if(ordId == null){
+//                ordId = StringUtils.leftPad(StringFactory.getStrOne(), 9, '0');
+//            }
+//            else{
+//                ordId = Utilities.plusOne(ordId, 9);
+//            }
+//            tbOrderMaster = new TbOrderMaster(ordId);
+            tbOrderMaster = new TbOrderMaster(ifOrderMaster.getIfNo());
         }
         tbOrderMaster.setChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         tbOrderMaster.setFirstOrderId(ifOrderMaster.getChannelOrderNo());

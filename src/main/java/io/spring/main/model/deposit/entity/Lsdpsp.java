@@ -1,15 +1,14 @@
 package io.spring.main.model.deposit.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.purchase.request.PurchaseInsertRequestData;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.extern.slf4j.Slf4j;;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,7 +23,7 @@ import java.util.Date;
 @Setter
 @Table(name="lsdpsp")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Lsdpsp implements Serializable {
+public class Lsdpsp extends CommonProps implements Serializable {
     public Lsdpsp(PurchaseInsertRequestData purchaseInsertRequestData, PurchaseInsertRequestData.Items items){
         this.depositPlanId = purchaseInsertRequestData.getDepositPlanId();
         try{
@@ -59,11 +58,6 @@ public class Lsdpsp implements Serializable {
     private String purchaseSeq;
     private String planChgReason;
     private String claimItemYn;
-    private Long regId;
-    private Long updId;
-    @CreationTimestamp
-    private Date regDt;
-    @UpdateTimestamp
-    private Date updDt;
-
+    private String purchaseGb;
+    private String dealTypeCd;
 }

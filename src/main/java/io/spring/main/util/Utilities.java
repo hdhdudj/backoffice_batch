@@ -37,7 +37,27 @@ public class Utilities {
         }
         return calcRes;
     }
-
+    /**
+     * 21-04-25 Pecan
+     * 유틸 함수 : char가 앞에 붙은 숫자 반환. (예 : C00000001 )
+     * @param calcNeedStringNumber
+     * @param length
+     * @return String
+     */
+    public static String getStringNo(char alphabet, String calcNeedStringNumber, int length){ // 들어온 string의 숫자는 정수여야 함
+        if(calcNeedStringNumber == null){
+            return null;
+        }
+        String calcRes = "";
+        try{
+            calcRes = org.flywaydb.core.internal.util.StringUtils.leftPad(Long.toString((long)Double.parseDouble(calcNeedStringNumber) + 1), length - 1, '0');
+        }
+        catch(Exception e){
+            log.debug(e.getMessage());
+        }
+        calcRes = alphabet + calcRes;
+        return calcRes;
+    }
     /**
      * 21-05-04 Pecan
      * 유틸 함수 : "9999-12-31 23:59:59"를 yyyy-MM-dd HH:mm:ss꼴 Date로 반환
