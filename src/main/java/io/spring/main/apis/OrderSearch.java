@@ -80,7 +80,8 @@ public class OrderSearch {
             if(num == null){
                 num = StringFactory.getStrOne();
             }
-            ifNo = Utilities.getStringNo('O', num, 9);
+//            ifNo = Utilities.getStringNo('O', num, 9);
+            ifNo = StringUtils.leftPad(num, 9, '0');
         }
         else { // update 되는 일은 원칙적으로 없음.
             return null;
@@ -193,6 +194,8 @@ public class OrderSearch {
     // goods xml 받아오는 함수
     public List<OrderSearchData> retrieveOrders(String orderNo, String fromDt, String toDt) {
         //OpenApi호출
+        fromDt = fromDt == null? "":fromDt;
+        toDt = toDt == null? "":toDt;
         String urlstr = orderSearchUrl + StringFactory.getStrQuestion() + StringFactory.getOrderSearchParams()[0] + StringFactory.getStrEqual() +
                 pKey + StringFactory.getStrAnd() +StringFactory.getOrderSearchParams()[1]
                 + StringFactory.getStrEqual() + key
@@ -295,7 +298,8 @@ public class OrderSearch {
 //                ordId = Utilities.plusOne(ordId, 9);
 //            }
 //            tbOrderMaster = new TbOrderMaster(ordId);
-            tbOrderMaster = new TbOrderMaster(ifOrderMaster.getIfNo());
+            String orderId = Utilities.getStringNo('O',ifOrderMaster.getIfNo(),9);
+            tbOrderMaster = new TbOrderMaster(orderId);
         }
         tbOrderMaster.setChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         tbOrderMaster.setFirstOrderId(ifOrderMaster.getChannelOrderNo());

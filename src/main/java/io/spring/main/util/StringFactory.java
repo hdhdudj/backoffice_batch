@@ -35,9 +35,11 @@ public class StringFactory {
     @Getter
     private final static String seqIforderMaster = "seq_IFORDERMASTER";
 
-    //jpaCommonService
+    // alphabet
     @Getter
     private final static String cUpperStr = "C";
+    @Getter
+    private final static String strUpperO = "O";
 
     // jpaGoodsService
     @Getter
@@ -51,8 +53,6 @@ public class StringFactory {
     private final static String gbOne = "01";
     @Getter
     private final static String gbTwo = "02";
-    @Getter
-    private final static String splitGb = "\\^\\|\\^";
 
     // jpaPurchaseService
     @Getter
@@ -220,4 +220,6 @@ public class StringFactory {
     // 기호
     @Getter
     private final static String strAt = "@";
+    @Getter
+    private final static String splitGb = "\\^\\|\\^";
 }

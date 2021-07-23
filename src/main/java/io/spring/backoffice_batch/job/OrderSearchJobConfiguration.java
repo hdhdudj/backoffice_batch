@@ -57,7 +57,7 @@ public class OrderSearchJobConfiguration {
                     // 트랜잭션1. if table 저장
                     String startDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7);
                     String endDt = Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
-                    orderSearch.saveIfTables("", startDt, endDt); //"2106301555509122"
+                    orderSearch.saveIfTables("2106301555509122", null, null); //"2106301555509122","2107021751024711"
                     return RepeatStatus.FINISHED;
                 })
                 .build();
