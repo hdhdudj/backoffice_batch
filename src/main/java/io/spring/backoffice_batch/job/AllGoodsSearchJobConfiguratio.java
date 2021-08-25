@@ -49,7 +49,7 @@ public class AllGoodsSearchJobConfiguratio {
                     log.info("----- This is searchGoodsStep1");
                     // if table entity 리스트 생성
                     // 트랜잭션1. if table 저장 함수
-					goodsSearch.saveAllIfTables(14, "", ""); // , ifGoodsOptionList, ifGoodsTextOptionList,
+					goodsSearch.saveAllIfTables(95, "", ""); // , ifGoodsOptionList, ifGoodsTextOptionList,
 															// ifGoodsAddGoodsList);
                     return RepeatStatus.FINISHED;
                 })

@@ -1,11 +1,10 @@
 package io.spring.main.jparepos.goods;
 
-import io.spring.main.model.goods.entity.Itvari;
-import io.spring.main.model.goods.idclass.ItvariId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
+import io.spring.main.model.goods.entity.Itvari;
+import io.spring.main.model.goods.idclass.ItvariId;
 
 public interface JpaItvariRepository extends JpaRepository<Itvari, ItvariId> {
 //    List<Itvari> findByAssortId(String assortId);
@@ -16,6 +15,8 @@ public interface JpaItvariRepository extends JpaRepository<Itvari, ItvariId> {
     Itvari findByAssortIdAndOptionNm(String assortId, String optionNm);
 
     Itvari findByOptionGbAndOptionNm(String optionGb, String optionNm);
+
+	Itvari findByAssortIdAndOptionGbAndOptionNm(String assortId, String optionGb, String optionNm);
 
 //    @Query("update User set name = :#{#paramUser.name}, age = :#{#paramUser.age}, ssn = :#{#paramUser.ssn} where id = :#{#paramUser.id}")
 //    int updateSpecificAttribute(@Param("paramUser") User user );

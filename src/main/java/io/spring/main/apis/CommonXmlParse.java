@@ -69,9 +69,13 @@ public class CommonXmlParse {
 
             if (entity != null) {
                 // return it as a String
-                result = EntityUtils.toString(entity);
+				result = EntityUtils.toString(entity).replace(new Character((char) 3).toString(), "");
 //                System.out.println(result);
             }
+
+			// String str = new Character((char) 3).toString();
+
+			// ascii(3)
 
             log.debug("get xml time : " + (System.currentTimeMillis() - start)/1000);
             // xml 파싱하기

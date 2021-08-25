@@ -136,6 +136,9 @@ public class GoodsSearch {
         }
         else{
             for(IfGoodsOption ifGoodsOption : ifGoodsOptionList){
+
+				System.out.println(ifGoodsOption);
+
                 this.saveItvari(ifGoodsOption); // itvari
             }
         }
@@ -248,7 +251,7 @@ public class GoodsSearch {
 
 		List<GoodsSearchData> allGoodsSearchDataList = new ArrayList<GoodsSearchData>();
 
-		for (int i = 14; i < maxPage + 1; i++) {
+		for (int i = 95; i < maxPage + 1; i++) {
 			List<GoodsSearchData> goodsSearchDataList = retrieveGoodsToPage(i, "", fromDt, toDt);
 
 			allGoodsSearchDataList.addAll(goodsSearchDataList);
@@ -263,6 +266,9 @@ public class GoodsSearch {
 
 		// 1. if table 저장
 		for (GoodsSearchData goodsSearchData : allGoodsSearchDataList) {
+
+			System.out.println(goodsSearchData.getGoodsNo());
+
 			// goodsDescription에 너무 긴 애가 들어있는 애 거르기
 			String goodsDescription = goodsSearchData.getGoodsDescription();
 			if (goodsDescription.split(StringFactory.getStrDataImage()).length >= 2) {
@@ -296,7 +302,8 @@ public class GoodsSearch {
         itvariColor.setVariationGb(StringFactory.getGbOne()); // 01 하드코딩
         itvariColor.setOptionNm(ifGoodsOption.getOptionValue1());
         String seq = "";
-        if(jpaItvariRepository.findByOptionGbAndOptionNm(itvariColor.getOptionGb(), itvariColor.getOptionNm()) == null){
+
+        if(jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvariColor.getOptionGb(), itvariColor.getOptionNm()) == null){
             seq = getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
             itvariColor.setSeq(seq);
             jpaItvariRepository.save(itvariColor);
@@ -318,7 +325,9 @@ public class GoodsSearch {
         else{
             seq = getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
         }
-        if(jpaItvariRepository.findByOptionGbAndOptionNm(itvariSize.getOptionGb(), itvariSize.getOptionNm()) == null){
+
+		if (jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),
+				itvariSize.getOptionGb(), itvariSize.getOptionNm()) == null) {
             itvariSize.setSeq(seq);
             jpaItvariRepository.save(itvariSize);
         }
