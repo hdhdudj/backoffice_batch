@@ -19,6 +19,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 //import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 //import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
 import io.spring.main.apis.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -42,20 +43,21 @@ public class GoodsSearchJobConfiguration {
     @Bean
     public Job searchGoodsJob(){
         return jobBuilderFactory.get("searchGoodsJob")
-                .start(searchGoodsStep1())
+                .start(searchGoodsStep1(null))
                 .next(searchGoodsStep2())
                 .incrementer(new UniqueRunIdIncrementer())
                 .build();
     }
 
     @Bean
-    public Step searchGoodsStep1(){
+    @JobScope
+    public Step searchGoodsStep1(@Value("#{jobParameters[page]}") String page){
         return stepBuilderFactory.get("searchGoodsStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchGoodsStep1");
                     // if table entity 리스트 생성
                     // 트랜잭션1. if table 저장 함수
-                    goodsSearch.saveIfTables("", ""); //, ifGoodsOptionList, ifGoodsTextOptionList, ifGoodsAddGoodsList);
+                    goodsSearch.saveIfTables("", "", page); //, ifGoodsOptionList, ifGoodsTextOptionList, ifGoodsAddGoodsList);
                     return RepeatStatus.FINISHED;
                 })
                 .build();

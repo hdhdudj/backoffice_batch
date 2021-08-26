@@ -141,7 +141,7 @@ public class OrderSearch {
             ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
             ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
             // goodsNm 가져오기
-            ifOrderDetail.setChannelGoodsNm(goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "").get(0).getGoodsNm());
+            ifOrderDetail.setChannelGoodsNm(goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "").get(0).getGoodsNm());
             //
             ifOrderDetail.setChannelParentGoodsNo(Long.toString(orderGoodsData.getParentGoodsNo()));
             ifOrderDetail.setGoodsCnt(orderGoodsData.getGoodsCnt());
@@ -238,7 +238,7 @@ public class OrderSearch {
     }
 
     private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
-        GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","").get(0);
+        GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","", "").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeqAndGoodsNm(tbOrderMaster.getOrderId(), ifOrderDetail.getOrderSeq(), goodsSearchData.getGoodsNm());
         System.out.println("===== itemNm : " + goodsSearchData.getGoodsNm());

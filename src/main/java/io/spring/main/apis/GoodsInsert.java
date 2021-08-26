@@ -104,7 +104,7 @@ public class GoodsInsert {
                 break;
             }
             // 위에서 받은 goodsNoIfSuccess로 goods_search api로 받아오기
-            List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(goodsNoIfSuccess,"", "");
+            List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(goodsNoIfSuccess,"", "", "");
             GoodsSearchData goodsSearchData = null;
             if(goodsSearchDataList.size() > 0){
                 goodsSearchData = goodsSearchDataList.get(0);

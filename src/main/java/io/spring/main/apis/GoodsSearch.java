@@ -183,8 +183,8 @@ public class GoodsSearch {
     }
 
     @Transactional
-    public void saveIfTables(String fromDt, String toDt){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
-        List<GoodsSearchData> goodsSearchDataList = retrieveGoods("", fromDt, toDt);
+    public void saveIfTables(String fromDt, String toDt, String page){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
+        List<GoodsSearchData> goodsSearchDataList = retrieveGoods("", fromDt, toDt, page);
 //        String assortId = "";
 
         // 1. if table 저장
@@ -473,14 +473,14 @@ public class GoodsSearch {
     }
 
     // goods xml 받아오는 함수
-    public List<GoodsSearchData> retrieveGoods(String goodsNo, String fromDt, String toDt) {
+    public List<GoodsSearchData> retrieveGoods(String goodsNo, String fromDt, String toDt, String page) {
         //OpenApi호출
         String urlstr = goodsSearchUrl + StringFactory.getStrQuestion() + StringFactory.getGoodsSearchParams()[0] + StringFactory.getStrEqual() +
                 pKey + StringFactory.getStrAnd() +StringFactory.getGoodsSearchParams()[1]
                 + StringFactory.getStrEqual() + key
 //                + StringFactory.getStrAnd() + StringFactory.getGoodsSearchParams()[3]
 //                + StringFactory.getStrEqual()
-                + "&goodsNo="+goodsNo;
+                + "&goodsNo="+goodsNo + "&page=" + page;
 //        System.out.println("##### " + urlstr);
         NodeList nodeList =  CommonXmlParse.getXmlNodes(urlstr);
         List<GoodsSearchData> goodsSearchData = new ArrayList<>();
