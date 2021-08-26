@@ -269,6 +269,9 @@ public class GoodsSearch {
 
 			System.out.println(goodsSearchData.getGoodsNo());
 
+            if(goodsSearchData == null){
+                continue;
+            }
 			// goodsDescription에 너무 긴 애가 들어있는 애 거르기
 			String goodsDescription = goodsSearchData.getGoodsDescription();
 			if (goodsDescription.split(StringFactory.getStrDataImage()).length >= 2) {
@@ -302,8 +305,9 @@ public class GoodsSearch {
         itvariColor.setVariationGb(StringFactory.getGbOne()); // 01 하드코딩
         itvariColor.setOptionNm(ifGoodsOption.getOptionValue1());
         String seq = "";
-
-        if(jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvariColor.getOptionGb(), itvariColor.getOptionNm()) == null){
+        System.out.println("--------------------------- " + ifGoodsOption.getAssortId());
+        List<Itvari> itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvariColor.getOptionGb(), itvariColor.getOptionNm());
+        if(itvariList.size() == 0){
             seq = getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
             itvariColor.setSeq(seq);
             jpaItvariRepository.save(itvariColor);
@@ -327,7 +331,7 @@ public class GoodsSearch {
         }
 
 		if (jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),
-				itvariSize.getOptionGb(), itvariSize.getOptionNm()) == null) {
+				itvariSize.getOptionGb(), itvariSize.getOptionNm()).size() == 0) {
             itvariSize.setSeq(seq);
             jpaItvariRepository.save(itvariSize);
         }
@@ -341,7 +345,7 @@ public class GoodsSearch {
         ifGoodsOption.setItemId(itemId);
         ititmm.setItemId(itemId);
         // op1이 없으면 단품으로 처리
-        Itvari itvariOp1 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue1());
+        Itvari itvariOp1 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue1()).get(0);
         // null 처리, 없으면 단품으로(01, 01, 단품)
         if(itvariOp1 == null){
             ititmm.setVariationGb1(StringFactory.getGbOne()); // 01
@@ -352,7 +356,8 @@ public class GoodsSearch {
             ititmm.setVariationSeq1(itvariOp1.getSeq());
         }
         if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
-            Itvari itvariOp2 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue2());
+            List<Itvari> itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ititmm.getAssortId(), StringFactory.getGbTwo(), ifGoodsOption.getOptionValue2());
+            Itvari itvariOp2 = itvariList.get(0);
             ititmm.setVariationGb2(itvariOp2.getVariationGb());
             ititmm.setVariationSeq2(itvariOp2.getSeq());
         }
