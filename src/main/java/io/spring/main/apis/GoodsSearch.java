@@ -244,6 +244,7 @@ public class GoodsSearch {
         }
     }
 
+	// TODO : 원커밋? 올커밋?
 	@Transactional
 	public void saveAllIfTables(int maxPage, String fromDt, String toDt) { // , List<IfGoodsOption> ifGoodsOptionList,
 																// List<IfGoodsTextOption> ifGoodsTextOptionList,
@@ -251,7 +252,7 @@ public class GoodsSearch {
 
 		List<GoodsSearchData> allGoodsSearchDataList = new ArrayList<GoodsSearchData>();
 
-		for (int i = 95; i < maxPage + 1; i++) {
+		for (int i = 1; i < maxPage + 1; i++) {
 			List<GoodsSearchData> goodsSearchDataList = retrieveGoodsToPage(i, "", fromDt, toDt);
 
 			allGoodsSearchDataList.addAll(goodsSearchDataList);

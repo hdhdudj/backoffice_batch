@@ -1,15 +1,17 @@
 package io.spring.main.util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 21-05-26 Pecan
@@ -129,4 +131,28 @@ public class Utilities {
         }
         return map;
     }
+
+	public static String filterBadXMLCharactors(String textToFilter) {
+		StringBuffer filteredString = new StringBuffer();
+		char current;
+
+		if (textToFilter == null || "".equals(textToFilter)) {
+			return "";
+		}
+
+		for (int i = 0; i < textToFilter.length(); i++) {
+			current = textToFilter.charAt(i);
+
+			if ((current == 0x9) || //
+					(current == 0xA) || //
+					(current == 0xD) || //
+					((current >= 0x20) && (current <= 0xD7FF)) || //
+					((current >= 0xE000) && (current <= 0xFFFD)) || //
+					((current >= 0x10000) && (current <= 0x10FFFF))) {
+				filteredString.append(current);
+			}
+		}
+		return filteredString.toString();
+	}
+
 }
