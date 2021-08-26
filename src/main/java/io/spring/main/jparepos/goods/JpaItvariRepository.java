@@ -18,7 +18,9 @@ public interface JpaItvariRepository extends JpaRepository<Itvari, ItvariId> {
 
     Itvari findByOptionGbAndOptionNm(String optionGb, String optionNm);
 
-	List<Itvari> findByAssortIdAndOptionGbAndOptionNm(String assortId, String optionGb, String optionNm);
+	Itvari findByAssortIdAndOptionGbAndOptionNm(String assortId, String optionGb, String optionNm);
+
+    List<Itvari> findByAssortId(String assortId);
 
 //    @Query("update User set name = :#{#paramUser.name}, age = :#{#paramUser.age}, ssn = :#{#paramUser.ssn} where id = :#{#paramUser.id}")
 //    int updateSpecificAttribute(@Param("paramUser") User user );

@@ -306,8 +306,9 @@ public class GoodsSearch {
         itvariColor.setOptionNm(ifGoodsOption.getOptionValue1());
         String seq = "";
         System.out.println("--------------------------- " + ifGoodsOption.getAssortId());
-        List<Itvari> itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvariColor.getOptionGb(), itvariColor.getOptionNm());
-        if(itvariList.size() == 0){
+        List<Itvari> itvariList0 = jpaItvariRepository.findByAssortId(ifGoodsOption.getAssortId());
+        Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvariColor.getOptionGb(), itvariColor.getOptionNm());
+        if(itvariList == null){
             seq = getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
             itvariColor.setSeq(seq);
             jpaItvariRepository.save(itvariColor);
@@ -331,7 +332,7 @@ public class GoodsSearch {
         }
 
 		if (jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),
-				itvariSize.getOptionGb(), itvariSize.getOptionNm()).size() == 0) {
+				itvariSize.getOptionGb(), itvariSize.getOptionNm()) == null) {
             itvariSize.setSeq(seq);
             jpaItvariRepository.save(itvariSize);
         }
@@ -356,8 +357,8 @@ public class GoodsSearch {
             ititmm.setVariationSeq1(itvariOp1.getSeq());
         }
         if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
-            List<Itvari> itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ititmm.getAssortId(), StringFactory.getGbTwo(), ifGoodsOption.getOptionValue2());
-            Itvari itvariOp2 = itvariList.get(0);
+            Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ititmm.getAssortId(), StringFactory.getGbTwo(), ifGoodsOption.getOptionValue2());
+            Itvari itvariOp2 = itvariList;
             ititmm.setVariationGb2(itvariOp2.getVariationGb());
             ititmm.setVariationSeq2(itvariOp2.getSeq());
         }
