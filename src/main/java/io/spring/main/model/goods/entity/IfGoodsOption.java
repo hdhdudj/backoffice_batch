@@ -1,21 +1,25 @@
 package io.spring.main.model.goods.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.spring.main.util.StringFactory;
-import io.spring.main.model.goods.idclass.IfGoodsOptionId;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import io.spring.main.model.goods.idclass.IfGoodsOptionId;
+import io.spring.main.util.StringFactory;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "if_goods_option")
 @Getter
 @Setter
+@ToString
 @IdClass(IfGoodsOptionId.class)
 public class IfGoodsOption {
 

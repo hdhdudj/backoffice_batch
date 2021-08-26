@@ -1,10 +1,20 @@
 package io.spring.main.apis;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.spring.main.model.goods.GoodsSearchData;
-import io.spring.main.util.StringFactory;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
+import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -15,17 +25,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.apache.http.HttpEntity;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
-import java.io.BufferedReader;
-import java.io.StringReader;
-import java.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.spring.main.model.goods.GoodsSearchData;
+import io.spring.main.util.StringFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -63,9 +69,13 @@ public class CommonXmlParse {
 
             if (entity != null) {
                 // return it as a String
-                result = EntityUtils.toString(entity);
+				result = EntityUtils.toString(entity).replace(new Character((char) 3).toString(), "");
 //                System.out.println(result);
             }
+
+			// String str = new Character((char) 3).toString();
+
+			// ascii(3)
 
             log.debug("get xml time : " + (System.currentTimeMillis() - start)/1000);
             // xml 파싱하기
@@ -191,6 +201,42 @@ public class CommonXmlParse {
         }
         return str;
     }
+
+	public HashMap<String, Object> getPagination(NodeList nodeList) {
+		System.out.println("getPagination");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			NodeList child = nodeList.item(i).getChildNodes();
+			for (int y = 0; y < child.getLength(); y++) {
+
+				Node lNode = child.item(y);
+				if (lNode.getNodeName().equals("header")) {
+					System.out.println("header");
+
+					NodeList mNodes = lNode.getChildNodes();
+					for (int mi = 0; mi < mNodes.getLength(); mi++) {
+
+
+						Node mNode = mNodes.item(mi);
+						if (mNode.getNodeName().equals("max_page")) {
+
+							System.out.println("max_page");
+							System.out.println(mNode.getTextContent());
+
+							// Map<String, Object> map = makeMasterNode(mNode, goodsSearchGotListPropsMap);
+							// dataList.add(map);
+							// order master array append
+						}
+
+					}
+				}
+			}
+		}
+		
+
+		HashMap<String, Object> r = new HashMap<String, Object>();
+
+		return r;
+	}
 
     // xml 받아오는 함수
     public List<Map<String, Object>> retrieveNodeMaps(String dataName, NodeList nodeList, List<String> goodsSearchGotListPropsMap) {

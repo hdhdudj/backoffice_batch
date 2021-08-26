@@ -1,23 +1,57 @@
 package io.spring.main.apis;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.spring.main.jparepos.category.JpaIfCategoryRepository;
-import io.spring.main.util.StringFactory;
-import io.spring.main.jparepos.common.JpaSequenceDataRepository;
-import io.spring.main.jparepos.goods.*;
-import io.spring.main.model.goods.*;
-import io.spring.main.model.goods.entity.*;
-import io.spring.main.util.Utilities;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.transaction.Transactional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.NodeList;
 
-import javax.transaction.Transactional;
-import java.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.spring.main.jparepos.category.JpaIfCategoryRepository;
+import io.spring.main.jparepos.common.JpaSequenceDataRepository;
+import io.spring.main.jparepos.goods.JpaIfBrandRepository;
+import io.spring.main.jparepos.goods.JpaIfGoodsAddGoodsRepository;
+import io.spring.main.jparepos.goods.JpaIfGoodsMasterRepository;
+import io.spring.main.jparepos.goods.JpaIfGoodsOptionRepository;
+import io.spring.main.jparepos.goods.JpaIfGoodsTextOptionRepository;
+import io.spring.main.jparepos.goods.JpaItadgsRepository;
+import io.spring.main.jparepos.goods.JpaItasrdRepository;
+import io.spring.main.jparepos.goods.JpaItasrnRepository;
+import io.spring.main.jparepos.goods.JpaItasrtRepository;
+import io.spring.main.jparepos.goods.JpaItitmmRepository;
+import io.spring.main.jparepos.goods.JpaItlkagRepository;
+import io.spring.main.jparepos.goods.JpaItmmotRepository;
+import io.spring.main.jparepos.goods.JpaItvariRepository;
+import io.spring.main.model.goods.AddGoodsData;
+import io.spring.main.model.goods.GoodsSearchData;
+import io.spring.main.model.goods.entity.IfBrand;
+import io.spring.main.model.goods.entity.IfCategory;
+import io.spring.main.model.goods.entity.IfGoodsAddGoods;
+import io.spring.main.model.goods.entity.IfGoodsMaster;
+import io.spring.main.model.goods.entity.IfGoodsOption;
+import io.spring.main.model.goods.entity.IfGoodsTextOption;
+import io.spring.main.model.goods.entity.Itadgs;
+import io.spring.main.model.goods.entity.Itasrd;
+import io.spring.main.model.goods.entity.Itasrn;
+import io.spring.main.model.goods.entity.Itasrt;
+import io.spring.main.model.goods.entity.Ititmm;
+import io.spring.main.model.goods.entity.Itlkag;
+import io.spring.main.model.goods.entity.Itmmot;
+import io.spring.main.model.goods.entity.Itvari;
+import io.spring.main.util.StringFactory;
+import io.spring.main.util.Utilities;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -102,6 +136,9 @@ public class GoodsSearch {
         }
         else{
             for(IfGoodsOption ifGoodsOption : ifGoodsOptionList){
+
+				System.out.println(ifGoodsOption);
+
                 this.saveItvari(ifGoodsOption); // itvari
             }
         }
@@ -207,6 +244,49 @@ public class GoodsSearch {
         }
     }
 
+	@Transactional
+	public void saveAllIfTables(int maxPage, String fromDt, String toDt) { // , List<IfGoodsOption> ifGoodsOptionList,
+																// List<IfGoodsTextOption> ifGoodsTextOptionList,
+																// List<IfGoodsAddGoods> ifGoodsAddGoodsList){
+
+		List<GoodsSearchData> allGoodsSearchDataList = new ArrayList<GoodsSearchData>();
+
+		for (int i = 95; i < maxPage + 1; i++) {
+			List<GoodsSearchData> goodsSearchDataList = retrieveGoodsToPage(i, "", fromDt, toDt);
+
+			allGoodsSearchDataList.addAll(goodsSearchDataList);
+
+		}
+
+//        String assortId = "";
+
+		System.out.println("*------------------allgoods----------------------------------------");
+		System.out.println(allGoodsSearchDataList.size());
+		System.out.println("*----------------------------------------------------------");
+
+		// 1. if table 저장
+		for (GoodsSearchData goodsSearchData : allGoodsSearchDataList) {
+
+			System.out.println(goodsSearchData.getGoodsNo());
+
+			// goodsDescription에 너무 긴 애가 들어있는 애 거르기
+			String goodsDescription = goodsSearchData.getGoodsDescription();
+			if (goodsDescription.split(StringFactory.getStrDataImage()).length >= 2) {
+				log.debug("goodsDescription is too long. goodsNo :" + goodsSearchData.getGoodsNo());
+				continue;
+			}
+			// goodsNo가 겹치는 애가 있는지 확인
+			if (jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo())) == null) {
+				this.saveIfGoodsMaster(goodsSearchData); // if_goods_master : itasrt, itasrn, itasrd * 여기서 assortId 생성
+				this.saveIfGoodsTextOption(goodsSearchData); // if_goods_text_option : itmmot
+				this.saveIfGoodsAddGoods(goodsSearchData); // if_goods_add_goods : itlkag, itadgs
+			}
+			if (jpaIfGoodsOptionRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo())).size() == 0) {
+				this.saveIfGoodsOption(goodsSearchData); // if_goods_option : itvari, ititmm
+			}
+		}
+	}
+
     private void saveItmmot(IfGoodsTextOption ifGoodsTextOption) {
         Itmmot itmmot = new Itmmot(ifGoodsTextOption);
         // optionTextId 채번
@@ -222,7 +302,8 @@ public class GoodsSearch {
         itvariColor.setVariationGb(StringFactory.getGbOne()); // 01 하드코딩
         itvariColor.setOptionNm(ifGoodsOption.getOptionValue1());
         String seq = "";
-        if(jpaItvariRepository.findByOptionGbAndOptionNm(itvariColor.getOptionGb(), itvariColor.getOptionNm()) == null){
+
+        if(jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvariColor.getOptionGb(), itvariColor.getOptionNm()) == null){
             seq = getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
             itvariColor.setSeq(seq);
             jpaItvariRepository.save(itvariColor);
@@ -244,7 +325,9 @@ public class GoodsSearch {
         else{
             seq = getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
         }
-        if(jpaItvariRepository.findByOptionGbAndOptionNm(itvariSize.getOptionGb(), itvariSize.getOptionNm()) == null){
+
+		if (jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),
+				itvariSize.getOptionGb(), itvariSize.getOptionNm()) == null) {
             itvariSize.setSeq(seq);
             jpaItvariRepository.save(itvariSize);
         }
@@ -288,14 +371,15 @@ public class GoodsSearch {
         Itasrd itasrdShort = new Itasrd(ifGoodsMaster); // itasrd -> 짧은 설명과 긴 설명 두 개 저장해야 됨.
         itasrdShort.setAssortId(ifGoodsMaster.getAssortId());
         itasrdShort.setSeq(StringUtils.leftPad(StringFactory.getStrOne(), 4, '0'));
-        itasrdShort.setMemo(ifGoodsMaster.getShortDescription()); // 0001
+
+		itasrdShort.setMemo(ifGoodsMaster.getShortDescription()); // 0001
         itasrdShort.setOrdDetCd(StringFactory.getGbTwo()); // 01 : 상세, 02 : 간략
         itasrdShort.setTextHtmlGb(StringFactory.getGbTwo()); // 01 : html, 02 : text
         jpaItasrdRepository.save(itasrdShort);
         Itasrd itasrdLong = new Itasrd(ifGoodsMaster);
         itasrdLong.setAssortId(ifGoodsMaster.getAssortId());
         itasrdLong.setSeq(StringUtils.leftPad(StringFactory.getStrTwo(), 4, '0'));
-        itasrdLong.setMemo(ifGoodsMaster.getGoodsDescription()); // 0002
+		itasrdLong.setMemo(ifGoodsMaster.getGoodsDescription().replace("\\\"", "\"").replace("\\\'", "\'")); // 0002
         itasrdLong.setOrdDetCd(StringFactory.getGbOne()); // 01 : 상세, 02 : 간략
         itasrdLong.setTextHtmlGb(StringFactory.getGbOne()); // 01 : html, 02 : text
         jpaItasrdRepository.save(itasrdLong);
@@ -463,6 +547,7 @@ public class GoodsSearch {
         List<AddGoodsData> addGoodsDataList = new ArrayList<>();
 
         List<Map<String, Object>> list = commonXmlParse.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList, goodsSearchGotListPropsMap);
+	
 
         //
         for(Map<String, Object> item : list){
@@ -472,6 +557,7 @@ public class GoodsSearch {
         return addGoodsDataList.get(0);
     }
 
+	// TODO : 전체호출 ?? 은 어떻게?
     // goods xml 받아오는 함수
     public List<GoodsSearchData> retrieveGoods(String goodsNo, String fromDt, String toDt, String page) {
         //OpenApi호출
@@ -484,12 +570,49 @@ public class GoodsSearch {
 //        System.out.println("##### " + urlstr);
         NodeList nodeList =  CommonXmlParse.getXmlNodes(urlstr);
         List<GoodsSearchData> goodsSearchData = new ArrayList<>();
+
+//		System.out.println(nodeList);
+
         List<Map<String, Object>> list = commonXmlParse.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList, goodsSearchGotListPropsMap);
 
+    	HashMap<String, Object> r = commonXmlParse.getPagination(nodeList);
+
         for(Map<String, Object> item : list){
+
             GoodsSearchData gsData = objectMapper.convertValue(item, GoodsSearchData.class);
-            goodsSearchData.add(gsData);
+			goodsSearchData.add(gsData);
         }
-        return goodsSearchData;
+		return goodsSearchData;
     }
+
+	// TODO : 전체호출 ?? 은 어떻게?
+	// goods xml 받아오는 함수
+	public List<GoodsSearchData> retrieveGoodsToPage(int page, String goodsNo, String fromDt, String toDt) {
+
+		// OpenApi호출
+		String urlstr = goodsSearchUrl + StringFactory.getStrQuestion() + StringFactory.getGoodsSearchParams()[0]
+				+ StringFactory.getStrEqual() + pKey + StringFactory.getStrAnd()
+				+ StringFactory.getGoodsSearchParams()[1] + StringFactory.getStrEqual() + key
+//                + StringFactory.getStrAnd() + StringFactory.getGoodsSearchParams()[3]
+//                + StringFactory.getStrEqual()
+				+ "&goodsNo=" + goodsNo + "&page=" + String.valueOf(page);
+//        System.out.println("##### " + urlstr);
+		NodeList nodeList = CommonXmlParse.getXmlNodes(urlstr);
+		List<GoodsSearchData> goodsSearchData = new ArrayList<>();
+
+//		System.out.println(nodeList);
+
+		List<Map<String, Object>> list = commonXmlParse.retrieveNodeMaps(StringFactory.getStrGoodsData(), nodeList,
+				goodsSearchGotListPropsMap);
+
+		HashMap<String, Object> r = commonXmlParse.getPagination(nodeList);
+
+		for (Map<String, Object> item : list) {
+
+			GoodsSearchData gsData = objectMapper.convertValue(item, GoodsSearchData.class);
+			goodsSearchData.add(gsData);
+		}
+		return goodsSearchData;
+	}
+
 }
