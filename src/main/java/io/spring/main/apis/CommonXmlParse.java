@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.spring.main.model.goods.GoodsSearchData;
 import io.spring.main.util.StringFactory;
+import io.spring.main.util.Utilities;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,7 +70,13 @@ public class CommonXmlParse {
 
             if (entity != null) {
                 // return it as a String
-				result = EntityUtils.toString(entity).replace(new Character((char) 3).toString(), "");
+
+				// Utilities.filterBadXMLCharactors(EntityUtils.toString(entity));
+
+				// result = EntityUtils.toString(entity).replace(new Character((char)
+				// 3).toString(), "");
+
+				result = Utilities.filterBadXMLCharactors(EntityUtils.toString(entity)); // 이상한 문저 처리용
 //                System.out.println(result);
             }
 
