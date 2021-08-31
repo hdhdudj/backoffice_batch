@@ -32,6 +32,7 @@ public class Ititmm extends CommonProps implements Serializable {
         super(ifGoodsOption.getRegDt(), ifGoodsOption.getModDt());
         this.assortId = ifGoodsOption.getAssortId();
         this.shortYn = ifGoodsOption.getSoldOutFl();
+//        this.itemNm = ifGoodsOption.getItemId();
 //        this.regDt = ifGoodsOption.getRegDt();
 //        this.updDt = ifGoodsOption.getModDt();
     }

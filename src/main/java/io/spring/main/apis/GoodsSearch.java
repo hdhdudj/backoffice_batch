@@ -145,7 +145,7 @@ public class GoodsSearch {
 
         // 5. ititmm (from if_goods_option) 저장
         for (IfGoodsOption ifGoodsOption : ifGoodsOptionList) {
-            this.saveItitmm(ifGoodsOption); // ititmm
+            this.saveItitmm(ifGoodsOption, ifGoodsMaster); // ititmm
         }
 
         // 6. if_goods_option 테이블 updateStatus 02로 업데이트
@@ -221,7 +221,7 @@ public class GoodsSearch {
 
     @Transactional
     public void saveIfTables(String fromDt, String toDt, String page){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
-        List<GoodsSearchData> goodsSearchDataList = retrieveGoods("", fromDt, toDt, page);
+        List<GoodsSearchData> goodsSearchDataList = retrieveGoods("", fromDt, toDt, page); // test용 goodsNo : 1000040120
 //        String assortId = "";
 
         // 1. if table 저장
@@ -339,13 +339,14 @@ public class GoodsSearch {
         }
     }
 
-    private void saveItitmm(IfGoodsOption ifGoodsOption) {
+    private void saveItitmm(IfGoodsOption ifGoodsOption, IfGoodsMaster ifGoodsMaster) {
         Ititmm ititmm = new Ititmm(ifGoodsOption);
         // itemId 채번
         String itemId = jpaItitmmRepository.findMaxItemIdByAssortId(ititmm.getAssortId());
         itemId = getSeq(itemId, 4);
         ifGoodsOption.setItemId(itemId);
         ititmm.setItemId(itemId);
+        ititmm.setItemNm(ifGoodsMaster.getGoodsNm());
         // op1이 없으면 단품으로 처리
         Itvari itvariOp1 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue1()).get(0);
         // null 처리, 없으면 단품으로(01, 01, 단품)
