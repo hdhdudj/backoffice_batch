@@ -238,6 +238,8 @@ public class OrderSearch {
     }
 
     private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
+        // ifOrderDetail의 정보를 tbOrderDetail에 저장할 때, tmmapi의 goodsNo를 확인해서 assortId를 추출해야 함.
+        // 옵션이 없는 애들은 tmmapi에서 assortId 찾아오기, 옵션이 있는 애들은 tmitem에서 assortId, itemId 찾아오기 
         GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","", "").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeqAndGoodsNm(tbOrderMaster.getOrderId(), ifOrderDetail.getOrderSeq(), goodsSearchData.getGoodsNm());
