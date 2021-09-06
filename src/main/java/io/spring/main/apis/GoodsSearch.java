@@ -123,6 +123,7 @@ public class GoodsSearch {
         Itasrt itasrt = this.saveItasrt(ifGoodsMaster); // itasrt
         this.saveItasrn(ifGoodsMaster); // itasrn
         this.saveItasrd(ifGoodsMaster); // itasrd
+        // itadgs
 
         // 3. if_goods_master 테이블 updateStatus 02로 업데이트
         ifGoodsMaster.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩

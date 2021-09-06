@@ -229,7 +229,7 @@ public class OrderSearch {
         // tb_order_detail, tb_order_history
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
             TbOrderDetail tbOrderDetail = this.saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
-            saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
+            this.saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
         }
         ifOrderMaster.setIfStatus(StringFactory.getGbTwo()); // ifStatus 02로 변경
 //        em.persist(ifOrderMaster);
@@ -242,7 +242,7 @@ public class OrderSearch {
         // 옵션이 없는 애들은 tmmapi에서 assortId 찾아오기, 옵션이 있는 애들은 tmitem에서 assortId, itemId 찾아오기 
         GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","", "").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
-        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeqAndGoodsNm(tbOrderMaster.getOrderId(), ifOrderDetail.getOrderSeq(), goodsSearchData.getGoodsNm());
+        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeq(tbOrderMaster.getOrderId(), ifOrderDetail.getOrderSeq());//, goodsSearchData.getGoodsNm());
         System.out.println("===== itemNm : " + goodsSearchData.getGoodsNm());
         System.out.println("===== orderId : " + tbOrderMaster.getOrderId() + " ===== goodsNm : " + goodsSearchData.getGoodsNm());
         Ititmm ititmm = tbOrderDetail == null? jpaItitmmRepository.findByItemNm(goodsSearchData.getGoodsNm()) : tbOrderDetail.getItitmm();

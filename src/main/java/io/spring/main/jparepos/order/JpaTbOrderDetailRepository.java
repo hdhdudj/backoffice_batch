@@ -12,6 +12,6 @@ public interface JpaTbOrderDetailRepository extends JpaRepository<TbOrderDetail,
     @Query("select max(t.orderSeq) from TbOrderDetail t where t.orderId=?1")
     String findMaxOrderSeqWhereOrderId(String orderId);
 
-    @Query("select t from TbOrderDetail t left join fetch t.ititmm where t.orderId=?1 and t.orderSeq=?2 and t.goodsNm=?3")
-    TbOrderDetail findByOrderIdAndOrderSeqAndGoodsNm(String orderId, String orderSeq, String goodsNm);
+    @Query("select t from TbOrderDetail t left join fetch t.ititmm where t.orderId=?1 and t.orderSeq=?2")
+    TbOrderDetail findByOrderIdAndOrderSeq(String orderId, String orderSeq);
 }
