@@ -1,6 +1,7 @@
 package io.spring.main.model.deposit.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.deposit.request.DepositInsertRequestData;
 import io.spring.main.model.vendor.entity.Cmvdmr;
@@ -21,7 +22,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="lsdpsm")
-public class Lsdpsm {
+public class Lsdpsm extends CommonProps {
     public Lsdpsm(DepositInsertRequestData depositInsertRequestData){
         this.depositNo = depositInsertRequestData.getDepositNo();
         this.depositDt = depositInsertRequestData.getDepositDt();
@@ -31,7 +32,7 @@ public class Lsdpsm {
         this.vendorId = StringUtils.leftPad("1",6,'0');
         this.finishYymm = Utilities.getStringToDate(StringFactory.getDoomDay());
         this.depositType = StringFactory.getGbOne(); // 01 하드코딩
-        this.depositVendorId = depositInsertRequestData.getDepositVendorId();
+        this.ownerId = depositInsertRequestData.getDepositVendorId();
     }
 
     @Id
@@ -44,13 +45,7 @@ public class Lsdpsm {
     private Date finishYymm;
     private String depositType;
     private String storeCd;
-    private Long regId;
-    @CreationTimestamp
-    private Date regDt;
-    private Long updId;
-    @UpdateTimestamp
-    private Date updDt;
-    private String depositVendorId;
+    private String ownerId;
 
     // 연관 관계
     @ManyToOne(fetch = FetchType.LAZY)

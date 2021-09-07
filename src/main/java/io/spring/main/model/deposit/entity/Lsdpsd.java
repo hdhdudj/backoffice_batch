@@ -1,6 +1,7 @@
 package io.spring.main.model.deposit.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.deposit.idclass.LsdpsdId;
 import io.spring.main.model.deposit.request.DepositInsertRequestData;
@@ -24,7 +25,7 @@ import java.util.Date;
 @Table(name="lsdpsd")
 @IdClass(LsdpsdId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Lsdpsd{
+public class Lsdpsd extends CommonProps {
     public Lsdpsd(String depositNo, DepositInsertRequestData.Item item){
         this.depositNo = depositNo;
         this.depositSeq = item.getDepositSeq();
@@ -41,7 +42,7 @@ public class Lsdpsd{
         this.finishYymm = Utilities.getStringToDate(StringFactory.getDoomDay());
         this.depositType = StringFactory.getGbOne(); // 초기값 일단 하드코딩 '01' 입고
         this.siteGb = StringFactory.getGbOne(); // 초기값 일단 하드코딩 '01'
-        this.vendorId = StringUtils.leftPad("1", 6, '0');
+        this.ownerId = Utilities.getStringNo('B', StringFactory.getStrOne(), 6);
         this.inputNo = item.getPurchaseNo();
         this.inputSeq = item.getPurchaseSeq();
     }
@@ -63,18 +64,12 @@ public class Lsdpsd{
     private Date finishYymm;
     private String depositType;
     private String siteGb;
-    private String vendorId;
+    private String ownerId;
     private String sStorageCd;
     private String minDepositNo;
     private String minDepositSeq;
     private String inputNo;
     private String inputSeq;
-    private Long regId;
-    @CreationTimestamp
-    private Date regDt;
-    private Long updId;
-    @UpdateTimestamp
-    private Date updDt;
     private Date excAppDt;
 
 

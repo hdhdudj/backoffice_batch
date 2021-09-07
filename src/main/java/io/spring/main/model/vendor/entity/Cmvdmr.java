@@ -1,5 +1,6 @@
 package io.spring.main.model.vendor.entity;
 
+import io.spring.main.model.goods.entity.CommonProps;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,9 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public class Cmvdmr {
+public class Cmvdmr extends CommonProps {
     @Id
-    private String vendorId;
+    private String ownerId;
     private String vdNm;
     private String vdEnm;
     private String vendorType;
@@ -27,10 +28,4 @@ public class Cmvdmr {
     private String delivery;
     private String payment;
     private String carrier;
-    private Long regId;
-    @CreationTimestamp
-    private Date regDt;
-    private Long updId;
-    @UpdateTimestamp
-    private Date updDt;
 }

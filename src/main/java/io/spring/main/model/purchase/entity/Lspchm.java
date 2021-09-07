@@ -1,6 +1,7 @@
 package io.spring.main.model.purchase.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.purchase.request.PurchaseInsertRequestData;
 import io.spring.main.util.Utilities;
@@ -22,16 +23,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Lspchm {
+public class Lspchm extends CommonProps {
     public Lspchm(PurchaseInsertRequestData purchaseInsertRequestData){
         this.purchaseNo = purchaseInsertRequestData.getPurchaseNo();
         this.purchaseDt = purchaseInsertRequestData.getPurchaseDt();
-        try{
-            this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
-        }
-        catch (Exception e){
-            log.debug(e.getMessage());
-        }
+        this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
         this.purchaseStatus = purchaseInsertRequestData.getPurchaseStatus(); // 01 : 발주, 05 : 취소
         this.purchaseRemark = purchaseInsertRequestData.getPurchaseRemark();
         this.siteGb = StringFactory.getGbOne(); // "01"
@@ -47,7 +43,7 @@ public class Lspchm {
         this.disPrice = purchaseInsertRequestData.getDisPrice();
         this.newDisPrice = this.disPrice;
         this.purchaseGb = StringFactory.getGbOne(); // "01" : 일반발주
-        this.purchaseVendorId = purchaseInsertRequestData.getPurchaseVendorId();
+        this.ownerId = purchaseInsertRequestData.getPurchaseVendorId();
         this.storeCd = purchaseInsertRequestData.getStoreCd(); // "00001"
         this.oStoreCd = purchaseInsertRequestData.getOStoreCd();
         this.terms = purchaseInsertRequestData.getTerms();
@@ -78,7 +74,7 @@ public class Lspchm {
     private Long newDisPrice;
     private String cardId;
     private String purchaseGb;
-    private String purchaseVendorId;
+    private String ownerId;
     private String affilVdId;
     private String storeCd;
     private String oStoreCd;
@@ -92,13 +88,4 @@ public class Lspchm {
     @JsonIgnore
     @JoinColumn(name = "purchaseNo", referencedColumnName = "purchaseNo", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
     private List<Lspchd> lspchdList;
-
-
-
-    private Long regId;
-    @CreationTimestamp
-    private Date regDt;
-    private Long updId;
-    @UpdateTimestamp
-    private Date updDt;
 }

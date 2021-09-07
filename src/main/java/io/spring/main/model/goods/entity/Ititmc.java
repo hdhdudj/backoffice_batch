@@ -47,5 +47,6 @@ public class Ititmc extends CommonProps{
     private Long qty;
     private Float stockAmt;
     private String vendorId;
+    private String ownerId;
     private String siteGb;
 }

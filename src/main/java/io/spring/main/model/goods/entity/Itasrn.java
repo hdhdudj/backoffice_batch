@@ -23,29 +23,17 @@ public class Itasrn extends CommonProps{
     private final static Logger logger = LoggerFactory.getLogger(Itasrn.class);
     public Itasrn(Itasrn itasrn){
         this.historyGb = itasrn.getHistoryGb();
-        this.vendorId = itasrn.getVendorId();
+        this.ownerId = itasrn.getOwnerId();
         this.assortId = itasrn.getAssortId();
         this.localSale = itasrn.getLocalSale();
         this.shortageYn = itasrn.getShortageYn();
-        try
-        {
-            this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
-        }
-        catch (Exception e){
-            logger.debug(e.getMessage());
-        }
+        this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
     }
     public Itasrn(IfGoodsMaster ifGoodsMaster){
         super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getUpdDt());
         this.shortageYn = ifGoodsMaster.getGoodsSellFl();
         this.localSale = ifGoodsMaster.getGoodsPrice();
-        try
-        {
-            this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
-        }
-        catch (Exception e){
-            logger.debug(e.getMessage());
-        }
+        this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
     }
 
 
@@ -67,7 +55,7 @@ public class Itasrn extends CommonProps{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
     private String historyGb = StringFactory.getGbOne(); // 하드코딩
-    private String vendorId = StringFactory.getGbOne(); // 하드코딩
+    private String ownerId = StringFactory.getGbOne(); // 하드코딩
     private String assortId;
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")

@@ -128,7 +128,7 @@ public class Itasrt extends CommonProps{
 	private String categoryId;
 	private String dispCategoryId;
 	private String siteGb = StringFactory.getGbOne(); // 01 하드코딩
-	private String asVendorId = StringFactory.getFourStartCd(); // 0001 하드코딩
+	private String ownerId = StringFactory.getFourStartCd(); // 0001 하드코딩
 	private String manufactureNm;
 	private Float deliPrice;
 	private Float localPrice;

@@ -46,6 +46,7 @@ public class Ititmt extends CommonProps{
     private Long tempQty;
     private Float stockAmt;
     private String vendorId;
+    private String ownerId;
     private String siteGb;
 //    private Long regId;
 //    private Long updId;
