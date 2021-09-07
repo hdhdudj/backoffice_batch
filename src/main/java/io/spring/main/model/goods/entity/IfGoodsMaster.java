@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter
 @IdClass(IfGoodsMasterId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class IfGoodsMaster {
+public class IfGoodsMaster extends CommonProps {
     public IfGoodsMaster(Itasrt itasrt, Itasrn itasrn, Itasrd itasrd){
         // itasrt
         this.goodsNm = itasrt.getAssortNm();
@@ -111,11 +111,11 @@ public class IfGoodsMaster {
     private Float buyRrpIncrement;
     private Float buyExchangeRate;
     private String sizeType;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date regDt;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date modDt;
-    private Long regId;
-    private Long updId;
     private String uploadStatus = StringFactory.getGbOne(); // 01 하드코딩
+
+    // 이미지 경로
+    private String mainImageUrl;
+    private String listImageUrl;
+    private String detailImageUrl;
+    private String magnifyImageUrl;
 }

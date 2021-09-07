@@ -62,8 +62,37 @@
 		 		
     </select>
 
-
-
-
+	<insert id="insertTmmapi">
+		insert into tmmapi
+		(
+		channel_gb
+		,assort_id
+		,channel_goods_no
+		,upload_type
+		,upload_yn
+		,upload_dt
+		,upload_rmk
+		,join_status
+		,error_msg
+		,reg_id
+		,reg_dt
+		,upd_id
+		,upd_dt
+		)
+		select '01'  channel_gb
+			 ,assort_id
+			 ,goods_no
+			 ,'01' upload_type
+			 ,'01' upload_yn
+			 ,now()  upload_dt
+			 ,'연동건' upload_rmk
+			 ,'01' join_status
+			 ,'성공' error_msg
+			 ,1 reg_id
+			 ,now() reg_dt
+			 ,1 upd_id
+			 ,now() upd_dt
+		from if_goods_master igm
+	</insert>
 
 </mapper>
