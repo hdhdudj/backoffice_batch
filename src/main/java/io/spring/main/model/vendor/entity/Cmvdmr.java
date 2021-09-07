@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter
 public class Cmvdmr extends CommonProps {
     @Id
-    private String ownerId;
+    private String id;
     private String vdNm;
     private String vdEnm;
     private String vendorType;
