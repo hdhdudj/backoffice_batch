@@ -36,7 +36,7 @@ public class Itasrn extends CommonProps{
         }
     }
     public Itasrn(IfGoodsMaster ifGoodsMaster){
-        super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getModDt());
+        super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getUpdDt());
         this.shortageYn = ifGoodsMaster.getGoodsSellFl();
         this.localSale = ifGoodsMaster.getGoodsPrice();
         try

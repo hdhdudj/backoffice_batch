@@ -26,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Itasrt extends CommonProps{
 	public Itasrt(IfGoodsMaster ifGoodsMaster){
-		super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getModDt());
+		super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getUpdDt());
 		this.assortNm = ifGoodsMaster.getGoodsNm();
 		this.assortState = ifGoodsMaster.getGoodsDisplayFl();
 		this.assortGb = ifGoodsMaster.getSizeType();

@@ -222,6 +222,9 @@ public class GoodsSearch {
 
     @Transactional
     public void saveIfTables(String fromDt, String toDt, String page){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
+        if(page == null){
+            page = "";
+        }
         List<GoodsSearchData> goodsSearchDataList = retrieveGoods("", fromDt, toDt, page); // test용 goodsNo : 1000040120
 //        String assortId = "";
 

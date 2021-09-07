@@ -17,7 +17,7 @@ import javax.persistence.*;
 @IdClass(ItasrdId.class)
 public class Itasrd extends CommonProps {
     public Itasrd(IfGoodsMaster ifGoodsMaster){
-        super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getModDt());
+        super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getUpdDt());
     }
 
 //    public Itasrd(GoodsInsertRequestData goodsInsertRequestData){
