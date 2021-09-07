@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.goods.idclass.IfGoodsMasterId;
 import lombok.AccessLevel;
@@ -114,8 +115,12 @@ public class IfGoodsMaster extends CommonProps {
     private String uploadStatus = StringFactory.getGbOne(); // 01 하드코딩
 
     // 이미지 경로
-    private String mainImageUrl;
-    private String listImageUrl;
-    private String detailImageUrl;
-    private String magnifyImageUrl;
+    @JsonIgnore
+    private String mainImageData;
+    @JsonIgnore
+    private String listImageData;
+    @JsonIgnore
+    private String detailImageData;
+    @JsonIgnore
+    private String magnifyImageData;
 }

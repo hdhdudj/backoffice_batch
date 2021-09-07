@@ -1,8 +1,7 @@
 package io.spring.main.dao.goods;
 
-import io.spring.main.mapper.goods.GoodsMapper;
+import io.spring.main.mapper.GoodsMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository

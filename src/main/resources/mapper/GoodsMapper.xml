@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="io.spring.main.mapper.goods.GoodsMapper">
+<mapper namespace="io.spring.main.mapper.GoodsMapper">
 
 
    <select id="selectGoodsListAll" resultType="HashMap">
@@ -126,36 +126,36 @@
 		]]>
 	</insert>
 
-	<insert id="insertTmitem">
-		<![CDATA[
-		insert into tmitem
-		select *
-		from (
-				 select
-					 '01' channel_Gb
-					  ,aa.assort_id assort_id
-					  ,aa.item_id item_id
-					  ,now() eff_sta_dt
-					  ,'9999-12-31 23:59:59' eff_end_dt
-					  ,aa.short_yn  short_yn
-					  ,aa.variation_gb1  variation_gb1
-					  ,aa.variation_seq1  variation_seq1
-					  ,(select option_nm from itvari cc where cc.assort_id  = aa.assort_id  and cc.variation_gb = aa.variation_gb1 and cc.seq = aa.variation_seq1) option_name1
-					  ,aa.variation_gb2 variation_gb2
-					  ,aa.variation_seq2 variation_seq2
-					  ,(select option_nm from itvari cc where cc.assort_id  = aa.assort_id  and cc.variation_gb = aa.variation_gb2 and cc.seq = aa.variation_seq2) option_name2
-					  ,(select bb.goods_no  from if_goods_option bb where bb.assort_id = aa.assort_id and bb.item_id = aa.item_id) goodsNo
-					  ,(select bb.sno  from if_goods_option bb where bb.assort_id = aa.assort_id and bb.item_id = aa.item_id) sno
-					  ,aa.add_price add_price
-					  ,1 reg_id
-					  ,now() reg_dt
-					  ,1 upd_id
-					  ,now() upd_dt
-				 from ititmm aa
-			 ) zz
-		where goodsNo is not null
-		]]>
-	</insert>
+<!--	<insert id="insertTmitem">-->
+<!--		<![CDATA[-->
+<!--		insert into tmitem-->
+<!--		select *-->
+<!--		from (-->
+<!--				 select-->
+<!--					 '01' channel_Gb-->
+<!--					  ,aa.assort_id assort_id-->
+<!--					  ,aa.item_id item_id-->
+<!--					  ,now() eff_sta_dt-->
+<!--					  ,'9999-12-31 23:59:59' eff_end_dt-->
+<!--					  ,aa.short_yn  short_yn-->
+<!--					  ,aa.variation_gb1  variation_gb1-->
+<!--					  ,aa.variation_seq1  variation_seq1-->
+<!--					  ,(select option_nm from itvari cc where cc.assort_id  = aa.assort_id  and cc.variation_gb = aa.variation_gb1 and cc.seq = aa.variation_seq1) option_name1-->
+<!--					  ,aa.variation_gb2 variation_gb2-->
+<!--					  ,aa.variation_seq2 variation_seq2-->
+<!--					  ,(select option_nm from itvari cc where cc.assort_id  = aa.assort_id  and cc.variation_gb = aa.variation_gb2 and cc.seq = aa.variation_seq2) option_name2-->
+<!--					  ,(select bb.goods_no  from if_goods_option bb where bb.assort_id = aa.assort_id and bb.item_id = aa.item_id) goodsNo-->
+<!--					  ,(select bb.sno  from if_goods_option bb where bb.assort_id = aa.assort_id and bb.item_id = aa.item_id) sno-->
+<!--					  ,aa.add_price add_price-->
+<!--					  ,1 reg_id-->
+<!--					  ,now() reg_dt-->
+<!--					  ,1 upd_id-->
+<!--					  ,now() upd_dt-->
+<!--				 from ititmm aa-->
+<!--			 ) zz-->
+<!--		where goodsNo is not null-->
+<!--		]]>-->
+<!--	</insert>-->
 
 	<select id="getGoodsList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select

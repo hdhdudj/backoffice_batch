@@ -1,6 +1,6 @@
 package io.spring.main.dao.order;
 
-import io.spring.main.mapper.order.OrderMapper;
+import io.spring.main.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

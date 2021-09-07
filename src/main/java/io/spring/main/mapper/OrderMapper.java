@@ -1,4 +1,4 @@
-package io.spring.main.mapper.order;
+package io.spring.main.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 

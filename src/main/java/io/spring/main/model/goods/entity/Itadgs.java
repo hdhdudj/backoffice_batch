@@ -26,7 +26,7 @@ public class Itadgs extends CommonProps {
         this.brandId = ifGoodsAddGoods.getBrandCd();
         this.makerNm = ifGoodsAddGoods.getMakerNm();
         this.stockCnt = ifGoodsAddGoods.getStockCnt();
-        this.imageUrl = ifGoodsMaster.getMainImageUrl();
+        this.imageUrl = ifGoodsMaster.getMainImageData();
     }
 
     @Id
