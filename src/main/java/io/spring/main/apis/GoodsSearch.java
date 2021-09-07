@@ -469,6 +469,11 @@ public class GoodsSearch {
             ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);
         }
         ifGoodsMaster.setAssortId(goodsSearchData.getAssortId()); // assort_id 설정
+        // 이미지 데이터 list 형태로 돼있음 -> string property에 set해주기
+        ifGoodsMaster.setMainImageUrl(goodsSearchData.getMainImageData().get(0));
+        ifGoodsMaster.setListImageUrl(goodsSearchData.getListImageData().get(0));
+        ifGoodsMaster.setDetailImageUrl(goodsSearchData.getDetailImageData().get(0));
+        ifGoodsMaster.setMagnifyImageUrl(goodsSearchData.getMagnifyImageData().get(0));
         // y/n을 01/02로 바꾸기
         ifGoodsMaster.setGoodsSellFl(Utilities.ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
         ifGoodsMaster.setGoodsDisplayFl(Utilities.ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
