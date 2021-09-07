@@ -193,7 +193,7 @@ public class GoodsSearch {
             ifGoodsAddGoods.setViewFl(Utilities.ynToOneTwo(addGoodsData.getViewFl()));
             ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne());
             ifGoodsAddGoods.setSoldOutFl(Utilities.ynToOneTwo(addGoodsData.getSoldOutFl()));
-            Itadgs itadgs = new Itadgs(ifGoodsAddGoods);
+            Itadgs itadgs = new Itadgs(ifGoodsMaster, ifGoodsAddGoods);
             jpaItadgsRepository.save(itadgs);
 //            jpaIfGoodsAddGoodsRepository.save(addGoodsData);
         }
