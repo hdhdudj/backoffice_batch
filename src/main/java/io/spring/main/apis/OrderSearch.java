@@ -44,6 +44,8 @@ public class OrderSearch {
     private final JpaTbMemberAddressRepository jpaTbMemberAddressRepository;
     private final JpaTbOrderDetailRepository jpaTbOrderDetailRepository;
     private final JpaItitmmRepository jpaItitmmRepository;
+    private final JpaTmmapiRepository jpaTmmapiRepository;
+    private final JpaTmitemRepository jpaTmitemRepository;
     private final EntityManager em;
     private final ObjectMapper objectMapper;
     private final CommonXmlParse commonXmlParse;
@@ -245,7 +247,8 @@ public class OrderSearch {
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeq(tbOrderMaster.getOrderId(), ifOrderDetail.getOrderSeq());//, goodsSearchData.getGoodsNm());
         System.out.println("===== itemNm : " + goodsSearchData.getGoodsNm());
         System.out.println("===== orderId : " + tbOrderMaster.getOrderId() + " ===== goodsNm : " + goodsSearchData.getGoodsNm());
-        Ititmm ititmm = tbOrderDetail == null? jpaItitmmRepository.findByItemNm(goodsSearchData.getGoodsNm()) : tbOrderDetail.getItitmm();
+        Tmitem tmitem = jpaTmitemRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(),goodsSearchData.getGoodsNm());
+        Ititmm ititmm = jpaItitmmRepository.findByAssortIdAndItemId(tmitem.getAssortId(), tmitem.getItemId());
         if(tbOrderDetail == null){ // insert
             tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);
             String orderSeq = Utilities.plusOne(jpaTbOrderDetailRepository.findMaxOrderSeqWhereOrderId(tbOrderDetail.getOrderId()),3);

@@ -49,6 +49,6 @@ public class Lsdpsm extends CommonProps {
 
     // 연관 관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "depositVendorId", referencedColumnName="vendorId", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
+    @JoinColumn(name = "depositVendorId", referencedColumnName="id", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
     private Cmvdmr cmvdmr;
 }

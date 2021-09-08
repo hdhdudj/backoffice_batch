@@ -15,7 +15,7 @@ import java.util.List;
 public class PurchaseSelectDetailResponseData {
     public PurchaseSelectDetailResponseData(Lspchm lspchm){
         this.purchaseDt = lspchm.getPurchaseDt();
-        this.purchaseVendorId = lspchm.getPurchaseVendorId();
+        this.ownerId = lspchm.getOwnerId();
         this.purchaseRemark = lspchm.getPurchaseRemark();
         this.storeCd = lspchm.getStoreCd();
         this.terms = lspchm.getTerms();
@@ -26,7 +26,7 @@ public class PurchaseSelectDetailResponseData {
         this.purchaseStatus = lspchm.getPurchaseStatus();
     }
     private Date purchaseDt;
-    private String purchaseVendorId;
+    private String ownerId;
     private String purchaseRemark;
     private String storeCd;
     private String terms;

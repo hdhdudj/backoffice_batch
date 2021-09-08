@@ -18,14 +18,14 @@ public class DepositSelectDetailResponseData {
         this.depositNo = lsdpsm.getDepositNo();
         this.depositDt = lsdpsm.getDepositDt();
         this.storeCd = lsdpsm.getStoreCd();
-        this.depositVendorId = lsdpsm.getDepositVendorId();
+        this.ownerId = lsdpsm.getOwnerId();
     }
     private String depositNo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date depositDt;
     private String storeCd;
     private String depositStatus;
-    private String depositVendorId;
+    private String ownerId;
     private List<Item> items;
 
     @Getter

@@ -23,10 +23,10 @@ public class PurchaseSelectListResponseData {
     public static class Purchase{
         public Purchase(Lspchm lspchm){
             this.purchaseNo = lspchm.getPurchaseNo();
-            this.purchaseVendorId = lspchm.getPurchaseVendorId();
+            this.ownerId = lspchm.getOwnerId();
         }
         private String purchaseNo;
-        private String purchaseVendorId;
+        private String ownerId;
         private String purchaseSeq;
         private Long purchaseQty;
         private Float purchaseUnitAmt;
