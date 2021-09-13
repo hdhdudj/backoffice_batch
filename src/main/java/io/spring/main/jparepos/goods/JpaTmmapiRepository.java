@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface JpaTmmapiRepository extends JpaRepository<Tmmapi, TmmapiId> {
     List<Tmmapi> findByJoinStatus(String jobStatus);
+
+    Tmmapi findByChannelGbAndChannelGoodsNo(String gbOne, String toString);
 }

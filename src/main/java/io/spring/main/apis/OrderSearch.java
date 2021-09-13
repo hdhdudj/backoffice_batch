@@ -1,6 +1,8 @@
 package io.spring.main.apis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.spring.main.enums.DeliveryMethod;
+import io.spring.main.enums.GoodsOrAddGoods;
 import io.spring.main.jparepos.common.*;
 import io.spring.main.jparepos.goods.*;
 import io.spring.main.jparepos.order.*;
@@ -151,7 +153,7 @@ public class OrderSearch {
             ifOrderDetail.setGoodsDcPrice(orderGoodsData.getGoodsDcPrice());
             ifOrderDetail.setCouponDcPrice(orderGoodsData.getCouponGoodsDcPrice());
             ifOrderDetail.setMemberDcPrice(orderGoodsData.getMemberDcPrice());
-            ifOrderDetail.setDeliveryMethodGb(changeDeliMethodToCode(orderGoodsData.getDeliveryMethodFl()));
+            ifOrderDetail.setDeliveryMethodGb(this.changeDeliMethodToCode(orderGoodsData.getDeliveryMethodFl()));
             ifOrderDetail.setDeliPrice(orderGoodsData.getGoodsDeliveryCollectPrice());
             ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
 
@@ -162,35 +164,37 @@ public class OrderSearch {
     // 문자 형식 된 code를 숫자 형식으로 변환하는 함수
     // delivery : 001, air : 002, ship : 003, quick : 004, 기타 : 005
     private String changeDeliMethodToCode(String deliveryMethodFl) {
-        String code;
-        if(deliveryMethodFl.equals(StringFactory.getStrDelivery())){
-            code = StringFactory.getThreeStartCd(); // 001
-        }
-        else if(deliveryMethodFl.equals(StringFactory.getStrAir())){
-            code = StringUtils.leftPad(StringFactory.getStrTwo(),3,'0');
-        }
-        else if(deliveryMethodFl.equals(StringFactory.getStrShip())){
-            code = StringUtils.leftPad(StringFactory.getStrThree(),3,'0');
-        }
-        else if(deliveryMethodFl.equals(StringFactory.getStrQuick())){
-            code = StringUtils.leftPad(StringFactory.getStrFour(),3,'0');
-        }
-        else{
-            code = StringUtils.leftPad(StringFactory.getStrFive(),3,'0');
-        }
-        return code;
+        return DeliveryMethod.valueOf(deliveryMethodFl).getFieldName();
+//        String code;
+//        if(deliveryMethodFl.equals(StringFactory.getStrDelivery())){
+//            code = StringFactory.getThreeStartCd(); // 001
+//        }
+//        else if(deliveryMethodFl.equals(StringFactory.getStrAir())){
+//            code = StringUtils.leftPad(StringFactory.getStrTwo(),3,'0');
+//        }
+//        else if(deliveryMethodFl.equals(StringFactory.getStrShip())){
+//            code = StringUtils.leftPad(StringFactory.getStrThree(),3,'0');
+//        }
+//        else if(deliveryMethodFl.equals(StringFactory.getStrQuick())){
+//            code = StringUtils.leftPad(StringFactory.getStrFour(),3,'0');
+//        }
+//        else{
+//            code = StringUtils.leftPad(StringFactory.getStrFive(),3,'0');
+//        }
+//        return code;
     }
 
     // goods -> 001, add_goods -> 002로 반환
     private String changeGoodsAddGoodsToCode(String goodsType) {
-        String code = "";
-        if(goodsType.equals(StringFactory.getStrGoods())){
-            code = StringFactory.getThreeStartCd(); // 001
-        }
-        else if(goodsType.equals(StringFactory.getStrAddGoods())) {
-            code = StringUtils.leftPad(StringFactory.getStrTwo(),3,'0');
-        }
-        return code;
+        return GoodsOrAddGoods.valueOf(goodsType).getFieldName();
+//        String code = "";
+//        if(goodsType.equals(StringFactory.getStrGoods())){
+//            code = StringFactory.getThreeStartCd(); // 001
+//        }
+//        else if(goodsType.equals(StringFactory.getStrAddGoods())) {
+//            code = StringUtils.leftPad(StringFactory.getStrTwo(),3,'0');
+//        }
+//        return code;
     }
 
     // goods xml 받아오는 함수
@@ -241,26 +245,35 @@ public class OrderSearch {
 
     private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
         // ifOrderDetail의 정보를 tbOrderDetail에 저장할 때, tmmapi의 goodsNo를 확인해서 assortId를 추출해야 함.
-        // 옵션이 없는 애들은 tmmapi에서 assortId 찾아오기, 옵션이 있는 애들은 tmitem에서 assortId, itemId 찾아오기 
-        GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","", "").get(0);
+        // 옵션이 없는 애들은 tmmapi에서 assortId 찾아오기, 옵션이 있는 애들은 tmitem에서 assortId, itemId 찾아오기
+        // goods 정보를 고도몰에서 가져올 필요x. 우리가 가진 데이터로도 가능.
+        // optionData가 있는 애들은 각 optionData마다 tbOrderDetail 생성됨.
+//        GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","", "").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
-        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeq(tbOrderMaster.getOrderId(), ifOrderDetail.getOrderSeq());//, goodsSearchData.getGoodsNm());
-        System.out.println("===== itemNm : " + goodsSearchData.getGoodsNm());
-        System.out.println("===== orderId : " + tbOrderMaster.getOrderId() + " ===== goodsNm : " + goodsSearchData.getGoodsNm());
-        Tmitem tmitem = jpaTmitemRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(),goodsSearchData.getGoodsNm());
-        Ititmm ititmm = jpaItitmmRepository.findByAssortIdAndItemId(tmitem.getAssortId(), tmitem.getItemId());
+        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeq(ifOrderDetail.getOrderId(), ifOrderDetail.getOrderSeq());//, goodsSearchData.getGoodsNm());
+        System.out.println("===== itemNm : " + ifOrderDetail.getChannelGoodsNm() + " ===== goodsNo : " + ifOrderDetail.getChannelGoodsNo());
+        System.out.println("===== orderId : " + ifOrderDetail.getOrderId() + " ===== goodsNm : " + ifOrderDetail.getChannelGoodsNm());
+        Ititmm ititmm = null;
         if(tbOrderDetail == null){ // insert
+            if(goodsSearchData.getOptionFl().equals("y")){
+                Tmitem tmitem = jpaTmitemRepository.findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), Long.toString(goodsSearchData.getGoodsNo()), goodsSearchData.getop);
+                ititmm = jpaItitmmRepository.findByAssortIdAndItemId(tmitem.getAssortId(), tmitem.getItemId());
+                tbOrderDetail.setItemId(ititmm.getItemId());
+            }
+            else {
+                Tmmapi tmmapi = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(), Long.toString(goodsSearchData.getGoodsNo()));
+                ititmm = jpaItitmmRepository.findByAssortIdAndItemId(tmmapi.getAssortId(), StringFactory.getFourStartCd()); // 0001 하드코딩
+            }
             tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);
             String orderSeq = Utilities.plusOne(jpaTbOrderDetailRepository.findMaxOrderSeqWhereOrderId(tbOrderDetail.getOrderId()),3);
             tbOrderDetail.setOrderSeq(orderSeq == null? tbOrderDetail.getOrderSeq() : orderSeq);
         }
         tbOrderDetail.setAssortId(ititmm.getAssortId());
+        tbOrderDetail.setGoodsNm(ititmm.getItemNm());
         TbOrderDetail compareTbOrderDetail = new TbOrderDetail(tbOrderDetail);
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
         tbOrderDetail.setStatusCd(StringFactory.getStrAOne()); // 고도몰에서는 A01 상태만 가져옴.
         tbOrderDetail.setAssortGb(ifOrderDetail.getChannelGoodsType()); // 001 : goods, 002 : add_goods
-        tbOrderDetail.setItemId(ititmm.getItemId());
-        tbOrderDetail.setGoodsNm(ititmm.getItemNm());
         tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
         tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice());
