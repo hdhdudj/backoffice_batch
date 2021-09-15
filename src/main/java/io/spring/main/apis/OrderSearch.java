@@ -251,6 +251,10 @@ public class OrderSearch {
         
         // tb_order_detail, tb_order_history
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
+            if(!ifOrderDetail.getChannelOrderStatus().equals(StringFactory.getStrPOne())){
+                log.debug("결제 완료되지 않은 주문입니다.");
+                continue;
+            }
             TbOrderDetail tbOrderDetail = this.saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
             if(tbOrderDetail != null){
                 this.saveTbOrderHistory(ifOrderDetail, tbOrderDetail);

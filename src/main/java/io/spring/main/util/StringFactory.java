@@ -222,6 +222,8 @@ public class StringFactory {
     private final static String strShip = "ship";
     @Getter
     private final static String strQuick = "quick";
+    @Getter
+    private final static String strPOne = "p1"; // 결제 완료
 
     // 기호
     @Getter
