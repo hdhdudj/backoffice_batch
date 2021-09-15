@@ -14,14 +14,22 @@ import io.spring.main.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.NodeList;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,6 +45,7 @@ public class OrderSearch {
     private String orderSearchUrl;
 
     private final GoodsSearch goodsSearch;
+    private final JpaItasrtRepository jpaItasrtRepository;
     private final JpaIfOrderMasterRepository jpaIfOrderMasterRepository;
     private final JpaIfOrderDetailRepository jpaIfOrderDetailRepository;
     private final JpaSequenceDataRepository jpaSequenceDataRepository;
@@ -45,6 +54,8 @@ public class OrderSearch {
     private final JpaTbMemberRepository jpaTbMemberRepository;
     private final JpaTbMemberAddressRepository jpaTbMemberAddressRepository;
     private final JpaTbOrderDetailRepository jpaTbOrderDetailRepository;
+    private final JpaItitmtRepository jpaItitmtRepository;
+    private final JpaItitmcRepository jpaItitmcRepository;
     private final JpaItitmmRepository jpaItitmmRepository;
     private final JpaTmmapiRepository jpaTmmapiRepository;
     private final JpaTmitemRepository jpaTmitemRepository;
@@ -77,7 +88,7 @@ public class OrderSearch {
     private IfOrderMaster saveIfOrderMaster(OrderSearchData orderSearchData) {
         String ifNo;
         // ifNo 채번
-        IfOrderMaster ioMaster = jpaIfOrderMasterRepository.findByChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
+        IfOrderMaster ioMaster = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), Long.toString(orderSearchData.getOrderNo())); // 채널은 01 하드코딩
         IfOrderMaster ifOrderMaster = null;
         if(ioMaster == null){ // insert
             String num = jpaSequenceDataRepository.nextVal(StringFactory.getSeqIforderMaster());
@@ -227,6 +238,12 @@ public class OrderSearch {
 
     @Transactional
     public IfOrderMaster saveOneIfNo(IfOrderMaster ifOrderMaster) {
+        IfOrderMaster ifOrderMaster1 = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), ifOrderMaster.getChannelOrderNo()); // 채널은 01 하드코딩
+        // 이미 저장한 주문이면 pass
+        if(ifOrderMaster1.getIfStatus().equals(StringFactory.getGbTwo())){ // ifStatus가 02면 저장 포기
+            log.debug("이미 저장된 주문입니다.");
+            return ifOrderMaster1;
+        }
         // tb_order_master, tb_member, tb_member_address 저장
         TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster);
         TbMember tbMember = this.saveTbMember(ifOrderMaster);
@@ -235,7 +252,9 @@ public class OrderSearch {
         // tb_order_detail, tb_order_history
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
             TbOrderDetail tbOrderDetail = this.saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
-            this.saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
+            if(tbOrderDetail != null){
+                this.saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
+            }
         }
         ifOrderMaster.setIfStatus(StringFactory.getGbTwo()); // ifStatus 02로 변경
 //        em.persist(ifOrderMaster);
@@ -243,6 +262,12 @@ public class OrderSearch {
         return ifOrderMaster;
     }
 
+    /**
+     * tbOrderDetail row 하나 저장하는 함수
+     * @param tbOrderMaster
+     * @param ifOrderDetail
+     * @return
+     */
     private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
         // ifOrderDetail의 정보를 tbOrderDetail에 저장할 때, tmmapi의 goodsNo를 확인해서 assortId를 추출해야 함.
         // 옵션이 없는 애들은 tmmapi에서 assortId 찾아오기, 옵션이 있는 애들은 tmitem에서 assortId, itemId 찾아오기
@@ -253,27 +278,43 @@ public class OrderSearch {
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeq(ifOrderDetail.getOrderId(), ifOrderDetail.getOrderSeq());//, goodsSearchData.getGoodsNm());
         System.out.println("===== itemNm : " + ifOrderDetail.getChannelGoodsNm() + " ===== goodsNo : " + ifOrderDetail.getChannelGoodsNo());
         System.out.println("===== orderId : " + ifOrderDetail.getOrderId() + " ===== goodsNm : " + ifOrderDetail.getChannelGoodsNm());
-        Ititmm ititmm = null;
-        if(tbOrderDetail == null){ // insert
-            if(goodsSearchData.getOptionFl().equals("y")){
-                Tmitem tmitem = jpaTmitemRepository.findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), Long.toString(goodsSearchData.getGoodsNo()), goodsSearchData.getop);
-                ititmm = jpaItitmmRepository.findByAssortIdAndItemId(tmitem.getAssortId(), tmitem.getItemId());
-                tbOrderDetail.setItemId(ititmm.getItemId());
-            }
-            else {
-                Tmmapi tmmapi = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(), Long.toString(goodsSearchData.getGoodsNo()));
-                ititmm = jpaItitmmRepository.findByAssortIdAndItemId(tmmapi.getAssortId(), StringFactory.getFourStartCd()); // 0001 하드코딩
-            }
-            tbOrderDetail = new TbOrderDetail(tbOrderMaster, ititmm);
-            String orderSeq = Utilities.plusOne(jpaTbOrderDetailRepository.findMaxOrderSeqWhereOrderId(tbOrderDetail.getOrderId()),3);
-            tbOrderDetail.setOrderSeq(orderSeq == null? tbOrderDetail.getOrderSeq() : orderSeq);
+        Tmitem tmitem = jpaTmitemRepository.findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo(), ifOrderDetail.getChannelOptionsNo());
+        Tmmapi tmmapi = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo());
+        if(tmmapi == null){
+            log.debug("tmmapi에 해당 goodsNo 정보가 들어가 있지 않습니다.");
+            return null;
         }
+        Ititmm ititmm = jpaItitmmRepository.findByAssortIdAndItemId(tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
+        tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderMaster, tbOrderDetail, ifOrderDetail, ititmm);
+        return tbOrderDetail;
+    }
+
+    /**
+     * 단일 tbOrderDetail 객체를 생성 후 save 해주는 함수. 기존 대비 변한 값이 없으면 null을 return
+     * @param tbOrderMaster
+     * @param ifOrderDetail
+     * @param ititmm
+     */
+    private TbOrderDetail saveSingleTbOrderDetail(TbOrderMaster tbOrderMaster, TbOrderDetail outTbOrderDetail, IfOrderDetail ifOrderDetail, Ititmm ititmm) {
+        boolean flag = outTbOrderDetail == null; // true : insert, false : update
+        TbOrderDetail tbOrderDetail = null;
+        TbOrderDetail compareTbOrderDetail = null;
+        if(flag){ // insert
+            String orderSeq = StringFactory.getStrZero() + ifOrderDetail.getIfNoSeq();
+            orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
+            tbOrderDetail = new TbOrderDetail(tbOrderMaster.getOrderId(), orderSeq);
+        }
+        else { // update
+            compareTbOrderDetail = new TbOrderDetail(outTbOrderDetail);
+            tbOrderDetail = outTbOrderDetail;
+        }
+        tbOrderDetail.setItemId(ititmm.getItemId());
         tbOrderDetail.setAssortId(ititmm.getAssortId());
         tbOrderDetail.setGoodsNm(ititmm.getItemNm());
-        TbOrderDetail compareTbOrderDetail = new TbOrderDetail(tbOrderDetail);
+
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
         tbOrderDetail.setStatusCd(StringFactory.getStrAOne()); // 고도몰에서는 A01 상태만 가져옴.
-        tbOrderDetail.setAssortGb(ifOrderDetail.getChannelGoodsType()); // 001 : goods, 002 : add_goods
+        tbOrderDetail.setAssortGb(ititmm.getItasrt().getAssortGb()); // 01 : 직구, 02 : 수입
         tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
         tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice());
@@ -296,9 +337,9 @@ public class OrderSearch {
         tbOrderDetail.setLastCategoryId(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
         tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0'));
 
-        em.persist(tbOrderDetail);
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
-        if(compareTbOrderDetail.equals(tbOrderDetail)){
+        em.persist(tbOrderDetail);
+        if(!flag && compareTbOrderDetail.equals(tbOrderDetail)){
             tbOrderDetail = null;
         }
         return tbOrderDetail;
@@ -383,5 +424,52 @@ public class OrderSearch {
         tbMemberAddress.setDeliAddr2(ifOrderMaster.getReceiverAddr2());
 
         em.persist(tbMemberAddress);
+    }
+
+    /**
+     * tbOrderDetail의 상태(statusCd)를 바꿔줌
+     * @param tbOrderDetail
+     * @return
+     */
+    @Transactional
+    public TbOrderDetail changeOneToStatusCd(TbOrderDetail tbOrderDetail) {
+//        this.changeOrderStatus(tbOrderDetail.getOrderId(), tbOrderDetail.getOrderSeq());
+        String url = "http://localhost:8080/order/orderstatus?orderId=" + tbOrderDetail.getOrderId() + "&orderSeq=" + tbOrderDetail.getOrderSeq();
+        log.debug("===== url : " + url);
+        int res = this.get(url);
+        IfOrderMaster ifOrderMaster = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), tbOrderDetail.getChannelOrderNo()); // 채널은 01 하드코딩
+        if(res == 200){
+            ifOrderMaster.setIfStatus(StringFactory.getGbThree());
+            em.persist(ifOrderMaster);
+        }
+        else {
+            ifOrderMaster.setIfStatus(StringFactory.getGbFour());
+            em.persist(ifOrderMaster);
+        }
+        return null;
+    }
+
+    private int get(String requestURL) {
+        try {
+            HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
+            HttpGet getRequest = new HttpGet(requestURL); //GET 메소드 URL 생성
+            getRequest.addHeader("x-api-key", ""); //KEY 입력
+
+            HttpResponse response = client.execute(getRequest);
+
+            //Response 출력
+            if (response.getStatusLine().getStatusCode() == 200) {
+                ResponseHandler<String> handler = new BasicResponseHandler();
+                String body = handler.handleResponse(response);
+                System.out.println(body);
+                return 200;
+            } else {
+                System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+                return -1;
+            }
+        } catch (Exception e){
+            System.err.println(e.toString());
+        }
+        return -1;
     }
 }

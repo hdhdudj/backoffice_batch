@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "if_order_master")
-public class IfOrderMaster extends CommonProps {
+public class IfOrderMaster extends CommonProps implements Serializable {
     public IfOrderMaster(OrderSearchData orderSearchData){
         ifNo = orderSearchData.getIfNo();
         channelOrderNo = Long.toString(orderSearchData.getOrderNo());
