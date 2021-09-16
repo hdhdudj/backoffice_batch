@@ -157,6 +157,7 @@ public class OrderSearch {
             ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
             // goodsNm 가져오기
             ifOrderDetail.setChannelGoodsNm(goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "").get(0).getGoodsNm());
+//            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
             //
             ifOrderDetail.setChannelParentGoodsNo(Long.toString(orderGoodsData.getParentGoodsNo()));
             ifOrderDetail.setGoodsCnt(orderGoodsData.getGoodsCnt());
