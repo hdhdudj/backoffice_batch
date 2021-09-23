@@ -241,15 +241,15 @@ public class OrderSearch {
     public IfOrderMaster saveOneIfNo(IfOrderMaster ifOrderMaster) {
         IfOrderMaster ifOrderMaster1 = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), ifOrderMaster.getChannelOrderNo()); // 채널은 01 하드코딩
         // 이미 저장한 주문이면 pass
+        TbMember tbMember = this.saveTbMember(ifOrderMaster);
+        this.saveTbMemberAddress(ifOrderMaster, tbMember);
         if(ifOrderMaster1.getIfStatus().equals(StringFactory.getGbTwo())){ // ifStatus가 02면 저장 포기
             log.debug("이미 저장된 주문입니다.");
             return ifOrderMaster1;
         }
         // tb_order_master, tb_member, tb_member_address 저장
         TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster);
-        TbMember tbMember = this.saveTbMember(ifOrderMaster);
-        this.saveTbMemberAddress(ifOrderMaster, tbMember);
-        
+
         // tb_order_detail, tb_order_history
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
             if(!ifOrderDetail.getChannelOrderStatus().equals(StringFactory.getStrPOne())){
@@ -280,7 +280,7 @@ public class OrderSearch {
         // optionData가 있는 애들은 각 optionData마다 tbOrderDetail 생성됨.
 //        GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","", "").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
-        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeq(ifOrderDetail.getOrderId(), ifOrderDetail.getOrderSeq());//, goodsSearchData.getGoodsNm());
+        TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getChannelOrderSeq());//, goodsSearchData.getGoodsNm());
         System.out.println("===== itemNm : " + ifOrderDetail.getChannelGoodsNm() + " ===== goodsNo : " + ifOrderDetail.getChannelGoodsNo());
         System.out.println("===== orderId : " + ifOrderDetail.getOrderId() + " ===== goodsNm : " + ifOrderDetail.getChannelGoodsNm());
         Tmitem tmitem = jpaTmitemRepository.findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo(), ifOrderDetail.getChannelOptionsNo());

@@ -14,4 +14,6 @@ public interface JpaTbOrderDetailRepository extends JpaRepository<TbOrderDetail,
 
     @Query("select t from TbOrderDetail t left join fetch t.ititmm where t.orderId=?1 and t.orderSeq=?2")
     TbOrderDetail findByOrderIdAndOrderSeq(String orderId, String orderSeq);
+
+    TbOrderDetail findByChannelOrderNoAndChannelOrderSeq(String channelOrderNo, String channelOrderSeq);
 }
