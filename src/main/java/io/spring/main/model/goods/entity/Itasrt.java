@@ -266,7 +266,7 @@ public class Itasrt extends CommonProps{
 //	private String plGbn;
 //	private String plFromDt;
 //	private String plToDt;
-//	private String storageId;
+	private String storageId;
 //	private String optionGb;
 //	private String shopSaleGb;
 //	private String sendbackPayGb;

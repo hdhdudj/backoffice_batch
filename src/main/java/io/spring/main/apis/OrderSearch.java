@@ -340,7 +340,9 @@ public class OrderSearch {
 
         tbOrderDetail.setLastGb(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
         tbOrderDetail.setLastCategoryId(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
-        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0'));
+
+        Itasrt itasrt = ititmm.getItasrt();
+        tbOrderDetail.setStorageId(itasrt.getStorageId());//(StringUtils.leftPad(StringFactory.getStrOne(),6,'0'));
 
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         em.persist(tbOrderDetail);
