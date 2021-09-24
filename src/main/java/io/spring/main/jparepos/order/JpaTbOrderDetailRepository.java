@@ -5,6 +5,8 @@ import io.spring.main.model.order.idclass.TbOrderDetailId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface JpaTbOrderDetailRepository extends JpaRepository<TbOrderDetail, TbOrderDetailId> {
 //    @Query("select t from TbOrderDetail t left join fetch t.ititmm where t.orderId=?1 and t.goodsNm=?2")
 //    TbOrderDetail findByOrderIdAndGoodsNm(String orderId, String goodsNm);
@@ -16,4 +18,6 @@ public interface JpaTbOrderDetailRepository extends JpaRepository<TbOrderDetail,
     TbOrderDetail findByOrderIdAndOrderSeq(String orderId, String orderSeq);
 
     TbOrderDetail findByChannelOrderNoAndChannelOrderSeq(String channelOrderNo, String channelOrderSeq);
+
+    List<TbOrderDetail> findByOrderId(String setOrderSeq);
 }

@@ -16,13 +16,14 @@ import javax.persistence.*;
 @Table(name="tb_member")
 public class TbMember extends CommonProps {
     public TbMember(IfOrderMaster ifOrderMaster){
+        custId = Long.parseLong(ifOrderMaster.getMemNo());
         custNm = ifOrderMaster.getOrderName();
         custEmail = ifOrderMaster.getOrderEmail();
         loginId = custEmail.split("@")[0];
         loginPw = "";
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long custId;
     private String custNm;
     private String custEmail;

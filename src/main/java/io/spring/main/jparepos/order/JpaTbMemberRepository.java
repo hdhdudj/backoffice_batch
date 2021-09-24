@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JpaTbMemberRepository extends JpaRepository<TbMember, Long> {
     TbMember findByLoginId(String loginId);
+
+    TbMember findByCustId(long memNo);
 }

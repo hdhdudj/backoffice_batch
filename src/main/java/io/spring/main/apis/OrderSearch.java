@@ -104,7 +104,7 @@ public class OrderSearch {
 //            ifOrderMaster = ioMaster;
         }
         orderSearchData.setIfNo(ifNo);
-        IfOrderMaster ifOrderMaster2 = null;
+//        IfOrderMaster ifOrderMaster2 = null;
         if(ifOrderMaster == null){ // insert
             ifOrderMaster = objectMapper.convertValue(orderSearchData, IfOrderMaster.class);
             ifOrderMaster.setIfStatus(StringFactory.getGbOne());
@@ -156,7 +156,8 @@ public class OrderSearch {
             ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
             ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
             // goodsNm 가져오기
-            ifOrderDetail.setChannelGoodsNm(goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "").get(0).getGoodsNm());
+            List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "");
+            ifOrderDetail.setChannelGoodsNm(goodsSearchDataList.size() > 0? goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "").get(0).getGoodsNm() : " ");
 //            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
             //
             ifOrderDetail.setChannelParentGoodsNo(Long.toString(orderGoodsData.getParentGoodsNo()));
@@ -241,14 +242,14 @@ public class OrderSearch {
     public IfOrderMaster saveOneIfNo(IfOrderMaster ifOrderMaster) {
         IfOrderMaster ifOrderMaster1 = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), ifOrderMaster.getChannelOrderNo()); // 채널은 01 하드코딩
         // 이미 저장한 주문이면 pass
-        TbMember tbMember = this.saveTbMember(ifOrderMaster);
-        this.saveTbMemberAddress(ifOrderMaster, tbMember);
         if(ifOrderMaster1.getIfStatus().equals(StringFactory.getGbTwo())){ // ifStatus가 02면 저장 포기
             log.debug("이미 저장된 주문입니다.");
             return ifOrderMaster1;
         }
         // tb_order_master, tb_member, tb_member_address 저장
         TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster);
+        TbMember tbMember = this.saveTbMember(ifOrderMaster);
+        this.saveTbMemberAddress(ifOrderMaster, tbMember);
 
         // tb_order_detail, tb_order_history
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
@@ -289,9 +290,19 @@ public class OrderSearch {
             log.debug("tmmapi에 해당 goodsNo 정보가 들어가 있지 않습니다.");
             return null;
         }
-        Ititmm ititmm = jpaItitmmRepository.findByAssortIdAndItemId(tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
+        else if(tmitem == null){
+            log.debug("tmitem에 해당 goodsNo 정보가 들어가 있지 않습니다.");
+        }
+        Ititmm ititmm = this.getItitmmWithItasrt(tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
         tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderMaster, tbOrderDetail, ifOrderDetail, ititmm);
         return tbOrderDetail;
+    }
+
+    private Ititmm getItitmmWithItasrt(String assortId, String itemId) {
+        TypedQuery<Ititmm> query = em.createQuery("select m from Ititmm m join fetch m.itasrt t where m.assortId=?1 and m.itemId=?2", Ititmm.class);
+        query.setParameter(1,assortId).setParameter(2,itemId);
+        Ititmm ititmm = query.getSingleResult();
+        return ititmm;
     }
 
     /**
@@ -405,7 +416,7 @@ public class OrderSearch {
     }
 
     private TbMember saveTbMember(IfOrderMaster ifOrderMaster) {
-        TbMember tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail().split(StringFactory.getStrAt())[0]);
+        TbMember tbMember = jpaTbMemberRepository.findByCustId(Long.parseLong(ifOrderMaster.getMemNo()));
         if(tbMember == null){
             tbMember = new TbMember(ifOrderMaster);
         }
@@ -441,18 +452,28 @@ public class OrderSearch {
     @Transactional
     public TbOrderDetail changeOneToStatusCd(TbOrderDetail tbOrderDetail) {
 //        this.changeOrderStatus(tbOrderDetail.getOrderId(), tbOrderDetail.getOrderSeq());
-        String url = "http://localhost:8080/order/orderstatus?orderId=" + tbOrderDetail.getOrderId() + "&orderSeq=" + tbOrderDetail.getOrderSeq();
-        log.debug("===== url : " + url);
-        int res = this.get(url);
+        List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
+        List<Integer> resList = new ArrayList<>();
+        for(TbOrderDetail td : tbOrderDetailList){
+            String url = "http://localhost:8080/order/orderstatus?orderId=" + td.getOrderId() + "&orderSeq=" + td.getOrderSeq();
+            log.debug("===== url : " + url);
+            int res = this.get(url);
+            resList.add(res);
+        }
+        int successNum = 0;
+        for(int res : resList){
+            if(res == 200){ // 03 :
+                successNum++;
+            }
+        }
         IfOrderMaster ifOrderMaster = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), tbOrderDetail.getChannelOrderNo()); // 채널은 01 하드코딩
-        if(res == 200){
+        if(successNum == resList.size()){
             ifOrderMaster.setIfStatus(StringFactory.getGbThree());
-            em.persist(ifOrderMaster);
         }
-        else {
+        else{
             ifOrderMaster.setIfStatus(StringFactory.getGbFour());
-            em.persist(ifOrderMaster);
         }
+        em.persist(ifOrderMaster);
         return null;
     }
 

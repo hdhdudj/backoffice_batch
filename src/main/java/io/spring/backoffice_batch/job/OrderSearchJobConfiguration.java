@@ -20,6 +20,7 @@ import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -44,7 +45,7 @@ public class OrderSearchJobConfiguration {
     @Bean
     public Job searchOrderJob(){
         return jobBuilderFactory.get("searchOrderJob")
-                .start(searchOrderStep1())
+                .start(searchOrderStep1(null))
                 .next(searchOrderStep2())
                 .next(searchOrderStep3())
                 .incrementer(new UniqueRunIdIncrementer())
@@ -52,13 +53,15 @@ public class OrderSearchJobConfiguration {
     }
 
     @Bean
-    public Step searchOrderStep1(){
+    @JobScope
+    public Step searchOrderStep1(@Value("#{jobParameters[page]}") String page){
         return stepBuilderFactory.get("searchOrderStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchOrderStep1");
                     // 트랜잭션1. if table 저장
-                    String startDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7);
-                    String endDt = Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
+                    int n = Integer.parseInt(page);
+                    String startDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7 * (n+1));
+                    String endDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7 * n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
                     orderSearch.saveIfTables("", startDt, endDt); //"2106301555509122","2107021751024711"
                     return RepeatStatus.FINISHED;
                 })
@@ -102,6 +105,17 @@ public class OrderSearchJobConfiguration {
         return jpaPagingItemReader;
     }
     @Bean
+    public ItemProcessor<IfOrderMaster, IfOrderMaster> jpaOrderSearchItemProcessor() {
+        return ifOrderMaster -> orderSearch.saveOneIfNo(ifOrderMaster);
+    }
+    @Bean
+    public JpaItemWriter jpaOrderSearchItemWriter() {
+        JpaItemWriter jpaItemWriter = new JpaItemWriter();
+        jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
+        return jpaItemWriter;
+    }
+
+    @Bean
     public JpaPagingItemReader jpaOrderSearchItemWriterReader2() {
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
             @Override
@@ -112,26 +126,15 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' order by t.orderId asc, t.orderSeq asc");
+        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' order by t.orderId asc");
 //        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' and t.orderId='O00000363' and t.orderSeq='0001'");
         return jpaPagingItemReader;
-    }
-
-    @Bean
-    public ItemProcessor<IfOrderMaster, IfOrderMaster> jpaOrderSearchItemProcessor() {
-        return ifOrderMaster -> orderSearch.saveOneIfNo(ifOrderMaster);
     }
     @Bean
     public ItemProcessor<TbOrderDetail, TbOrderDetail> jpaOrderSearchItemProcessor2() {
         return tbOrderDetail -> orderSearch.changeOneToStatusCd(tbOrderDetail);
     }
 
-    @Bean
-    public JpaItemWriter jpaOrderSearchItemWriter() {
-        JpaItemWriter jpaItemWriter = new JpaItemWriter();
-        jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
-        return jpaItemWriter;
-    }
 
 //    @Bean
 //    public Step searchOrderStep2(){
