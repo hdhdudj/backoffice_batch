@@ -127,7 +127,12 @@ public class OrderSearch {
         ifOrderMaster.setReceiverAddr2(orderSearchData.getOrderInfoData().get(0).getReceiverAddressSub());
         ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
         ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
-        ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
+//        ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]); // tb_order_master.order_id
+
+        ifOrderMaster.setPayGb(orderSearchData.getSettleKind());
+        ifOrderMaster.setPayAmt(orderSearchData.getSettlePrice());
+        ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
+
         jpaIfOrderMasterRepository.save(ifOrderMaster);
 
         return ifOrderMaster;
@@ -150,7 +155,7 @@ public class OrderSearch {
             // not null
             ifOrderDetail.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
             ifOrderDetail.setChannelOrderSeq(Long.toString(orderGoodsData.getSno()));
-            ifOrderDetail.setChannelOrderStatus(orderSearchData.getOrderStatus());
+            ifOrderDetail.setChannelOrderStatus(orderGoodsData.getOrderStatus());
             ifOrderDetail.setChannelGoodsType(changeGoodsAddGoodsToCode(orderGoodsData.getGoodsType()));
             ifOrderDetail.setChannelGoodsNo(orderGoodsData.getGoodsNo());
             ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
@@ -168,7 +173,8 @@ public class OrderSearch {
             ifOrderDetail.setMemberDcPrice(orderGoodsData.getMemberDcPrice());
             ifOrderDetail.setDeliveryMethodGb(this.changeDeliMethodToCode(orderGoodsData.getDeliveryMethodFl()));
             ifOrderDetail.setDeliPrice(orderGoodsData.getGoodsDeliveryCollectPrice());
-            ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
+//            ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]); // tb_order_detail.order_id
+            ifOrderDetail.setDeliveryInfo(orderGoodsData.getDeliveryCond());
 
             em.persist(ifOrderDetail);
         }
@@ -319,6 +325,9 @@ public class OrderSearch {
             String orderSeq = StringFactory.getStrZero() + ifOrderDetail.getIfNoSeq();
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
             tbOrderDetail = new TbOrderDetail(tbOrderMaster.getOrderId(), orderSeq);
+            ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
+            ifOrderDetail.setOrderSeq(tbOrderDetail.getOrderSeq());
+            jpaIfOrderDetailRepository.save(ifOrderDetail);
         }
         else { // update
             compareTbOrderDetail = new TbOrderDetail(outTbOrderDetail);
@@ -341,7 +350,7 @@ public class OrderSearch {
         tbOrderDetail.setGoodsDcPrice(ifOrderDetail.getGoodsDcPrice());
         tbOrderDetail.setMemberDcPrice(ifOrderDetail.getMemberDcPrice());
         tbOrderDetail.setCouponDcPrice(ifOrderDetail.getCouponDcPrice());
-        tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice());
+//        tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice()); // 일단 사용안함
         tbOrderDetail.setDcSumPrice(goodsDcPrice + memberDcPrice + couponDcPrice + adminDcPrice);
         tbOrderDetail.setSalePrice(tbOrderDetail.getGoodsPrice() - tbOrderDetail.getDcSumPrice());
         tbOrderDetail.setDeliMethod(ifOrderDetail.getDeliveryMethodGb()); // 추후 수정
@@ -387,6 +396,8 @@ public class OrderSearch {
         tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId());
         tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
         tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
+
+        tbOrderMaster.setOrderId(ifOrderMaster.getOrderId());
 
         em.persist(tbOrderMaster);
 

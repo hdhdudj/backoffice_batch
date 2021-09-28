@@ -286,6 +286,7 @@ public class OrderSearchData {
         private Date finishDt;
         private List<ClaimData> claimData;
         private Long enuri;
+        private String deliveryCond;
 
     }
     @Getter
