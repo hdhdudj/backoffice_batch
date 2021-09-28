@@ -39,6 +39,7 @@ public class TbOrderMaster extends CommonProps {
     private String custPcode;
     private String orderMemo;
 
+    // 21-09-28 추가된 컬럼
     private String payGb;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime payDt;
