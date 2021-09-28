@@ -1,6 +1,8 @@
 package io.spring.main.util;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -155,4 +157,12 @@ public class Utilities {
 		return filteredString.toString();
 	}
 
+    /**
+     * Date를 localDateTime으로 변환
+     * @param date
+     * @return
+     */
+    public static LocalDateTime dateToLocalDateTime(Date date){
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }
 }

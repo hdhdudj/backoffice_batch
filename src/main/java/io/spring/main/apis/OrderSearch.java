@@ -253,9 +253,9 @@ public class OrderSearch {
             return ifOrderMaster1;
         }
         // tb_order_master, tb_member, tb_member_address 저장
-        TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster);
         TbMember tbMember = this.saveTbMember(ifOrderMaster);
-        this.saveTbMemberAddress(ifOrderMaster, tbMember);
+        TbMemberAddress tbMemberAddress = this.saveTbMemberAddress(ifOrderMaster, tbMember);
+        TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster, tbMember, tbMemberAddress);
 
         // tb_order_detail, tb_order_history
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
@@ -372,7 +372,7 @@ public class OrderSearch {
         return tbOrderDetail;
     }
 
-    private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster) {
+    private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster, TbMember tbMember, TbMemberAddress tbMemberAddress) {
 //        System.out.println("------ + " + ifOrderMaster.toString());
         TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         if(tbOrderMaster == null){
@@ -398,6 +398,13 @@ public class OrderSearch {
         tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
 
         tbOrderMaster.setOrderId(ifOrderMaster.getOrderId());
+        tbOrderMaster.setCustId(tbMember.getCustId());
+        tbOrderMaster.setDeliId(tbMemberAddress.getDeliId());
+        tbOrderMaster.setOrderAmt(ifOrderMaster.getPayAmt());
+        tbOrderMaster.setPayGb(ifOrderMaster.getPayGb());
+        tbOrderMaster.setPayDt(Utilities.dateToLocalDateTime(ifOrderMaster.getPayDt()));
+        tbOrderMaster.setFirstOrderGb(StringFactory.getGbOne()); // 첫주문 01 그다음 02
+        tbOrderMaster.setOrderGb(StringFactory.getGbOne()); // 01 : 주문, 02 : 반품, 03 : 교환
 
         em.persist(tbOrderMaster);
 
@@ -441,7 +448,7 @@ public class OrderSearch {
         return tbMember;
     }
 
-    private void saveTbMemberAddress(IfOrderMaster ifOrderMaster, TbMember tbMember) {
+    private TbMemberAddress saveTbMemberAddress(IfOrderMaster ifOrderMaster, TbMember tbMember) {
         TbMemberAddress tbMemberAddress = jpaTbMemberAddressRepository.findByCustId(tbMember.getCustId());
         if(tbMemberAddress == null){
             tbMemberAddress = new TbMemberAddress(ifOrderMaster, tbMember);
@@ -455,6 +462,8 @@ public class OrderSearch {
         tbMemberAddress.setDeliNm(ifOrderMaster.getReceiverName());
 
         em.persist(tbMemberAddress);
+
+        return tbMemberAddress;
     }
 
     /**
