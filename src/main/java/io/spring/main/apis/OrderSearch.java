@@ -452,6 +452,8 @@ public class OrderSearch {
         tbMemberAddress.setDeliAddr1(ifOrderMaster.getReceiverAddr1());
         tbMemberAddress.setDeliAddr2(ifOrderMaster.getReceiverAddr2());
 
+        tbMemberAddress.setDeliNm(ifOrderMaster.getReceiverName());
+
         em.persist(tbMemberAddress);
     }
 
