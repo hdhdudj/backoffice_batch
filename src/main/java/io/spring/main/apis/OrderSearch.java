@@ -342,7 +342,7 @@ public class OrderSearch {
         tbOrderDetail.setAssortGb(ititmm.getItasrt().getAssortGb()); // 01 : 직구, 02 : 수입
         tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
-        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice());
+//        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice()); // fixedPrice
         float goodsDcPrice = ifOrderDetail.getGoodsDcPrice() == null? 0 : ifOrderDetail.getGoodsDcPrice();
         float memberDcPrice = ifOrderDetail.getMemberDcPrice() == null? 0 : ifOrderDetail.getMemberDcPrice();
         float couponDcPrice = ifOrderDetail.getCouponDcPrice() == null? 0 : ifOrderDetail.getCouponDcPrice();
@@ -352,7 +352,7 @@ public class OrderSearch {
         tbOrderDetail.setCouponDcPrice(ifOrderDetail.getCouponDcPrice());
 //        tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice()); // 일단 사용안함
         tbOrderDetail.setDcSumPrice(goodsDcPrice + memberDcPrice + couponDcPrice + adminDcPrice);
-        tbOrderDetail.setSalePrice(tbOrderDetail.getGoodsPrice() - tbOrderDetail.getDcSumPrice());
+//        tbOrderDetail.setSalePrice(tbOrderDetail.getGoodsPrice() - tbOrderDetail.getDcSumPrice()); // goodsPrice
         tbOrderDetail.setDeliMethod(ifOrderDetail.getDeliveryMethodGb()); // 추후 수정
         tbOrderDetail.setDeliPrice(ifOrderDetail.getDeliPrice());
         tbOrderDetail.setChannelOrderNo(ifOrderDetail.getChannelOrderNo());
@@ -363,6 +363,15 @@ public class OrderSearch {
 
         Itasrt itasrt = ititmm.getItasrt();
         tbOrderDetail.setStorageId(itasrt.getStorageId());//(StringUtils.leftPad(StringFactory.getStrOne(),6,'0'));
+
+        // 21-09-28 추가
+        tbOrderDetail.setGoodsPrice(ifOrderDetail.getFixedPrice());
+        tbOrderDetail.setSalePrice(ifOrderDetail.getGoodsPrice());
+        tbOrderDetail.setOptionTextInfo(ifOrderDetail.getOptionTextInfo());
+        tbOrderDetail.setListImageData(ifOrderDetail.getListImageData());
+        tbOrderDetail.setOptionPrice(ifOrderDetail.getOptionPrice());
+        tbOrderDetail.setOptionTextPrice(ifOrderDetail.getOptionTextPrice());
+        tbOrderDetail.setDeliveryInfo(ifOrderDetail.getDeliveryInfo());
 
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         em.persist(tbOrderDetail);
