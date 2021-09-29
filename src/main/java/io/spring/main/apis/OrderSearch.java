@@ -397,6 +397,8 @@ public class OrderSearch {
 //            tbOrderMaster = new TbOrderMaster(ordId);
             String orderId = Utilities.getStringNo('O',ifOrderMaster.getIfNo(),9);
             tbOrderMaster = new TbOrderMaster(orderId);
+            ifOrderMaster.setOrderId(tbOrderMaster.getOrderId());
+            jpaIfOrderMasterRepository.save(ifOrderMaster);
         }
         tbOrderMaster.setChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         tbOrderMaster.setFirstOrderId(ifOrderMaster.getChannelOrderNo());
@@ -408,12 +410,12 @@ public class OrderSearch {
         tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
         tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
 
-//        tbOrderMaster.setOrderId(ifOrderMaster.getOrderId());
         tbOrderMaster.setCustId(tbMember.getCustId());
         tbOrderMaster.setDeliId(tbMemberAddress.getDeliId());
         tbOrderMaster.setOrderAmt(ifOrderMaster.getPayAmt());
         tbOrderMaster.setPayGb(ifOrderMaster.getPayGb());
         tbOrderMaster.setPayDt(Utilities.dateToLocalDateTime(ifOrderMaster.getPayDt()));
+//        tbOrderMaster.setOrderId(ifOrderMaster.getOrderId());
         tbOrderMaster.setFirstOrderGb(StringFactory.getGbOne()); // 첫주문 01 그다음 02
         tbOrderMaster.setOrderGb(StringFactory.getGbOne()); // 01 : 주문, 02 : 반품, 03 : 교환
 

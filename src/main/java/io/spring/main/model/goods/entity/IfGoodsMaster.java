@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.goods.idclass.IfGoodsMasterId;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,10 +18,18 @@ import java.util.Date;
 @Setter
 @IdClass(IfGoodsMasterId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class IfGoodsMaster extends CommonProps {
-    public IfGoodsMaster(IfGoodsMaster ifGoodsMaster){
-
+@EqualsAndHashCode
+public class IfGoodsMaster extends CommonProps implements Cloneable {
+    @Override
+    public IfGoodsMaster clone() {
+        try {
+            return (IfGoodsMaster) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // Cloneable을 구현했기 때문에 이 블록이 실행되는 일은 없다.
+            return null;
+        }
     }
+
     public IfGoodsMaster(Itasrt itasrt, Itasrn itasrn, Itasrd itasrd){
         // itasrt
         this.goodsNm = itasrt.getAssortNm();

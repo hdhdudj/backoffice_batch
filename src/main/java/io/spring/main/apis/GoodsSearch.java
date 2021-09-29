@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.utils.CloneUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -161,10 +162,10 @@ public class GoodsSearch {
             ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);
         }
         else{ // update
-            ifGoodsMaster = new IfGoodsMaster(origIfGoodsMaster);
+            ifGoodsMaster = origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
             isUpdate = true;
         }
-        ifGoodsMaster.setAssortId(goodsSearchData.getAssortId()); // assort_id 설정
+        ifGoodsMaster.setAssortId(assortId);//(goodsSearchData.getAssortId()); // assort_id 설정
 
         // 이미지 데이터 list 형태로 돼있음 -> string property에 set해주기
         ifGoodsMaster.setMainImageData(goodsSearchData.getMainImageData() != null? goodsSearchData.getMainImageData().get(0):null);
@@ -188,11 +189,16 @@ public class GoodsSearch {
         else {
             ifGoodsMaster.setCateCd("");
         }
+        
+        boolean isChanged = false;
         if(isUpdate){ // update인 경우 기존 값과 비교
+            isChanged = !ifGoodsMaster.equals(origIfGoodsMaster);
+        }
 
+        if(!isUpdate || (isUpdate && isChanged)){ // insert인 경우, update고 값이 변한 경우
+            jpaIfGoodsMasterRepository.save(ifGoodsMaster);
         }
 //        log.debug("----- cateCd : " + ifGoodsMaster.getCateCd());
-        jpaIfGoodsMasterRepository.save(ifGoodsMaster);
         return ifGoodsMaster;
     }
 
