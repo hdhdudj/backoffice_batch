@@ -22,6 +22,9 @@ import java.util.Date;
 @IdClass(IfGoodsMasterId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class IfGoodsMaster extends CommonProps {
+    public IfGoodsMaster(IfGoodsMaster ifGoodsMaster){
+
+    }
     public IfGoodsMaster(Itasrt itasrt, Itasrn itasrn, Itasrd itasrd){
         // itasrt
         this.goodsNm = itasrt.getAssortNm();

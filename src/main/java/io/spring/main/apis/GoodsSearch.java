@@ -140,6 +140,7 @@ public class GoodsSearch {
     }
 
     private IfGoodsMaster saveIfGoodsMaster(GoodsSearchData goodsSearchData) {
+        boolean isUpdate = false;
         String assortId = "";
         if(goodsSearchData.getAssortId() == null){
             String num = jpaSequenceDataRepository.nextVal(StringFactory.getSeqItasrtStr());
@@ -152,9 +153,14 @@ public class GoodsSearch {
         else{
             assortId = goodsSearchData.getAssortId();
         }
-        IfGoodsMaster ifGoodsMaster = jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo()));
-        if(ifGoodsMaster == null){
+        IfGoodsMaster origIfGoodsMaster = jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo()));
+        IfGoodsMaster ifGoodsMaster = null;
+        if(origIfGoodsMaster == null){ // insert
             ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);
+        }
+        else{ // update
+            ifGoodsMaster = new IfGoodsMaster(origIfGoodsMaster);
+            isUpdate = true;
         }
         ifGoodsMaster.setAssortId(goodsSearchData.getAssortId()); // assort_id 설정
         // 이미지 데이터 list 형태로 돼있음 -> string property에 set해주기
@@ -178,6 +184,9 @@ public class GoodsSearch {
         }
         else {
             ifGoodsMaster.setCateCd("");
+        }
+        if(isUpdate){ // update인 경우 기존 값과 비교
+
         }
 //        log.debug("----- cateCd : " + ifGoodsMaster.getCateCd());
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
