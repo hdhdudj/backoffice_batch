@@ -260,6 +260,7 @@ public class OrderSearch {
         TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster, tbMember, tbMemberAddress);
 
         // tb_order_detail, tb_order_history
+        int num = 0;
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
             if(!ifOrderDetail.getChannelOrderStatus().equals(StringFactory.getStrPOne())){
                 log.debug("결제 완료되지 않은 주문입니다.");
@@ -269,6 +270,10 @@ public class OrderSearch {
             if(tbOrderDetail != null){
                 this.saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
             }
+            if(num == 0 && tbOrderDetail != null){
+                em.persist(tbOrderMaster);
+            }
+            num++;
         }
         ifOrderMaster.setIfStatus(StringFactory.getGbTwo()); // ifStatus 02로 변경
 //        em.persist(ifOrderMaster);
@@ -385,6 +390,8 @@ public class OrderSearch {
 
     private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster, TbMember tbMember, TbMemberAddress tbMemberAddress) {
 //        System.out.println("------ + " + ifOrderMaster.toString());
+//        int effectIfOrderDetailListNum = ifOrderMaster.getIfOrderDetail().stream().filter(x->x.getChannelOrderStatus().equals(StringFactory.getStrPOne())).collect(Collectors.toList()).size();
+
         TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         if(tbOrderMaster == null){
 //            String ordId = jpaTbOrderMasterRepository.findMaxOrderId();
@@ -419,7 +426,9 @@ public class OrderSearch {
         tbOrderMaster.setFirstOrderGb(StringFactory.getGbOne()); // 첫주문 01 그다음 02
         tbOrderMaster.setOrderGb(StringFactory.getGbOne()); // 01 : 주문, 02 : 반품, 03 : 교환
 
-        em.persist(tbOrderMaster);
+//        if(effectIfOrderDetailListNum > 0){
+//            em.persist(tbOrderMaster);
+//        }
 
         return tbOrderMaster;
     }
