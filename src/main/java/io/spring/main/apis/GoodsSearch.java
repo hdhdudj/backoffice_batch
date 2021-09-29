@@ -128,14 +128,16 @@ public class GoodsSearch {
                 continue;
             }
             // goodsNo가 겹치는 애가 있는지 확인
-            if(jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo())) == null){
-                this.saveIfGoodsMaster(goodsSearchData); // if_goods_master : itasrt, itasrn, itasrd  * 여기서 assortId 생성
-                this.saveIfGoodsTextOption(goodsSearchData); // if_goods_text_option : itmmot
-                this.saveIfGoodsAddGoods(goodsSearchData); // if_goods_add_goods : itlkag, itadgs
-            }
-            if(jpaIfGoodsOptionRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo())).size() == 0){
+//            IfGoodsMaster ifGoodsMaster = jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo()));
+//            if(ifGoodsMaster == null){ // insert
+            this.saveIfGoodsMaster(goodsSearchData); // if_goods_master : itasrt, itasrn, itasrd  * 여기서 assortId 생성
+            this.saveIfGoodsTextOption(goodsSearchData); // if_goods_text_option : itmmot
+            this.saveIfGoodsAddGoods(goodsSearchData); // if_goods_add_goods : itlkag, itadgs
+//            }
+
+//            if(jpaIfGoodsOptionRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo())).size() == 0){
                 this.saveIfGoodsOption(goodsSearchData); // if_goods_option : itvari, ititmm
-            }
+//            }
         }
     }
 
@@ -163,6 +165,7 @@ public class GoodsSearch {
             isUpdate = true;
         }
         ifGoodsMaster.setAssortId(goodsSearchData.getAssortId()); // assort_id 설정
+
         // 이미지 데이터 list 형태로 돼있음 -> string property에 set해주기
         ifGoodsMaster.setMainImageData(goodsSearchData.getMainImageData() != null? goodsSearchData.getMainImageData().get(0):null);
         ifGoodsMaster.setListImageData(goodsSearchData.getListImageData() != null? goodsSearchData.getListImageData().get(0):null);

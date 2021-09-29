@@ -127,7 +127,12 @@ public class OrderSearch {
         ifOrderMaster.setReceiverAddr2(orderSearchData.getOrderInfoData().get(0).getReceiverAddressSub());
         ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
         ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
-        ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
+//        ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]); // tb_order_master.order_id
+
+        ifOrderMaster.setPayGb(orderSearchData.getSettleKind());
+        ifOrderMaster.setPayAmt(orderSearchData.getSettlePrice());
+        ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
+
         jpaIfOrderMasterRepository.save(ifOrderMaster);
 
         return ifOrderMaster;
@@ -150,7 +155,7 @@ public class OrderSearch {
             // not null
             ifOrderDetail.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
             ifOrderDetail.setChannelOrderSeq(Long.toString(orderGoodsData.getSno()));
-            ifOrderDetail.setChannelOrderStatus(orderSearchData.getOrderStatus());
+            ifOrderDetail.setChannelOrderStatus(orderGoodsData.getOrderStatus());
             ifOrderDetail.setChannelGoodsType(changeGoodsAddGoodsToCode(orderGoodsData.getGoodsType()));
             ifOrderDetail.setChannelGoodsNo(orderGoodsData.getGoodsNo());
             ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
@@ -168,7 +173,8 @@ public class OrderSearch {
             ifOrderDetail.setMemberDcPrice(orderGoodsData.getMemberDcPrice());
             ifOrderDetail.setDeliveryMethodGb(this.changeDeliMethodToCode(orderGoodsData.getDeliveryMethodFl()));
             ifOrderDetail.setDeliPrice(orderGoodsData.getGoodsDeliveryCollectPrice());
-            ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]);
+//            ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]); // tb_order_detail.order_id
+            ifOrderDetail.setDeliveryInfo(orderGoodsData.getDeliveryCond());
 
             em.persist(ifOrderDetail);
         }
@@ -247,9 +253,9 @@ public class OrderSearch {
             return ifOrderMaster1;
         }
         // tb_order_master, tb_member, tb_member_address 저장
-        TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster);
         TbMember tbMember = this.saveTbMember(ifOrderMaster);
-        this.saveTbMemberAddress(ifOrderMaster, tbMember);
+        TbMemberAddress tbMemberAddress = this.saveTbMemberAddress(ifOrderMaster, tbMember);
+        TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster, tbMember, tbMemberAddress);
 
         // tb_order_detail, tb_order_history
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
@@ -319,6 +325,9 @@ public class OrderSearch {
             String orderSeq = StringFactory.getStrZero() + ifOrderDetail.getIfNoSeq();
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
             tbOrderDetail = new TbOrderDetail(tbOrderMaster.getOrderId(), orderSeq);
+            ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
+            ifOrderDetail.setOrderSeq(tbOrderDetail.getOrderSeq());
+            jpaIfOrderDetailRepository.save(ifOrderDetail);
         }
         else { // update
             compareTbOrderDetail = new TbOrderDetail(outTbOrderDetail);
@@ -333,7 +342,7 @@ public class OrderSearch {
         tbOrderDetail.setAssortGb(ititmm.getItasrt().getAssortGb()); // 01 : 직구, 02 : 수입
         tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
-        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice());
+//        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice()); // fixedPrice
         float goodsDcPrice = ifOrderDetail.getGoodsDcPrice() == null? 0 : ifOrderDetail.getGoodsDcPrice();
         float memberDcPrice = ifOrderDetail.getMemberDcPrice() == null? 0 : ifOrderDetail.getMemberDcPrice();
         float couponDcPrice = ifOrderDetail.getCouponDcPrice() == null? 0 : ifOrderDetail.getCouponDcPrice();
@@ -341,9 +350,9 @@ public class OrderSearch {
         tbOrderDetail.setGoodsDcPrice(ifOrderDetail.getGoodsDcPrice());
         tbOrderDetail.setMemberDcPrice(ifOrderDetail.getMemberDcPrice());
         tbOrderDetail.setCouponDcPrice(ifOrderDetail.getCouponDcPrice());
-        tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice());
+//        tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice()); // 일단 사용안함
         tbOrderDetail.setDcSumPrice(goodsDcPrice + memberDcPrice + couponDcPrice + adminDcPrice);
-        tbOrderDetail.setSalePrice(tbOrderDetail.getGoodsPrice() - tbOrderDetail.getDcSumPrice());
+//        tbOrderDetail.setSalePrice(tbOrderDetail.getGoodsPrice() - tbOrderDetail.getDcSumPrice()); // goodsPrice
         tbOrderDetail.setDeliMethod(ifOrderDetail.getDeliveryMethodGb()); // 추후 수정
         tbOrderDetail.setDeliPrice(ifOrderDetail.getDeliPrice());
         tbOrderDetail.setChannelOrderNo(ifOrderDetail.getChannelOrderNo());
@@ -355,6 +364,15 @@ public class OrderSearch {
         Itasrt itasrt = ititmm.getItasrt();
         tbOrderDetail.setStorageId(itasrt.getStorageId());//(StringUtils.leftPad(StringFactory.getStrOne(),6,'0'));
 
+        // 21-09-28 추가
+        tbOrderDetail.setGoodsPrice(ifOrderDetail.getFixedPrice());
+        tbOrderDetail.setSalePrice(ifOrderDetail.getGoodsPrice());
+        tbOrderDetail.setOptionTextInfo(ifOrderDetail.getOptionTextInfo());
+        tbOrderDetail.setListImageData(ifOrderDetail.getListImageData());
+        tbOrderDetail.setOptionPrice(ifOrderDetail.getOptionPrice());
+        tbOrderDetail.setOptionTextPrice(ifOrderDetail.getOptionTextPrice());
+        tbOrderDetail.setDeliveryInfo(ifOrderDetail.getDeliveryInfo());
+
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         em.persist(tbOrderDetail);
         if(!flag && compareTbOrderDetail.equals(tbOrderDetail)){
@@ -363,7 +381,7 @@ public class OrderSearch {
         return tbOrderDetail;
     }
 
-    private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster) {
+    private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster, TbMember tbMember, TbMemberAddress tbMemberAddress) {
 //        System.out.println("------ + " + ifOrderMaster.toString());
         TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         if(tbOrderMaster == null){
@@ -387,6 +405,15 @@ public class OrderSearch {
         tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId());
         tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
         tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
+
+        tbOrderMaster.setOrderId(ifOrderMaster.getOrderId());
+        tbOrderMaster.setCustId(tbMember.getCustId());
+        tbOrderMaster.setDeliId(tbMemberAddress.getDeliId());
+        tbOrderMaster.setOrderAmt(ifOrderMaster.getPayAmt());
+        tbOrderMaster.setPayGb(ifOrderMaster.getPayGb());
+        tbOrderMaster.setPayDt(Utilities.dateToLocalDateTime(ifOrderMaster.getPayDt()));
+        tbOrderMaster.setFirstOrderGb(StringFactory.getGbOne()); // 첫주문 01 그다음 02
+        tbOrderMaster.setOrderGb(StringFactory.getGbOne()); // 01 : 주문, 02 : 반품, 03 : 교환
 
         em.persist(tbOrderMaster);
 
@@ -430,7 +457,7 @@ public class OrderSearch {
         return tbMember;
     }
 
-    private void saveTbMemberAddress(IfOrderMaster ifOrderMaster, TbMember tbMember) {
+    private TbMemberAddress saveTbMemberAddress(IfOrderMaster ifOrderMaster, TbMember tbMember) {
         TbMemberAddress tbMemberAddress = jpaTbMemberAddressRepository.findByCustId(tbMember.getCustId());
         if(tbMemberAddress == null){
             tbMemberAddress = new TbMemberAddress(ifOrderMaster, tbMember);
@@ -441,7 +468,11 @@ public class OrderSearch {
         tbMemberAddress.setDeliAddr1(ifOrderMaster.getReceiverAddr1());
         tbMemberAddress.setDeliAddr2(ifOrderMaster.getReceiverAddr2());
 
+        tbMemberAddress.setDeliNm(ifOrderMaster.getReceiverName());
+
         em.persist(tbMemberAddress);
+
+        return tbMemberAddress;
     }
 
     /**

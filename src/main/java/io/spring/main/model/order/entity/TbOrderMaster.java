@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -37,4 +38,9 @@ public class TbOrderMaster extends CommonProps {
     private String channelOrderNo;
     private String custPcode;
     private String orderMemo;
+
+    // 21-09-28 추가된 컬럼
+    private String payGb;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime payDt;
 }
