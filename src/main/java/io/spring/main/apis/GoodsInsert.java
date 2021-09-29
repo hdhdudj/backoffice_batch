@@ -77,12 +77,12 @@ public class GoodsInsert {
     private String pKey;
     @Value("${key}")
     private String key;
-    @Value("${url.goodsInsert}")
+    @Value("${url.godo.goodsInsert}")
     private String goodsInsertUrl;
-    @Value("${url.goodsUpdate}")
+    @Value("${url.godo.goodsUpdate}")
     private String goodsUpdateUrl;
     // xml 저장 주소
-    @Value("${url.xmlUrl}")
+    @Value("${url.server.xmlUrl}")
     private String xmlSaveUrl;
 
     @Transactional

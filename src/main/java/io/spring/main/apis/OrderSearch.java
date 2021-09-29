@@ -41,8 +41,10 @@ public class OrderSearch {
     private String pKey;
     @Value("${key}")
     private String key;
-    @Value("${url.orderSearch}")
+    @Value("${url.godo.orderSearch}")
     private String orderSearchUrl;
+    @Value("${url.server.changeOrderStatus}")
+    private String serverChangeStatusUrl;
 
     private final GoodsSearch goodsSearch;
     private final JpaItasrtRepository jpaItasrtRepository;
@@ -406,7 +408,7 @@ public class OrderSearch {
         tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
         tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
 
-        tbOrderMaster.setOrderId(ifOrderMaster.getOrderId());
+//        tbOrderMaster.setOrderId(ifOrderMaster.getOrderId());
         tbOrderMaster.setCustId(tbMember.getCustId());
         tbOrderMaster.setDeliId(tbMemberAddress.getDeliId());
         tbOrderMaster.setOrderAmt(ifOrderMaster.getPayAmt());
@@ -486,7 +488,11 @@ public class OrderSearch {
         List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
         List<Integer> resList = new ArrayList<>();
         for(TbOrderDetail td : tbOrderDetailList){
-            String url = "http://localhost:8080/order/orderstatus?orderId=" + td.getOrderId() + "&orderSeq=" + td.getOrderSeq();
+            if(!td.getStatusCd().equals(StringFactory.getStrA01())){
+              log.debug("이미 status 변경 과정을 거친 주문입니다.");
+              continue;
+            }
+            String url = serverChangeStatusUrl + "?orderId=" + td.getOrderId() + "&orderSeq=" + td.getOrderSeq();
             log.debug("===== url : " + url);
             int res = this.get(url);
             resList.add(res);

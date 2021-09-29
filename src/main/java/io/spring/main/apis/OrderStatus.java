@@ -16,7 +16,7 @@ public class OrderStatus {
     private String pKey;
     @Value("${key}")
     private String key;
-    @Value("${url.orderStatus}")
+    @Value("${url.godo.orderStatus}")
     private String orderStatus;
 
 

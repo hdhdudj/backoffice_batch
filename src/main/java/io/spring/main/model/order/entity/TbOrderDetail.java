@@ -99,7 +99,6 @@ public class TbOrderDetail extends CommonProps
     private String listImageData;
     private Float optionPrice;
     private Float optionTextPrice;
-    private Float fixedPrice;
     private String deliveryInfo;
 
     @JoinColumns(

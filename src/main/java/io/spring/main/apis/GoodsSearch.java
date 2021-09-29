@@ -84,9 +84,9 @@ public class GoodsSearch {
     private String pKey;
     @Value("${key}")
     private String key;
-    @Value("${url.goodsSearch}")
+    @Value("${url.godo.goodsSearch}")
     private String goodsSearchUrl;
-    @Value("${url.goodsAddSearch}")
+    @Value("${url.godo.goodsAddSearch}")
     private String goodsAddSearchUrl;
 
 //    private static PoolManager poolManager = null;

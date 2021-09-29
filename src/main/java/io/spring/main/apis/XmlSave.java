@@ -30,10 +30,10 @@ public class XmlSave {
     private String pKey;
     @Value("${key}")
     private String key;
-    @Value("${url.goodsInsert}")
+    @Value("${url.godo.goodsInsert}")
     private String goodsInsertUrl;
     // xml 저장 주소
-    @Value("${url.xmlUrl}")
+    @Value("${url.server.xmlUrl}")
     private String xmlSaveUrl;
 
     @Transactional
