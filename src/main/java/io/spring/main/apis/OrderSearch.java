@@ -275,6 +275,9 @@ public class OrderSearch {
             }
             num++;
         }
+        if(num == 0){
+            ifOrderMaster.setOrderId(null);
+        }
         ifOrderMaster.setIfStatus(StringFactory.getGbTwo()); // ifStatus 02로 변경
 //        em.persist(ifOrderMaster);
 //        log.debug("ifNo : "+ifOrderMaster.getIfNo());
@@ -326,10 +329,11 @@ public class OrderSearch {
      */
     private TbOrderDetail saveSingleTbOrderDetail(TbOrderMaster tbOrderMaster, TbOrderDetail outTbOrderDetail, IfOrderDetail ifOrderDetail, Ititmm ititmm) {
         boolean flag = outTbOrderDetail == null; // true : insert, false : update
-        TbOrderDetail tbOrderDetail = null;
+        TbOrderDetail tbOrderDetail;
         TbOrderDetail compareTbOrderDetail = null;
         if(flag){ // insert
-            String orderSeq = StringFactory.getStrZero() + ifOrderDetail.getIfNoSeq();
+            int num = jpaTbOrderDetailRepository.findByOrderId(tbOrderMaster.getOrderId()).size();
+            String orderSeq = Utilities.plusOne(Integer.toString(num),4);
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
             tbOrderDetail = new TbOrderDetail(tbOrderMaster.getOrderId(), orderSeq);
             ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
