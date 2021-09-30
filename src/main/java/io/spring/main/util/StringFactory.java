@@ -34,6 +34,8 @@ public class StringFactory {
     private final static String depositPlanId = "seq_LSDPSP";
     @Getter
     private final static String seqIforderMaster = "seq_IFORDERMASTER";
+    @Getter
+    private final static String seqTbOrderDetail = "seq_TBORDERDETAIL";
 
     // alphabet
     @Getter

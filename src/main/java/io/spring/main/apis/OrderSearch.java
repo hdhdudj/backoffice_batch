@@ -257,7 +257,6 @@ public class OrderSearch {
         // tb_order_master, tb_member, tb_member_address 저장
         TbMember tbMember = this.saveTbMember(ifOrderMaster);
         TbMemberAddress tbMemberAddress = this.saveTbMemberAddress(ifOrderMaster, tbMember);
-        TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster, tbMember, tbMemberAddress);
 
         // tb_order_detail, tb_order_history
         int num = 0;
@@ -266,11 +265,12 @@ public class OrderSearch {
                 log.debug("결제 완료되지 않은 주문입니다.");
                 continue;
             }
-            TbOrderDetail tbOrderDetail = this.saveTbOrderDetail(tbOrderMaster, ifOrderDetail);
+            TbOrderDetail tbOrderDetail = this.saveTbOrderDetail(ifOrderDetail);
             if(tbOrderDetail != null){
                 this.saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
             }
             if(num == 0 && tbOrderDetail != null){
+                TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster, tbOrderDetail, tbMember, tbMemberAddress);
                 em.persist(tbOrderMaster);
             }
             num++;
@@ -286,11 +286,10 @@ public class OrderSearch {
 
     /**
      * tbOrderDetail row 하나 저장하는 함수
-     * @param tbOrderMaster
      * @param ifOrderDetail
      * @return
      */
-    private TbOrderDetail saveTbOrderDetail(TbOrderMaster tbOrderMaster, IfOrderDetail ifOrderDetail) {
+    private TbOrderDetail saveTbOrderDetail(IfOrderDetail ifOrderDetail) {
         // ifOrderDetail의 정보를 tbOrderDetail에 저장할 때, tmmapi의 goodsNo를 확인해서 assortId를 추출해야 함.
         // 옵션이 없는 애들은 tmmapi에서 assortId 찾아오기, 옵션이 있는 애들은 tmitem에서 assortId, itemId 찾아오기
         // goods 정보를 고도몰에서 가져올 필요x. 우리가 가진 데이터로도 가능.
@@ -310,7 +309,7 @@ public class OrderSearch {
             log.debug("tmitem에 해당 goodsNo 정보가 들어가 있지 않습니다.");
         }
         Ititmm ititmm = this.getItitmmWithItasrt(tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
-        tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderMaster, tbOrderDetail, ifOrderDetail, ititmm);
+        tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm);
         return tbOrderDetail;
     }
 
@@ -323,19 +322,28 @@ public class OrderSearch {
 
     /**
      * 단일 tbOrderDetail 객체를 생성 후 save 해주는 함수. 기존 대비 변한 값이 없으면 null을 return
-     * @param tbOrderMaster
      * @param ifOrderDetail
      * @param ititmm
      */
-    private TbOrderDetail saveSingleTbOrderDetail(TbOrderMaster tbOrderMaster, TbOrderDetail outTbOrderDetail, IfOrderDetail ifOrderDetail, Ititmm ititmm) {
+    private TbOrderDetail saveSingleTbOrderDetail(TbOrderDetail outTbOrderDetail, IfOrderDetail ifOrderDetail, Ititmm ititmm) {
         boolean flag = outTbOrderDetail == null; // true : insert, false : update
         TbOrderDetail tbOrderDetail;
         TbOrderDetail compareTbOrderDetail = null;
         if(flag){ // insert
-            int num = jpaTbOrderDetailRepository.findByOrderId(tbOrderMaster.getOrderId()).size();
+            List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByChannelOrderNo(ifOrderDetail.getChannelOrderNo());
+            int num = tbOrderDetailList.size();
+            String orderId;
+            if(tbOrderDetailList.size() > 0){
+                orderId = tbOrderDetailList.get(0).getOrderId();
+            }
+            else {
+                // orderId 채번
+                String nextVal = jpaSequenceDataRepository.nextVal(StringFactory.getSeqTbOrderDetail());
+                orderId = Utilities.getStringNo('O',nextVal, 9);
+            }
             String orderSeq = Utilities.plusOne(Integer.toString(num),4);
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
-            tbOrderDetail = new TbOrderDetail(tbOrderMaster.getOrderId(), orderSeq);
+            tbOrderDetail = new TbOrderDetail(orderId, orderSeq);
             ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
             ifOrderDetail.setOrderSeq(tbOrderDetail.getOrderSeq());
             jpaIfOrderDetailRepository.save(ifOrderDetail);
@@ -392,7 +400,7 @@ public class OrderSearch {
         return tbOrderDetail;
     }
 
-    private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster, TbMember tbMember, TbMemberAddress tbMemberAddress) {
+    private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster, TbOrderDetail tbOrderDetail, TbMember tbMember, TbMemberAddress tbMemberAddress) {
 //        System.out.println("------ + " + ifOrderMaster.toString());
 //        int effectIfOrderDetailListNum = ifOrderMaster.getIfOrderDetail().stream().filter(x->x.getChannelOrderStatus().equals(StringFactory.getStrPOne())).collect(Collectors.toList()).size();
 
@@ -406,8 +414,8 @@ public class OrderSearch {
 //                ordId = Utilities.plusOne(ordId, 9);
 //            }
 //            tbOrderMaster = new TbOrderMaster(ordId);
-            String orderId = Utilities.getStringNo('O',ifOrderMaster.getIfNo(),9);
-            tbOrderMaster = new TbOrderMaster(orderId);
+//            String orderId = Utilities.getStringNo('O',ifOrderMaster.getIfNo(),9);
+            tbOrderMaster = new TbOrderMaster(tbOrderDetail.getOrderId());
             ifOrderMaster.setOrderId(tbOrderMaster.getOrderId());
             jpaIfOrderMasterRepository.save(ifOrderMaster);
         }

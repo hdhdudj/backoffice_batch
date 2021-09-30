@@ -5,6 +5,7 @@ import io.spring.main.model.order.idclass.TbOrderDetailId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface JpaTbOrderDetailRepository extends JpaRepository<TbOrderDetail, TbOrderDetailId> {
@@ -20,4 +21,6 @@ public interface JpaTbOrderDetailRepository extends JpaRepository<TbOrderDetail,
     TbOrderDetail findByChannelOrderNoAndChannelOrderSeq(String channelOrderNo, String channelOrderSeq);
 
     List<TbOrderDetail> findByOrderId(String setOrderSeq);
+
+    List<TbOrderDetail> findByChannelOrderNo(String channelOrderNo);
 }
