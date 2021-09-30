@@ -319,7 +319,7 @@ public class GoodsSearch {
         // 9. itlkag (from if_goods_add_goods) 저장
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
             // add_goods_id 채번
-            String addGoodsId = this.getNo(jpaItlkagRepository.findMaxAddGoodsIdByAssortId(ifGoodsAddGoods.getAssortId()), 9);
+            String addGoodsId = this.getCharNo('A', jpaItlkagRepository.findMaxAddGoodsIdByAssortId(ifGoodsAddGoods.getAssortId()), 9);
             Itlkag itlkag = new Itlkag(ifGoodsAddGoods);
             itlkag.setAddGoodsId(addGoodsId);
             jpaItlkagRepository.save(itlkag);
@@ -549,6 +549,19 @@ public class GoodsSearch {
             seq = Utilities.plusOne(maxSeq, seqLength);
         }
         return seq;
+    }
+
+    // addGoodsId 등  문자가 붙은 채번 함수
+    private String getCharNo(char str, String nextVal, int length) {
+        // nextVal이 null일 때 (첫번째 채번)
+        if(nextVal == null)
+        {
+            nextVal = Utilities.getStringNo(str, StringFactory.getStrOne(), length); // A00000001 들어감
+        }
+        else{
+            nextVal = Utilities.getStringNo(str, nextVal, length);
+        }
+        return nextVal;
     }
 
     // assortId 등 채번 함수

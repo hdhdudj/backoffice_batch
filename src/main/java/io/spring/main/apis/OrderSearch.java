@@ -186,36 +186,11 @@ public class OrderSearch {
     // delivery : 001, air : 002, ship : 003, quick : 004, 기타 : 005
     private String changeDeliMethodToCode(String deliveryMethodFl) {
         return DeliveryMethod.valueOf(deliveryMethodFl).getFieldName();
-//        String code;
-//        if(deliveryMethodFl.equals(StringFactory.getStrDelivery())){
-//            code = StringFactory.getThreeStartCd(); // 001
-//        }
-//        else if(deliveryMethodFl.equals(StringFactory.getStrAir())){
-//            code = StringUtils.leftPad(StringFactory.getStrTwo(),3,'0');
-//        }
-//        else if(deliveryMethodFl.equals(StringFactory.getStrShip())){
-//            code = StringUtils.leftPad(StringFactory.getStrThree(),3,'0');
-//        }
-//        else if(deliveryMethodFl.equals(StringFactory.getStrQuick())){
-//            code = StringUtils.leftPad(StringFactory.getStrFour(),3,'0');
-//        }
-//        else{
-//            code = StringUtils.leftPad(StringFactory.getStrFive(),3,'0');
-//        }
-//        return code;
     }
 
     // goods -> 001, add_goods -> 002로 반환
     private String changeGoodsAddGoodsToCode(String goodsType) {
         return GoodsOrAddGoods.valueOf(goodsType).getFieldName();
-//        String code = "";
-//        if(goodsType.equals(StringFactory.getStrGoods())){
-//            code = StringFactory.getThreeStartCd(); // 001
-//        }
-//        else if(goodsType.equals(StringFactory.getStrAddGoods())) {
-//            code = StringUtils.leftPad(StringFactory.getStrTwo(),3,'0');
-//        }
-//        return code;
     }
 
     // goods xml 받아오는 함수
@@ -507,7 +482,6 @@ public class OrderSearch {
      */
     @Transactional
     public TbOrderDetail changeOneToStatusCd(TbOrderDetail tbOrderDetail) {
-//        this.changeOrderStatus(tbOrderDetail.getOrderId(), tbOrderDetail.getOrderSeq());
         List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
         List<Integer> resList = new ArrayList<>();
         for(TbOrderDetail td : tbOrderDetailList){
