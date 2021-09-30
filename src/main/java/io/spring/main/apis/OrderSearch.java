@@ -141,6 +141,7 @@ public class OrderSearch {
     }
 
     private void saveIfOrderDetail(OrderSearchData orderSearchData) {
+        //
         for(OrderSearchData.OrderGoodsData orderGoodsData : orderSearchData.getOrderGoodsData()){
             IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByIfNoAndChannelGoodsNo(orderSearchData.getIfNo(), orderGoodsData.getGoodsNo());
             if(ifOrderDetail == null){
