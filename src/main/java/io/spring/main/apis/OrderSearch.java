@@ -366,6 +366,9 @@ public class OrderSearch {
         tbOrderDetail.setOptionPrice(ifOrderDetail.getOptionPrice());
         tbOrderDetail.setOptionTextPrice(ifOrderDetail.getOptionTextPrice());
         tbOrderDetail.setDeliveryInfo(ifOrderDetail.getDeliveryInfo());
+        
+        // 21-10-01 추가
+        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 채널별 하드코딩. 고도몰(channelGb='01')의 경우 '000001'
 
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         em.persist(tbOrderDetail);
