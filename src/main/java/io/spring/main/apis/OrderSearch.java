@@ -179,6 +179,9 @@ public class OrderSearch {
 //            ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]); // tb_order_detail.order_id
             ifOrderDetail.setDeliveryInfo(orderGoodsData.getDeliveryCond());
 
+            // 21-10-05 추가
+//            ifOrderDetail.setScmNo(or);
+
             em.persist(ifOrderDetail);
         }
     }
@@ -206,6 +209,7 @@ public class OrderSearch {
                 + StringFactory.getStrEqual() + fromDt
                 + StringFactory.getStrAnd() + StringFactory.getOrderSearchParams()[4]
                 + StringFactory.getStrEqual() + toDt
+                + "&dateType=modify"
                 + "&orderNo="+ orderNo; //2106281109256643";
 //        System.out.println("##### " + urlstr);
 

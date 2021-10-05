@@ -116,7 +116,6 @@ public class GoodsSearchJobConfiguration {
                 })
                 .build();
     }
-
 //    @Bean
 //    public Step searchGoodsStep2(){
 //        return stepBuilderFactory.get("searchGoodsStep2")
