@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -63,6 +64,9 @@ public class Itasrt extends CommonProps{
 		this.asHeight = ifGoodsMaster.getHeight();
 		this.asLength = ifGoodsMaster.getDepth();
 		this.weight = ifGoodsMaster.getGoodsWeight();
+
+		// 21-10-05 추가
+		this.ownerId = StringUtils.leftPad(Long.toString(ifGoodsMaster.getScmNo()),6,'0');
 	}
 
 //	public Itasrt(GoodsInsertRequestData goodsInsertRequestData){

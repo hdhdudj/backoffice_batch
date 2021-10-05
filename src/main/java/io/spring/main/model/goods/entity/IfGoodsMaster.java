@@ -131,4 +131,7 @@ public class IfGoodsMaster extends CommonProps implements Cloneable {
     private String detailImageData;
     @JsonIgnore
     private String magnifyImageData;
+
+    // 21-10-05 추가
+    private Long scmNo;
 }
