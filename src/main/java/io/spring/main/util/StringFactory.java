@@ -59,6 +59,11 @@ public class StringFactory {
     private final static String gbThree = "03";
     @Getter
     private final static String gbFour = "04";
+    // 공급사 scmNo
+    @Getter
+    private final static String scmNo1 = "000063";
+    @Getter
+    private final static String scmNo2 = "000064";
 
     // jpaPurchaseService
     @Getter

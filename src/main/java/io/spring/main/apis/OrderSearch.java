@@ -56,6 +56,7 @@ public class OrderSearch {
     private final JpaTbMemberRepository jpaTbMemberRepository;
     private final JpaTbMemberAddressRepository jpaTbMemberAddressRepository;
     private final JpaTbOrderDetailRepository jpaTbOrderDetailRepository;
+    private final JpaOrderLogRepository jpaOrderLogRepository;
     private final JpaItitmtRepository jpaItitmtRepository;
     private final JpaItitmcRepository jpaItitmcRepository;
     private final JpaItitmmRepository jpaItitmmRepository;
@@ -128,7 +129,9 @@ public class OrderSearch {
         ifOrderMaster.setReceiverAddr1(orderSearchData.getOrderInfoData().get(0).getReceiverAddress());
         ifOrderMaster.setReceiverAddr2(orderSearchData.getOrderInfoData().get(0).getReceiverAddressSub());
         ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
-        ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
+        if(orderSearchData.getOrderGoodsData() != null && orderSearchData.getOrderGoodsData().size() > 0){
+            ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
+        }
 //        ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]); // tb_order_master.order_id
 
         ifOrderMaster.setPayGb(orderSearchData.getSettleKind());
@@ -142,6 +145,10 @@ public class OrderSearch {
 
     private void saveIfOrderDetail(OrderSearchData orderSearchData) {
         //
+        if(orderSearchData.getOrderGoodsData() == null){
+            log.debug("orderSearchData.orderGoodsData가 null 입니다.");
+            return;
+        }
         for(OrderSearchData.OrderGoodsData orderGoodsData : orderSearchData.getOrderGoodsData()){
             IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByIfNoAndChannelGoodsNo(orderSearchData.getIfNo(), orderGoodsData.getGoodsNo());
             if(ifOrderDetail == null){
@@ -159,7 +166,7 @@ public class OrderSearch {
             ifOrderDetail.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
             ifOrderDetail.setChannelOrderSeq(Long.toString(orderGoodsData.getSno()));
             ifOrderDetail.setChannelOrderStatus(orderGoodsData.getOrderStatus());
-            ifOrderDetail.setChannelGoodsType(changeGoodsAddGoodsToCode(orderGoodsData.getGoodsType()));
+            ifOrderDetail.setChannelGoodsType(this.changeGoodsAddGoodsToCode(orderGoodsData.getGoodsType()));
             ifOrderDetail.setChannelGoodsNo(orderGoodsData.getGoodsNo());
             ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
             ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
@@ -180,7 +187,7 @@ public class OrderSearch {
             ifOrderDetail.setDeliveryInfo(orderGoodsData.getDeliveryCond());
 
             // 21-10-05 추가
-//            ifOrderDetail.setScmNo(or);
+            ifOrderDetail.setScmNo(orderGoodsData.getScmNo());
 
             em.persist(ifOrderDetail);
         }
@@ -296,12 +303,19 @@ public class OrderSearch {
     private Ititmm getItitmmWithItasrt(String assortId, String itemId) {
         TypedQuery<Ititmm> query = em.createQuery("select m from Ititmm m join fetch m.itasrt t where m.assortId=?1 and m.itemId=?2", Ititmm.class);
         query.setParameter(1,assortId).setParameter(2,itemId);
-        Ititmm ititmm = query.getSingleResult();
+        List<Ititmm> ititmmList = query.getResultList();
+        Ititmm ititmm;
+        if(ititmmList.size() > 0){
+            ititmm = ititmmList.get(0);
+        }
+        else {
+            ititmm = null;
+        }
         return ititmm;
     }
 
     /**
-     * 단일 tbOrderDetail 객체를 생성 후 save 해주는 함수. 기존 대비 변한 값이 없으면 null을 return
+     * 단일 tbOrderDetail 객체를 생성 후 save 해주는 함수. (+ orderLog 추가) 기존 대비 변한 값이 없으면 null을 return
      * @param ifOrderDetail
      * @param ititmm
      */
@@ -309,6 +323,12 @@ public class OrderSearch {
         boolean flag = outTbOrderDetail == null; // true : insert, false : update
         TbOrderDetail tbOrderDetail;
         TbOrderDetail compareTbOrderDetail = null;
+        // 공급사 주문 (scmNo가 63,64)인 경우 data 생성하지 않음
+        if(ifOrderDetail.getScmNo().equals(StringFactory.getScmNo1()) || ifOrderDetail.getScmNo().equals(StringFactory.getScmNo1())){
+            log.debug("공급사 (scmNo : " + ifOrderDetail.getScmNo() + ") 주문입니다.");
+            return null;
+        }
+
         if(flag){ // insert
             List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByChannelOrderNo(ifOrderDetail.getChannelOrderNo());
             int num = tbOrderDetailList.size();
@@ -332,13 +352,15 @@ public class OrderSearch {
             compareTbOrderDetail = new TbOrderDetail(outTbOrderDetail);
             tbOrderDetail = outTbOrderDetail;
         }
-        tbOrderDetail.setItemId(ititmm.getItemId());
-        tbOrderDetail.setAssortId(ititmm.getAssortId());
-        tbOrderDetail.setGoodsNm(ititmm.getItemNm());
+        if(ititmm != null){
+            tbOrderDetail.setItemId(ititmm.getItemId());
+            tbOrderDetail.setAssortId(ititmm.getAssortId());
+        }
+        tbOrderDetail.setGoodsNm(ifOrderDetail.getChannelGoodsNm());
+        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 고도몰 주문(주문자 받는 곳 - 한국창고) : 000001
 
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
         tbOrderDetail.setStatusCd(StringFactory.getStrAOne()); // 고도몰에서는 A01 상태만 가져옴.
-        tbOrderDetail.setAssortGb(ititmm.getItasrt().getAssortGb()); // 01 : 직구, 02 : 수입
         tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
 //        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice()); // fixedPrice
@@ -360,8 +382,6 @@ public class OrderSearch {
         tbOrderDetail.setLastGb(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
         tbOrderDetail.setLastCategoryId(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
 
-        Itasrt itasrt = ititmm.getItasrt();
-        tbOrderDetail.setStorageId(itasrt.getStorageId());//(StringUtils.leftPad(StringFactory.getStrOne(),6,'0'));
 
         // 21-09-28 추가
         tbOrderDetail.setGoodsPrice(ifOrderDetail.getFixedPrice());
@@ -374,13 +394,27 @@ public class OrderSearch {
         
         // 21-10-01 추가
         tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 채널별 하드코딩. 고도몰(channelGb='01')의 경우 '000001'
+        tbOrderDetail.setAssortGb(ifOrderDetail.getChannelGoodsType()); // 001 : 상품, 002 : 추가상품 (ifOrderDetail.channelGoodsType)
 
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         em.persist(tbOrderDetail);
         if(!flag && compareTbOrderDetail.equals(tbOrderDetail)){
             tbOrderDetail = null;
         }
+
+        if(tbOrderDetail != null){
+            this.saveOrderLog(tbOrderDetail);
+        }
         return tbOrderDetail;
+    }
+
+    /**
+     * tbOrderDetail.statusCd가 변동될 때마다 로그를 기록함.
+     * @param tbOrderDetail
+     */
+    private void saveOrderLog(TbOrderDetail tbOrderDetail) {
+        OrderLog orderLog = new OrderLog(tbOrderDetail);
+        jpaOrderLogRepository.save(orderLog);
     }
 
     private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster, TbOrderDetail tbOrderDetail, TbMember tbMember, TbMemberAddress tbMemberAddress) {
