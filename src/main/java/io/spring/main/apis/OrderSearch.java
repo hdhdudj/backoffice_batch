@@ -241,10 +241,10 @@ public class OrderSearch {
         // tb_order_detail, tb_order_history
         int num = 0;
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
-            if(!ifOrderDetail.getChannelOrderStatus().equals(StringFactory.getStrPOne())){
-                log.debug("결제 완료되지 않은 주문입니다.");
-                continue;
-            }
+//            if(!ifOrderDetail.getChannelOrderStatus().equals(StringFactory.getStrPOne())){
+//                log.debug("결제 완료되지 않은 주문입니다.");
+//                continue;
+//            }
             TbOrderDetail tbOrderDetail = this.saveTbOrderDetail(ifOrderDetail);
             if(tbOrderDetail != null){
                 this.saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
