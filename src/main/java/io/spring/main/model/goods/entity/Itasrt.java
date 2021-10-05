@@ -27,6 +27,7 @@ import java.util.List;
 public class Itasrt extends CommonProps{
 	public Itasrt(IfGoodsMaster ifGoodsMaster){
 		super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getUpdDt());
+		this.assortId = ifGoodsMaster.getAssortId();
 		this.assortNm = ifGoodsMaster.getGoodsNm();
 		this.assortState = ifGoodsMaster.getGoodsDisplayFl();
 		this.assortGb = ifGoodsMaster.getSizeType();

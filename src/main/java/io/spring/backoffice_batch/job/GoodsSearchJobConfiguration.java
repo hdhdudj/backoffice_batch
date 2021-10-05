@@ -45,6 +45,7 @@ public class GoodsSearchJobConfiguration {
         return jobBuilderFactory.get("searchGoodsJob")
                 .start(searchGoodsStep1(null))
                 .next(searchGoodsStep2())
+                .next(searchGoodsStep3())
                 .incrementer(new UniqueRunIdIncrementer())
                 .build();
     }
@@ -102,6 +103,20 @@ public class GoodsSearchJobConfiguration {
         jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
         return jpaItemWriter;
     }
+
+    @Bean
+    @JobScope
+    public Step searchGoodsStep3(){
+        log.info("----- This is searchGoodsStep3");
+        return stepBuilderFactory.get("searchGoodsStep3")
+                .tasklet((contribution, chunkContext) -> {
+                    log.info("----- This is searchGoodsStep3");
+                    goodsSearch.insertTms(); // tmitem, tmmapi 삽입 query 실행
+                    return RepeatStatus.FINISHED;
+                })
+                .build();
+    }
+
 //    @Bean
 //    public Step searchGoodsStep2(){
 //        return stepBuilderFactory.get("searchGoodsStep2")
