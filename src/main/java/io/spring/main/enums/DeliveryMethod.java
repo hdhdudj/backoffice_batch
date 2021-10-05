@@ -10,6 +10,7 @@ public enum DeliveryMethod {
     air("002"),
     ship("003"),
     quick("004"),
-    기타("005");
+    기타("005"),
+    etc("005");
     private final String fieldName;
 }
