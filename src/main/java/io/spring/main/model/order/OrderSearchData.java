@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderSearchData {
-    private String ifNo;
+    private String ifNo; // 고도몰 xml엔 없지만 회사 DB에 저장할 때 필요한 property
 
     private Long orderNo;
     private Long memNo;

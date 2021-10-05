@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import io.spring.main.mapper.GoodsMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.CloneUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,6 +77,7 @@ public class GoodsSearch {
     private final JpaIfCategoryRepository jpaIfCategoryRepository;
     private final ObjectMapper objectMapper;
     private final CommonXmlParse commonXmlParse;
+    private final GoodsMapper goodsMapper;
 
     private final List<String> goodsSearchGotListPropsMap;
 
@@ -165,7 +167,7 @@ public class GoodsSearch {
             ifGoodsMaster = origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
             isUpdate = true;
         }
-        ifGoodsMaster.setAssortId(assortId);//(goodsSearchData.getAssortId()); // assort_id 설정
+        ifGoodsMaster.setAssortId(assortId); // assort_id 설정
 
         // 이미지 데이터 list 형태로 돼있음 -> string property에 set해주기
         ifGoodsMaster.setMainImageData(goodsSearchData.getMainImageData() != null? goodsSearchData.getMainImageData().get(0):null);
@@ -533,8 +535,6 @@ public class GoodsSearch {
 
     private Itasrt saveItasrt(IfGoodsMaster ifGoodsMaster) {
         Itasrt itasrt = new Itasrt(ifGoodsMaster); // itasrt
-        String assortId = ifGoodsMaster.getAssortId();
-        itasrt.setAssortId(assortId);
         jpaItasrtRepository.save(itasrt);
         return itasrt;
     }
@@ -652,5 +652,14 @@ public class GoodsSearch {
             addGoodsDataList.add(adData);
         }
         return addGoodsDataList.get(0);
+    }
+
+    /**
+     * tmitem, tmmapi 넣어주는 쿼리 실행
+     */
+    @Transactional
+    public void insertTms(){
+        goodsMapper.insertTmitem();
+        goodsMapper.insertTmmapi();
     }
 }
