@@ -235,12 +235,12 @@ public class OrderSearch {
 
     @Transactional
     public IfOrderMaster saveOneIfNo(IfOrderMaster ifOrderMaster) {
-        IfOrderMaster ifOrderMaster1 = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), ifOrderMaster.getChannelOrderNo()); // 채널은 01 하드코딩
-        // 이미 저장한 주문이면 pass
-        if(ifOrderMaster1.getIfStatus().equals(StringFactory.getGbTwo())){ // ifStatus가 02면 저장 포기
-            log.debug("이미 저장된 주문입니다.");
-            return ifOrderMaster1;
-        }
+//        IfOrderMaster ifOrderMaster1 = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), ifOrderMaster.getChannelOrderNo()); // 채널은 01 하드코딩
+//        // 이미 저장한 주문이면 pass
+//        if(ifOrderMaster1.getIfStatus().equals(StringFactory.getGbTwo())){ // ifStatus가 02면 저장 포기
+//            log.debug("이미 저장된 주문입니다.");
+//            return ifOrderMaster1;
+//        }
         // tb_order_master, tb_member, tb_member_address 저장
         TbMember tbMember = this.saveTbMember(ifOrderMaster);
         TbMemberAddress tbMemberAddress = this.saveTbMemberAddress(ifOrderMaster, tbMember);
@@ -290,12 +290,11 @@ public class OrderSearch {
         Tmmapi tmmapi = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo());
         if(tmmapi == null){
             log.debug("tmmapi에 해당 goodsNo 정보가 들어가 있지 않습니다.");
-            return null;
         }
         else if(tmitem == null){
             log.debug("tmitem에 해당 goodsNo 정보가 들어가 있지 않습니다.");
         }
-        Ititmm ititmm = this.getItitmmWithItasrt(tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
+        Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null? null : tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
         tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm);
         return tbOrderDetail;
     }
@@ -524,6 +523,13 @@ public class OrderSearch {
      */
     @Transactional
     public TbOrderDetail changeOneToStatusCd(TbOrderDetail tbOrderDetail) {
+        IfOrderMaster ifOrderMaster1 = tbOrderDetail.getIfOrderMaster();
+        if(!tbOrderDetail.getIfOrderMaster().getChannelOrderStatus().equals(StringFactory.getStrPOne())){
+            log.debug("해당 주문의 orderStatus가 p1이 아닙니다.");
+            ifOrderMaster1.setIfStatus(StringFactory.getGbFour());
+            jpaIfOrderMasterRepository.save(ifOrderMaster1);
+            return null;
+        }
         List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
         List<Integer> resList = new ArrayList<>();
         for(TbOrderDetail td : tbOrderDetailList){
@@ -549,7 +555,7 @@ public class OrderSearch {
         else{
             ifOrderMaster.setIfStatus(StringFactory.getGbFour());
         }
-        em.persist(ifOrderMaster);
+        jpaIfOrderMasterRepository.save(ifOrderMaster);
         return null;
     }
 
