@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum GoodsOrAddGoods {
     goods("001"),
-    add_goods("002");
+    add_goods("002"),
+    addGoods("002");
     private final String fieldName;
 }

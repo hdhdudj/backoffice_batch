@@ -149,10 +149,14 @@ public class OrderSearch {
             log.debug("orderSearchData.orderGoodsData가 null 입니다.");
             return;
         }
+        Map<Long, OrderSearchData.AddGoodsData> addGoodsDataMap = new HashMap<>();
+        for(OrderSearchData.AddGoodsData addGoodsData : orderSearchData.getAddGoodsData()){
+            addGoodsDataMap.put(addGoodsData.getSno(), addGoodsData);
+        }
         for(OrderSearchData.OrderGoodsData orderGoodsData : orderSearchData.getOrderGoodsData()){
-            IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByIfNoAndChannelGoodsNo(orderSearchData.getIfNo(), orderGoodsData.getGoodsNo());
+            IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(orderSearchData.getIfNo(), Long.toString(orderGoodsData.getOrderNo()), Long.toString(orderGoodsData.getSno()));
             if(ifOrderDetail == null){
-                ifOrderDetail = new IfOrderDetail(orderSearchData);
+                ifOrderDetail = new IfOrderDetail(orderSearchData.getIfNo());
                 String seq = jpaIfOrderDetailRepository.findMaxIfNoSeq(orderSearchData.getIfNo());
                 if(seq == null){
                     seq = StringUtils.leftPad(StringFactory.getStrOne(), 3, '0');
@@ -190,6 +194,66 @@ public class OrderSearch {
             ifOrderDetail.setScmNo(orderGoodsData.getScmNo());
 
             em.persist(ifOrderDetail);
+
+            this.saveAddGoods(orderSearchData, ifOrderDetail, addGoodsDataMap);
+        }
+    }
+
+    /**
+     * orderGoodsData에 딸린 addGoodsData가 있는지 판단하고 있으면 새로운 ifOrderDetail 저장
+     */
+    private void saveAddGoods(OrderSearchData orderSearchData, IfOrderDetail ifOrderDetail0, Map<Long, OrderSearchData.AddGoodsData> addGoodsDataMap) {
+        long newSno = Long.parseLong(ifOrderDetail0.getChannelOrderSeq());
+        while(newSno > 0){
+            OrderSearchData.AddGoodsData agData = addGoodsDataMap.get(newSno + 1);
+            if(agData == null){
+                newSno = -1;
+            }
+            else{
+                IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(orderSearchData.getIfNo(), Long.toString(agData.getOrderNo()), Long.toString(agData.getSno()));
+                if(ifOrderDetail == null){
+                    ifOrderDetail = new IfOrderDetail(orderSearchData.getIfNo());
+                    String seq = jpaIfOrderDetailRepository.findMaxIfNoSeq(orderSearchData.getIfNo());
+                    if(seq == null){
+                        seq = StringUtils.leftPad(StringFactory.getStrOne(), 3, '0');
+                    }
+                    else {
+                        seq = Utilities.plusOne(seq, 3);
+                    }
+                    ifOrderDetail.setIfNoSeq(seq);
+                }
+                // not null
+                ifOrderDetail.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
+                ifOrderDetail.setChannelOrderSeq(Long.toString(agData.getSno()));
+                ifOrderDetail.setChannelOrderStatus(agData.getOrderStatus());
+                ifOrderDetail.setChannelGoodsType(this.changeGoodsAddGoodsToCode(agData.getGoodsType()));
+                ifOrderDetail.setChannelGoodsNo(Long.toString(agData.getAddGoodsNo()));
+                ifOrderDetail.setChannelOptionsNo(Long.toString(agData.getOptionSno()));
+                ifOrderDetail.setChannelOptionInfo(agData.getOptionInfo());
+                // goodsNm 가져오기
+                List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(Long.toString(agData.getAddGoodsNo()), "", "", "");
+                ifOrderDetail.setChannelGoodsNm(goodsSearchDataList.size() > 0? goodsSearch.retrieveGoods(Long.toString(agData.getAddGoodsNo()), "", "", "").get(0).getGoodsNm() : " ");
+//            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
+                //
+                ifOrderDetail.setChannelParentGoodsNo(Long.toString(agData.getParentGoodsNo()));
+                ifOrderDetail.setGoodsCnt(Long.parseLong(agData.getGoodsCnt()));
+                ifOrderDetail.setGoodsPrice(agData.getGoodsPrice());
+                ifOrderDetail.setGoodsDcPrice(agData.getGoodsDcPrice());
+                ifOrderDetail.setCouponDcPrice(agData.getCouponGoodsDcPrice());
+                ifOrderDetail.setMemberDcPrice(agData.getMemberDcPrice());
+                ifOrderDetail.setDeliveryMethodGb(this.changeDeliMethodToCode(agData.getDeliveryMethodFl()));
+                ifOrderDetail.setDeliPrice(agData.getGoodsDeliveryCollectPrice());
+//            ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]); // tb_order_detail.order_id
+                ifOrderDetail.setDeliveryInfo(agData.getDeliveryCond());
+
+                // 21-10-05 추가
+                ifOrderDetail.setScmNo(agData.getScmNo());
+                ifOrderDetail.setParentChannelOrderSeq(ifOrderDetail0.getChannelOrderSeq());
+
+                em.persist(ifOrderDetail);
+//                this.saveAddGoodsIfOrdetDetail(agData);
+                newSno++;
+            }
         }
     }
 

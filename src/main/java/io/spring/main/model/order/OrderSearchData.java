@@ -206,6 +206,12 @@ public class OrderSearchData {
         private Date finishDt;
         private List<ClaimData> claimData;
         private Long enuri;
+
+        // 21-10-06 추가
+        private String goodsType; // goods, addGoods
+        private String deliveryMethodFl;
+        private Float goodsDeliveryCollectPrice;
+        private String deliveryCond;
     }
 
     @Getter

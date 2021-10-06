@@ -59,10 +59,12 @@ public class OrderSearchJobConfiguration {
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchOrderStep1");
                     // 트랜잭션1. if table 저장
-                    int n = Integer.parseInt(page);
+                    int n = page == null? 0 : Integer.parseInt(page);
                     String startDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7 * (n+1));
                     String endDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7 * n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
-                    orderSearch.saveIfTables("", startDt, endDt); //"2106301555509122","2107021751024711"
+                    startDt = null;
+                    endDt = null;
+                    orderSearch.saveIfTables("2101081407020195", startDt, endDt); //"2106301555509122","2107021751024711", "2101081407020195"(addGoods 정렬 테스트용)
                     return RepeatStatus.FINISHED;
                 })
                 .build();

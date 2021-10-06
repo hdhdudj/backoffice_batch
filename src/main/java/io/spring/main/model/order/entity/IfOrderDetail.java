@@ -22,8 +22,8 @@ import javax.persistence.Table;
 @Table(name = "if_order_detail")
 @IdClass(value = IfOrderDetailId.class)
 public class IfOrderDetail {
-    public IfOrderDetail(OrderSearchData orderSearchData){
-        ifNo = orderSearchData.getIfNo();
+    public IfOrderDetail(String ifNo){
+        this.ifNo = ifNo;
     }
     @Id
     private String ifNo;
@@ -69,4 +69,7 @@ public class IfOrderDetail {
     private Float costPrice;
     private Float memberOverlapDcPrice;
     private Long scmNo;
+
+    // 21-10-06 추가된 컬럼
+    private String parentChannelOrderSeq;
 }

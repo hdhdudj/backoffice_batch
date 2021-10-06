@@ -13,4 +13,6 @@ public interface JpaIfOrderDetailRepository extends JpaRepository<IfOrderDetail,
 
     @Query("select max(I.ifNoSeq) from IfOrderDetail I where I.ifNo = ?1")
     String findMaxIfNoSeq(String ifNo);
+
+    IfOrderDetail findByIfNoAndChannelOrderNoAndChannelOrderSeq(String ifNo, String orderNo, String sno);
 }
