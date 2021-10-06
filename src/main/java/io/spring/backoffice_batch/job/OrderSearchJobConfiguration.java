@@ -59,7 +59,7 @@ public class OrderSearchJobConfiguration {
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchOrderStep1");
                     // 트랜잭션1. if table 저장
-                    int n = page == null? -1 : Integer.parseInt(page);
+                    int n = page == null || page.trim().equals("")? -1 : Integer.parseInt(page);
                     String startDt;
                     String endDt;
                     if(n >= 0){
