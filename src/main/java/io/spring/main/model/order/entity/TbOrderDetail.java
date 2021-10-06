@@ -2,10 +2,8 @@ package io.spring.main.model.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.spring.main.model.goods.entity.CommonProps;
-import io.spring.main.model.goods.entity.Itbrnd;
 import io.spring.main.model.goods.entity.Ititmm;
 import io.spring.main.model.order.idclass.TbOrderDetailId;
-import io.spring.main.util.StringFactory;
 import lombok.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -60,7 +58,7 @@ public class TbOrderDetail extends CommonProps
         this.ititmm = tbOrderDetail.getItitmm();
         // 21-10-06
         this.scmNo = tbOrderDetail.getScmNo();
-        this.parentChannelOrderSeq = tbOrderDetail.parentChannelOrderSeq;
+        this.parentOrderSeq = tbOrderDetail.parentOrderSeq;
 
         super.setRegDt(tbOrderDetail.getRegDt());
         super.setRegId(tbOrderDetail.getRegId());
@@ -107,7 +105,7 @@ public class TbOrderDetail extends CommonProps
 
     // 21-10-06 새로 생긴 컬럼
     private Long scmNo;
-    private String parentChannelOrderSeq;
+    private String parentOrderSeq;
 
     @JoinColumns(
     {

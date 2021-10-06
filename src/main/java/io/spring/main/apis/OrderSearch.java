@@ -29,7 +29,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -150,8 +149,10 @@ public class OrderSearch {
             return;
         }
         Map<Long, OrderSearchData.AddGoodsData> addGoodsDataMap = new HashMap<>();
-        for(OrderSearchData.AddGoodsData addGoodsData : orderSearchData.getAddGoodsData()){
-            addGoodsDataMap.put(addGoodsData.getSno(), addGoodsData);
+        if(orderSearchData.getAddGoodsData() != null && orderSearchData.getAddGoodsData().size() > 0){
+            for(OrderSearchData.AddGoodsData addGoodsData : orderSearchData.getAddGoodsData()){
+                addGoodsDataMap.put(addGoodsData.getSno(), addGoodsData);
+            }
         }
         for(OrderSearchData.OrderGoodsData orderGoodsData : orderSearchData.getOrderGoodsData()){
             IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(orderSearchData.getIfNo(), Long.toString(orderGoodsData.getOrderNo()), Long.toString(orderGoodsData.getSno()));
@@ -207,6 +208,10 @@ public class OrderSearch {
      * orderGoodsData에 딸린 addGoodsData가 있는지 판단하고 있으면 새로운 ifOrderDetail 저장
      */
     private void saveAddGoods(OrderSearchData orderSearchData, IfOrderDetail ifOrderDetail0, Map<Long, OrderSearchData.AddGoodsData> addGoodsDataMap) {
+        if(addGoodsDataMap.size() == 0){
+            log.debug("해당 orderSearchData는 addGoodsData가 없음.");
+            return;
+        }
         long newSno = Long.parseLong(ifOrderDetail0.getChannelOrderSeq());
         while(newSno > 0){
             OrderSearchData.AddGoodsData agData = addGoodsDataMap.get(newSno + 1);
@@ -427,7 +432,8 @@ public class OrderSearch {
         tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 고도몰 주문(주문자 받는 곳 - 한국창고) : 000001
 
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
-        tbOrderDetail.setStatusCd(StringFactory.getStrAOne()); // 고도몰에서는 A01 상태만 가져옴.
+        String orderStatus = StringFactory.getStrPOne().equals(ifOrderDetail.getChannelOrderStatus())? StringFactory.getStrA01():ifOrderDetail.getChannelOrderStatus();
+        tbOrderDetail.setStatusCd(orderStatus); // 고도몰에서는 A01 상태만 가져옴.
         tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
 //        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice()); // fixedPrice
@@ -465,7 +471,13 @@ public class OrderSearch {
 
         // 21-10-06 추가
         tbOrderDetail.setScmNo(ifOrderDetail.getScmNo());
-        tbOrderDetail.setParentChannelOrderSeq(ifOrderDetail.getParentChannelOrderSeq());
+        IfOrderDetail ifOrderDetailParent = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getIfNo(), ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getParentChannelOrderSeq());
+        if(ifOrderDetailParent == null){
+            tbOrderDetail.setParentOrderSeq(ifOrderDetail.getOrderSeq());
+        }
+        else {
+            tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetailParent.getIfNoSeq(), 4,'0'));
+        }
 
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         em.persist(tbOrderDetail);
