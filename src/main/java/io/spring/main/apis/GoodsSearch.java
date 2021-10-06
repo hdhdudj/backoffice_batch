@@ -663,6 +663,7 @@ public class GoodsSearch {
     @Transactional
     public void insertTms(){
         goodsMapper.insertTmitem();
+        goodsMapper.updateTmitem();
         goodsMapper.insertTmmapi();
     }
 }
