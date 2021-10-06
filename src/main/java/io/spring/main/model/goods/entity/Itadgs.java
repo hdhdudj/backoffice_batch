@@ -32,7 +32,7 @@ public class Itadgs extends CommonProps {
     @Id
     private String addGoodsId;
     private String addGoodsNm;
-    private String taxGb = StringFactory.getGbTwo(); // 02 하드코딩
+    private String taxGb = StringFactory.getGbOne(); // 01 하드코딩 (01 : 과세, 02 : 면세)
     private String addGoodsModel;
     private String optionNm;
     private Float localPrice = 0f;

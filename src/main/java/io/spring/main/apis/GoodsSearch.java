@@ -345,6 +345,8 @@ public class GoodsSearch {
             ifGoodsAddGoods.setSoldOutFl(Utilities.ynToOneTwo(addGoodsData.getSoldOutFl()));
             Itadgs itadgs = new Itadgs(ifGoodsMaster, ifGoodsAddGoods);
             jpaItadgsRepository.save(itadgs);
+            // 21-10-06 addGoods도 똑같이 itasrt에 들어가기로 함
+            Itasrt addGoodsItasrt = new Itasrt(itadgs);
 //            jpaIfGoodsAddGoodsRepository.save(addGoodsData);
         }
 

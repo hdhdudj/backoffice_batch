@@ -67,53 +67,27 @@ public class Itasrt extends CommonProps{
 
 		// 21-10-05 추가
 		this.ownerId = StringUtils.leftPad(Long.toString(ifGoodsMaster.getScmNo()),6,'0');
+		// 21-10-06 추가
+		this.addGoodsYn = StringFactory.getGbTwo(); // 02 하드코딩
 	}
 
-//	public Itasrt(GoodsInsertRequestData goodsInsertRequestData){
-//		this.assortId = goodsInsertRequestData.getAssortId();
-//		this.assortNm = goodsInsertRequestData.getAssortNm();
-//		this.assortModel = goodsInsertRequestData.getAssortModel();
-//		this.margin = goodsInsertRequestData.getMargin();
-//		this.taxGb = goodsInsertRequestData.getTaxGb();
-//		this.assortGb = goodsInsertRequestData.getAssortGb();
-//		this.assortState = goodsInsertRequestData.getAssortState();
-////		this.asWidth = goodsRequestData.getAsWidth();
-////		this.asLength = goodsRequestData.getAsLength();
-////		this.asHeight = goodsRequestData.getAsHeight();
-////		this.weight = goodsRequestData.getWeight();
-//		this.origin = goodsInsertRequestData.getOrigin();
-//		this.shortageYn = goodsInsertRequestData.getShortageYn();
-//		this.brandId = goodsInsertRequestData.getBrandId();
-//		this.dispCategoryId = goodsInsertRequestData.getDispCategoryId();
-//		this.siteGb = "01";
-//		this.asVendorId = goodsInsertRequestData.getAsVendorId();
-//		this.manufactureNm = goodsInsertRequestData.getManufactureNm();
-////		this.deliPrice = goodsRequestData.getDeliPrice();
-////		this.localPrice = goodsRequestData.getLocalPrice();
-////		this.localSale = goodsRequestData.getLocalSale();
-//		this.localDeliFee = goodsInsertRequestData.getLocalDeliFee();
-//		this.assortColor = goodsInsertRequestData.getAssortColor();
-//		this.sellStaDt = goodsInsertRequestData.getSellStaDt();
-//		this.sellEndDt = goodsInsertRequestData.getSellEndDt();
-//		this.taxGb = goodsInsertRequestData.getTaxGb();
-//		this.mdRrp = goodsInsertRequestData.getMdRrp();
-//		this.mdTax = goodsInsertRequestData.getMdTax();
-//		this.mdYear = goodsInsertRequestData.getMdYear();
-//		this.mdMargin = goodsInsertRequestData.getMdMargin();
-//		this.mdMargin = goodsInsertRequestData.getMdMargin();
-//		this.mdVatrate = goodsInsertRequestData.getMdVatrate();
-//		this.mdOfflinePrice = goodsInsertRequestData.getMdOfflinePrice();
-//		this.mdOnlinePrice = goodsInsertRequestData.getMdOnlinePrice();
-//		this.mdGoodsVatrate = goodsInsertRequestData.getMdGoodsVatrate();
-//		this.buyWhere = goodsInsertRequestData.getBuyWhere();
-//		this.buyTax = goodsInsertRequestData.getBuyTax();
-//		this.buySupplyDiscount = goodsInsertRequestData.getBuySupplyDiscount();
-//		this.buyRrpIncrement = goodsInsertRequestData.getBuyRrpIncrement();
-//		this.buyExchangeRate = goodsInsertRequestData.getBuyExchangeRate();
-//		this.sizeType = goodsInsertRequestData.getSizeType();
-//		this.mdDiscountRate = goodsInsertRequestData.getMdDiscountRate();
-//	}
-
+	public Itasrt(Itadgs itadgs){
+		this.assortId = itadgs.getAddGoodsId();
+		this.assortNm = itadgs.getAddGoodsNm();
+		this.assortModel = itadgs.getAddGoodsModel();
+		this.localPrice = itadgs.getLocalPrice();
+		this.localSale = itadgs.getLocalSale();
+		this.deliPrice = itadgs.getDeliPrice();
+		this.assortState = itadgs.getAddGoodsState();
+		this.shortageYn = itadgs.getShortYn();
+		this.brandId = itadgs.getBrandId();
+		this.manufactureNm = itadgs.getMakerNm();
+		this.taxGb = itadgs.getTaxGb();
+		this.addOptionNm = itadgs.getOptionNm();
+		this.addGoodsYn = StringFactory.getGbOne(); // 01 하드코딩
+		this.addImageUrl = itadgs.getImageUrl();
+		this.stockCnt = itadgs.getStockCnt();
+	}
 	@Id
 	private String assortId;
 
@@ -161,6 +135,14 @@ public class Itasrt extends CommonProps{
 	private Float mdDiscountRate;
 	private String optionGbName;
 	private String optionUseYn;
+	private String storageId;
+
+	// 21-10-06 추가된 컬럼
+	private String addGoodsYn;
+	private String addOptionNm;
+	private String addImageUrl;
+	private Long stockCnt;
+
 
 	//// 다른 테이블과 엮으면 나오는 프로퍼티들
 	@JoinColumn(name = "assortId", referencedColumnName = "assortId", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
@@ -188,110 +170,6 @@ public class Itasrt extends CommonProps{
 	@JsonIgnore
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Itcatg itcatg; // itcatg 연관관계
-	
-	
 
-//	@OneToOne
-//	@JoinColumn(name = "brand_id", referencedColumnName = "brand_id", insertable = false, updatable = false, foreignKey = @javax.persistence.ForeignKey(name = "none"))
-//	@JsonIgnore
-//	@ManyToOne(fetch = FetchType.LAZY) // 연관관계
-//	private Itbrnd itbrnd;
-//	@ManyToOne(fetch = FetchType.LAZY) // 연관관계
-//	@JoinColumn(name = "disp_category_id", referencedColumnName = "category_id", insertable=false, updatable=false, foreignKey = @javax.persistence.ForeignKey(name = "none"))
-//	private Itcatg itcatg;
 
-//	private String brandNm;
-//	private String categoryNm;
-//	private String assortDnm;
-//	private String assortEnm;
-//	private String payMthCd;
-//	private String couponYn;
-//	private String packYn;
-//	private String deliConfirmYn;
-//	private String deliMth;
-//	private String addDeliGb;
-//	private String deliCharge;
-//	private String deliInterval;
-//	private String marginGb;
-//	private String marginApp;
-//	private String adultGb;
-//	private String unionApply;
-//	private String cardFreeGb;
-//	private String divideMth;
-//	private String reasonCd;
-//	private String vendorTrGb;
-//	private String siteUrl;
-//	private String luxuryYn;
-//	private String weight;
-//	private String imgCnt;
-//	private String cardLimitYn;
-//	private String searchYn;
-//	private String sizeId;
-//	private String quality;
-//	private String leadTime;
-//	private String deliSure;
-//	private String reserveYn;
-//	private String resStaDt;
-//	private String resEndDt;
-//	private String claimSureYn;
-//	private String defaultYn;
-//	private String recommYn;
-//	private String recommCnt;
-//	private String recommQty;
-//	private String btMarkYn;
-//	private String sendbackRejectYn;
-//	private String setGb;
-//	private String userId;
-//	private String categoryId;
-//	private String hsCode;
-//	private String unit;
-//	private String vendorId;
-//	private String alAssortId;
-//	private String drtSalesGb;
-//	private String templateId;
-//	private String drtSalesRatio;
-//	private String speTaxYn;
-//	private String preItemYn;
-//	private String srhExpYn;
-//	private String nonsaleYn;
-//	private String deliNrgGb;
-//	private String delayRewardYn;
-//	private String callDisLimit;
-//	private String initLocalPrice;
-//	private String estiPrice;
-//	private String invoiceNm;
-//	private String localDeliFee;
-//	private String cardFreeYn;
-//	private String itemAbbNm;
-//	private String disGb;
-//	private String disRate;
-//	private String reserveGive;
-//	private String bonusReserve;
-//	private String cashbagPoint;
-//	private String plGbn;
-//	private String plFromDt;
-//	private String plToDt;
-	private String storageId;
-//	private String optionGb;
-//	private String shopSaleGb;
-//	private String sendbackPayGb;
-//	private String sendbackChangeYn;
-//	private String directPathNrgCd;
-//	private String marginCd;
-//	private String directPathGb;
-//	private String resShipStaDt;
-//	private String resShipEndDt;
-//	private String imgType;
-//	private String onlinedispYn;
-//	private String payType;
-//	private String freeGiftYn;
-//	private String currencyUnit;
-//	private String disStartDt;
-//	private String disEndDt;
-//	private String workGb;
-//	private String cardFee;
-//	private String assortGrade;
-//	private String mdTax;
-//	private String mdYear;
-//	private String mdMargin;
 }
