@@ -436,8 +436,8 @@ public class OrderSearch {
             tbOrderDetail = outTbOrderDetail;
 
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
-            if(!this.isTrdstOrderStatus(compareTbOrderDetail.getStatusCd())){
-                log.debug("trdst의 orderStatus를 가지지 않은 주문은 update 할 수 없습니다. orderId : " + compareTbOrderDetail.getOrderId() + ", orderSeq : " + compareTbOrderDetail.getSetOrderSeq());
+            if(this.isTrdstOrderStatus(compareTbOrderDetail.getStatusCd())){
+                log.debug("trdst의 orderStatus를 탄 주문은 update 할 수 없습니다. orderId : " + compareTbOrderDetail.getOrderId() + ", orderSeq : " + compareTbOrderDetail.getSetOrderSeq());
                 return null;
             }
         }
