@@ -3,6 +3,7 @@ package io.spring.main.apis;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.enums.DeliveryMethod;
 import io.spring.main.enums.GoodsOrAddGoods;
+import io.spring.main.enums.TrdstOrderStatus;
 import io.spring.main.jparepos.common.*;
 import io.spring.main.jparepos.goods.*;
 import io.spring.main.jparepos.order.*;
@@ -277,6 +278,16 @@ public class OrderSearch {
         return GoodsOrAddGoods.valueOf(goodsType).getFieldName();
     }
 
+    // orderStatus가 trdstStatus 안에 존재하는지 판단해줌
+    private boolean isTrdstOrderStatus(String goodsType) {
+        if(TrdstOrderStatus.valueOf(goodsType) == null){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     // goods xml 받아오는 함수
     public List<OrderSearchData> retrieveOrders(String orderNo, String fromDt, String toDt) {
         //OpenApi호출
@@ -423,6 +434,12 @@ public class OrderSearch {
         else { // update
             compareTbOrderDetail = new TbOrderDetail(outTbOrderDetail);
             tbOrderDetail = outTbOrderDetail;
+
+            // trdstOrderStatus를 가지고 있으면 update 하지 않음.
+            if(!this.isTrdstOrderStatus(compareTbOrderDetail.getStatusCd())){
+                log.debug("trdst의 orderStatus를 가지지 않은 주문은 update 할 수 없습니다. orderId : " + compareTbOrderDetail.getOrderId() + ", orderSeq : " + compareTbOrderDetail.getSetOrderSeq());
+                return null;
+            }
         }
         if(ititmm != null){
             tbOrderDetail.setItemId(ititmm.getItemId());
