@@ -402,7 +402,7 @@ public class OrderSearch {
         }
 
         if(tbOrderDetail != null){
-            this.saveOrderLog(tbOrderDetail);
+            this.saveOrderLog(tbOrderDetail.getStatusCd(), tbOrderDetail);
         }
         return tbOrderDetail;
     }
@@ -411,8 +411,9 @@ public class OrderSearch {
      * tbOrderDetail.statusCd가 변동될 때마다 로그를 기록함.
      * @param tbOrderDetail
      */
-    private void saveOrderLog(TbOrderDetail tbOrderDetail) {
+    private void saveOrderLog(String statusCd, TbOrderDetail tbOrderDetail) {
         OrderLog orderLog = new OrderLog(tbOrderDetail);
+        orderLog.setPrevStatus(statusCd);
         jpaOrderLogRepository.save(orderLog);
     }
 
