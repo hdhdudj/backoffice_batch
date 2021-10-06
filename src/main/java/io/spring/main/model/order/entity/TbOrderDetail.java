@@ -30,34 +30,38 @@ public class TbOrderDetail extends CommonProps
         this.orderSeq = orderSeq;
     }
     public TbOrderDetail(TbOrderDetail tbOrderDetail){
-        orderId = tbOrderDetail.getOrderId();
-        orderSeq = tbOrderDetail.getOrderSeq();
-        statusCd = tbOrderDetail.getStatusCd();
-        assortGb = tbOrderDetail.getAssortGb();
-        assortId = tbOrderDetail.getAssortId();
-        itemId = tbOrderDetail.getItemId();
-        goodsNm = tbOrderDetail.getGoodsNm();
-        optionInfo = tbOrderDetail.getOptionInfo();
-        setGb = tbOrderDetail.getSetGb();
-        setOrderId = tbOrderDetail.getSetOrderId();
-        setOrderSeq = tbOrderDetail.getSetOrderSeq();
-        qty = tbOrderDetail.getQty();
-        itemAmt = tbOrderDetail.getItemAmt();
-        goodsPrice = tbOrderDetail.getGoodsPrice();
-        salePrice = tbOrderDetail.getSalePrice();
-        goodsDcPrice = tbOrderDetail.getGoodsDcPrice();
-        memberDcPrice = tbOrderDetail.getMemberDcPrice();
-        couponDcPrice = tbOrderDetail.getCouponDcPrice();
-        adminDcPrice = tbOrderDetail.getAdminDcPrice();
-        dcSumPrice = tbOrderDetail.getDcSumPrice();
-        deliPrice = tbOrderDetail.getDeliPrice();
-        deliMethod = tbOrderDetail.getDeliMethod();
-        channelOrderNo = tbOrderDetail.getChannelOrderNo();
-        channelOrderSeq = tbOrderDetail.getChannelOrderSeq();
-        lastGb = tbOrderDetail.getLastGb();
-        lastCategoryId = tbOrderDetail.getLastCategoryId();
-        storageId = tbOrderDetail.getStorageId();
-        ititmm = tbOrderDetail.getItitmm();
+        this.orderId = tbOrderDetail.getOrderId();
+        this.orderSeq = tbOrderDetail.getOrderSeq();
+        this.statusCd = tbOrderDetail.getStatusCd();
+        this.assortGb = tbOrderDetail.getAssortGb();
+        this.assortId = tbOrderDetail.getAssortId();
+        this.itemId = tbOrderDetail.getItemId();
+        this.goodsNm = tbOrderDetail.getGoodsNm();
+        this.optionInfo = tbOrderDetail.getOptionInfo();
+        this.setGb = tbOrderDetail.getSetGb();
+        this.setOrderId = tbOrderDetail.getSetOrderId();
+        this.setOrderSeq = tbOrderDetail.getSetOrderSeq();
+        this.qty = tbOrderDetail.getQty();
+        this.itemAmt = tbOrderDetail.getItemAmt();
+        this.goodsPrice = tbOrderDetail.getGoodsPrice();
+        this.salePrice = tbOrderDetail.getSalePrice();
+        this.goodsDcPrice = tbOrderDetail.getGoodsDcPrice();
+        this.memberDcPrice = tbOrderDetail.getMemberDcPrice();
+        this.couponDcPrice = tbOrderDetail.getCouponDcPrice();
+        this.adminDcPrice = tbOrderDetail.getAdminDcPrice();
+        this.dcSumPrice = tbOrderDetail.getDcSumPrice();
+        this.deliPrice = tbOrderDetail.getDeliPrice();
+        this.deliMethod = tbOrderDetail.getDeliMethod();
+        this.channelOrderNo = tbOrderDetail.getChannelOrderNo();
+        this.channelOrderSeq = tbOrderDetail.getChannelOrderSeq();
+        this.lastGb = tbOrderDetail.getLastGb();
+        this.lastCategoryId = tbOrderDetail.getLastCategoryId();
+        this.storageId = tbOrderDetail.getStorageId();
+        this.ititmm = tbOrderDetail.getItitmm();
+        // 21-10-06
+        this.scmNo = tbOrderDetail.getScmNo();
+        this.parentChannelOrderSeq = tbOrderDetail.parentChannelOrderSeq;
+
         super.setRegDt(tbOrderDetail.getRegDt());
         super.setRegId(tbOrderDetail.getRegId());
         super.setUpdDt(tbOrderDetail.getUpdDt());
@@ -100,6 +104,10 @@ public class TbOrderDetail extends CommonProps
     private Float optionPrice;
     private Float optionTextPrice;
     private String deliveryInfo;
+
+    // 21-10-06 새로 생긴 컬럼
+    private Long scmNo;
+    private String parentChannelOrderSeq;
 
     @JoinColumns(
     {

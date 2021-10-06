@@ -176,7 +176,7 @@ public class OrderSearch {
             ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
             // goodsNm 가져오기
             List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "");
-            ifOrderDetail.setChannelGoodsNm(goodsSearchDataList.size() > 0? goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "").get(0).getGoodsNm() : " ");
+            ifOrderDetail.setChannelGoodsNm(orderGoodsData.getGoodsNm());
 //            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
             //
             ifOrderDetail.setChannelParentGoodsNo(Long.toString(orderGoodsData.getParentGoodsNo()));
@@ -192,6 +192,10 @@ public class OrderSearch {
 
             // 21-10-05 추가
             ifOrderDetail.setScmNo(orderGoodsData.getScmNo());
+
+            // 21-10-06 추가
+            ifOrderDetail.setListImageData(orderGoodsData.getListImageData());
+            ifOrderDetail.setOptionTextInfo(orderGoodsData.getOptionTextInfo());
 
             em.persist(ifOrderDetail);
 
@@ -232,7 +236,7 @@ public class OrderSearch {
                 ifOrderDetail.setChannelOptionInfo(agData.getOptionInfo());
                 // goodsNm 가져오기
                 List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(Long.toString(agData.getAddGoodsNo()), "", "", "");
-                ifOrderDetail.setChannelGoodsNm(goodsSearchDataList.size() > 0? goodsSearch.retrieveGoods(Long.toString(agData.getAddGoodsNo()), "", "", "").get(0).getGoodsNm() : " ");
+                ifOrderDetail.setChannelGoodsNm(agData.getGoodsNm());
 //            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
                 //
                 ifOrderDetail.setChannelParentGoodsNo(Long.toString(agData.getParentGoodsNo()));
@@ -458,6 +462,10 @@ public class OrderSearch {
         // 21-10-01 추가
         tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 채널별 하드코딩. 고도몰(channelGb='01')의 경우 '000001'
         tbOrderDetail.setAssortGb(ifOrderDetail.getChannelGoodsType()); // 001 : 상품, 002 : 추가상품 (ifOrderDetail.channelGoodsType)
+
+        // 21-10-06 추가
+        tbOrderDetail.setScmNo(ifOrderDetail.getScmNo());
+        tbOrderDetail.setParentChannelOrderSeq(ifOrderDetail.getParentChannelOrderSeq());
 
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         em.persist(tbOrderDetail);
