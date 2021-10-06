@@ -347,6 +347,7 @@ public class GoodsSearch {
             jpaItadgsRepository.save(itadgs);
             // 21-10-06 addGoods도 똑같이 itasrt에 들어가기로 함
             Itasrt addGoodsItasrt = new Itasrt(itadgs);
+            jpaItasrtRepository.save(addGoodsItasrt);
 //            jpaIfGoodsAddGoodsRepository.save(addGoodsData);
         }
 
