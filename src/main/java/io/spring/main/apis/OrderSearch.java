@@ -556,6 +556,21 @@ public class OrderSearch {
         tbOrderMaster.setFirstOrderGb(StringFactory.getGbOne()); // 첫주문 01 그다음 02
         tbOrderMaster.setOrderGb(StringFactory.getGbOne()); // 01 : 주문, 02 : 반품, 03 : 교환
 
+        // 21-10-07 추가
+        tbOrderMaster.setTotalGoodsPrice(ifOrderMaster.getTotalGoodsPrice());
+        tbOrderMaster.setTotalDeliveryCharge(ifOrderMaster.getTotalDeliveryCharge());
+        tbOrderMaster.setTotalGoodsDcPrice(ifOrderMaster.getTotalGoodsDcPrice());
+        tbOrderMaster.setTotalMemberDcPrice(ifOrderMaster.getTotalMemberDcPrice());
+        tbOrderMaster.setTotalMemberOverlapDcPrice(ifOrderMaster.getTotalMemberOverlapDcPrice());
+        tbOrderMaster.setTotalCouponGoodsDcPrice(ifOrderMaster.getTotalCouponGoodsDcPrice());
+        tbOrderMaster.setTotalCouponOrderDcPrice(ifOrderMaster.getTotalCouponOrderDcPrice());
+        tbOrderMaster.setTotalCouponDeliveryDcPrice(ifOrderMaster.getTotalCouponDeliveryDcPrice());
+        tbOrderMaster.setTotalMileage(ifOrderMaster.getTotalMileage());
+        tbOrderMaster.setTotalGoodsMileage(ifOrderMaster.getTotalGoodsMileage());
+        tbOrderMaster.setTotalMemberMileage(ifOrderMaster.getTotalMemberMileage());
+        tbOrderMaster.setTotalCouponGoodsMileage(ifOrderMaster.getTotalCouponGoodsMileage());
+        tbOrderMaster.setTotalCouponOrderMileage(ifOrderMaster.getTotalCouponOrderMileage());
+
 //        if(effectIfOrderDetailListNum > 0){
 //            em.persist(tbOrderMaster);
 //        }

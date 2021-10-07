@@ -107,6 +107,9 @@ public class TbOrderDetail extends CommonProps
     private Long scmNo;
     private String parentOrderSeq;
 
+    // 21-10-07 새로 생긴 컬럼
+
+
     @JoinColumns(
     {
         @JoinColumn(name = "assortId", referencedColumnName = "assortId", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none")),
