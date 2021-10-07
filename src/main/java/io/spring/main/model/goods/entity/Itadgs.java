@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Itadgs extends CommonProps {
     public Itadgs(IfGoodsMaster ifGoodsMaster, IfGoodsAddGoods ifGoodsAddGoods){
-        super(ifGoodsAddGoods.getRegDt(), ifGoodsAddGoods.getModDt());
+        super(ifGoodsAddGoods.getRegDt(), ifGoodsAddGoods.getUpdDt());
         this.addGoodsId = ifGoodsAddGoods.getAddGoodsId();
         this.addGoodsNm = ifGoodsAddGoods.getGoodsNm();
         this.localSale = ifGoodsAddGoods.getGoodsPrice();

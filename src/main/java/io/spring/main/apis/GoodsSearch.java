@@ -9,7 +9,9 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import io.spring.main.jparepos.goods.*;
 import io.spring.main.mapper.GoodsMapper;
+import io.spring.main.model.goods.entity.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -20,35 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.spring.main.jparepos.category.JpaIfCategoryRepository;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
-import io.spring.main.jparepos.goods.JpaIfBrandRepository;
-import io.spring.main.jparepos.goods.JpaIfGoodsAddGoodsRepository;
-import io.spring.main.jparepos.goods.JpaIfGoodsMasterRepository;
-import io.spring.main.jparepos.goods.JpaIfGoodsOptionRepository;
-import io.spring.main.jparepos.goods.JpaIfGoodsTextOptionRepository;
-import io.spring.main.jparepos.goods.JpaItadgsRepository;
-import io.spring.main.jparepos.goods.JpaItasrdRepository;
-import io.spring.main.jparepos.goods.JpaItasrnRepository;
-import io.spring.main.jparepos.goods.JpaItasrtRepository;
-import io.spring.main.jparepos.goods.JpaItitmmRepository;
-import io.spring.main.jparepos.goods.JpaItlkagRepository;
-import io.spring.main.jparepos.goods.JpaItmmotRepository;
-import io.spring.main.jparepos.goods.JpaItvariRepository;
 import io.spring.main.model.goods.AddGoodsData;
 import io.spring.main.model.goods.GoodsSearchData;
-import io.spring.main.model.goods.entity.IfBrand;
-import io.spring.main.model.goods.entity.IfCategory;
-import io.spring.main.model.goods.entity.IfGoodsAddGoods;
-import io.spring.main.model.goods.entity.IfGoodsMaster;
-import io.spring.main.model.goods.entity.IfGoodsOption;
-import io.spring.main.model.goods.entity.IfGoodsTextOption;
-import io.spring.main.model.goods.entity.Itadgs;
-import io.spring.main.model.goods.entity.Itasrd;
-import io.spring.main.model.goods.entity.Itasrn;
-import io.spring.main.model.goods.entity.Itasrt;
-import io.spring.main.model.goods.entity.Ititmm;
-import io.spring.main.model.goods.entity.Itlkag;
-import io.spring.main.model.goods.entity.Itmmot;
-import io.spring.main.model.goods.entity.Itvari;
 import io.spring.main.util.StringFactory;
 import io.spring.main.util.Utilities;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +37,7 @@ public class GoodsSearch {
     private final JpaIfGoodsMasterRepository jpaIfGoodsMasterRepository;
     private final JpaIfGoodsOptionRepository jpaIfGoodsOptionRepository;
     private final JpaIfGoodsTextOptionRepository jpaIfGoodsTextOptionRepository;
+    private final JpaIfAddGoodsRepository jpaIfAddGoodsRepository;
     private final JpaIfGoodsAddGoodsRepository jpaIfGoodsAddGoodsRepository;
     private final JpaSequenceDataRepository jpaSequenceDataRepository;
     private final JpaItasrtRepository jpaItasrtRepository;
@@ -114,11 +90,14 @@ public class GoodsSearch {
 //    }
 
     @Transactional
-    public void saveIfTables(String fromDt, String toDt, String page){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
+    public void saveIfTables(String goodsNo, String fromDt, String toDt, String page){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
         if(page == null){
             page = "";
         }
-        List<GoodsSearchData> goodsSearchDataList = retrieveGoods("", fromDt, toDt, page); // test용 goodsNo : 1000040120
+        if(goodsNo == null){
+            goodsNo = "";
+        }
+        List<GoodsSearchData> goodsSearchDataList = this.retrieveGoods(goodsNo, fromDt, toDt, page); // test용 goodsNo : 1000040120
 //        String assortId = "";
 
         // 1. if table 저장
@@ -220,6 +199,9 @@ public class GoodsSearch {
         }
     }
 
+    /**
+     *  ifGoodsAddGoods와 ifAddGoods 생성
+     */
     private void saveIfGoodsAddGoods(GoodsSearchData goodsSearchData){ //, List<IfGoodsAddGoods> addGoodsDataListOut) {
         List<GoodsSearchData.AddGoodsData> addGoodsDataList = goodsSearchData.getAddGoodsData();
 //        System.out.println("addGoodsData length : " + addGoodsDataList.size());
@@ -227,6 +209,7 @@ public class GoodsSearch {
             log.debug("addGoodsDataList is null.");
             return;
         }
+        // if_goods_add_goods 저장
         for(GoodsSearchData.AddGoodsData addGoodsData : addGoodsDataList){ // goodsNoData 기준으로 if_goods_add_goods에 저장
             List<String> goodsNoData = addGoodsData.getGoodsNoData();
             if(goodsNoData == null){
@@ -239,6 +222,26 @@ public class GoodsSearch {
                 ifGoodsAddGoods.setTitle(addGoodsData.getTitle());
 
                 jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
+            }
+        }
+        // if_add_goods 저장
+        for(GoodsSearchData.AddGoodsData addGoodsData : addGoodsDataList){ // goodsNoData 기준으로 if_goods_add_goods에 저장
+            List<String> goodsNoData = addGoodsData.getGoodsNoData();
+            if(goodsNoData == null){
+                break;
+            }
+            for(String addGoods : goodsNoData){
+                IfAddGoods ifAddGoods = jpaIfAddGoodsRepository.findByAddGoodsNo(addGoods);
+                if(ifAddGoods == null){ // insert
+                    // add_goods_id 채번
+                    String addGoodsId = this.getAddGoodsId('A', jpaIfAddGoodsRepository.findMaxAddGoodsId(), 9);
+                    ifAddGoods = objectMapper.convertValue(goodsSearchData, IfAddGoods.class);
+                    ifAddGoods.setAddGoodsId(addGoodsId);
+                }
+                ifAddGoods.setAddGoodsNo(addGoods);
+                ifAddGoods.setTitle(addGoodsData.getTitle());
+
+                jpaIfAddGoodsRepository.save(ifAddGoods);
             }
         }
     }
@@ -320,9 +323,8 @@ public class GoodsSearch {
 
         // 9. itadgs (from if_goods_add_goods) 저장
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
-            // add_goods_id 채번
-            String addGoodsId = this.getAddGoodsId('A', jpaItadgsRepository.findMaxAddGoodsId(), 9);
-            ifGoodsAddGoods.setAddGoodsId(addGoodsId);
+            IfAddGoods ifAddGoods = jpaIfAddGoodsRepository.findByAddGoodsNo(ifGoodsAddGoods.getAddGoodsNo());
+            ifGoodsAddGoods.setAddGoodsId(ifAddGoods.getAddGoodsId());
             System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡ addGoodsId : " + ifGoodsAddGoods.getAddGoodsId() + ", assortId : " + ifGoodsAddGoods.getAssortId());
             //OpenApi호출
             AddGoodsData addGoodsData = retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
@@ -336,7 +338,31 @@ public class GoodsSearch {
             ifGoodsAddGoods.setViewFl(Utilities.ynToOneTwo(addGoodsData.getViewFl()));
             ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne());
             ifGoodsAddGoods.setSoldOutFl(Utilities.ynToOneTwo(addGoodsData.getSoldOutFl()));
-            Itadgs itadgs = new Itadgs(ifGoodsMaster, ifGoodsAddGoods);
+
+            // 21-10-07 추가
+            ifAddGoods.setGoodsNm(ifGoodsAddGoods.getGoodsNm());
+            ifAddGoods.setOptionNm(ifGoodsAddGoods.getOptionNm());
+            ifAddGoods.setBrandCd(ifGoodsAddGoods.getBrandCd());
+            ifAddGoods.setMakerNm(ifGoodsAddGoods.getMakerNm());
+            ifAddGoods.setGoodsPrice(ifGoodsAddGoods.getGoodsPrice());
+            ifAddGoods.setStockCnt(ifGoodsAddGoods.getStockCnt());
+            ifAddGoods.setViewFl(ifGoodsAddGoods.getViewFl());
+            ifAddGoods.setSoldOutFl(ifGoodsAddGoods.getSoldOutFl());
+
+            Itadgs itadgs = jpaItadgsRepository.findByAddGoodsId(ifAddGoods.getAddGoodsId());
+            if(itadgs == null){ // insert
+                itadgs = new Itadgs(ifGoodsMaster, ifGoodsAddGoods);
+            }
+            else { // update
+                itadgs.setLocalSale(ifAddGoods.getGoodsPrice());
+                itadgs.setShortYn(ifAddGoods.getSoldOutFl());
+                itadgs.setOptionNm(ifAddGoods.getOptionNm());
+                itadgs.setAddGoodsState(ifAddGoods.getViewFl());
+                itadgs.setBrandId(ifAddGoods.getBrandCd());
+                itadgs.setMakerNm(ifAddGoods.getMakerNm());
+                itadgs.setStockCnt(ifAddGoods.getStockCnt());
+                itadgs.setImageUrl(ifGoodsMaster.getMainImageData());
+            }
             jpaItadgsRepository.save(itadgs);
             // 21-10-06 addGoods도 똑같이 itasrt에 들어가기로 함
             Itasrt addGoodsItasrt = new Itasrt(itadgs);
@@ -346,7 +372,7 @@ public class GoodsSearch {
 
         // 10. itlkag (from if_goods_add_goods) 저장
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
-            Itlkag itlkag = jpaItlkagRepository.findByAssortIdAndEffEndDt(ifGoodsAddGoods.getAssortId(), Utilities.getStringToDate(StringFactory.getDoomDay()));
+            Itlkag itlkag = jpaItlkagRepository.findByAssortIdAndAddGoodsIdAndEffEndDt(ifGoodsAddGoods.getAssortId(), ifGoodsAddGoods.getAddGoodsId(), Utilities.getStringToDate(StringFactory.getDoomDay()));
             if(itlkag == null){ // insert
                 itlkag = new Itlkag(ifGoodsAddGoods);
                 jpaItlkagRepository.save(itlkag);

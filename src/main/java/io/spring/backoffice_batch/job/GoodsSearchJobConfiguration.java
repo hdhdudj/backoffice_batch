@@ -43,7 +43,7 @@ public class GoodsSearchJobConfiguration {
     @Bean
     public Job searchGoodsJob(){
         return jobBuilderFactory.get("searchGoodsJob")
-                .start(searchGoodsStep1(null))
+                .start(searchGoodsStep1(null, null))
                 .next(searchGoodsStep2())
                 .next(searchGoodsStep3())
                 .incrementer(new UniqueRunIdIncrementer())
@@ -52,13 +52,13 @@ public class GoodsSearchJobConfiguration {
 
     @Bean
     @JobScope
-    public Step searchGoodsStep1(@Value("#{jobParameters[page]}") String page){
+    public Step searchGoodsStep1(@Value("#{jobParameters[page]}") String page, @Value("#{jobParameters[goodsNo]}") String goodsNo){
         return stepBuilderFactory.get("searchGoodsStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchGoodsStep1");
                     // if table entity 리스트 생성
                     // 트랜잭션1. if table 저장 함수
-                    goodsSearch.saveIfTables("", "", page); //, ifGoodsOptionList, ifGoodsTextOptionList, ifGoodsAddGoodsList);
+                    goodsSearch.saveIfTables(goodsNo, "", "", page); //, ifGoodsOptionList, ifGoodsTextOptionList, ifGoodsAddGoodsList);
                     return RepeatStatus.FINISHED;
                 })
                 .build();

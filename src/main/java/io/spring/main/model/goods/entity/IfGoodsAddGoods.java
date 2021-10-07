@@ -17,7 +17,7 @@ import java.util.Date;
 @Setter
 @Table(name="if_goods_add_goods")
 @IdClass(IfGoodsAddGoodsId.class)
-public class IfGoodsAddGoods {
+public class IfGoodsAddGoods extends CommonProps{
     @Id
     private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     @Id
@@ -36,11 +36,5 @@ public class IfGoodsAddGoods {
     private Long stockCnt;
     private String viewFl;
     private String soldOutFl;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date regDt;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date modDt;
-    private Long regId;
-    private Long updId;
     private String uploadStatus = StringFactory.getGbOne(); // 01 하드코딩
 }
