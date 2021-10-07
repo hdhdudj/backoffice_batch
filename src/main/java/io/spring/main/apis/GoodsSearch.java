@@ -317,28 +317,13 @@ public class GoodsSearch {
         }
 
         List<IfGoodsAddGoods> ifGoodsAddGoodsList = jpaIfGoodsAddGoodsRepository.findByGoodsNo(goodsNo);
-        // 9. itlkag (from if_goods_add_goods) 저장
+
+        // 9. itadgs (from if_goods_add_goods) 저장
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
-            Itlkag itlkag = jpaItlkagRepository.findByAssortIdAndEffEndDt(ifGoodsAddGoods.getAssortId(), Utilities.getStringToDate(StringFactory.getDoomDay()));
             // add_goods_id 채번
-            String addGoodsId = this.getAddGoodsId('A', jpaItlkagRepository.findMaxAddGoodsIdByAssortId(ifGoodsAddGoods.getAssortId()), 9);
+            String addGoodsId = this.getAddGoodsId('A', jpaItadgsRepository.findMaxAddGoodsId(), 9);
             ifGoodsAddGoods.setAddGoodsId(addGoodsId);
             System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡ addGoodsId : " + ifGoodsAddGoods.getAddGoodsId() + ", assortId : " + ifGoodsAddGoods.getAssortId());
-            if(itlkag == null){ // insert
-                itlkag = new Itlkag(ifGoodsAddGoods);
-                itlkag.setAddGoodsId(addGoodsId);
-                jpaItlkagRepository.save(itlkag);
-            }
-//            else { // update
-//                itlkag.setEffEndDt(new Date());
-//                Itlkag newItlkag = new Itlkag(itlkag);
-//                jpaItlkagRepository.save(newItlkag);
-//            }
-
-            // if_goods_add_goods에도 add_goods_id 저장 (아직 save는 노노.. 이따가 uploadStatus 저장할 때 같이)
-        }
-        // 10. itadgs (from if_goods_add_goods) 저장
-        for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
             //OpenApi호출
             AddGoodsData addGoodsData = retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
 
@@ -357,6 +342,22 @@ public class GoodsSearch {
             Itasrt addGoodsItasrt = new Itasrt(itadgs);
             jpaItasrtRepository.save(addGoodsItasrt);
 //            jpaIfGoodsAddGoodsRepository.save(addGoodsData);
+        }
+
+        // 10. itlkag (from if_goods_add_goods) 저장
+        for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
+            Itlkag itlkag = jpaItlkagRepository.findByAssortIdAndEffEndDt(ifGoodsAddGoods.getAssortId(), Utilities.getStringToDate(StringFactory.getDoomDay()));
+            if(itlkag == null){ // insert
+                itlkag = new Itlkag(ifGoodsAddGoods);
+                jpaItlkagRepository.save(itlkag);
+            }
+//            else { // update
+//                itlkag.setEffEndDt(new Date());
+//                Itlkag newItlkag = new Itlkag(itlkag);
+//                jpaItlkagRepository.save(newItlkag);
+//            }
+
+            // if_goods_add_goods에도 add_goods_id 저장 (아직 save는 노노.. 이따가 uploadStatus 저장할 때 같이)
         }
 
         // 11. if_goods_add_goods 테이블에 add_goods_id 삽입하고 updateStatus 02로 업데이트

@@ -24,6 +24,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Itlkag extends CommonProps{
     public Itlkag(IfGoodsAddGoods ifGoodsAddGoods){
+        this.addGoodsId = ifGoodsAddGoods.getAddGoodsId();
         this.assortId = ifGoodsAddGoods.getAssortId();
         this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
         this.effStaDt = new Date(); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
