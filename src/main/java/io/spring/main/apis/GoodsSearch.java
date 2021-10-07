@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 
 import io.spring.main.mapper.GoodsMapper;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.utils.CloneUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -320,14 +319,23 @@ public class GoodsSearch {
         List<IfGoodsAddGoods> ifGoodsAddGoodsList = jpaIfGoodsAddGoodsRepository.findByGoodsNo(goodsNo);
         // 9. itlkag (from if_goods_add_goods) 저장
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
+            Itlkag itlkag = jpaItlkagRepository.findByAssortIdAndEffEndDt(ifGoodsAddGoods.getAssortId(), Utilities.getStringToDate(StringFactory.getDoomDay()));
             // add_goods_id 채번
-            String addGoodsId = this.getCharNo('A', jpaItlkagRepository.findMaxAddGoodsIdByAssortId(ifGoodsAddGoods.getAssortId()), 9);
-            Itlkag itlkag = new Itlkag(ifGoodsAddGoods);
-            itlkag.setAddGoodsId(addGoodsId);
-            jpaItlkagRepository.save(itlkag);
+            String addGoodsId = this.getAddGoodsId('A', jpaItlkagRepository.findMaxAddGoodsIdByAssortId(ifGoodsAddGoods.getAssortId()), 9);
+            ifGoodsAddGoods.setAddGoodsId(addGoodsId);
+            System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡ addGoodsId : " + ifGoodsAddGoods.getAddGoodsId() + ", assortId : " + ifGoodsAddGoods.getAssortId());
+            if(itlkag == null){ // insert
+                itlkag = new Itlkag(ifGoodsAddGoods);
+                itlkag.setAddGoodsId(addGoodsId);
+                jpaItlkagRepository.save(itlkag);
+            }
+//            else { // update
+//                itlkag.setEffEndDt(new Date());
+//                Itlkag newItlkag = new Itlkag(itlkag);
+//                jpaItlkagRepository.save(newItlkag);
+//            }
 
             // if_goods_add_goods에도 add_goods_id 저장 (아직 save는 노노.. 이따가 uploadStatus 저장할 때 같이)
-            ifGoodsAddGoods.setAddGoodsId(addGoodsId);
         }
         // 10. itadgs (from if_goods_add_goods) 저장
         for(IfGoodsAddGoods ifGoodsAddGoods : ifGoodsAddGoodsList){
@@ -555,13 +563,14 @@ public class GoodsSearch {
     }
 
     // addGoodsId 등  문자가 붙은 채번 함수
-    private String getCharNo(char str, String nextVal, int length) {
+    private String getAddGoodsId(char str, String nextVal, int length) {
         // nextVal이 null일 때 (첫번째 채번)
         if(nextVal == null)
         {
             nextVal = Utilities.getStringNo(str, StringFactory.getStrOne(), length); // A00000001 들어감
         }
         else{
+            nextVal = Long.toString(Long.parseLong(nextVal.substring(1)) + 1);
             nextVal = Utilities.getStringNo(str, nextVal, length);
         }
         return nextVal;

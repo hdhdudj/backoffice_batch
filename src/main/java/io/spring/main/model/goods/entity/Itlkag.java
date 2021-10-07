@@ -24,22 +24,15 @@ import java.util.Date;
 @NoArgsConstructor
 public class Itlkag extends CommonProps{
     public Itlkag(IfGoodsAddGoods ifGoodsAddGoods){
-        super(ifGoodsAddGoods.getRegDt(), ifGoodsAddGoods.getModDt());
         this.assortId = ifGoodsAddGoods.getAssortId();
-        try
-        {
-            this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
-        }
-        catch(Exception e){
-            log.debug(e.getMessage());
-        }
-        try
-        {
-            this.effStaDt = new Date(); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
-        }
-        catch(Exception e){
-            log.debug(e.getMessage());
-        }
+        this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
+        this.effStaDt = new Date(); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
+    }
+    public Itlkag(Itlkag itlkag){
+        this.assortId = itlkag.getAssortId();
+        this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
+        this.effStaDt = new Date(); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
+        this.addGoodsId = itlkag.getAddGoodsId();
     }
     @Id
     private String assortId;
