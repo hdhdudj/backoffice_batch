@@ -45,7 +45,7 @@ public class OrderSearchJobConfiguration {
     @Bean
     public Job searchOrderJob(){
         return jobBuilderFactory.get("searchOrderJob")
-                .start(searchOrderStep1(null))
+                .start(searchOrderStep1(null, false))
                 .next(searchOrderStep2())
                 .next(searchOrderStep3())
                 .incrementer(new UniqueRunIdIncrementer())
@@ -54,23 +54,28 @@ public class OrderSearchJobConfiguration {
 
     @Bean
     @JobScope
-    public Step searchOrderStep1(@Value("#{jobParameters[page]}") String page){
+    public Step searchOrderStep1(@Value("#{jobParameters[page]}") String page, @Value("#{jobParameters[next]}") boolean next){
         return stepBuilderFactory.get("searchOrderStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchOrderStep1");
                     // 트랜잭션1. if table 저장
                     int n = page == null || page.trim().equals("")? -1 : Integer.parseInt(page);
+
                     String startDt;
                     String endDt;
-                    if(n >= 0){
-                        startDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7 * (n+1));
-                        endDt = Utilities.getAnotherDate(StringFactory.getDateFormat(),Calendar.DATE, -7 * n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
+                    if(n >= 0 && !next){
+                        startDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, -7 * (n+1));
+                        endDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, -7 * n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
+                    }
+                    else if(n >= 0 && next){
+                        startDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, 7 * n);
+                        endDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, 7 * (n+1));//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
                     }
                     else{
                         startDt = null;
                         endDt = null;
                     }
-                    orderSearch.saveIfTables("2101291635345313", startDt, endDt); //"2106301555509122","2107021751024711", "2101081407020195"(addGoods 정렬 테스트용), "2110061315569293"(최신)
+                    orderSearch.saveIfTables("", startDt, endDt); //"2106301555509122","2107021751024711", "2101081407020195"(addGoods 정렬 테스트용), "2110061315569293"(최신)
                     return RepeatStatus.FINISHED;
                 })
                 .build();

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import io.spring.main.enums.GbOneOrTwo;
 import io.spring.main.jparepos.goods.*;
 import io.spring.main.mapper.GoodsMapper;
 import io.spring.main.model.goods.entity.*;
@@ -136,7 +137,7 @@ public class GoodsSearch {
         else{
             assortId = goodsSearchData.getAssortId();
         }
-        IfGoodsMaster origIfGoodsMaster = jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo()));
+        IfGoodsMaster origIfGoodsMaster = jpaIfGoodsMasterRepository.findByChannelGbAndGoodsNo(StringFactory.getGbOne(), Long.toString(goodsSearchData.getGoodsNo()));
         IfGoodsMaster ifGoodsMaster = null;
         if(origIfGoodsMaster == null){ // insert
             ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);
@@ -153,10 +154,10 @@ public class GoodsSearch {
         ifGoodsMaster.setDetailImageData(goodsSearchData.getDetailImageData() != null? goodsSearchData.getDetailImageData().get(0):null);
         ifGoodsMaster.setMagnifyImageData(goodsSearchData.getMagnifyImageData() != null? goodsSearchData.getMagnifyImageData().get(0):null);
         // y/n을 01/02로 바꾸기
-        ifGoodsMaster.setGoodsSellFl(Utilities.ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
-        ifGoodsMaster.setGoodsDisplayFl(Utilities.ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
-        ifGoodsMaster.setOptionFl(Utilities.ynToOneTwo(ifGoodsMaster.getOptionFl()));
-        ifGoodsMaster.setSizeType(Utilities.ynToOneTwo(ifGoodsMaster.getSizeType()));
+        ifGoodsMaster.setGoodsSellFl(GbOneOrTwo.valueOf(ifGoodsMaster.getGoodsSellFl()).getFieldName());//Utilities.ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
+        ifGoodsMaster.setGoodsDisplayFl(GbOneOrTwo.valueOf(ifGoodsMaster.getGoodsDisplayFl()).getFieldName());//Utilities.ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
+        ifGoodsMaster.setOptionFl(GbOneOrTwo.valueOf(ifGoodsMaster.getOptionFl()).getFieldName());//(Utilities.ynToOneTwo(ifGoodsMaster.getOptionFl()));
+        ifGoodsMaster.setSizeType(GbOneOrTwo.valueOf(ifGoodsMaster.getSizeType()).getFieldName());//(Utilities.ynToOneTwo(ifGoodsMaster.getSizeType()));
         // 매핑 테이블 이용해 고도몰 코드를 백오피스 코드로 전환 (brandCd, cateCd)
         IfBrand ifBrand = jpaIfBrandRepository.findByChannelGbAndChannelBrandId(StringFactory.getGbOne(), ifGoodsMaster.getBrandCd()); // 채널구분 01 하드코딩
         if(ifBrand != null){
@@ -193,7 +194,7 @@ public class GoodsSearch {
             ifGoodsTextOption.setAssortId(goodsSearchData.getAssortId());
             ifGoodsTextOption.setChannelGb(StringFactory.getGbOne());
             // yn을 0102로
-            ifGoodsTextOption.setMustFl(Utilities.ynToOneTwo(ifGoodsTextOption.getMustFl()));
+            ifGoodsTextOption.setMustFl(GbOneOrTwo.valueOf(ifGoodsTextOption.getMustFl()).getFieldName());//(Utilities.ynToOneTwo(ifGoodsTextOption.getMustFl()));
             ifGoodsTextOption.setUploadStatus(StringFactory.getGbOne());
             jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
         }
@@ -335,9 +336,9 @@ public class GoodsSearch {
             ifGoodsAddGoods.setMakerNm(addGoodsData.getMakerNm());
             ifGoodsAddGoods.setGoodsPrice(addGoodsData.getGoodsPrice());
             ifGoodsAddGoods.setStockCnt(addGoodsData.getStockCnt());
-            ifGoodsAddGoods.setViewFl(Utilities.ynToOneTwo(addGoodsData.getViewFl()));
+            ifGoodsAddGoods.setViewFl(GbOneOrTwo.valueOf(addGoodsData.getViewFl()).getFieldName());//(Utilities.ynToOneTwo(addGoodsData.getViewFl()));
             ifGoodsAddGoods.setUploadStatus(StringFactory.getGbOne());
-            ifGoodsAddGoods.setSoldOutFl(Utilities.ynToOneTwo(addGoodsData.getSoldOutFl()));
+            ifGoodsAddGoods.setSoldOutFl(GbOneOrTwo.valueOf(addGoodsData.getSoldOutFl()).getFieldName());//(Utilities.ynToOneTwo(addGoodsData.getSoldOutFl()));
 
             // 21-10-07 추가
             ifAddGoods.setGoodsNm(ifGoodsAddGoods.getGoodsNm());
@@ -698,8 +699,8 @@ public class GoodsSearch {
      */
     @Transactional
     public void insertTms(){
-        goodsMapper.insertTmitem();
-        goodsMapper.updateTmitem();
         goodsMapper.insertTmmapi();
+        goodsMapper.updateTmitem();
+        goodsMapper.insertTmitem();
     }
 }

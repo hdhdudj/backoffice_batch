@@ -1,5 +1,7 @@
 package io.spring.main.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -93,35 +95,40 @@ public class Utilities {
      * mode : Calendar.DATE, Calendar.MONTH 등...
      * n : +는 현재 날짜에서 더하기, -는 현재 날짜에서 빼기
      */
-    public static String getAnotherDate(String dataFormat, int mode, int n){
+    public static String getAnotherDate(String startDt, String dataFormat, int mode, int n) throws ParseException {
         //한달 전
+        DateFormat form = new java.text.SimpleDateFormat(dataFormat);
         Calendar mon = Calendar.getInstance();
+        if(startDt != null){
+            Date startDt2 = form.parse("2017-01-01");
+            mon.setTime(startDt2);
+        }
         mon.add(mode , n);
-        String beforeMonth = new java.text.SimpleDateFormat(dataFormat).format(mon.getTime());
+        String beforeMonth = form.format(mon.getTime());
         return beforeMonth;
     }
 
-    /**
-     * 'y'는 '01'로, 'n'은 '02'로 변환
-     */
-    public static String ynToOneTwo(String yn){
-        String returnStr = null;
-        if(yn == null){
-        }
-        else if(yn.equals(StringFactory.getStrY())){ // 'y'
-            returnStr = StringFactory.getGbOne();
-        }
-        else if(yn.equals(StringFactory.getStrN())){ // 'n'
-            returnStr = StringFactory.getGbTwo();
-        }
-        else if(yn.equals(StringFactory.getStrLight())){ // 'light'
-            returnStr = StringFactory.getGbOne();
-        }
-        else if(yn.equals(StringFactory.getStrFurn())){ // 'furn' 02
-            returnStr = StringFactory.getGbTwo();
-        }
-        return returnStr;
-    }
+//    /**
+//     * 'y'는 '01'로, 'n'은 '02'로 변환
+//     */
+//    public static String ynToOneTwo(String yn){
+//        String returnStr = null;
+//        if(yn == null){
+//        }
+//        else if(yn.equals(StringFactory.getStrY())){ // 'y'
+//            returnStr = StringFactory.getGbOne();
+//        }
+//        else if(yn.equals(StringFactory.getStrN())){ // 'n'
+//            returnStr = StringFactory.getGbTwo();
+//        }
+//        else if(yn.equals(StringFactory.getStrLight())){ // 'light'
+//            returnStr = StringFactory.getGbOne();
+//        }
+//        else if(yn.equals(StringFactory.getStrFurn())){ // 'furn' 02
+//            returnStr = StringFactory.getGbTwo();
+//        }
+//        return returnStr;
+//    }
 
     public static Map<String, Object> makeStringToMap(String addField) {
         Map<String, Object> map = new HashMap<>(); // convert JSON string to Map

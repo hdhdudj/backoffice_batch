@@ -9,4 +9,6 @@ public interface JpaIfGoodsMasterRepository extends JpaRepository<IfGoodsMaster,
     IfGoodsMaster findByGoodsNo(String goodsNo);
 
     List<IfGoodsMaster> findByUploadStatus(String gbOne);
+
+    IfGoodsMaster findByChannelGbAndGoodsNo(String gbOne, String toString);
 }
