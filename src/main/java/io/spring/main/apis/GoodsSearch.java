@@ -154,10 +154,12 @@ public class GoodsSearch {
         ifGoodsMaster.setDetailImageData(goodsSearchData.getDetailImageData() != null? goodsSearchData.getDetailImageData().get(0):null);
         ifGoodsMaster.setMagnifyImageData(goodsSearchData.getMagnifyImageData() != null? goodsSearchData.getMagnifyImageData().get(0):null);
         // y/n을 01/02로 바꾸기
-        ifGoodsMaster.setGoodsSellFl(GbOneOrTwo.valueOf(ifGoodsMaster.getGoodsSellFl()).getFieldName());//Utilities.ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
-        ifGoodsMaster.setGoodsDisplayFl(GbOneOrTwo.valueOf(ifGoodsMaster.getGoodsDisplayFl()).getFieldName());//Utilities.ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
-        ifGoodsMaster.setOptionFl(GbOneOrTwo.valueOf(ifGoodsMaster.getOptionFl()).getFieldName());//(Utilities.ynToOneTwo(ifGoodsMaster.getOptionFl()));
-        ifGoodsMaster.setSizeType(GbOneOrTwo.valueOf(ifGoodsMaster.getSizeType()).getFieldName());//(Utilities.ynToOneTwo(ifGoodsMaster.getSizeType()));
+        String asdf = ifGoodsMaster.getGoodsSellFl();
+        // 고도몰에선 string인데 우리 db에선 01, 02인 애들을 01, 02로 바꾸기
+        ifGoodsMaster.setGoodsSellFl(GbOneOrTwo.valueOf(goodsSearchData.getGoodsSellFl()).getFieldName());//Utilities.ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
+        ifGoodsMaster.setGoodsDisplayFl(GbOneOrTwo.valueOf(goodsSearchData.getGoodsDisplayFl()).getFieldName());//Utilities.ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));
+        ifGoodsMaster.setOptionFl(GbOneOrTwo.valueOf(goodsSearchData.getOptionFl()).getFieldName());//(Utilities.ynToOneTwo(ifGoodsMaster.getOptionFl()));
+        ifGoodsMaster.setSizeType(GbOneOrTwo.valueOf(goodsSearchData.getSizeType()).getFieldName());//(Utilities.ynToOneTwo(ifGoodsMaster.getSizeType()));
         // 매핑 테이블 이용해 고도몰 코드를 백오피스 코드로 전환 (brandCd, cateCd)
         IfBrand ifBrand = jpaIfBrandRepository.findByChannelGbAndChannelBrandId(StringFactory.getGbOne(), ifGoodsMaster.getBrandCd()); // 채널구분 01 하드코딩
         if(ifBrand != null){
