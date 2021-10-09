@@ -1,20 +1,32 @@
 package io.spring.main.model.goods.entity;
 
-import io.spring.main.util.StringFactory;
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.apache.commons.lang3.StringUtils;
+
 import io.spring.main.model.goods.idclass.ItitmmId;
+import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.persistence.*;
-import java.io.Serializable;
+import lombok.ToString;
 
 @Entity
 @Table(name = "ititmm")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItitmmId.class)
 public class Ititmm extends CommonProps implements Serializable {

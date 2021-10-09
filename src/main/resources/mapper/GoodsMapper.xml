@@ -128,17 +128,13 @@
 
 	<update id="updateTmitem">
 		<![CDATA[
-			update tmitem
-			set eff_end_dt = DATE_ADD(now(), interval -1 second)
-			where channel_gb='01'
-			  and (assort_id,item_id ) in (
-
-				select assort_id,item_id
-				from ititmm
-			)
-			  and eff_end_dt ='9999-12-31 23:59:59';
+		
+		
+		delete from tmitem;
+			
 		]]>
 	</update>
+
 	<insert id="insertTmitem">
 		<![CDATA[
 		insert into tmitem
