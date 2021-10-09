@@ -92,3 +92,5 @@ application.properties
 godourl.yml
 
 
+log.txt
+*.gsd
