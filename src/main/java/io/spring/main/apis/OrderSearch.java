@@ -145,12 +145,12 @@ public class OrderSearch {
 		orderSearchData.setIfNo(ifNo);
 //        IfOrderMaster ifOrderMaster2 = null;
         if(ifOrderMaster == null){ // insert
-            ifOrderMaster = objectMapper.convertValue(orderSearchData, IfOrderMaster.class); //orderInfoDataIfOrderMasterMapper.to(orderSearchData, orderSearchData.getOrderInfoData());
+            ifOrderMaster = orderInfoDataIfOrderMasterMapper.to(orderSearchData, orderSearchData.getOrderInfoData().get(0));//objectMapper.convertValue(orderSearchData, IfOrderMaster.class); //orderInfoDataIfOrderMasterMapper.to(orderSearchData, orderSearchData.getOrderInfoData());
             ifOrderMaster.setIfStatus(StringFactory.getGbOne());
         }
         // not null 컬럼들 설정
-        ifOrderMaster.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
-        ifOrderMaster.setChannelOrderStatus(orderSearchData.getOrderStatus());
+//        ifOrderMaster.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
+//        ifOrderMaster.setChannelOrderStatus(orderSearchData.getOrderStatus());
 		System.out.println("getAddField ===> " + orderSearchData.getAddField());
 
 		try { // 오류가 난다면 pcode * 처리
@@ -191,19 +191,19 @@ public class OrderSearch {
 			ifOrderMaster.setCustomerId(StringFactory.getStrStar());
 		}
 
-        ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
-        // https://docs.google.com/spreadsheets/d/1Uou2nQFtydm6Jam8LXG77v1uVnqBbxJDxCq0OcJ2MHc/edit#gid=841263646
-        ifOrderMaster.setOrderName(orderSearchData.getOrderInfoData().get(0).getOrderName());
-        ifOrderMaster.setOrderTel(orderSearchData.getOrderInfoData().get(0).getOrderCellPhone());
-        ifOrderMaster.setOrderZipcode(orderSearchData.getOrderInfoData().get(0).getOrderZipcode());
-        ifOrderMaster.setOrderAddr1(orderSearchData.getOrderInfoData().get(0).getOrderAddress());
-        ifOrderMaster.setOrderAddr2(orderSearchData.getOrderInfoData().get(0).getOrderAddressSub());
-        ifOrderMaster.setReceiverName(orderSearchData.getOrderInfoData().get(0).getReceiverName());
-        ifOrderMaster.setReceiverTel(orderSearchData.getOrderInfoData().get(0).getReceiverCellPhone());
-        ifOrderMaster.setReceiverZipcode(orderSearchData.getOrderInfoData().get(0).getReceiverZipcode());
-        ifOrderMaster.setReceiverAddr1(orderSearchData.getOrderInfoData().get(0).getReceiverAddress());
-        ifOrderMaster.setReceiverAddr2(orderSearchData.getOrderInfoData().get(0).getReceiverAddressSub());
-        ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
+//        ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
+//        // https://docs.google.com/spreadsheets/d/1Uou2nQFtydm6Jam8LXG77v1uVnqBbxJDxCq0OcJ2MHc/edit#gid=841263646
+//        ifOrderMaster.setOrderName(orderSearchData.getOrderInfoData().get(0).getOrderName());
+//        ifOrderMaster.setOrderTel(orderSearchData.getOrderInfoData().get(0).getOrderCellPhone());
+//        ifOrderMaster.setOrderZipcode(orderSearchData.getOrderInfoData().get(0).getOrderZipcode());
+//        ifOrderMaster.setOrderAddr1(orderSearchData.getOrderInfoData().get(0).getOrderAddress());
+//        ifOrderMaster.setOrderAddr2(orderSearchData.getOrderInfoData().get(0).getOrderAddressSub());
+//        ifOrderMaster.setReceiverName(orderSearchData.getOrderInfoData().get(0).getReceiverName());
+//        ifOrderMaster.setReceiverTel(orderSearchData.getOrderInfoData().get(0).getReceiverCellPhone());
+//        ifOrderMaster.setReceiverZipcode(orderSearchData.getOrderInfoData().get(0).getReceiverZipcode());
+//        ifOrderMaster.setReceiverAddr1(orderSearchData.getOrderInfoData().get(0).getReceiverAddress());
+//        ifOrderMaster.setReceiverAddr2(orderSearchData.getOrderInfoData().get(0).getReceiverAddressSub());
+//        ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
         if(orderSearchData.getOrderGoodsData() != null && orderSearchData.getOrderGoodsData().size() > 0){
             ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
         }
@@ -211,7 +211,6 @@ public class OrderSearch {
 
         ifOrderMaster.setPayGb(orderSearchData.getSettleKind());
         ifOrderMaster.setPayAmt(orderSearchData.getSettlePrice());
-        ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
 
         jpaIfOrderMasterRepository.save(ifOrderMaster);
 

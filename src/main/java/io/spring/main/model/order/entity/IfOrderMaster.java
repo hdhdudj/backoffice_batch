@@ -24,11 +24,11 @@ import java.util.List;
 @Table(name = "if_order_master")
 public class IfOrderMaster extends CommonProps implements Serializable {
     public IfOrderMaster(OrderSearchData orderSearchData){
-        ifNo = orderSearchData.getIfNo();
-        channelOrderNo = Long.toString(orderSearchData.getOrderNo());
-        ifStatus = StringFactory.getGbOne(); // 01 하드코딩
-        memNo = Long.toString(orderSearchData.getMemNo());
-        orderName = orderSearchData.getOrderInfoData().get(0).getOrderName();
+//        ifNo = orderSearchData.getIfNo();
+//        channelOrderNo = Long.toString(orderSearchData.getOrderNo());
+//        ifStatus = StringFactory.getGbOne(); // 01 하드코딩
+//        memNo = Long.toString(orderSearchData.getMemNo());
+//        orderName = orderSearchData.getOrderInfoData().get(0).getOrderName();
     }
     @Id
     private String ifNo;
