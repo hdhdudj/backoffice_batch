@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import io.spring.main.interfaces.OrderInfoDataIfOrderMasterMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -96,11 +97,14 @@ public class OrderSearch {
     private final CommonXmlParse commonXmlParse;
     private final List<String> orderSearchGotListPropsMap;
 
+    // MapStruce mapper
+    private final OrderInfoDataIfOrderMasterMapper orderInfoDataIfOrderMasterMapper;
+
 
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
     public void saveIfTables(String orderNo, String startDt, String endDt){
-        List<OrderSearchData> orderSearchDataList = retrieveOrders(orderNo, startDt, endDt);
+        List<OrderSearchData> orderSearchDataList = this.retrieveOrders(orderNo, startDt, endDt);
 
         // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
@@ -138,7 +142,7 @@ public class OrderSearch {
 		orderSearchData.setIfNo(ifNo);
 //        IfOrderMaster ifOrderMaster2 = null;
         if(ifOrderMaster == null){ // insert
-            ifOrderMaster = objectMapper.convertValue(orderSearchData, IfOrderMaster.class);
+            ifOrderMaster = objectMapper.convertValue(orderSearchData, IfOrderMaster.class); //orderInfoDataIfOrderMasterMapper.to(orderSearchData, orderSearchData.getOrderInfoData());
             ifOrderMaster.setIfStatus(StringFactory.getGbOne());
         }
         // not null 컬럼들 설정
@@ -210,8 +214,6 @@ public class OrderSearch {
             ifOrderDetail.setChannelGoodsNo(orderGoodsData.getGoodsNo());
             ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
             ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
-            // goodsNm 가져오기
-            List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "");
             ifOrderDetail.setChannelGoodsNm(orderGoodsData.getGoodsNm());
 //            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
             //
@@ -274,8 +276,6 @@ public class OrderSearch {
                 ifOrderDetail.setChannelGoodsNo(Long.toString(agData.getAddGoodsNo()));
                 ifOrderDetail.setChannelOptionsNo(Long.toString(agData.getOptionSno()));
                 ifOrderDetail.setChannelOptionInfo(agData.getOptionInfo());
-                // goodsNm 가져오기
-                List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(Long.toString(agData.getAddGoodsNo()), "", "", "");
                 ifOrderDetail.setChannelGoodsNm(agData.getGoodsNm());
 //            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
                 //
@@ -401,7 +401,6 @@ public class OrderSearch {
         // 옵션이 없는 애들은 tmmapi에서 assortId 찾아오기, 옵션이 있는 애들은 tmitem에서 assortId, itemId 찾아오기
         // goods 정보를 고도몰에서 가져올 필요x. 우리가 가진 데이터로도 가능.
         // optionData가 있는 애들은 각 optionData마다 tbOrderDetail 생성됨.
-//        GoodsSearchData goodsSearchData = goodsSearch.retrieveGoods(ifOrderDetail.getChannelGoodsNo(),"","", "").get(0);
 //        System.out.println("----------------------- : " + tbOrderMaster.getOrderId() + " " + goodsSearchData.getGoodsNm());
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getChannelOrderSeq());//, goodsSearchData.getGoodsNm());
         System.out.println("===== itemNm : " + ifOrderDetail.getChannelGoodsNm() + " ===== goodsNo : " + ifOrderDetail.getChannelGoodsNo());

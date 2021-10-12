@@ -38,6 +38,8 @@ public class StringFactory {
     private final static String seqIforderMaster = "seq_IFORDERMASTER";
     @Getter
     private final static String seqTbOrderDetail = "seq_TBORDERDETAIL";
+    @Getter
+    private final static String seqTbMember = "seq_TBMEMBER";
 
     // alphabet
     @Getter

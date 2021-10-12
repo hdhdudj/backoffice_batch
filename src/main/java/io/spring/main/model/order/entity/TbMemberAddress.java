@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TbMemberAddress extends CommonProps {
     public TbMemberAddress(IfOrderMaster ifOrderMaster, TbMember tbMember){
-        custId = tbMember.getCustId();
+        this.custId = tbMember.getCustId();
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
