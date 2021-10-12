@@ -28,6 +28,8 @@ import io.spring.main.enums.DeliveryMethod;
 import io.spring.main.enums.GoodsOrAddGoods;
 import io.spring.main.enums.TrdstOrderStatus;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
+import io.spring.main.jparepos.goods.JpaIfAddGoodsRepository;
+import io.spring.main.jparepos.goods.JpaIfGoodsAddGoodsRepository;
 import io.spring.main.jparepos.goods.JpaItasrtRepository;
 import io.spring.main.jparepos.goods.JpaItitmcRepository;
 import io.spring.main.jparepos.goods.JpaItitmmRepository;
@@ -42,7 +44,7 @@ import io.spring.main.jparepos.order.JpaTbMemberRepository;
 import io.spring.main.jparepos.order.JpaTbOrderDetailRepository;
 import io.spring.main.jparepos.order.JpaTbOrderHistoryRepository;
 import io.spring.main.jparepos.order.JpaTbOrderMasterRepository;
-import io.spring.main.model.goods.GoodsSearchData;
+import io.spring.main.model.goods.entity.IfAddGoods;
 import io.spring.main.model.goods.entity.Ititmm;
 import io.spring.main.model.goods.entity.Tmitem;
 import io.spring.main.model.goods.entity.Tmmapi;
@@ -91,6 +93,9 @@ public class OrderSearch {
     private final JpaItitmmRepository jpaItitmmRepository;
     private final JpaTmmapiRepository jpaTmmapiRepository;
     private final JpaTmitemRepository jpaTmitemRepository;
+	private final JpaIfGoodsAddGoodsRepository jpaIfGoodsAddGoodsRepository;
+	private final JpaIfAddGoodsRepository jpaIfAddGoodsRepository;
+
     private final EntityManager em;
     private final ObjectMapper objectMapper;
     private final CommonXmlParse commonXmlParse;
@@ -248,7 +253,9 @@ public class OrderSearch {
             ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
             ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
             // goodsNm 가져오기
-            List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "");
+			// todo : 상품정보 고도몰 api에서 가져오던것 주문정보에서 가져오도록 수정 2021-10-12
+			// List<GoodsSearchData> goodsSearchDataList =
+			// goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "");
             ifOrderDetail.setChannelGoodsNm(orderGoodsData.getGoodsNm());
 //            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
             //
@@ -311,8 +318,11 @@ public class OrderSearch {
                 ifOrderDetail.setChannelGoodsNo(Long.toString(agData.getAddGoodsNo()));
                 ifOrderDetail.setChannelOptionsNo(Long.toString(agData.getOptionSno()));
                 ifOrderDetail.setChannelOptionInfo(agData.getOptionInfo());
+
+				// todo : 상품정보 고도몰 api에서 가져오던것 주문정보에서 가져오도록 수정 2021-10-12
                 // goodsNm 가져오기
-                List<GoodsSearchData> goodsSearchDataList = goodsSearch.retrieveGoods(Long.toString(agData.getAddGoodsNo()), "", "", "");
+				// List<GoodsSearchData> goodsSearchDataList =
+				// goodsSearch.retrieveGoods(Long.toString(agData.getAddGoodsNo()), "", "", "");
                 ifOrderDetail.setChannelGoodsNm(agData.getGoodsNm());
 //            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
                 //
@@ -443,16 +453,45 @@ public class OrderSearch {
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getChannelOrderSeq());//, goodsSearchData.getGoodsNm());
         System.out.println("===== itemNm : " + ifOrderDetail.getChannelGoodsNm() + " ===== goodsNo : " + ifOrderDetail.getChannelGoodsNo());
         System.out.println("===== orderId : " + ifOrderDetail.getOrderId() + " ===== goodsNm : " + ifOrderDetail.getChannelGoodsNm());
+     
         Tmitem tmitem = jpaTmitemRepository.findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo(), ifOrderDetail.getChannelOptionsNo());
         Tmmapi tmmapi = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo());
+        
         if(tmmapi == null){
             log.debug("tmmapi에 해당 goodsNo 정보가 들어가 있지 않습니다.");
         }
+        
         else if(tmitem == null){
             log.debug("tmitem에 해당 goodsNo 정보가 들어가 있지 않습니다.");
         }
-        Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null? null : tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
-        tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm);
+        
+		if (ifOrderDetail.getChannelGoodsType().equals("001")) {
+            Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null? null : tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
+			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, null);
+		} else {
+
+			System.out.println("addGood => " + ifOrderDetail.getChannelGoodsNo());
+
+			Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null ? null : tmmapi.getAssortId(),
+					tmitem == null ? StringFactory.getFourStartCd() : tmitem.getItemId()); // tmitem이 없으면 0001
+
+			IfAddGoods agItem = jpaIfAddGoodsRepository.findByAddGoodsNo(ifOrderDetail.getChannelGoodsNo());
+			System.out.println("agItem => " + agItem);
+
+			// IfGoodsAddGoods ag = agItem.get(0);
+			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, agItem);
+        }
+		
+		
+
+
+		//ifOrderDetail.getChannelGoodsNo()
+		
+		
+		
+        
+//        Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null? null : tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
+//        tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm);
         return tbOrderDetail;
     }
 
@@ -475,11 +514,13 @@ public class OrderSearch {
      * @param ifOrderDetail
      * @param ititmm
      */
-    private TbOrderDetail saveSingleTbOrderDetail(TbOrderDetail outTbOrderDetail, IfOrderDetail ifOrderDetail, Ititmm ititmm) {
+	private TbOrderDetail saveSingleTbOrderDetail(TbOrderDetail outTbOrderDetail, IfOrderDetail ifOrderDetail,
+			Ititmm ititmm, IfAddGoods ag) {
         boolean flag = outTbOrderDetail == null; // true : insert, false : update
         TbOrderDetail tbOrderDetail;
         TbOrderDetail compareTbOrderDetail = null;
         // 공급사 주문 (scmNo가 63,64)인 경우 data 생성하지 않음
+		// todo 공급사 주문 (scmNo가 63,64)인 경우 data 생성은 하는데 trdst주문으로 만들지는 않음.
         if(ifOrderDetail.getScmNo().equals(StringFactory.getScmNo1()) || ifOrderDetail.getScmNo().equals(StringFactory.getScmNo1())){
             log.debug("공급사 (scmNo : " + ifOrderDetail.getScmNo() + ") 주문입니다.");
             return null;
@@ -518,6 +559,16 @@ public class OrderSearch {
             tbOrderDetail.setItemId(ititmm.getItemId());
             tbOrderDetail.setAssortId(ititmm.getAssortId());
         }
+
+
+		if (ifOrderDetail.getChannelGoodsType().equals("002")) {
+			if (ag != null) {
+				tbOrderDetail.setItemId("0001");
+				tbOrderDetail.setAssortId(ag.getAddGoodsId());
+
+			}
+		}
+
         tbOrderDetail.setGoodsNm(ifOrderDetail.getChannelGoodsNm());
         tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 고도몰 주문(주문자 받는 곳 - 한국창고) : 000001
 

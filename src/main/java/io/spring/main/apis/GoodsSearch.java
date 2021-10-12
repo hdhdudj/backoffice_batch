@@ -278,6 +278,8 @@ public class GoodsSearch {
             }
         }
         // if_add_goods 저장
+		// todo: add_goods를 불르는 api로 주문시에 addGoods없는것 생성이 필요할듯 2021-10-12
+        // 		
         for(GoodsSearchData.AddGoodsData addGoodsData : addGoodsDataList){ // goodsNoData 기준으로 if_goods_add_goods에 저장
             List<String> goodsNoData = addGoodsData.getGoodsNoData();
             if(goodsNoData == null){
@@ -572,6 +574,12 @@ public class GoodsSearch {
             // 21-10-06 addGoods도 똑같이 itasrt에 들어가기로 함
             Itasrt addGoodsItasrt = new Itasrt(itadgs);
             jpaItasrtRepository.save(addGoodsItasrt);
+            
+			// todo:20211012 addGoods 도 ititmm을 만들어줘함
+
+			Itvari addGoodsitvari = this.saveSingleItvari(addGoodsItasrt.getAssortId());
+			this.saveSingleItitmm(addGoodsItasrt, addGoodsitvari);
+            
 //            jpaIfGoodsAddGoodsRepository.save(addGoodsData);
         }
 
