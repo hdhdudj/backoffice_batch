@@ -1,19 +1,15 @@
 package io.spring.main.apis;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.spring.main.enums.DeliveryMethod;
-import io.spring.main.enums.GoodsOrAddGoods;
-import io.spring.main.enums.TrdstOrderStatus;
-import io.spring.main.jparepos.common.*;
-import io.spring.main.jparepos.goods.*;
-import io.spring.main.jparepos.order.*;
-import io.spring.main.model.goods.*;
-import io.spring.main.model.goods.entity.*;
-import io.spring.main.model.order.*;
-import io.spring.main.model.order.entity.*;
-import io.spring.main.util.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -26,10 +22,43 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.NodeList;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-import java.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.spring.main.enums.DeliveryMethod;
+import io.spring.main.enums.GoodsOrAddGoods;
+import io.spring.main.enums.TrdstOrderStatus;
+import io.spring.main.jparepos.common.JpaSequenceDataRepository;
+import io.spring.main.jparepos.goods.JpaItasrtRepository;
+import io.spring.main.jparepos.goods.JpaItitmcRepository;
+import io.spring.main.jparepos.goods.JpaItitmmRepository;
+import io.spring.main.jparepos.goods.JpaItitmtRepository;
+import io.spring.main.jparepos.goods.JpaTmitemRepository;
+import io.spring.main.jparepos.goods.JpaTmmapiRepository;
+import io.spring.main.jparepos.order.JpaIfOrderDetailRepository;
+import io.spring.main.jparepos.order.JpaIfOrderMasterRepository;
+import io.spring.main.jparepos.order.JpaOrderLogRepository;
+import io.spring.main.jparepos.order.JpaTbMemberAddressRepository;
+import io.spring.main.jparepos.order.JpaTbMemberRepository;
+import io.spring.main.jparepos.order.JpaTbOrderDetailRepository;
+import io.spring.main.jparepos.order.JpaTbOrderHistoryRepository;
+import io.spring.main.jparepos.order.JpaTbOrderMasterRepository;
+import io.spring.main.model.goods.GoodsSearchData;
+import io.spring.main.model.goods.entity.Ititmm;
+import io.spring.main.model.goods.entity.Tmitem;
+import io.spring.main.model.goods.entity.Tmmapi;
+import io.spring.main.model.order.OrderSearchData;
+import io.spring.main.model.order.entity.IfOrderDetail;
+import io.spring.main.model.order.entity.IfOrderMaster;
+import io.spring.main.model.order.entity.OrderLog;
+import io.spring.main.model.order.entity.TbMember;
+import io.spring.main.model.order.entity.TbMemberAddress;
+import io.spring.main.model.order.entity.TbOrderDetail;
+import io.spring.main.model.order.entity.TbOrderHistory;
+import io.spring.main.model.order.entity.TbOrderMaster;
+import io.spring.main.util.StringFactory;
+import io.spring.main.util.Utilities;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -101,12 +130,12 @@ public class OrderSearch {
 //            ifNo = Utilities.getStringNo('O', num, 9);
             ifNo = StringUtils.leftPad(num, 9, '0');
         }
-        else { // update 되는 일은 원칙적으로 없음.
+		else { // update 되는 일은 원칙적으로 없음. //todo:업데이트 있음 2021-10-12
             return null;
 //            ifNo = ioMaster.getIfNo();
 //            ifOrderMaster = ioMaster;
         }
-        orderSearchData.setIfNo(ifNo);
+		orderSearchData.setIfNo(ifNo);
 //        IfOrderMaster ifOrderMaster2 = null;
         if(ifOrderMaster == null){ // insert
             ifOrderMaster = objectMapper.convertValue(orderSearchData, IfOrderMaster.class);
@@ -345,12 +374,14 @@ public class OrderSearch {
             if(tbOrderDetail != null){
                 this.saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
             }
+            
             if(num == 0 && tbOrderDetail != null){
                 TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster, tbOrderDetail, tbMember, tbMemberAddress);
                 em.persist(tbOrderMaster);
             }
             num++;
         }
+        
         if(num == 0){
             ifOrderMaster.setOrderId(null);
         }
@@ -546,7 +577,7 @@ public class OrderSearch {
         tbOrderMaster.setFirstOrderId(ifOrderMaster.getChannelOrderNo());
         tbOrderMaster.setOrderStatus(ifOrderMaster.getChannelOrderStatus());
         tbOrderMaster.setChannelGb(ifOrderMaster.getChannelGb());
-        tbOrderMaster.setCustId(Long.parseLong(ifOrderMaster.getMemNo()));
+        //tbOrderMaster.setCustId(Long.parseLong(ifOrderMaster.getMemNo()));
         tbOrderMaster.setReceiptAmt(ifOrderMaster.getPayAmt());
         tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId());
         tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
@@ -606,21 +637,61 @@ public class OrderSearch {
     }
 
     private TbMember saveTbMember(IfOrderMaster ifOrderMaster) {
-        TbMember tbMember = jpaTbMemberRepository.findByCustId(Long.parseLong(ifOrderMaster.getMemNo()));
-        if(tbMember == null){
-            tbMember = new TbMember(ifOrderMaster);
-        }
+    	
+		TbMember tbMember = null;
+
+		// memNo가 0 이라면 비회원
+		if (ifOrderMaster.getMemNo().equals("0")) {
+			tbMember = new TbMember(ifOrderMaster);
+			tbMember.setCustGb("02");
+		} else {
+
+			System.out.println("getOrderEmail ==> " + ifOrderMaster.getOrderEmail());
+
+			// if(ifOrderMaster.getOrderEmail())
+
+			if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
+				// loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
+				tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail());
+			} else {
+				// loginId = ifOrderMaster.getMemNo() + "@guest";
+				tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getMemNo() + "@member");
+			}
+
+
+			// 비회원인경우 일련번호로 채번하여 아이디 생성
+			tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail());
+			if (tbMember == null) {
+				tbMember = new TbMember(ifOrderMaster);
+				tbMember.setCustGb("01");
+			}
+
+		}
+
+    	//비회원인경우 일련번호로 채번하여 아이디 생성
+		// TbMember tbMember =
+		// //jpaTbMemberRepository.findByCustId(Long.parseLong(ifOrderMaster.getMemNo()));
+		// if(tbMember == null){
+		// tbMember = new TbMember(ifOrderMaster);
+		// }
         tbMember.setCustTel(ifOrderMaster.getOrderTel());
         tbMember.setCustHp(ifOrderMaster.getOrderTel());
         tbMember.setCustZipcode(ifOrderMaster.getOrderZipcode());
         tbMember.setCustAddr1(ifOrderMaster.getOrderAddr1());
         tbMember.setCustAddr2(ifOrderMaster.getOrderAddr2());
+
+
+
         em.persist(tbMember);
 
         return tbMember;
     }
 
     private TbMemberAddress saveTbMemberAddress(IfOrderMaster ifOrderMaster, TbMember tbMember) {
+
+		System.out.println(tbMember.getCustId());
+		System.out.println(tbMember.getCustNm());
+
         TbMemberAddress tbMemberAddress = jpaTbMemberAddressRepository.findByCustId(tbMember.getCustId());
         if(tbMemberAddress == null){
             tbMemberAddress = new TbMemberAddress(ifOrderMaster, tbMember);

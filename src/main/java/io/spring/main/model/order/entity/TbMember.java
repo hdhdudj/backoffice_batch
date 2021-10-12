@@ -1,13 +1,15 @@
 package io.spring.main.model.order.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @Entity
 @Getter
@@ -19,7 +21,20 @@ public class TbMember extends CommonProps {
         custId = Long.parseLong(ifOrderMaster.getMemNo());
         custNm = ifOrderMaster.getOrderName();
         custEmail = ifOrderMaster.getOrderEmail();
-        loginId = custEmail.split("@")[0];
+		// loginId = custEmail.split("@")[0];
+
+		if (!ifOrderMaster.getMemNo().equals("0")) {
+			if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
+				loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
+			} else {
+				loginId = ifOrderMaster.getMemNo() + "@member";
+			}
+
+		} else {
+			loginId = custId + "@guest";
+			;
+		}
+
         loginPw = "";
     }
     @Id
