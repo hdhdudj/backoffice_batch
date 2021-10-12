@@ -17,13 +17,15 @@ public class StringFactory {
     private final static String[] orderSearchParams = {"partner_key",
             "key","dateType","startDate","endDate","orderNo","orderStatus",
             "orderChannel","searchType","searchKeyword","sort"};
-    // request param 관련
+    // request param 관련, 기호
     @Getter
     private final static String strQuestion = "?";
     @Getter
     private final static String strEqual = "=";
     @Getter
     private final static String strAnd = "&";
+    @Getter
+    private final static String strStar = "*";
 
     // seq keyword
     @Getter

@@ -134,7 +134,8 @@ public class Utilities {
         Map<String, Object> map = new HashMap<>(); // convert JSON string to Map
         try{
             map = new ObjectMapper().readValue(addField, new TypeReference<Map<String, Object>>(){});
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             e.printStackTrace();
         }

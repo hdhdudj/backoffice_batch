@@ -60,16 +60,17 @@ public class OrderSearchJobConfiguration {
                     log.info("----- This is searchOrderStep1");
                     // 트랜잭션1. if table 저장
                     int n = page == null || page.trim().equals("")? -1 : Integer.parseInt(page);
+                    int day = 30;
 
                     String startDt;
                     String endDt;
                     if(n >= 0 && !next){
-                        startDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, -7 * (n+1));
-                        endDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, -7 * n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
+                        startDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, day * -(n+1));
+                        endDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, day * -n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
                     }
                     else if(n >= 0 && next){
-                        startDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, 7 * n);
-                        endDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, 7 * (n+1));//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
+                        startDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, day * n);
+                        endDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, day * (n+1));//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
                     }
                     else{
                         startDt = null;

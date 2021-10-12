@@ -32,6 +32,7 @@ public class IfGoodsMaster extends CommonProps implements Cloneable {
 
     public IfGoodsMaster(Itasrt itasrt, Itasrn itasrn, Itasrd itasrd){
         // itasrt
+        this.channelGb = StringFactory.getGbOne(); // 01 하드코딩
         this.goodsNm = itasrt.getAssortNm();
         this.goodsDisplayFl = itasrt.getAssortState();
         this.sizeType = itasrt.getAssortGb();
@@ -71,8 +72,64 @@ public class IfGoodsMaster extends CommonProps implements Cloneable {
         this.goodsPrice = itasrn.getLocalSale();
         // itasrd
     }
+    
+    // 테스트용
+//    public IfGoodsMaster(){
+//        this.channelGb = "1";
+//        this.goodsNo = "1";
+//        this.assortId = "1";
+//        this.goodsNm = "1";
+//        this.goodsNmDetail = "1";
+//        this.goodsDisplayFl = "1";
+//        this.goodsSellFl = "1";
+//        this.cateCd = "1";
+//        this.goodsColor = "1";
+//        this.commission = 1f;
+//        this.brandCd = "1";
+//        this.makerNm = "1";
+//        this.originNm = "1";
+//        this.goodsModelNo = "1";
+//        this.onlyAdultFl = "1";
+//        this.taxFreeFl = "1";
+//        this.stockFl = "1";
+//        this.soldOutFl = "1";
+//        this.salesStartYmd = new Date();
+//        this.salesEndYmd = new Date();
+//        this.goodsPrice = 1f;
+//        this.fixedPrice = 1f;
+//        this.costPrice = 1f;
+//        this.optionMemo = "1";
+//        this.shortDescription = "1";
+//        this.goodsDescription = "1";
+//        this.optionName = "1";
+//        this.optionFl = "1";
+//        this.mdRrp = 1f;
+//        this.mdTax = "1";
+//        this.mdYear = "1";
+//        this.width = 1f;
+//        this.height = 1f;
+//        this.depth = 1f;
+//        this.goodsWeight = 1f;
+//        this.mdMargin = 1f;
+//        this.mdVatrate = 1f;
+//        this.mdOfflinePrice = 1f;
+//        this.mdOnlinePrice = 1f;
+//        this.mdGoodsVatrate = 1f;
+//        this.buyWhere = "1";
+//        this.buySupplyDiscount = 1f;
+//        this.buyRrpIncrement = 1f;
+//        this.buyExchangeRate = 1f;
+//        this.sizeType = "1";
+//        this.uploadStatus = "1";
+//        this.mainImageData = "1";
+//        this.listImageData = "1";
+//        this.detailImageData = "1";
+//        this.magnifyImageData = "1";
+//        this.scmNo = 1l;
+//    }
+    
     @Id
-    private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
+    private String channelGb;
     @Id
     private String goodsNo;
     private String assortId;

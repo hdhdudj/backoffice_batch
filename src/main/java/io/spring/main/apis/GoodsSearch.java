@@ -193,14 +193,13 @@ public class GoodsSearch {
             isUpdate = true;
         }
         ifGoodsMaster.setAssortId(assortId); // assort_id 설정
+        ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 01 하드코딩
 
         // 이미지 데이터 list 형태로 돼있음 -> string property에 set해주기
         ifGoodsMaster.setMainImageData(goodsSearchData.getMainImageData() != null? goodsSearchData.getMainImageData().get(0):null);
         ifGoodsMaster.setListImageData(goodsSearchData.getListImageData() != null? goodsSearchData.getListImageData().get(0):null);
         ifGoodsMaster.setDetailImageData(goodsSearchData.getDetailImageData() != null? goodsSearchData.getDetailImageData().get(0):null);
         ifGoodsMaster.setMagnifyImageData(goodsSearchData.getMagnifyImageData() != null? goodsSearchData.getMagnifyImageData().get(0):null);
-        // y/n을 01/02로 바꾸기
-        String asdf = ifGoodsMaster.getGoodsSellFl();
         // 고도몰에선 string인데 우리 db에선 01, 02인 애들을 01, 02로 바꾸기
         ifGoodsMaster.setGoodsSellFl(GbOneOrTwo.valueOf(goodsSearchData.getGoodsSellFl()).getFieldName());//Utilities.ynToOneTwo(ifGoodsMaster.getGoodsSellFl()));
         ifGoodsMaster.setGoodsDisplayFl(GbOneOrTwo.valueOf(goodsSearchData.getGoodsDisplayFl()).getFieldName());//Utilities.ynToOneTwo(ifGoodsMaster.getGoodsDisplayFl()));

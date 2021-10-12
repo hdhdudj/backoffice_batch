@@ -115,7 +115,12 @@ public class OrderSearch {
         // not null 컬럼들 설정
         ifOrderMaster.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
         ifOrderMaster.setChannelOrderStatus(orderSearchData.getOrderStatus());
-        ifOrderMaster.setCustomerId((String)(((Map<String, Object>)(Utilities.makeStringToMap(orderSearchData.getAddField()).get("1"))).get("data")));
+        if(Utilities.makeStringToMap(orderSearchData.getAddField()) != null){
+            ifOrderMaster.setCustomerId((String)(((Map<String, Object>)(Utilities.makeStringToMap(orderSearchData.getAddField()).get("1"))).get("data")));
+        }
+        else {
+            ifOrderMaster.setCustomerId(StringFactory.getStrStar());
+        }
         ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
         // https://docs.google.com/spreadsheets/d/1Uou2nQFtydm6Jam8LXG77v1uVnqBbxJDxCq0OcJ2MHc/edit#gid=841263646
         ifOrderMaster.setOrderName(orderSearchData.getOrderInfoData().get(0).getOrderName());
