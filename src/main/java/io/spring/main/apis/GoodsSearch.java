@@ -185,17 +185,13 @@ public class GoodsSearch {
         IfGoodsMaster origIfGoodsMaster = jpaIfGoodsMasterRepository.findByChannelGbAndGoodsNo(StringFactory.getGbOne(), Long.toString(goodsSearchData.getGoodsNo()));
         IfGoodsMaster ifGoodsMaster = null;
 
-        if(origIfGoodsMaster == null){ // insert
-            ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);
-        }
-        else{ // update
-            ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);//origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
+        ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);//origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
+        if(origIfGoodsMaster != null){ // update
             ifGoodsMaster.setRegDt(origIfGoodsMaster.getRegDt());
             isUpdate = true;
         }
         ifGoodsMaster.setAssortId(assortId); // assort_id 설정
         ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 01 하드코딩
-        ifGoodsMaster.setPurchaseNm(goodsSearchData.getPurchaseNm());
 
         // 이미지 데이터 list 형태로 돼있음 -> string property에 set해주기
         ifGoodsMaster.setMainImageData(goodsSearchData.getMainImageData() != null? goodsSearchData.getMainImageData().get(0):null);
@@ -536,7 +532,7 @@ public class GoodsSearch {
             ifGoodsAddGoods.setAddGoodsId(ifAddGoods.getAddGoodsId());
             System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡ addGoodsId : " + ifGoodsAddGoods.getAddGoodsId() + ", assortId : " + ifGoodsAddGoods.getAssortId());
             //OpenApi호출
-            AddGoodsData addGoodsData = retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
+            AddGoodsData addGoodsData = this.retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
 
             ifGoodsAddGoods.setGoodsNm(addGoodsData.getGoodsNm());
             ifGoodsAddGoods.setOptionNm(addGoodsData.getOptionNm());
