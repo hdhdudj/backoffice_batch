@@ -185,11 +185,9 @@ public class GoodsSearch {
         IfGoodsMaster origIfGoodsMaster = jpaIfGoodsMasterRepository.findByChannelGbAndGoodsNo(StringFactory.getGbOne(), Long.toString(goodsSearchData.getGoodsNo()));
         IfGoodsMaster ifGoodsMaster = null;
 
-        if(origIfGoodsMaster == null){ // insert
-            ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);
-        }
-        else{ // update
-            ifGoodsMaster = origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
+        ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);//origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
+        if(origIfGoodsMaster != null){ // update
+            ifGoodsMaster.setRegDt(origIfGoodsMaster.getRegDt());
             isUpdate = true;
         }
         ifGoodsMaster.setAssortId(assortId); // assort_id 설정
@@ -222,8 +220,8 @@ public class GoodsSearch {
 
         if(isUpdate){ // update인 경우 기존 값과 비교
             isChanged = !ifGoodsMaster.equals(origIfGoodsMaster);
-			// todo : 변경 체크 안되는듯
-			isChanged = true;
+			// todo : 변경 체크 안되는듯 -> 수정 완료
+//			isChanged = true;
         }
 
 
@@ -534,7 +532,7 @@ public class GoodsSearch {
             ifGoodsAddGoods.setAddGoodsId(ifAddGoods.getAddGoodsId());
             System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡ addGoodsId : " + ifGoodsAddGoods.getAddGoodsId() + ", assortId : " + ifGoodsAddGoods.getAssortId());
             //OpenApi호출
-            AddGoodsData addGoodsData = retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
+            AddGoodsData addGoodsData = this.retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
 
             ifGoodsAddGoods.setGoodsNm(addGoodsData.getGoodsNm());
             ifGoodsAddGoods.setOptionNm(addGoodsData.getOptionNm());
