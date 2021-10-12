@@ -118,6 +118,9 @@ public class OrderSearch {
     }
 
     private IfOrderMaster saveIfOrderMaster(OrderSearchData orderSearchData) {
+
+		System.out.println(orderSearchData.getOrderNo());
+
         String ifNo;
         // ifNo 채번
         IfOrderMaster ioMaster = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), Long.toString(orderSearchData.getOrderNo())); // 채널은 01 하드코딩
@@ -144,12 +147,46 @@ public class OrderSearch {
         // not null 컬럼들 설정
         ifOrderMaster.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
         ifOrderMaster.setChannelOrderStatus(orderSearchData.getOrderStatus());
-        if(Utilities.makeStringToMap(orderSearchData.getAddField()) != null){
-            ifOrderMaster.setCustomerId((String)(((Map<String, Object>)(Utilities.makeStringToMap(orderSearchData.getAddField()).get("1"))).get("data")));
-        }
-        else {
-            ifOrderMaster.setCustomerId(StringFactory.getStrStar());
-        }
+		System.out.println("getAddField ===> " + orderSearchData.getAddField());
+
+		try { // 오류가 난다면 pcode * 처리
+
+			if (Utilities.makeStringToMap(orderSearchData.getAddField()) != null) {
+
+
+				String q1 = (String) (((Map<String, Object>) (Utilities.makeStringToMap(orderSearchData.getAddField())
+						.get("1"))).get("name"));
+
+				
+				System.out.println("q1 ===> " + q1);
+				
+				if (q1.contains("개인통관 고유번호")) {
+					ifOrderMaster.setCustomerId((String) (((Map<String, Object>) (Utilities
+							.makeStringToMap(orderSearchData.getAddField()).get("1"))).get("data")));
+
+				} else {
+					ifOrderMaster.setCustomerId(StringFactory.getStrStar());
+				}
+
+				// System.out.println((String) (((Map<String, Object>) (Utilities
+				// .makeStringToMap(orderSearchData.getAddField()).get("1"))).get("data")));
+
+//				ifOrderMaster.setCustomerId((String) (((Map<String, Object>) (Utilities
+				// .makeStringToMap(orderSearchData.getAddField()).get("1"))).get("data")));
+
+				// if((String) (((Map<String, Object>) (Utilities
+				// .makeStringToMap(orderSearchData.getAddField()).get("1"))).get("name"))) {
+
+				// }
+
+			} else {
+				ifOrderMaster.setCustomerId(StringFactory.getStrStar());
+			}
+
+		} catch (Exception e) {
+			ifOrderMaster.setCustomerId(StringFactory.getStrStar());
+		}
+
         ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
         // https://docs.google.com/spreadsheets/d/1Uou2nQFtydm6Jam8LXG77v1uVnqBbxJDxCq0OcJ2MHc/edit#gid=841263646
         ifOrderMaster.setOrderName(orderSearchData.getOrderInfoData().get(0).getOrderName());
@@ -579,7 +616,13 @@ public class OrderSearch {
         tbOrderMaster.setChannelGb(ifOrderMaster.getChannelGb());
         //tbOrderMaster.setCustId(Long.parseLong(ifOrderMaster.getMemNo()));
         tbOrderMaster.setReceiptAmt(ifOrderMaster.getPayAmt());
-        tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId());
+		System.out.println(ifOrderMaster.getChannelOrderNo());
+		System.out.println(ifOrderMaster.getCustomerId());
+		if (ifOrderMaster.getCustomerId().trim().length() >= 13) {
+		tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId().trim().substring(0, 13));// 고객번호는 13자리번호여서 13자리만 추출
+		}else {
+			tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId().trim());// 고객번호는 13자리번호여서 13자리만 추출
+		}
         tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
         tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
 
