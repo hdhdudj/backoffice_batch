@@ -24,12 +24,12 @@ public class TestClass {
 
     @Test
     public void equalsTest(){
-        IfGoodsMaster if1 = new IfGoodsMaster();
-        IfGoodsMaster if2 = new IfGoodsMaster();
-        if2.setGoodsNo("2");
-
-        System.out.println(if1.toString());
-        System.out.println(if2.toString());
-        System.out.println(if1.equals(if2));
+//        IfGoodsMaster if1 = new IfGoodsMaster();
+//        IfGoodsMaster if2 = new IfGoodsMaster();
+//        if2.setGoodsNo("2");
+//
+//        System.out.println(if1.toString());
+//        System.out.println(if2.toString());
+//        System.out.println(if1.equals(if2));
     }
 }
