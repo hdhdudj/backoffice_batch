@@ -520,8 +520,12 @@ public class OrderSearch {
         TbOrderDetail tbOrderDetail;
         TbOrderDetail compareTbOrderDetail = null;
         // 공급사 주문 (scmNo가 63,64)인 경우 data 생성하지 않음
-		// todo 공급사 주문 (scmNo가 63,64)인 경우 data 생성은 하는데 trdst주문으로 만들지는 않음.
-        if(ifOrderDetail.getScmNo().equals(StringFactory.getScmNo1()) || ifOrderDetail.getScmNo().equals(StringFactory.getScmNo1())){
+
+		// todo: 2021-10-12 공급사 주문 (scmNo가 63,64)인 경우 tb_order_detail 을 만들고 상태에 대한 변경은
+		// 없음.
+
+		if (ifOrderDetail.getScmNo().equals(StringFactory.getScmNo1())
+				|| ifOrderDetail.getScmNo().equals(StringFactory.getScmNo2())) {
             log.debug("공급사 (scmNo : " + ifOrderDetail.getScmNo() + ") 주문입니다.");
             return null;
         }
