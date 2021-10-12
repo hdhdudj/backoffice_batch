@@ -643,9 +643,33 @@ public class OrderSearch {
 		// memNo가 0 이라면 비회원
 		if (ifOrderMaster.getMemNo().equals("0")) {
 			tbMember = new TbMember(ifOrderMaster);
+
+			System.out.println(tbMember);
 			tbMember.setCustGb("02");
+			
+			String loginId = "";
+
+			if (!ifOrderMaster.getMemNo().equals("0")) {
+				if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
+					loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
+				} else {
+					loginId = ifOrderMaster.getMemNo() + "@member";
+				}
+
+			} else {
+				loginId = ifOrderMaster.getChannelOrderNo() + "@guest";
+
+			}
+			
+			tbMember.setLoginId(loginId);
+					
+			
+			
+			
 		} else {
 
+			
+			
 			System.out.println("getOrderEmail ==> " + ifOrderMaster.getOrderEmail());
 
 			// if(ifOrderMaster.getOrderEmail())
@@ -664,9 +688,29 @@ public class OrderSearch {
 			if (tbMember == null) {
 				tbMember = new TbMember(ifOrderMaster);
 				tbMember.setCustGb("01");
+
+				String loginId = "";
+
+				if (!ifOrderMaster.getMemNo().equals("0")) {
+					if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
+						loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
+					} else {
+						loginId = ifOrderMaster.getMemNo() + "@member";
+					}
+
+				} else {
+					loginId = tbMember.getCustId().toString() + "@guest";
+
+				}
+
+				tbMember.setLoginId(loginId);
+
+
 			}
 
 		}
+		
+
 
     	//비회원인경우 일련번호로 채번하여 아이디 생성
 		// TbMember tbMember =
