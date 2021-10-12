@@ -726,8 +726,7 @@ public class OrderSearch {
 			}
 
 
-			// 비회원인경우 일련번호로 채번하여 아이디 생성
-			tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail());
+
 			if (tbMember == null) {
 				tbMember = new TbMember(ifOrderMaster);
 				tbMember.setCustGb("01");
