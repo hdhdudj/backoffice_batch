@@ -1,33 +1,31 @@
 package io.spring.backoffice_batch.job;
 
-import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
-import io.spring.main.apis.OrderSearch;
-import io.spring.main.model.goods.entity.IfGoodsMaster;
-import io.spring.main.model.order.entity.IfOrderMaster;
-import io.spring.main.model.order.entity.TbOrderDetail;
-import io.spring.main.util.StringFactory;
-import io.spring.main.util.Utilities;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Calendar;
+
+import javax.persistence.EntityManagerFactory;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
-import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import javax.persistence.EntityManagerFactory;
-import java.util.Calendar;
-import java.util.Date;
+import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
+import io.spring.main.apis.OrderSearch;
+import io.spring.main.model.order.entity.IfOrderMaster;
+import io.spring.main.model.order.entity.TbOrderDetail;
+import io.spring.main.util.StringFactory;
+import io.spring.main.util.Utilities;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -76,7 +74,9 @@ public class OrderSearchJobConfiguration {
                         startDt = null;
                         endDt = null;
                     }
-                    orderSearch.saveIfTables("", startDt, endDt); //"2106301555509122","2107021751024711", "2101081407020195"(addGoods 정렬 테스트용), "2110061315569293"(최신)
+					orderSearch.saveIfTables("", startDt, endDt); // "2106301555509122","2107021751024711",
+																					// "2101081407020195"(addGoods 정렬
+																					// 테스트용), "2110061315569293"(최신)
                     return RepeatStatus.FINISHED;
                 })
                 .build();

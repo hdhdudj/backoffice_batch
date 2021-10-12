@@ -1,6 +1,8 @@
 package io.spring.main.model.order.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,35 +12,26 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="tb_member")
 public class TbMember extends CommonProps {
     public TbMember(IfOrderMaster ifOrderMaster){
-        custId = Long.parseLong(ifOrderMaster.getMemNo());
+		// custId = Long.parseLong(ifOrderMaster.getMemNo());
         custNm = ifOrderMaster.getOrderName();
         custEmail = ifOrderMaster.getOrderEmail();
 		// loginId = custEmail.split("@")[0];
 
-		if (!ifOrderMaster.getMemNo().equals("0")) {
-			if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
-				loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
-			} else {
-				loginId = ifOrderMaster.getMemNo() + "@member";
-			}
-
-		} else {
-			loginId = custId + "@guest";
-			;
-		}
 
         loginPw = "";
     }
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long custId;
     private String custNm;
     private String custEmail;
