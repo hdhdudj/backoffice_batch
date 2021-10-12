@@ -18,7 +18,7 @@ import java.util.Date;
 @Setter
 @IdClass(IfGoodsMasterId.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "uploadStatus")
 public class IfGoodsMaster extends CommonProps implements Cloneable {
     @Override
     public IfGoodsMaster clone() {
@@ -191,4 +191,6 @@ public class IfGoodsMaster extends CommonProps implements Cloneable {
 
     // 21-10-05 추가
     private Long scmNo;
+    // 21-10-12 추가
+    private String purchaseNm;
 }

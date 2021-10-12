@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -189,11 +191,13 @@ public class GoodsSearch {
             ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);
         }
         else{ // update
-            ifGoodsMaster = origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
+            ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);//origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
+            ifGoodsMaster.setRegDt(origIfGoodsMaster.getRegDt());
             isUpdate = true;
         }
         ifGoodsMaster.setAssortId(assortId); // assort_id 설정
         ifGoodsMaster.setChannelGb(StringFactory.getGbOne()); // 01 하드코딩
+        ifGoodsMaster.setPurchaseNm(goodsSearchData.getPurchaseNm());
 
         // 이미지 데이터 list 형태로 돼있음 -> string property에 set해주기
         ifGoodsMaster.setMainImageData(goodsSearchData.getMainImageData() != null? goodsSearchData.getMainImageData().get(0):null);
@@ -222,8 +226,8 @@ public class GoodsSearch {
 
         if(isUpdate){ // update인 경우 기존 값과 비교
             isChanged = !ifGoodsMaster.equals(origIfGoodsMaster);
-			// todo : 변경 체크 안되는듯
-			isChanged = true;
+			// todo : 변경 체크 안되는듯 -> 수정 완료
+//			isChanged = true;
         }
 
 
