@@ -110,10 +110,19 @@ public class OrderSearch {
         // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
             IfOrderMaster ifOrderMaster = this.saveIfOrderMaster(orderSearchData); // if_order_master : tb_member, tb_member_address, tb_order_master  * 여기서 ifNo 생성
-            if(ifOrderMaster == null){
-                continue;
-            }
+
+			System.out.println(
+					"***********************************OrderSearchData*****************************************");
+
+			if (ifOrderMaster == null) {
+				continue;
+			}
+
+			System.out.println(ifOrderMaster);
+
             this.saveIfOrderDetail(orderSearchData); // if_order_detail : tb_order_detail, tb_order_history
+			System.out.println(
+					"***********************************OrderSearchData*****************************************");
         }
     }
 
@@ -137,13 +146,19 @@ public class OrderSearch {
             }
 //            ifNo = Utilities.getStringNo('O', num, 9);
             ifNo = StringUtils.leftPad(num, 9, '0');
+			orderSearchData.setIfNo(ifNo);
         }
-		else { // update 되는 일은 원칙적으로 없음. //todo:업데이트 있음 2021-10-12
-            return null;
+		
+
+        else { // update 되는 일은 원칙적으로 없음. //todo:업데이트 있음 2021-10-12
+
+			orderSearchData.setIfNo(ioMaster.getIfNo());
+			return ioMaster;
+			// return null;
 //            ifNo = ioMaster.getIfNo();
 //            ifOrderMaster = ioMaster;
         }
-		orderSearchData.setIfNo(ifNo);
+
 //        IfOrderMaster ifOrderMaster2 = null;
         if(ifOrderMaster == null){ // insert
             ifOrderMaster = objectMapper.convertValue(orderSearchData, IfOrderMaster.class);
@@ -221,6 +236,9 @@ public class OrderSearch {
 
     private void saveIfOrderDetail(OrderSearchData orderSearchData) {
         //
+
+		log.debug("saveIfOrderDetail");
+
         if(orderSearchData.getOrderGoodsData() == null){
             log.debug("orderSearchData.orderGoodsData가 null 입니다.");
             return;
@@ -231,7 +249,13 @@ public class OrderSearch {
                 addGoodsDataMap.put(addGoodsData.getSno(), addGoodsData);
             }
         }
+
+		System.out.println(orderSearchData);
+
         for(OrderSearchData.OrderGoodsData orderGoodsData : orderSearchData.getOrderGoodsData()){
+
+			System.out.println(orderGoodsData);
+
             IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(orderSearchData.getIfNo(), Long.toString(orderGoodsData.getOrderNo()), Long.toString(orderGoodsData.getSno()));
             if(ifOrderDetail == null){
                 ifOrderDetail = new IfOrderDetail(orderSearchData.getIfNo());
@@ -276,6 +300,21 @@ public class OrderSearch {
             // 21-10-06 추가
             ifOrderDetail.setListImageData(orderGoodsData.getListImageData());
             ifOrderDetail.setOptionTextInfo(orderGoodsData.getOptionTextInfo());
+
+			if (orderGoodsData.getClaimData() != null) {
+				if (orderGoodsData.getClaimData().size() > 1) {
+				System.out.println(
+						"--------------------------Claim Data SIZE BIG-----------------------------------------------------------------------");
+			}
+
+			// 21-10-13 claim 입력
+			ifOrderDetail.setClaimHandleMode(orderGoodsData.getClaimData().get(0).getHandleMode());
+			ifOrderDetail.setClaimHandleReason(orderGoodsData.getClaimData().get(0).getHandleReason());
+			ifOrderDetail.setClaimHandleDetailReason(orderGoodsData.getClaimData().get(0).getHandleDetailReason());
+
+		}
+
+
 
             em.persist(ifOrderDetail);
 
@@ -580,8 +619,25 @@ public class OrderSearch {
         tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 고도몰 주문(주문자 받는 곳 - 한국창고) : 000001
 
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
+
         String orderStatus = StringFactory.getStrPOne().equals(ifOrderDetail.getChannelOrderStatus())? StringFactory.getStrA01():ifOrderDetail.getChannelOrderStatus();
+//       .outTbOrderDetail.
+
+		// claim에 따른 상품상태변경 (r = 환불접수, b = 반품접수, e = 교환접수
+
+		if (ifOrderDetail.getClaimHandleMode() != null) {
+			if (ifOrderDetail.getClaimHandleMode().equals("e")) {
+				orderStatus = "e1";
+			} else if (ifOrderDetail.getClaimHandleMode().equals("r")) {
+				orderStatus = "r1";
+			} else if (ifOrderDetail.getClaimHandleMode().equals("b")) {
+				orderStatus = "b1";
+			}
+
+		}
+
         tbOrderDetail.setStatusCd(orderStatus); // 고도몰에서는 A01 상태만 가져옴.
+
         tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
 //        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice()); // fixedPrice
@@ -626,6 +682,14 @@ public class OrderSearch {
         else {
             tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetailParent.getIfNoSeq(), 4,'0'));
         }
+
+		// 21-10-13
+		tbOrderDetail.setClaimHandleMode(
+				ifOrderDetail.getClaimHandleMode() == null ? null : ifOrderDetail.getClaimHandleMode());
+		tbOrderDetail.setClaimHandleReason(
+				ifOrderDetail.getClaimHandleReason() == null ? null : ifOrderDetail.getClaimHandleReason());
+		tbOrderDetail.setClaimHandleDetailReason(
+				ifOrderDetail.getClaimHandleDetailReason() == null ? null : ifOrderDetail.getClaimHandleDetailReason());
 
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         em.persist(tbOrderDetail);

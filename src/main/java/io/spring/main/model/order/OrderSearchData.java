@@ -1,18 +1,17 @@
 package io.spring.main.model.order;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
-import lombok.*;
-
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 @Getter
 @Setter
+@ToString
 public class OrderSearchData {
     private String ifNo; // 고도몰 xml엔 없지만 회사 DB에 저장할 때 필요한 property
 
@@ -227,6 +226,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
+	@ToString
     public static class OrderGoodsData {
         private Long sno;
         private Long orderNo;
@@ -297,6 +297,7 @@ public class OrderSearchData {
     }
     @Getter
     @Setter
+	@ToString
     public static class ClaimData {
         private String beforeStatus;
         private String handleMode;

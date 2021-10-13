@@ -1,25 +1,33 @@
 package io.spring.main.model.order.entity;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.spring.main.model.goods.entity.CommonProps;
-import io.spring.main.model.goods.entity.Itbrnd;
-import io.spring.main.model.goods.idclass.IfBrandId;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "if_order_master")
 public class IfOrderMaster extends CommonProps implements Serializable {

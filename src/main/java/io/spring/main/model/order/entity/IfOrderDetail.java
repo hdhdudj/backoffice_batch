@@ -1,19 +1,16 @@
 package io.spring.main.model.order.entity;
 
-import io.spring.main.model.goods.entity.CommonProps;
-import io.spring.main.model.goods.idclass.IfBrandId;
-import io.spring.main.model.order.OrderSearchData;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
+
 import io.spring.main.model.order.idclass.IfOrderDetailId;
 import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
 
 @Entity
 @Getter
@@ -69,6 +66,11 @@ public class IfOrderDetail {
     private Float costPrice;
     private Float memberOverlapDcPrice;
     private Long scmNo;
+
+	// 21-10-13
+	private String claimHandleMode;
+	private String claimHandleReason;
+	private String claimHandleDetailReason;
 
     // 21-10-06 추가된 컬럼
     private String parentChannelOrderSeq;
