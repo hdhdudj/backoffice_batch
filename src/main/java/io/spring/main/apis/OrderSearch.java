@@ -628,8 +628,6 @@ public class OrderSearch {
 		if (ifOrderDetail.getClaimHandleMode() != null) {
 			if (ifOrderDetail.getClaimHandleMode().equals("e")) {
 				orderStatus = "e1";
-			} else if (ifOrderDetail.getClaimHandleMode().equals("r")) {
-				orderStatus = "r1";
 			} else if (ifOrderDetail.getClaimHandleMode().equals("b")) {
 				orderStatus = "b1";
 			}
