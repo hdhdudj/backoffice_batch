@@ -578,10 +578,10 @@ public class OrderSearch {
             log.debug("tmitem에 해당 goodsNo 정보가 들어가 있지 않습니다.");
         }
         
-		if (ifOrderDetail.getChannelGoodsType().equals("001")) {
+		if (ifOrderDetail.getChannelGoodsType().equals("001")) { // goods
             Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null? null : tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
 			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, null);
-		} else {
+		} else { // add_goods
 
 			System.out.println("addGood => " + ifOrderDetail.getChannelGoodsNo());
 
@@ -647,7 +647,7 @@ public class OrderSearch {
             }
             String orderSeq = Utilities.plusOne(Integer.toString(num),4);
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
-            tbOrderDetail = new TbOrderDetail(orderId, orderSeq);
+            tbOrderDetail = //new TbOrderDetail(orderId, orderSeq);
             ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
             ifOrderDetail.setOrderSeq(tbOrderDetail.getOrderSeq());
             jpaIfOrderDetailRepository.save(ifOrderDetail);
@@ -662,10 +662,10 @@ public class OrderSearch {
                 return null;
             }
         }
-        if(ititmm != null){
-            tbOrderDetail.setItemId(ititmm.getItemId());
-            tbOrderDetail.setAssortId(ititmm.getAssortId());
-        }
+//        if(ititmm != null){
+//            tbOrderDetail.setItemId(ititmm.getItemId());
+//            tbOrderDetail.setAssortId(ititmm.getAssortId());
+//        }
 
 
 		if (ifOrderDetail.getChannelGoodsType().equals("002")) {
@@ -676,8 +676,8 @@ public class OrderSearch {
 			}
 		}
 
-        tbOrderDetail.setGoodsNm(ifOrderDetail.getChannelGoodsNm());
-        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 고도몰 주문(주문자 받는 곳 - 한국창고) : 000001
+//        tbOrderDetail.setGoodsNm(ifOrderDetail.getChannelGoodsNm());
+//        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 고도몰 주문(주문자 받는 곳 - 한국창고) : 000001
 
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
 
@@ -697,7 +697,7 @@ public class OrderSearch {
 
         tbOrderDetail.setStatusCd(orderStatus); // 고도몰에서는 A01 상태만 가져옴.
 
-        tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
+//        tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
 //        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice()); // fixedPrice
         float goodsDcPrice = ifOrderDetail.getGoodsDcPrice() == null? 0 : ifOrderDetail.getGoodsDcPrice();
