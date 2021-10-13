@@ -150,17 +150,14 @@ public class OrderSearch {
             if(num == null){
                 num = StringFactory.getStrOne();
             }
-//            ifNo = Utilities.getStringNo('O', num, 9);
             ifNo = StringUtils.leftPad(num, 9, '0');
 			orderSearchData.setIfNo(ifNo);
         }
 		else { //todo(완) :업데이트 있음 2021-10-12
-            ifNo = ioMaster.getIfNo();
             ifOrderMaster = ioMaster;
             ifOrderMaster.setIfStatus(StringFactory.getGbOne());
         }
 
-//        IfOrderMaster ifOrderMaster2 = null;
         if(ifOrderMaster == null){ // insert
             ifOrderMaster = ifOrderMasterMapper.to(orderSearchData, orderSearchData.getOrderInfoData().get(0));//objectMapper.convertValue(orderSearchData, IfOrderMaster.class);
             ifOrderMaster.setIfStatus(StringFactory.getGbOne());
@@ -207,27 +204,6 @@ public class OrderSearch {
 		} catch (Exception e) {
 			ifOrderMaster.setCustomerId(StringFactory.getStrStar());
 		}
-
-//        ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
-//        // https://docs.google.com/spreadsheets/d/1Uou2nQFtydm6Jam8LXG77v1uVnqBbxJDxCq0OcJ2MHc/edit#gid=841263646
-//        ifOrderMaster.setOrderName(orderSearchData.getOrderInfoData().get(0).getOrderName());
-//        ifOrderMaster.setOrderTel(orderSearchData.getOrderInfoData().get(0).getOrderCellPhone());
-//        ifOrderMaster.setOrderZipcode(orderSearchData.getOrderInfoData().get(0).getOrderZipcode());
-//        ifOrderMaster.setOrderAddr1(orderSearchData.getOrderInfoData().get(0).getOrderAddress());
-//        ifOrderMaster.setOrderAddr2(orderSearchData.getOrderInfoData().get(0).getOrderAddressSub());
-//        ifOrderMaster.setReceiverName(orderSearchData.getOrderInfoData().get(0).getReceiverName());
-//        ifOrderMaster.setReceiverTel(orderSearchData.getOrderInfoData().get(0).getReceiverCellPhone());
-//        ifOrderMaster.setReceiverZipcode(orderSearchData.getOrderInfoData().get(0).getReceiverZipcode());
-//        ifOrderMaster.setReceiverAddr1(orderSearchData.getOrderInfoData().get(0).getReceiverAddress());
-//        ifOrderMaster.setReceiverAddr2(orderSearchData.getOrderInfoData().get(0).getReceiverAddressSub());
-//        ifOrderMaster.setOrderMemo(orderSearchData.getOrderInfoData().get(0).getOrderMemo());
-//        ifOrderMaster.setPayGb(orderSearchData.getSettleKind());
-//        ifOrderMaster.setPayAmt(orderSearchData.getSettlePrice());
-//        ifOrderMaster.setOrderDate(orderSearchData.getOrderDate());
-        if(orderSearchData.getOrderGoodsData() != null && orderSearchData.getOrderGoodsData().size() > 0){
-            ifOrderMaster.setPayDt(orderSearchData.getOrderGoodsData().get(0).getPaymentDt());
-        }
-//        ifOrderMaster.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]); // tb_order_master.order_id
 
         jpaIfOrderMasterRepository.save(ifOrderMaster);
 
@@ -491,11 +467,15 @@ public class OrderSearch {
 
     // orderStatus가 trdstStatus 안에 존재하는지 판단해줌
     private boolean isTrdstOrderStatus(String goodsType) {
-        if(TrdstOrderStatus.valueOf(goodsType) == null){
-            return false;
+        List<String> enumList = new ArrayList<>();
+        for(TrdstOrderStatus val : TrdstOrderStatus.values()){
+            enumList.add(val.toString());
+        }
+        if(enumList.contains(goodsType)){
+            return true;
         }
         else {
-            return true;
+            return false;
         }
     }
 

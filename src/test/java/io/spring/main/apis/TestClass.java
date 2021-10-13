@@ -1,5 +1,6 @@
 package io.spring.main.apis;
 
+import io.spring.main.enums.TrdstOrderStatus;
 import io.spring.main.interfaces.Asdf;
 import io.spring.main.interfaces.Bsdf;
 import io.spring.main.interfaces.TestMapper;
@@ -65,5 +66,12 @@ public class TestClass {
         Bsdf b = testMapper.to(a);
         System.out.println(b.getAsdf1());
         System.out.println(b.getAsdf());
+    }
+
+    @Test
+    public void enumTest(){
+        for(TrdstOrderStatus val : TrdstOrderStatus.values()){
+            System.out.println(val.toString());
+        }
     }
 }

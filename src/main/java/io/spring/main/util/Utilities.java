@@ -171,6 +171,9 @@ public class Utilities {
      * @return
      */
     public static LocalDateTime dateToLocalDateTime(Date date){
+        if(date == null){
+            return null;
+        }
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 }

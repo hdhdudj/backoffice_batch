@@ -47,7 +47,7 @@ public class IfOrderDetail {
     private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
 
     // 21-09-28 추가된 컬럼
-    private Float goodsModelNo;
+    private String goodsModelNo;
     private Float divisionUseMileage;
     private Float divisionGoodsDeliveryUseDeposit;
     private Float divisionGoodsDeliveryUseMileage;

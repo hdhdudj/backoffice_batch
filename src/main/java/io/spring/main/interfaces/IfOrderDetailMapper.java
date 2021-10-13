@@ -20,7 +20,6 @@ public interface IfOrderDetailMapper {//<OrderInfoData, IfOrderMaster> extends G
     @Mapping(source = "og.optionInfo", target = "channelOptionInfo")
     @Mapping(source = "og.goodsNm", target = "channelGoodsNm")
     @Mapping(source = "og.goodsType", target = "channelGoodsType")
-    @Mapping(target = "goodsModelNo", expression = "java(og.getGoodsModelNo().trim().equals(\"\") ? null : Float.parseFloat(og.getGoodsModelNo()))")
     @Mapping(source = "og.parentGoodsNo", target = "channelParentGoodsNo")
     @Mapping(source = "og.couponGoodsDcPrice", target = "couponDcPrice")
     @Mapping(source = "og.goodsDeliveryCollectPrice", target = "deliPrice")

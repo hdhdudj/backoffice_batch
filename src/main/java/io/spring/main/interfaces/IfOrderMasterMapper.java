@@ -21,6 +21,7 @@ public interface IfOrderMasterMapper{//<OrderInfoData, IfOrderMaster> extends Ge
     @Mapping(source = "os.settleKind", target = "payGb")
     @Mapping(source = "os.settlePrice", target = "payAmt")
     @Mapping(source = "os.orderEmail", target = "orderEmail")
+    @Mapping(source = "os.paymentDt", target = "payDt")
     IfOrderMaster to(OrderSearchData os, OrderSearchData.OrderInfoData oi);
 
 //    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
