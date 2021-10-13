@@ -1,32 +1,28 @@
 package io.spring.backoffice_batch.job;
 
-import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
-import io.spring.main.model.goods.entity.IfGoodsMaster;
-import io.spring.main.util.StringFactory;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import javax.persistence.EntityManagerFactory;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
-import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
-//import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-//import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
-import io.spring.main.apis.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import javax.persistence.EntityManagerFactory;
-import java.util.ArrayList;
-import java.util.List;
+import io.spring.backoffice_batch.util.UniqueRunIdIncrementer;
+//import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+//import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
+import io.spring.main.apis.GoodsSearch;
+import io.spring.main.model.goods.entity.IfGoodsMaster;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -58,7 +54,11 @@ public class GoodsSearchJobConfiguration {
                     log.info("----- This is searchGoodsStep1");
                     // if table entity 리스트 생성
                     // 트랜잭션1. if table 저장 함수
-                    goodsSearch.saveIfTables(goodsNo, "", "", page); //, ifGoodsOptionList, ifGoodsTextOptionList, ifGoodsAddGoodsList);
+
+//					goodsNo = "1000003553";
+
+					goodsSearch.saveIfTables("", "", "", page); // , ifGoodsOptionList, ifGoodsTextOptionList,
+																			// ifGoodsAddGoodsList);
                     return RepeatStatus.FINISHED;
                 })
                 .build();

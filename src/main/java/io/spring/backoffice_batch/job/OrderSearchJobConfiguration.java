@@ -43,7 +43,7 @@ public class OrderSearchJobConfiguration {
     @Bean
     public Job searchOrderJob(){
         return jobBuilderFactory.get("searchOrderJob")
-                .start(searchOrderStep1(null, false))
+				.start(searchOrderStep1(null, null, false))
                 .next(searchOrderStep2())
                 .next(searchOrderStep3())
                 .incrementer(new UniqueRunIdIncrementer())
@@ -52,22 +52,27 @@ public class OrderSearchJobConfiguration {
 
     @Bean
     @JobScope
-    public Step searchOrderStep1(@Value("#{jobParameters[page]}") String page, @Value("#{jobParameters[next]}") Boolean next){
+	public Step searchOrderStep1(@Value("#{jobParameters[page]}") String page,
+			@Value("#{jobParameters[mode]}") String mode, @Value("#{jobParameters[next]}") boolean next) {
         return stepBuilderFactory.get("searchOrderStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchOrderStep1");
+                    
+					// if(mode==null) {
+//                    	mode="modify";
+					// }
+                    
                     // 트랜잭션1. if table 저장
                     int n = page == null || page.trim().equals("")? -1 : Integer.parseInt(page);
-                    boolean next2 = next == null? false:next;
                     int day = 30;
 
                     String startDt;
                     String endDt;
-                    if(n >= 0 && !next2){
+                    if(n >= 0 && !next){
                         startDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, day * -(n+1));
                         endDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, day * -n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
                     }
-                    else if(n >= 0 && next2){
+                    else if(n >= 0 && next){
                         startDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, day * n);
                         endDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, day * (n+1));//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
                     }
@@ -75,7 +80,7 @@ public class OrderSearchJobConfiguration {
                         startDt = null;
                         endDt = null;
                     }
-					orderSearch.saveIfTables("2110061315569293", startDt, endDt); // "2106301555509122","2107021751024711",
+					orderSearch.saveIfTables("", startDt, endDt,mode); // "2106301555509122","2107021751024711",
 																					// "2101081407020195"(addGoods 정렬
 																					// 테스트용), "2110061315569293"(최신)
                     return RepeatStatus.FINISHED;
