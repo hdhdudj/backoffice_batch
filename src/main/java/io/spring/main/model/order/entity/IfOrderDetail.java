@@ -5,10 +5,7 @@ import io.spring.main.model.goods.idclass.IfBrandId;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.model.order.idclass.IfOrderDetailId;
 import io.spring.main.util.StringFactory;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,6 +18,7 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "if_order_detail")
 @IdClass(value = IfOrderDetailId.class)
+@EqualsAndHashCode
 public class IfOrderDetail {
     public IfOrderDetail(String ifNo){
         this.ifNo = ifNo;
@@ -72,4 +70,9 @@ public class IfOrderDetail {
 
     // 21-10-06 추가된 컬럼
     private String parentChannelOrderSeq;
+
+    // 21-10-13 추가된 컬럼
+    private String claimHandleMode;
+    private String claimHandleReason;
+    private String claimHandleDetailReason;
 }

@@ -107,7 +107,10 @@ public class TbOrderDetail extends CommonProps
     private Long scmNo;
     private String parentOrderSeq;
 
-    // 21-10-07 새로 생긴 컬럼
+    // 21-10-13 새로 생긴 컬럼
+    private String claimHandleMode;
+    private String claimHandleReason;
+    private String claimHandleDetailReason;
 
 
     @JoinColumns(
