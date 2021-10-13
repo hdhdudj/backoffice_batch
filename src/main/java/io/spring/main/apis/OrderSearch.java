@@ -10,8 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import io.spring.main.interfaces.IfOrderDetailMapper;
-import io.spring.main.interfaces.IfOrderMasterMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -29,6 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.main.enums.DeliveryMethod;
 import io.spring.main.enums.GoodsOrAddGoods;
 import io.spring.main.enums.TrdstOrderStatus;
+import io.spring.main.interfaces.IfOrderDetailMapper;
+import io.spring.main.interfaces.IfOrderMasterMapper;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.JpaIfAddGoodsRepository;
 import io.spring.main.jparepos.goods.JpaIfGoodsAddGoodsRepository;
@@ -156,6 +156,8 @@ public class OrderSearch {
 		else { //todo(완) :업데이트 있음 2021-10-12
             ifOrderMaster = ioMaster;
             ifOrderMaster.setIfStatus(StringFactory.getGbOne());
+			orderSearchData.setIfNo(ifOrderMaster.getIfNo());
+
         }
 
         if(ifOrderMaster == null){ // insert
@@ -165,7 +167,7 @@ public class OrderSearch {
         // not null 컬럼들 설정
         ifOrderMaster.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
         ifOrderMaster.setChannelOrderStatus(orderSearchData.getOrderStatus());
-		System.out.println("getAddField ===> " + orderSearchData.getAddField());
+		// System.out.println("getAddField ===> " + orderSearchData.getAddField());
 
 		try { // 오류가 난다면 pcode * 처리
 
@@ -257,6 +259,9 @@ public class OrderSearch {
                 // 21-10-13 claim 입력
                 ifOrderDetail.setClaimHandleMode(orderGoodsData.getClaimData().get(0).getHandleMode());
                 ifOrderDetail.setClaimHandleReason(orderGoodsData.getClaimData().get(0).getHandleReason());
+
+				// System.out.println(orderGoodsData.getClaimData().get(0).getHandleDetailReason());
+
                 ifOrderDetail.setClaimHandleDetailReason(orderGoodsData.getClaimData().get(0).getHandleDetailReason());
             }
             if(isUpdate){
