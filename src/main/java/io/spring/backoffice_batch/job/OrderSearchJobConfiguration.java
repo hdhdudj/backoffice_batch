@@ -80,7 +80,7 @@ public class OrderSearchJobConfiguration {
                         startDt = null;
                         endDt = null;
                     }
-					orderSearch.saveIfTables("", startDt, endDt,mode); // "2106301555509122","2107021751024711",
+					orderSearch.saveIfTables("2110131405098101", startDt, endDt,mode); // "2106301555509122","2107021751024711",
 																					// "2101081407020195"(addGoods 정렬
 																					// 테스트용), "2110061315569293"(최신)
                     return RepeatStatus.FINISHED;

@@ -220,7 +220,7 @@ public class GoodsSearch {
 
         if(isUpdate){ // update인 경우 기존 값과 비교
             isChanged = !ifGoodsMaster.equals(origIfGoodsMaster);
-			// todo : 변경 체크 안되는듯 -> 수정 완료
+			// todo(완) : 변경 체크 안되는듯 -> 21-10-12 수정 완료
 //			isChanged = true;
         }
 
@@ -845,7 +845,7 @@ public class GoodsSearch {
         return nextVal;
     }
 
-	// TODO : 전체호출 ?? 은 어떻게? -> page로 
+	// TODO(완) : 전체호출 ?? 은 어떻게? -> page로 수정완료
     // goods xml 받아오는 함수
     public List<GoodsSearchData> retrieveGoods(String goodsNo, String fromDt, String toDt, String page) {
         //OpenApi호출
@@ -873,7 +873,7 @@ public class GoodsSearch {
 		return goodsSearchData;
     }
 
-	// TODO : 전체호출 ?? 은 어떻게? -> page 이용
+	// TODO(완) : 전체호출 ?? 은 어떻게? -> page 이용
 	// goods xml 받아오는 함수
 	public List<GoodsSearchData> retrieveGoodsToPage(int page, String goodsNo, String fromDt, String toDt) {
 

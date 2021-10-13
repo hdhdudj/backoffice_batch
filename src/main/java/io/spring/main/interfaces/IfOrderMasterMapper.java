@@ -6,8 +6,8 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface OrderInfoDataIfOrderMasterMapper{//<OrderInfoData, IfOrderMaster> extends GenericMapper<OrderInfoData, IfOrderMaster>{
-    OrderInfoDataIfOrderMasterMapper INSTANCE = Mappers.getMapper(OrderInfoDataIfOrderMasterMapper.class);
+public interface IfOrderMasterMapper{//<OrderInfoData, IfOrderMaster> extends GenericMapper<OrderInfoData, IfOrderMaster>{
+//    OrderInfoDataIfOrderMasterMapper INSTANCE = Mappers.getMapper(OrderInfoDataIfOrderMasterMapper.class);
 
     OrderSearchData.OrderInfoData toDto(IfOrderMaster e);
     @Mapping(source = "oi.orderCellPhone", target = "orderTel")
