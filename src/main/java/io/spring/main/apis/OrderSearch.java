@@ -104,8 +104,8 @@ public class OrderSearch {
 
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
-    public void saveIfTables(String orderNo, String startDt, String endDt){
-        List<OrderSearchData> orderSearchDataList = retrieveOrders(orderNo, startDt, endDt);
+	public void saveIfTables(String orderNo, String startDt, String endDt, String mode) {
+		List<OrderSearchData> orderSearchDataList = retrieveOrders(orderNo, startDt, endDt, mode);
 
         // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
@@ -370,10 +370,13 @@ public class OrderSearch {
     }
 
     // goods xml 받아오는 함수
-    public List<OrderSearchData> retrieveOrders(String orderNo, String fromDt, String toDt) {
+	public List<OrderSearchData> retrieveOrders(String orderNo, String fromDt, String toDt, String mode) {
         //OpenApi호출
         fromDt = fromDt == null? "":fromDt;
         toDt = toDt == null? "":toDt;
+
+		mode = mode == null ? "modify" : mode;
+
         String urlstr = orderSearchUrl + StringFactory.getStrQuestion() + StringFactory.getOrderSearchParams()[0] + StringFactory.getStrEqual() +
                 pKey + StringFactory.getStrAnd() +StringFactory.getOrderSearchParams()[1]
                 + StringFactory.getStrEqual() + key
@@ -381,7 +384,7 @@ public class OrderSearch {
                 + StringFactory.getStrEqual() + fromDt
                 + StringFactory.getStrAnd() + StringFactory.getOrderSearchParams()[4]
                 + StringFactory.getStrEqual() + toDt
-                + "&dateType=modify"
+				+ "&dateType=" + mode
                 + "&orderNo="+ orderNo; //2106281109256643";
 //        System.out.println("##### " + urlstr);
 
