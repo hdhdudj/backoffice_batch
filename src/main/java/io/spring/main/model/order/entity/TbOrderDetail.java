@@ -1,14 +1,29 @@
 package io.spring.main.model.order.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.spring.main.model.goods.entity.CommonProps;
-import io.spring.main.model.goods.entity.Ititmm;
-import io.spring.main.model.order.idclass.TbOrderDetailId;
-import lombok.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.spring.main.model.goods.entity.CommonProps;
+import io.spring.main.model.goods.entity.Ititmm;
+import io.spring.main.model.order.idclass.TbOrderDetailId;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name="tb_order_detail")
@@ -23,6 +38,9 @@ public class TbOrderDetail extends CommonProps
 //        this.orderId = tbOrderMaster.getOrderId();
 //        this.orderSeq = StringFactory.getThreeStartCd(); // 001 하드코딩
 //    }
+    public TbOrderDetail(String orderId){
+        this.orderId = orderId;
+    }
     public TbOrderDetail(String orderId, String orderSeq){
         this.orderId = orderId;
         this.orderSeq = orderSeq;
@@ -64,7 +82,13 @@ public class TbOrderDetail extends CommonProps
         super.setRegId(tbOrderDetail.getRegId());
         super.setUpdDt(tbOrderDetail.getUpdDt());
         super.setUpdId(tbOrderDetail.getUpdId());
+
+		// 21-10-13 추가
+		this.claimHandleMode = tbOrderDetail.getClaimHandleMode();
+		this.claimHandleReason = tbOrderDetail.getClaimHandleReason();
+		this.claimHandleDetailReason = tbOrderDetail.getClaimHandleDetailReason();
     }
+
     @Id
     private String orderId;
     @Id
@@ -111,7 +135,6 @@ public class TbOrderDetail extends CommonProps
     private String claimHandleMode;
     private String claimHandleReason;
     private String claimHandleDetailReason;
-
 
     @JoinColumns(
     {

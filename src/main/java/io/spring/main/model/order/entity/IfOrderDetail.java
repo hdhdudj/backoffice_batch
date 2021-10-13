@@ -1,16 +1,13 @@
 package io.spring.main.model.order.entity;
 
-import io.spring.main.model.goods.entity.CommonProps;
-import io.spring.main.model.goods.idclass.IfBrandId;
-import io.spring.main.model.order.OrderSearchData;
-import io.spring.main.model.order.idclass.IfOrderDetailId;
-import io.spring.main.util.StringFactory;
-import lombok.*;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+
+import io.spring.main.model.order.idclass.IfOrderDetailId;
+import io.spring.main.util.StringFactory;
+import lombok.*;
 
 @Entity
 @Getter
