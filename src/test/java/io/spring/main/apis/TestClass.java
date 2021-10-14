@@ -8,6 +8,7 @@ import io.spring.main.interfaces.TestMapperImpl;
 import io.spring.main.model.goods.entity.IfGoodsMaster;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.model.order.entity.IfOrderMaster;
+import io.spring.main.model.order.entity.TbOrderDetail;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import jdk.nashorn.internal.objects.annotations.Setter;
 import lombok.RequiredArgsConstructor;
@@ -73,5 +74,12 @@ public class TestClass {
         for(TrdstOrderStatus val : TrdstOrderStatus.values()){
             System.out.println(val.toString());
         }
+    }
+
+    @Test
+    public void builderTest(){
+        TbOrderDetail tbOrderDetail = new TbOrderDetail();
+        tbOrderDetail = tbOrderDetail.builder().orderId("aaaa").build();
+        System.out.println(tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
     }
 }

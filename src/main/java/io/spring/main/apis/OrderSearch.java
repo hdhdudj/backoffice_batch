@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import io.spring.main.enums.GodoOrderStatus;
+import io.spring.main.interfaces.TbOrderDetailMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -106,6 +108,7 @@ public class OrderSearch {
     // mapStruct mapper
     private final IfOrderMasterMapper ifOrderMasterMapper;
     private final IfOrderDetailMapper ifOrderDetailMapper;
+    private final TbOrderDetailMapper tbOrderDetailMapper;
 
 
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
@@ -652,13 +655,14 @@ public class OrderSearch {
             }
             String orderSeq = Utilities.plusOne(Integer.toString(num),4);
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
-            tbOrderDetail = new TbOrderDetail(orderId, orderSeq);
+            tbOrderDetail = tbOrderDetailMapper.to(orderId, orderSeq, ifOrderDetail, ititmm);//new TbOrderDetail(orderId, orderSeq);
+
             ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
             ifOrderDetail.setOrderSeq(tbOrderDetail.getOrderSeq());
             jpaIfOrderDetailRepository.save(ifOrderDetail);
         }
         else { // update
-            compareTbOrderDetail = new TbOrderDetail(outTbOrderDetail);
+            compareTbOrderDetail = tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
             tbOrderDetail = outTbOrderDetail;
 
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
@@ -667,78 +671,36 @@ public class OrderSearch {
                 return null;
             }
         }
-        if(ititmm != null){
-            tbOrderDetail.setItemId(ititmm.getItemId());
-            tbOrderDetail.setAssortId(ititmm.getAssortId());
-        }
 
-
-		if (ifOrderDetail.getChannelGoodsType().equals("002")) {
+		if (StringFactory.getThreeSecondCd().equals(ifOrderDetail.getChannelGoodsType())) { // add_goods인 경우
 			if (ag != null) {
-				tbOrderDetail.setItemId("0001");
+				tbOrderDetail.setItemId(StringFactory.getFourStartCd()); // 0001 하드코딩
 				tbOrderDetail.setAssortId(ag.getAddGoodsId());
 
 			}
 		}
 
-        tbOrderDetail.setGoodsNm(ifOrderDetail.getChannelGoodsNm());
-        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 고도몰 주문(주문자 받는 곳 - 한국창고) : 000001
-
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
 
         String orderStatus = StringFactory.getStrPOne().equals(ifOrderDetail.getChannelOrderStatus())? StringFactory.getStrA01():ifOrderDetail.getChannelOrderStatus();
-//       .outTbOrderDetail.
 
 		// claim에 따른 상품상태변경 (r = 환불접수, b = 반품접수, e = 교환접수
-
 		if (ifOrderDetail.getClaimHandleMode() != null) {
-			if (ifOrderDetail.getClaimHandleMode().equals("e")) {
-				orderStatus = "e1";
-			} else if (ifOrderDetail.getClaimHandleMode().equals("b")) {
-				orderStatus = "b1";
+			if (ifOrderDetail.getClaimHandleMode().equals(StringFactory.getStrE())) {
+				orderStatus = GodoOrderStatus.e1.getFieldName();
+			} else if (ifOrderDetail.getClaimHandleMode().equals(StringFactory.getStrB())) {
+				orderStatus = GodoOrderStatus.b1.getFieldName();
 			}
-
 		}
 
         tbOrderDetail.setStatusCd(orderStatus); // 고도몰에서는 A01 상태만 가져옴.
 
-        tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
-        tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
-        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice()); // fixedPrice
         float goodsDcPrice = ifOrderDetail.getGoodsDcPrice() == null? 0 : ifOrderDetail.getGoodsDcPrice();
         float memberDcPrice = ifOrderDetail.getMemberDcPrice() == null? 0 : ifOrderDetail.getMemberDcPrice();
         float couponDcPrice = ifOrderDetail.getCouponDcPrice() == null? 0 : ifOrderDetail.getCouponDcPrice();
         float adminDcPrice = ifOrderDetail.getAdminDcPrice() == null? 0 : ifOrderDetail.getAdminDcPrice();
-        tbOrderDetail.setGoodsDcPrice(ifOrderDetail.getGoodsDcPrice());
-        tbOrderDetail.setMemberDcPrice(ifOrderDetail.getMemberDcPrice());
-        tbOrderDetail.setCouponDcPrice(ifOrderDetail.getCouponDcPrice());
-        tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice()); // 일단 사용안함
         tbOrderDetail.setDcSumPrice(goodsDcPrice + memberDcPrice + couponDcPrice + adminDcPrice);
-        tbOrderDetail.setSalePrice(tbOrderDetail.getGoodsPrice() - tbOrderDetail.getDcSumPrice()); // goodsPrice
-        tbOrderDetail.setDeliMethod(ifOrderDetail.getDeliveryMethodGb()); // 추후 수정
-        tbOrderDetail.setDeliPrice(ifOrderDetail.getDeliPrice());
-        tbOrderDetail.setChannelOrderNo(ifOrderDetail.getChannelOrderNo());
-        tbOrderDetail.setChannelOrderSeq(ifOrderDetail.getChannelOrderSeq());
 
-        tbOrderDetail.setLastGb(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
-        tbOrderDetail.setLastCategoryId(StringUtils.leftPad(StringFactory.getStrOne(),2,'0')); // 01 하드코딩
-
-
-        // 21-09-28 추가
-        tbOrderDetail.setGoodsPrice(ifOrderDetail.getFixedPrice());
-        tbOrderDetail.setSalePrice(ifOrderDetail.getGoodsPrice());
-        tbOrderDetail.setOptionTextInfo(ifOrderDetail.getOptionTextInfo());
-        tbOrderDetail.setListImageData(ifOrderDetail.getListImageData());
-        tbOrderDetail.setOptionPrice(ifOrderDetail.getOptionPrice());
-        tbOrderDetail.setOptionTextPrice(ifOrderDetail.getOptionTextPrice());
-        tbOrderDetail.setDeliveryInfo(ifOrderDetail.getDeliveryInfo());
-        
-        // 21-10-01 추가
-        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 채널별 하드코딩. 고도몰(channelGb='01')의 경우 '000001'
-        tbOrderDetail.setAssortGb(ifOrderDetail.getChannelGoodsType()); // 001 : 상품, 002 : 추가상품 (ifOrderDetail.channelGoodsType)
-
-        // 21-10-06 추가
-        tbOrderDetail.setScmNo(ifOrderDetail.getScmNo());
         IfOrderDetail ifOrderDetailParent = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getIfNo(), ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getParentChannelOrderSeq());
         if(ifOrderDetailParent == null){
             tbOrderDetail.setParentOrderSeq(ifOrderDetail.getOrderSeq());
@@ -746,14 +708,6 @@ public class OrderSearch {
         else {
             tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetailParent.getIfNoSeq(), 4,'0'));
         }
-
-		// 21-10-13
-		tbOrderDetail.setClaimHandleMode(
-				ifOrderDetail.getClaimHandleMode() == null ? null : ifOrderDetail.getClaimHandleMode());
-		tbOrderDetail.setClaimHandleReason(
-				ifOrderDetail.getClaimHandleReason() == null ? null : ifOrderDetail.getClaimHandleReason());
-		tbOrderDetail.setClaimHandleDetailReason(
-				ifOrderDetail.getClaimHandleDetailReason() == null ? null : ifOrderDetail.getClaimHandleDetailReason());
 
         // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
         em.persist(tbOrderDetail);
@@ -1047,10 +1001,12 @@ public class OrderSearch {
                 return 200;
             } else {
                 System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+                log.debug("response is error : " + response.getStatusLine().getStatusCode());
                 return -1;
             }
         } catch (Exception e){
             System.err.println(e.toString());
+            log.debug(e.toString());
         }
         return -1;
     }

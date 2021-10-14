@@ -51,6 +51,8 @@ public class StringFactory {
     @Getter
     private final static String threeStartCd = "001";
     @Getter
+    private final static String threeSecondCd = "002";
+    @Getter
     private final static String fourStartCd = "0001";
     @Getter
     private final static String fiveStartCd = "00001";
@@ -123,6 +125,8 @@ public class StringFactory {
 
 
     // DB table default values
+    @Getter
+    private final static String strB = "b";
     @Getter
     private final static String strY = "y";
     @Getter

@@ -11,19 +11,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import io.spring.main.model.goods.entity.Ititmm;
+import lombok.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.spring.main.model.goods.entity.CommonProps;
-import io.spring.main.model.goods.entity.Ititmm;
 import io.spring.main.model.order.idclass.TbOrderDetailId;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name="tb_order_detail")
@@ -32,61 +28,61 @@ import lombok.Setter;
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(TbOrderDetailId.class)
 @EqualsAndHashCode(exclude = {"ititmm"}, callSuper = false)
-public class TbOrderDetail extends CommonProps
-{
+public class TbOrderDetail extends CommonProps{
 //    public TbOrderDetail(TbOrderMaster tbOrderMaster, Ititmm ititmm){
 //        this.orderId = tbOrderMaster.getOrderId();
 //        this.orderSeq = StringFactory.getThreeStartCd(); // 001 하드코딩
 //    }
-    public TbOrderDetail(){
-    }
-    public TbOrderDetail(String orderId, String orderSeq){
-        this.orderId = orderId;
-        this.orderSeq = orderSeq;
-    }
-    public TbOrderDetail(TbOrderDetail tbOrderDetail){
-        this.orderId = tbOrderDetail.getOrderId();
-        this.orderSeq = tbOrderDetail.getOrderSeq();
-        this.statusCd = tbOrderDetail.getStatusCd();
-        this.assortGb = tbOrderDetail.getAssortGb();
-        this.assortId = tbOrderDetail.getAssortId();
-        this.itemId = tbOrderDetail.getItemId();
-        this.goodsNm = tbOrderDetail.getGoodsNm();
-        this.optionInfo = tbOrderDetail.getOptionInfo();
-        this.setGb = tbOrderDetail.getSetGb();
-        this.setOrderId = tbOrderDetail.getSetOrderId();
-        this.setOrderSeq = tbOrderDetail.getSetOrderSeq();
-        this.qty = tbOrderDetail.getQty();
-        this.itemAmt = tbOrderDetail.getItemAmt();
-        this.goodsPrice = tbOrderDetail.getGoodsPrice();
-        this.salePrice = tbOrderDetail.getSalePrice();
-        this.goodsDcPrice = tbOrderDetail.getGoodsDcPrice();
-        this.memberDcPrice = tbOrderDetail.getMemberDcPrice();
-        this.couponDcPrice = tbOrderDetail.getCouponDcPrice();
-        this.adminDcPrice = tbOrderDetail.getAdminDcPrice();
-        this.dcSumPrice = tbOrderDetail.getDcSumPrice();
-        this.deliPrice = tbOrderDetail.getDeliPrice();
-        this.deliMethod = tbOrderDetail.getDeliMethod();
-        this.channelOrderNo = tbOrderDetail.getChannelOrderNo();
-        this.channelOrderSeq = tbOrderDetail.getChannelOrderSeq();
-        this.lastGb = tbOrderDetail.getLastGb();
-        this.lastCategoryId = tbOrderDetail.getLastCategoryId();
-        this.storageId = tbOrderDetail.getStorageId();
-        this.ititmm = tbOrderDetail.getItitmm();
-        // 21-10-06
-        this.scmNo = tbOrderDetail.getScmNo();
-        this.parentOrderSeq = tbOrderDetail.parentOrderSeq;
-
-        super.setRegDt(tbOrderDetail.getRegDt());
-        super.setRegId(tbOrderDetail.getRegId());
-        super.setUpdDt(tbOrderDetail.getUpdDt());
-        super.setUpdId(tbOrderDetail.getUpdId());
-
-		// 21-10-13 추가
-		this.claimHandleMode = tbOrderDetail.getClaimHandleMode();
-		this.claimHandleReason = tbOrderDetail.getClaimHandleReason();
-		this.claimHandleDetailReason = tbOrderDetail.getClaimHandleDetailReason();
-    }
+//    public TbOrderDetail(){
+//    }
+//    public TbOrderDetail(String orderId, String orderSeq){
+//        this.orderId = orderId;
+//        this.orderSeq = orderSeq;
+//    }
+//
+//    public TbOrderDetail(TbOrderDetail tbOrderDetail){
+//        this.orderId = tbOrderDetail.getOrderId();
+//        this.orderSeq = tbOrderDetail.getOrderSeq();
+//        this.statusCd = tbOrderDetail.getStatusCd();
+//        this.assortGb = tbOrderDetail.getAssortGb();
+//        this.assortId = tbOrderDetail.getAssortId();
+//        this.itemId = tbOrderDetail.getItemId();
+//        this.goodsNm = tbOrderDetail.getGoodsNm();
+//        this.optionInfo = tbOrderDetail.getOptionInfo();
+//        this.setGb = tbOrderDetail.getSetGb();
+//        this.setOrderId = tbOrderDetail.getSetOrderId();
+//        this.setOrderSeq = tbOrderDetail.getSetOrderSeq();
+//        this.qty = tbOrderDetail.getQty();
+//        this.itemAmt = tbOrderDetail.getItemAmt();
+//        this.goodsPrice = tbOrderDetail.getGoodsPrice();
+//        this.salePrice = tbOrderDetail.getSalePrice();
+//        this.goodsDcPrice = tbOrderDetail.getGoodsDcPrice();
+//        this.memberDcPrice = tbOrderDetail.getMemberDcPrice();
+//        this.couponDcPrice = tbOrderDetail.getCouponDcPrice();
+//        this.adminDcPrice = tbOrderDetail.getAdminDcPrice();
+//        this.dcSumPrice = tbOrderDetail.getDcSumPrice();
+//        this.deliPrice = tbOrderDetail.getDeliPrice();
+//        this.deliMethod = tbOrderDetail.getDeliMethod();
+//        this.channelOrderNo = tbOrderDetail.getChannelOrderNo();
+//        this.channelOrderSeq = tbOrderDetail.getChannelOrderSeq();
+//        this.lastGb = tbOrderDetail.getLastGb();
+//        this.lastCategoryId = tbOrderDetail.getLastCategoryId();
+//        this.storageId = tbOrderDetail.getStorageId();
+//        this.ititmm = tbOrderDetail.getItitmm();
+//        // 21-10-06
+//        this.scmNo = tbOrderDetail.getScmNo();
+//        this.parentOrderSeq = tbOrderDetail.parentOrderSeq;
+//
+//        super.setRegDt(tbOrderDetail.getRegDt());
+//        super.setRegId(tbOrderDetail.getRegId());
+//        super.setUpdDt(tbOrderDetail.getUpdDt());
+//        super.setUpdId(tbOrderDetail.getUpdId());
+//
+//		// 21-10-13 추가
+//		this.claimHandleMode = tbOrderDetail.getClaimHandleMode();
+//		this.claimHandleReason = tbOrderDetail.getClaimHandleReason();
+//		this.claimHandleDetailReason = tbOrderDetail.getClaimHandleDetailReason();
+//    }
 
     @Id
     private String orderId;
@@ -156,4 +152,8 @@ public class TbOrderDetail extends CommonProps
     @JsonIgnore
     @NotFound(action = NotFoundAction.IGNORE)
     private TbOrderMaster tbOrderMaster; // tbOrderMaster 연관관계
+
+    public TbOrderDetail() {
+
+    }
 }

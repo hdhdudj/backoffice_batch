@@ -8,24 +8,21 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TbOrderDetailMapper {
-//    @Mapping(source = "id.orderNo", target = "channelOrderNo")
-//    @Mapping(source = "og.sno", target = "channelOrderSeq")
-//    @Mapping(source = "og.orderStatus", target = "channelOrderStatus")
-//    @Mapping(source = "og.goodsNo", target = "channelGoodsNo")
-//    @Mapping(source = "og.optionSno", target = "channelOptionsNo")
-//    @Mapping(source = "og.optionInfo", target = "channelOptionInfo")
-//    @Mapping(source = "og.goodsNm", target = "channelGoodsNm")
-//    @Mapping(source = "og.goodsType", target = "channelGoodsType")
-//    @Mapping(target = "goodsModelNo", expression = "java(og.getGoodsModelNo().trim().equals(\"\") ? null : Float.parseFloat(og.getGoodsModelNo()))")
-//    @Mapping(source = "og.parentGoodsNo", target = "channelParentGoodsNo")
-//    @Mapping(source = "og.couponGoodsDcPrice", target = "couponDcPrice")
-//    @Mapping(source = "og.goodsDeliveryCollectPrice", target = "deliPrice")
-//    @Mapping(source = "og.deliveryCond", target = "deliveryInfo")
+    @Mapping(target = "lastCategoryId", constant = "01")
+    @Mapping(target = "lastGb", constant = "01")
+    @Mapping(target = "storageId", constant = "000001")
+    @Mapping(source = "id.channelGoodsType", target = "assortGb")
+    @Mapping(source = "id.goodsPrice", target = "salePrice")
+    @Mapping(source = "id.fixedPrice", target = "goodsPrice")
+    @Mapping(source = "id.deliveryMethodGb", target = "deliMethod")
     @Mapping(source = "id.goodsCnt", target = "qty")
     @Mapping(source = "id.channelOptionInfo", target = "optionInfo")
     @Mapping(source = "id.channelGoodsNm", target = "goodsNm")
-    @Mapping(target = "storageId", constant = "000001")
     @Mapping(source = "it.itemId", target = "itemId")
     @Mapping(source = "it.assortId", target = "assortId")
-    TbOrderDetail to(IfOrderDetail id, Ititmm it);
+    @Mapping(source = "orderId", target = "orderId")
+    @Mapping(source = "orderSeq", target = "orderSeq")
+    TbOrderDetail to(String orderId, String orderSeq, IfOrderDetail id, Ititmm it);
+
+    TbOrderDetail copy(TbOrderDetail tbOrderDetail);
 }
