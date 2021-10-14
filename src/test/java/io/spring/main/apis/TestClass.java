@@ -78,8 +78,8 @@ public class TestClass {
 
     @Test
     public void builderTest(){
-        TbOrderDetail tbOrderDetail = new TbOrderDetail();
-        tbOrderDetail = tbOrderDetail.builder().orderId("aaaa").build();
-        System.out.println(tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
+//        TbOrderDetail tbOrderDetail = new TbOrderDetail();
+//        tbOrderDetail = tbOrderDetail.builder().orderId("aaaa").build();
+//        System.out.println(tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
     }
 }

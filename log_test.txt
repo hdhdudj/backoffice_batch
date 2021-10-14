@@ -1,0 +1,2983 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.3.4.RELEASE)
+
+2021-10-14T10:09:18,585 INFO  [background-preinit] o.h.v.i.u.Version: HV000001: Hibernate Validator 6.1.5.Final
+2021-10-14T10:09:18,882 INFO  [main] o.s.b.StartupInfoLogger: Starting BackofficeBatchApplication on shpark with PID 2856 (C:\dev\code\java\backoffice_batch\build\libs\backoffice_batch-0.0.1-SNAPSHOT.jar started by pecan in C:\Users\pecan\Desktop)
+2021-10-14T10:09:18,893 DEBUG [main] o.s.b.StartupInfoLogger: Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
+2021-10-14T10:09:18,893 INFO  [main] o.s.b.SpringApplication: No active profile set, falling back to default profiles: default
+2021-10-14T10:09:21,296 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-10-14T10:09:22,427 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate: Finished Spring Data repository scanning in 1119ms. Found 41 JPA repository interfaces.
+2021-10-14T10:09:24,885 INFO  [main] o.s.b.w.e.t.TomcatWebServer: Tomcat initialized with port(s): 8082 (http)
+2021-10-14T10:09:24,901 INFO  [main] o.a.j.l.DirectJDKLog: Initializing ProtocolHandler ["http-nio-8082"]
+2021-10-14T10:09:24,901 INFO  [main] o.a.j.l.DirectJDKLog: Starting service [Tomcat]
+2021-10-14T10:09:24,901 INFO  [main] o.a.j.l.DirectJDKLog: Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-10-14T10:09:25,067 INFO  [main] o.a.j.l.DirectJDKLog: Initializing Spring embedded WebApplicationContext
+2021-10-14T10:09:25,067 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext: Root WebApplicationContext: initialization completed in 5950 ms
+2021-10-14T10:09:25,598 INFO  [main] o.h.j.i.u.LogHelper: HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-10-14T10:09:25,801 INFO  [main] o.h.Version: HHH000412: Hibernate Core {5.4.2.Final}
+2021-10-14T10:09:26,100 INFO  [main] o.h.a.c.r.j.JavaReflectionManager: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-10-14T10:09:26,241 INFO  [main] c.z.h.HikariDataSource: HikariPool-1 - Starting...
+2021-10-14T10:09:30,451 INFO  [main] c.z.h.HikariDataSource: HikariPool-1 - Start completed.
+2021-10-14T10:09:30,522 INFO  [main] o.h.d.Dialect: HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-10-14T10:09:33,286 WARN  [main] o.h.c.AnnotationBinder: HHH000491: The [ifOrderMaster] association in the [io.spring.main.model.order.entity.TbOrderDetail] entity uses both @NotFound(action = NotFoundAction.IGNORE) and FetchType.LAZY. The NotFoundAction.IGNORE @ManyToOne and @OneToOne associations are always fetched eagerly.
+2021-10-14T10:09:33,286 WARN  [main] o.h.c.AnnotationBinder: HHH000491: The [ititmm] association in the [io.spring.main.model.order.entity.TbOrderDetail] entity uses both @NotFound(action = NotFoundAction.IGNORE) and FetchType.LAZY. The NotFoundAction.IGNORE @ManyToOne and @OneToOne associations are always fetched eagerly.
+2021-10-14T10:09:33,286 WARN  [main] o.h.c.AnnotationBinder: HHH000491: The [tbOrderMaster] association in the [io.spring.main.model.order.entity.TbOrderDetail] entity uses both @NotFound(action = NotFoundAction.IGNORE) and FetchType.LAZY. The NotFoundAction.IGNORE @ManyToOne and @OneToOne associations are always fetched eagerly.
+2021-10-14T10:09:33,489 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsAddGoodsId
+2021-10-14T10:09:33,489 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsAddGoodsId
+2021-10-14T10:09:33,489 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.TmitemId
+2021-10-14T10:09:33,489 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.TmitemId
+2021-10-14T10:09:33,489 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItasrdId
+2021-10-14T10:09:33,489 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItasrdId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.TmmapiId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.TmmapiId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.order.idclass.IfOrderDetailId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.order.idclass.IfOrderDetailId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsOptionId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsOptionId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmcId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmcId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItlkagId
+2021-10-14T10:09:33,505 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItlkagId
+2021-10-14T10:09:33,520 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.order.idclass.TbOrderDetailId
+2021-10-14T10:09:33,520 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.order.idclass.TbOrderDetailId
+2021-10-14T10:09:33,520 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsMasterId
+2021-10-14T10:09:33,520 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsMasterId
+2021-10-14T10:09:33,520 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.purchase.idclass.LspchdId
+2021-10-14T10:09:33,520 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.purchase.idclass.LspchdId
+2021-10-14T10:09:33,520 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-10-14T10:09:33,520 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-10-14T10:09:33,520 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsTextOptionId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsTextOptionId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItvariId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItvariId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfCategoryId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfCategoryId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfBrandId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfBrandId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItmmotId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItmmotId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmmId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmmId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmtId
+2021-10-14T10:09:33,536 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmtId
+2021-10-14T10:09:36,533 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-10-14T10:09:36,533 INFO  [main] o.s.o.j.AbstractEntityManagerFactoryBean: Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-10-14T10:09:42,650 DEBUG [main] i.s.m.c.ClassMapConfiguration: ClassMapConfiguration goodsSearchClassMap 실행.
+2021-10-14T10:09:44,057 DEBUG [main] i.s.m.c.ClassMapConfiguration: ClassMapConfiguration orderSearchGotListPropsMap 실행.
+2021-10-14T10:09:44,276 INFO  [main] i.s.b.j.AllGoodsSearchJobConfiguratio: ----- This is searchAllGoodsStep2
+2021-10-14T10:09:44,541 INFO  [main] i.s.b.j.GoodsSearchJobConfiguration: ----- This is searchGoodsStep2
+2021-10-14T10:09:44,588 INFO  [main] i.s.b.j.OrderSearchJobConfiguration: ----- This is searchOrderStep2
+2021-10-14T10:09:44,604 INFO  [main] i.s.b.j.OrderSearchJobConfiguration: ----- This is searchOrderStep3
+2021-10-14T10:09:46,823 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-10-14T10:09:48,271 INFO  [main] o.s.s.c.ExecutorConfigurationSupport: Initializing ExecutorService 'applicationTaskExecutor'
+2021-10-14T10:09:50,341 WARN  [main] o.s.b.a.b.JpaBatchConfigurer: JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.3.4.RELEASE)
+
+2021-10-14T10:10:11,773 INFO  [background-preinit] o.h.v.i.u.Version: HV000001: Hibernate Validator 6.1.5.Final
+2021-10-14T10:10:12,054 INFO  [main] o.s.b.StartupInfoLogger: Starting BackofficeBatchApplication on shpark with PID 3308 (C:\dev\code\java\backoffice_batch\build\libs\backoffice_batch-0.0.1-SNAPSHOT.jar started by pecan in C:\Users\pecan\Desktop)
+2021-10-14T10:10:12,069 DEBUG [main] o.s.b.StartupInfoLogger: Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
+2021-10-14T10:10:12,069 INFO  [main] o.s.b.SpringApplication: No active profile set, falling back to default profiles: default
+2021-10-14T10:10:14,616 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-10-14T10:10:15,650 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate: Finished Spring Data repository scanning in 1027ms. Found 41 JPA repository interfaces.
+2021-10-14T10:10:18,473 INFO  [main] o.s.b.w.e.t.TomcatWebServer: Tomcat initialized with port(s): 8082 (http)
+2021-10-14T10:10:18,489 INFO  [main] o.a.j.l.DirectJDKLog: Initializing ProtocolHandler ["http-nio-8082"]
+2021-10-14T10:10:18,489 INFO  [main] o.a.j.l.DirectJDKLog: Starting service [Tomcat]
+2021-10-14T10:10:18,505 INFO  [main] o.a.j.l.DirectJDKLog: Starting Servlet engine: [Apache Tomcat/9.0.38]
+2021-10-14T10:10:18,645 INFO  [main] o.a.j.l.DirectJDKLog: Initializing Spring embedded WebApplicationContext
+2021-10-14T10:10:18,645 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext: Root WebApplicationContext: initialization completed in 6325 ms
+2021-10-14T10:10:19,192 INFO  [main] o.h.j.i.u.LogHelper: HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-10-14T10:10:19,349 INFO  [main] o.h.Version: HHH000412: Hibernate Core {5.4.2.Final}
+2021-10-14T10:10:19,646 INFO  [main] o.h.a.c.r.j.JavaReflectionManager: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2021-10-14T10:10:19,786 INFO  [main] c.z.h.HikariDataSource: HikariPool-1 - Starting...
+2021-10-14T10:10:20,336 INFO  [main] c.z.h.HikariDataSource: HikariPool-1 - Start completed.
+2021-10-14T10:10:20,348 INFO  [main] o.h.d.Dialect: HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-10-14T10:10:21,074 WARN  [main] o.h.c.AnnotationBinder: HHH000491: The [ifOrderMaster] association in the [io.spring.main.model.order.entity.TbOrderDetail] entity uses both @NotFound(action = NotFoundAction.IGNORE) and FetchType.LAZY. The NotFoundAction.IGNORE @ManyToOne and @OneToOne associations are always fetched eagerly.
+2021-10-14T10:10:21,074 WARN  [main] o.h.c.AnnotationBinder: HHH000491: The [ititmm] association in the [io.spring.main.model.order.entity.TbOrderDetail] entity uses both @NotFound(action = NotFoundAction.IGNORE) and FetchType.LAZY. The NotFoundAction.IGNORE @ManyToOne and @OneToOne associations are always fetched eagerly.
+2021-10-14T10:10:21,074 WARN  [main] o.h.c.AnnotationBinder: HHH000491: The [tbOrderMaster] association in the [io.spring.main.model.order.entity.TbOrderDetail] entity uses both @NotFound(action = NotFoundAction.IGNORE) and FetchType.LAZY. The NotFoundAction.IGNORE @ManyToOne and @OneToOne associations are always fetched eagerly.
+2021-10-14T10:10:21,152 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsAddGoodsId
+2021-10-14T10:10:21,152 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsAddGoodsId
+2021-10-14T10:10:21,152 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.TmitemId
+2021-10-14T10:10:21,152 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.TmitemId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItasrdId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItasrdId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.TmmapiId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.TmmapiId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.order.idclass.IfOrderDetailId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.order.idclass.IfOrderDetailId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsOptionId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsOptionId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmcId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmcId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItlkagId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItlkagId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.order.idclass.TbOrderDetailId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.order.idclass.TbOrderDetailId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsMasterId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsMasterId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.purchase.idclass.LspchdId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.purchase.idclass.LspchdId
+2021-10-14T10:10:21,168 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.deposit.idclass.LsdpsdId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfGoodsTextOptionId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfGoodsTextOptionId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItvariId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItvariId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfCategoryId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfCategoryId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.IfBrandId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.IfBrandId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItmmotId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItmmotId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmmId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmmId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000038: Composite-id class does not override equals(): io.spring.main.model.goods.idclass.ItitmtId
+2021-10-14T10:10:21,183 WARN  [main] o.h.m.RootClass: HHH000039: Composite-id class does not override hashCode(): io.spring.main.model.goods.idclass.ItitmtId
+2021-10-14T10:10:23,007 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-10-14T10:10:23,007 INFO  [main] o.s.o.j.AbstractEntityManagerFactoryBean: Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-10-14T10:10:25,621 DEBUG [main] i.s.m.c.ClassMapConfiguration: ClassMapConfiguration goodsSearchClassMap 실행.
+2021-10-14T10:10:26,099 DEBUG [main] i.s.m.c.ClassMapConfiguration: ClassMapConfiguration orderSearchGotListPropsMap 실행.
+2021-10-14T10:10:26,208 INFO  [main] i.s.b.j.AllGoodsSearchJobConfiguratio: ----- This is searchAllGoodsStep2
+2021-10-14T10:10:26,318 INFO  [main] i.s.b.j.GoodsSearchJobConfiguration: ----- This is searchGoodsStep2
+2021-10-14T10:10:26,318 INFO  [main] i.s.b.j.OrderSearchJobConfiguration: ----- This is searchOrderStep2
+2021-10-14T10:10:26,318 INFO  [main] i.s.b.j.OrderSearchJobConfiguration: ----- This is searchOrderStep3
+2021-10-14T10:10:26,787 WARN  [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-10-14T10:10:27,224 INFO  [main] o.s.s.c.ExecutorConfigurationSupport: Initializing ExecutorService 'applicationTaskExecutor'
+2021-10-14T10:10:27,803 WARN  [main] o.s.b.a.b.JpaBatchConfigurer: JPA does not support custom isolation levels, so locks may not be taken when launching Jobs
+2021-10-14T10:10:27,818 INFO  [main] o.s.b.c.r.s.JobRepositoryFactoryBean: No database type set, using meta data indicating: MYSQL
+2021-10-14T10:10:27,850 INFO  [main] o.s.b.c.l.s.SimpleJobLauncher: No TaskExecutor has been set, defaulting to synchronous executor.
+2021-10-14T10:10:28,318 INFO  [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration: 
+
+Using generated security password: ddab4008-17f4-4705-a8ed-a4c3c190b938
+
+2021-10-14T10:10:28,615 INFO  [main] o.s.s.w.DefaultSecurityFilterChain: Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4e2cdc51, org.springframework.security.web.context.SecurityContextPersistenceFilter@273dec10, org.springframework.security.web.header.HeaderWriterFilter@26ffd2c0, org.springframework.security.web.csrf.CsrfFilter@4fad51a3, org.springframework.security.web.authentication.logout.LogoutFilter@2af9a5ef, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@58e03769, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@1d944fc0, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@2969a9a6, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@171aa66, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7cca31fc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@30cafd13, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@25470477, org.springframework.security.web.session.SessionManagementFilter@2fc7fa6e, org.springframework.security.web.access.ExceptionTranslationFilter@67a8bcbb, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2499b971]
+2021-10-14T10:10:28,694 INFO  [main] o.a.j.l.DirectJDKLog: Starting ProtocolHandler ["http-nio-8082"]
+2021-10-14T10:10:28,756 INFO  [main] o.s.b.w.e.t.TomcatWebServer: Tomcat started on port(s): 8082 (http) with context path ''
+2021-10-14T10:10:28,788 INFO  [main] o.s.b.StartupInfoLogger: Started BackofficeBatchApplication in 17.833 seconds (JVM running for 20.301)
+2021-10-14T10:10:28,788 INFO  [main] o.s.b.a.b.JobLauncherApplicationRunner: Running default command line with: [-next=true, -dateType=modify, -orderNo=2110131726091278]
+2021-10-14T10:10:29,082 INFO  [main] o.s.b.c.l.s.SimpleJobLauncher$1: Job: [SimpleJob: [name=searchOrderJob]] launched with the following parameters: [{next=true, orderNo=2110131726091278, dateType=modify, run.id=257}]
+2021-10-14T10:10:29,316 INFO  [main] o.s.b.c.j.SimpleStepHandler: Executing step: [searchOrderStep1]
+2021-10-14T10:10:29,364 INFO  [main] i.s.b.j.OrderSearchJobConfiguration: ----- This is searchOrderStep1
+2021-10-14T10:10:29,589 DEBUG [main] i.s.m.a.CommonXmlParse: godomall open api url : https://openhub.godo.co.kr/godomall5/order/Order_Search.php?partner_key=JUJDJTExJTg4byUyNSUzQ1olRDE=&key=JURBaSU4OGU3LnMlMjElM0ElQUIlQzQ2NiU5RiVFQiUyOCVBOCUwNSVFMSUxQyU4RiVCM0klMTMlOEMlMkElN0QlQTIlQjJ4ZyVCRVMlOTglMDclMEFSQjYlODM=&startDate=&endDate=&dateType=modify&orderNo=2110131726091278
+2021-10-14T10:10:29,883 DEBUG [main] i.s.m.a.CommonXmlParse: get xml time : 0
+-----------------------------------------------------------------
+1
+-----------------------------------------------------------------
+2110131726091278
+Hibernate: 
+    select
+        ifordermas0_.if_no as if_no1_9_,
+        ifordermas0_.reg_dt as reg_dt2_9_,
+        ifordermas0_.reg_id as reg_id3_9_,
+        ifordermas0_.upd_dt as upd_dt4_9_,
+        ifordermas0_.upd_id as upd_id5_9_,
+        ifordermas0_.channel_gb as channel_6_9_,
+        ifordermas0_.channel_info as channel_7_9_,
+        ifordermas0_.channel_order_no as channel_8_9_,
+        ifordermas0_.channel_order_status as channel_9_9_,
+        ifordermas0_.customer_id as custome10_9_,
+        ifordermas0_.if_status as if_stat11_9_,
+        ifordermas0_.mem_no as mem_no12_9_,
+        ifordermas0_.order_addr1 as order_a13_9_,
+        ifordermas0_.order_addr2 as order_a14_9_,
+        ifordermas0_.order_date as order_d15_9_,
+        ifordermas0_.order_email as order_e16_9_,
+        ifordermas0_.order_id as order_i17_9_,
+        ifordermas0_.order_memo as order_m18_9_,
+        ifordermas0_.order_name as order_n19_9_,
+        ifordermas0_.order_tel as order_t20_9_,
+        ifordermas0_.order_zipcode as order_z21_9_,
+        ifordermas0_.pay_amt as pay_amt22_9_,
+        ifordermas0_.pay_dt as pay_dt23_9_,
+        ifordermas0_.pay_gb as pay_gb24_9_,
+        ifordermas0_.receiver_addr1 as receive25_9_,
+        ifordermas0_.receiver_addr2 as receive26_9_,
+        ifordermas0_.receiver_name as receive27_9_,
+        ifordermas0_.receiver_tel as receive28_9_,
+        ifordermas0_.receiver_zipcode as receive29_9_,
+        ifordermas0_.total_coupon_delivery_dc_price as total_c30_9_,
+        ifordermas0_.total_coupon_goods_dc_price as total_c31_9_,
+        ifordermas0_.total_coupon_goods_mileage as total_c32_9_,
+        ifordermas0_.total_coupon_order_dc_price as total_c33_9_,
+        ifordermas0_.total_coupon_order_mileage as total_c34_9_,
+        ifordermas0_.total_delivery_charge as total_d35_9_,
+        ifordermas0_.total_goods_dc_price as total_g36_9_,
+        ifordermas0_.total_goods_mileage as total_g37_9_,
+        ifordermas0_.total_goods_price as total_g38_9_,
+        ifordermas0_.total_member_dc_price as total_m39_9_,
+        ifordermas0_.total_member_mileage as total_m40_9_,
+        ifordermas0_.total_member_overlap_dc_price as total_m41_9_,
+        ifordermas0_.total_mileage as total_m42_9_ 
+    from
+        if_order_master ifordermas0_ 
+    where
+        ifordermas0_.channel_gb=? 
+        and ifordermas0_.channel_order_no=?
+Hibernate: 
+    select
+        nextval(?) as nextval
+q1 ===> 수령자(받으실분) 개인통관 고유번호를 입력해주세요. - 관세청 사이트 (https://p.customs.go.kr)
+Hibernate: 
+    select
+        ifordermas0_.if_no as if_no1_9_0_,
+        ifordermas0_.reg_dt as reg_dt2_9_0_,
+        ifordermas0_.reg_id as reg_id3_9_0_,
+        ifordermas0_.upd_dt as upd_dt4_9_0_,
+        ifordermas0_.upd_id as upd_id5_9_0_,
+        ifordermas0_.channel_gb as channel_6_9_0_,
+        ifordermas0_.channel_info as channel_7_9_0_,
+        ifordermas0_.channel_order_no as channel_8_9_0_,
+        ifordermas0_.channel_order_status as channel_9_9_0_,
+        ifordermas0_.customer_id as custome10_9_0_,
+        ifordermas0_.if_status as if_stat11_9_0_,
+        ifordermas0_.mem_no as mem_no12_9_0_,
+        ifordermas0_.order_addr1 as order_a13_9_0_,
+        ifordermas0_.order_addr2 as order_a14_9_0_,
+        ifordermas0_.order_date as order_d15_9_0_,
+        ifordermas0_.order_email as order_e16_9_0_,
+        ifordermas0_.order_id as order_i17_9_0_,
+        ifordermas0_.order_memo as order_m18_9_0_,
+        ifordermas0_.order_name as order_n19_9_0_,
+        ifordermas0_.order_tel as order_t20_9_0_,
+        ifordermas0_.order_zipcode as order_z21_9_0_,
+        ifordermas0_.pay_amt as pay_amt22_9_0_,
+        ifordermas0_.pay_dt as pay_dt23_9_0_,
+        ifordermas0_.pay_gb as pay_gb24_9_0_,
+        ifordermas0_.receiver_addr1 as receive25_9_0_,
+        ifordermas0_.receiver_addr2 as receive26_9_0_,
+        ifordermas0_.receiver_name as receive27_9_0_,
+        ifordermas0_.receiver_tel as receive28_9_0_,
+        ifordermas0_.receiver_zipcode as receive29_9_0_,
+        ifordermas0_.total_coupon_delivery_dc_price as total_c30_9_0_,
+        ifordermas0_.total_coupon_goods_dc_price as total_c31_9_0_,
+        ifordermas0_.total_coupon_goods_mileage as total_c32_9_0_,
+        ifordermas0_.total_coupon_order_dc_price as total_c33_9_0_,
+        ifordermas0_.total_coupon_order_mileage as total_c34_9_0_,
+        ifordermas0_.total_delivery_charge as total_d35_9_0_,
+        ifordermas0_.total_goods_dc_price as total_g36_9_0_,
+        ifordermas0_.total_goods_mileage as total_g37_9_0_,
+        ifordermas0_.total_goods_price as total_g38_9_0_,
+        ifordermas0_.total_member_dc_price as total_m39_9_0_,
+        ifordermas0_.total_member_mileage as total_m40_9_0_,
+        ifordermas0_.total_member_overlap_dc_price as total_m41_9_0_,
+        ifordermas0_.total_mileage as total_m42_9_0_ 
+    from
+        if_order_master ifordermas0_ 
+    where
+        ifordermas0_.if_no=?
+***********************************OrderSearchData*****************************************
+ifNo : 000004724, channelOrderNo : 2110131726091278, ifStatus : 01
+2021-10-14T10:10:30,164 DEBUG [main] i.s.m.a.OrderSearch: saveIfOrderDetail
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_,
+        iforderdet0_.if_no_seq as if_no_se2_8_,
+        iforderdet0_.add_goods_price as add_good3_8_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_,
+        iforderdet0_.channel_gb as channel_5_8_,
+        iforderdet0_.channel_goods_nm as channel_6_8_,
+        iforderdet0_.channel_goods_no as channel_7_8_,
+        iforderdet0_.channel_goods_type as channel_8_8_,
+        iforderdet0_.channel_option_info as channel_9_8_,
+        iforderdet0_.channel_options_no as channel10_8_,
+        iforderdet0_.channel_order_no as channel11_8_,
+        iforderdet0_.channel_order_seq as channel12_8_,
+        iforderdet0_.channel_order_status as channel13_8_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_,
+        iforderdet0_.cost_price as cost_pr18_8_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_,
+        iforderdet0_.deli_price as deli_pr20_8_,
+        iforderdet0_.delivery_info as deliver21_8_,
+        iforderdet0_.delivery_method_gb as deliver22_8_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_,
+        iforderdet0_.division_use_deposit as divisio27_8_,
+        iforderdet0_.division_use_mileage as divisio28_8_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_,
+        iforderdet0_.fixed_price as fixed_p30_8_,
+        iforderdet0_.goods_cnt as goods_c31_8_,
+        iforderdet0_.goods_dc_price as goods_d32_8_,
+        iforderdet0_.goods_model_no as goods_m33_8_,
+        iforderdet0_.goods_price as goods_p34_8_,
+        iforderdet0_.list_image_data as list_im35_8_,
+        iforderdet0_.member_dc_price as member_36_8_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_,
+        iforderdet0_.option_price as option_38_8_,
+        iforderdet0_.option_text_info as option_39_8_,
+        iforderdet0_.option_text_price as option_40_8_,
+        iforderdet0_.order_id as order_i41_8_,
+        iforderdet0_.order_seq as order_s42_8_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_,
+        iforderdet0_.scm_no as scm_no44_8_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.channel_gb=? 
+        and iforderdet0_.channel_order_no=? 
+        and iforderdet0_.channel_order_seq=?
+Hibernate: 
+    select
+        max(iforderdet0_.if_no_seq) as col_0_0_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=?
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_0_,
+        iforderdet0_.if_no_seq as if_no_se2_8_0_,
+        iforderdet0_.add_goods_price as add_good3_8_0_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_0_,
+        iforderdet0_.channel_gb as channel_5_8_0_,
+        iforderdet0_.channel_goods_nm as channel_6_8_0_,
+        iforderdet0_.channel_goods_no as channel_7_8_0_,
+        iforderdet0_.channel_goods_type as channel_8_8_0_,
+        iforderdet0_.channel_option_info as channel_9_8_0_,
+        iforderdet0_.channel_options_no as channel10_8_0_,
+        iforderdet0_.channel_order_no as channel11_8_0_,
+        iforderdet0_.channel_order_seq as channel12_8_0_,
+        iforderdet0_.channel_order_status as channel13_8_0_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_0_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_0_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_0_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_0_,
+        iforderdet0_.cost_price as cost_pr18_8_0_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_0_,
+        iforderdet0_.deli_price as deli_pr20_8_0_,
+        iforderdet0_.delivery_info as deliver21_8_0_,
+        iforderdet0_.delivery_method_gb as deliver22_8_0_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_0_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_0_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_0_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_0_,
+        iforderdet0_.division_use_deposit as divisio27_8_0_,
+        iforderdet0_.division_use_mileage as divisio28_8_0_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_0_,
+        iforderdet0_.fixed_price as fixed_p30_8_0_,
+        iforderdet0_.goods_cnt as goods_c31_8_0_,
+        iforderdet0_.goods_dc_price as goods_d32_8_0_,
+        iforderdet0_.goods_model_no as goods_m33_8_0_,
+        iforderdet0_.goods_price as goods_p34_8_0_,
+        iforderdet0_.list_image_data as list_im35_8_0_,
+        iforderdet0_.member_dc_price as member_36_8_0_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_0_,
+        iforderdet0_.option_price as option_38_8_0_,
+        iforderdet0_.option_text_info as option_39_8_0_,
+        iforderdet0_.option_text_price as option_40_8_0_,
+        iforderdet0_.order_id as order_i41_8_0_,
+        iforderdet0_.order_seq as order_s42_8_0_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_0_,
+        iforderdet0_.scm_no as scm_no44_8_0_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=? 
+        and iforderdet0_.if_no_seq=?
+2021-10-14T10:10:30,216 DEBUG [main] i.s.m.a.OrderSearch: 해당 orderSearchData는 addGoodsData가 없음.
+Hibernate: 
+    insert 
+    into
+        if_order_master
+        (reg_dt, reg_id, upd_dt, upd_id, channel_gb, channel_info, channel_order_no, channel_order_status, customer_id, if_status, mem_no, order_addr1, order_addr2, order_date, order_email, order_id, order_memo, order_name, order_tel, order_zipcode, pay_amt, pay_dt, pay_gb, receiver_addr1, receiver_addr2, receiver_name, receiver_tel, receiver_zipcode, total_coupon_delivery_dc_price, total_coupon_goods_dc_price, total_coupon_goods_mileage, total_coupon_order_dc_price, total_coupon_order_mileage, total_delivery_charge, total_goods_dc_price, total_goods_mileage, total_goods_price, total_member_dc_price, total_member_mileage, total_member_overlap_dc_price, total_mileage, if_no) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        if_order_detail
+        (add_goods_price, admin_dc_price, channel_gb, channel_goods_nm, channel_goods_no, channel_goods_type, channel_option_info, channel_options_no, channel_order_no, channel_order_seq, channel_order_status, channel_parent_goods_no, claim_handle_detail_reason, claim_handle_mode, claim_handle_reason, cost_price, coupon_dc_price, deli_price, delivery_info, delivery_method_gb, division_coupon_order_dc_price, division_coupon_order_mileage, division_goods_delivery_use_deposit, division_goods_delivery_use_mileage, division_use_deposit, division_use_mileage, etc_dc_price, fixed_price, goods_cnt, goods_dc_price, goods_model_no, goods_price, list_image_data, member_dc_price, member_overlap_dc_price, option_price, option_text_info, option_text_price, order_id, order_seq, parent_channel_order_seq, scm_no, if_no, if_no_seq) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_,
+        iforderdet0_.if_no_seq as if_no_se2_8_,
+        iforderdet0_.add_goods_price as add_good3_8_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_,
+        iforderdet0_.channel_gb as channel_5_8_,
+        iforderdet0_.channel_goods_nm as channel_6_8_,
+        iforderdet0_.channel_goods_no as channel_7_8_,
+        iforderdet0_.channel_goods_type as channel_8_8_,
+        iforderdet0_.channel_option_info as channel_9_8_,
+        iforderdet0_.channel_options_no as channel10_8_,
+        iforderdet0_.channel_order_no as channel11_8_,
+        iforderdet0_.channel_order_seq as channel12_8_,
+        iforderdet0_.channel_order_status as channel13_8_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_,
+        iforderdet0_.cost_price as cost_pr18_8_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_,
+        iforderdet0_.deli_price as deli_pr20_8_,
+        iforderdet0_.delivery_info as deliver21_8_,
+        iforderdet0_.delivery_method_gb as deliver22_8_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_,
+        iforderdet0_.division_use_deposit as divisio27_8_,
+        iforderdet0_.division_use_mileage as divisio28_8_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_,
+        iforderdet0_.fixed_price as fixed_p30_8_,
+        iforderdet0_.goods_cnt as goods_c31_8_,
+        iforderdet0_.goods_dc_price as goods_d32_8_,
+        iforderdet0_.goods_model_no as goods_m33_8_,
+        iforderdet0_.goods_price as goods_p34_8_,
+        iforderdet0_.list_image_data as list_im35_8_,
+        iforderdet0_.member_dc_price as member_36_8_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_,
+        iforderdet0_.option_price as option_38_8_,
+        iforderdet0_.option_text_info as option_39_8_,
+        iforderdet0_.option_text_price as option_40_8_,
+        iforderdet0_.order_id as order_i41_8_,
+        iforderdet0_.order_seq as order_s42_8_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_,
+        iforderdet0_.scm_no as scm_no44_8_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.channel_gb=? 
+        and iforderdet0_.channel_order_no=? 
+        and iforderdet0_.channel_order_seq=?
+Hibernate: 
+    select
+        max(iforderdet0_.if_no_seq) as col_0_0_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=?
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_0_,
+        iforderdet0_.if_no_seq as if_no_se2_8_0_,
+        iforderdet0_.add_goods_price as add_good3_8_0_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_0_,
+        iforderdet0_.channel_gb as channel_5_8_0_,
+        iforderdet0_.channel_goods_nm as channel_6_8_0_,
+        iforderdet0_.channel_goods_no as channel_7_8_0_,
+        iforderdet0_.channel_goods_type as channel_8_8_0_,
+        iforderdet0_.channel_option_info as channel_9_8_0_,
+        iforderdet0_.channel_options_no as channel10_8_0_,
+        iforderdet0_.channel_order_no as channel11_8_0_,
+        iforderdet0_.channel_order_seq as channel12_8_0_,
+        iforderdet0_.channel_order_status as channel13_8_0_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_0_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_0_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_0_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_0_,
+        iforderdet0_.cost_price as cost_pr18_8_0_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_0_,
+        iforderdet0_.deli_price as deli_pr20_8_0_,
+        iforderdet0_.delivery_info as deliver21_8_0_,
+        iforderdet0_.delivery_method_gb as deliver22_8_0_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_0_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_0_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_0_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_0_,
+        iforderdet0_.division_use_deposit as divisio27_8_0_,
+        iforderdet0_.division_use_mileage as divisio28_8_0_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_0_,
+        iforderdet0_.fixed_price as fixed_p30_8_0_,
+        iforderdet0_.goods_cnt as goods_c31_8_0_,
+        iforderdet0_.goods_dc_price as goods_d32_8_0_,
+        iforderdet0_.goods_model_no as goods_m33_8_0_,
+        iforderdet0_.goods_price as goods_p34_8_0_,
+        iforderdet0_.list_image_data as list_im35_8_0_,
+        iforderdet0_.member_dc_price as member_36_8_0_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_0_,
+        iforderdet0_.option_price as option_38_8_0_,
+        iforderdet0_.option_text_info as option_39_8_0_,
+        iforderdet0_.option_text_price as option_40_8_0_,
+        iforderdet0_.order_id as order_i41_8_0_,
+        iforderdet0_.order_seq as order_s42_8_0_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_0_,
+        iforderdet0_.scm_no as scm_no44_8_0_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=? 
+        and iforderdet0_.if_no_seq=?
+2021-10-14T10:10:30,258 DEBUG [main] i.s.m.a.OrderSearch: 해당 orderSearchData는 addGoodsData가 없음.
+Hibernate: 
+    insert 
+    into
+        if_order_detail
+        (add_goods_price, admin_dc_price, channel_gb, channel_goods_nm, channel_goods_no, channel_goods_type, channel_option_info, channel_options_no, channel_order_no, channel_order_seq, channel_order_status, channel_parent_goods_no, claim_handle_detail_reason, claim_handle_mode, claim_handle_reason, cost_price, coupon_dc_price, deli_price, delivery_info, delivery_method_gb, division_coupon_order_dc_price, division_coupon_order_mileage, division_goods_delivery_use_deposit, division_goods_delivery_use_mileage, division_use_deposit, division_use_mileage, etc_dc_price, fixed_price, goods_cnt, goods_dc_price, goods_model_no, goods_price, list_image_data, member_dc_price, member_overlap_dc_price, option_price, option_text_info, option_text_price, order_id, order_seq, parent_channel_order_seq, scm_no, if_no, if_no_seq) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_,
+        iforderdet0_.if_no_seq as if_no_se2_8_,
+        iforderdet0_.add_goods_price as add_good3_8_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_,
+        iforderdet0_.channel_gb as channel_5_8_,
+        iforderdet0_.channel_goods_nm as channel_6_8_,
+        iforderdet0_.channel_goods_no as channel_7_8_,
+        iforderdet0_.channel_goods_type as channel_8_8_,
+        iforderdet0_.channel_option_info as channel_9_8_,
+        iforderdet0_.channel_options_no as channel10_8_,
+        iforderdet0_.channel_order_no as channel11_8_,
+        iforderdet0_.channel_order_seq as channel12_8_,
+        iforderdet0_.channel_order_status as channel13_8_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_,
+        iforderdet0_.cost_price as cost_pr18_8_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_,
+        iforderdet0_.deli_price as deli_pr20_8_,
+        iforderdet0_.delivery_info as deliver21_8_,
+        iforderdet0_.delivery_method_gb as deliver22_8_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_,
+        iforderdet0_.division_use_deposit as divisio27_8_,
+        iforderdet0_.division_use_mileage as divisio28_8_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_,
+        iforderdet0_.fixed_price as fixed_p30_8_,
+        iforderdet0_.goods_cnt as goods_c31_8_,
+        iforderdet0_.goods_dc_price as goods_d32_8_,
+        iforderdet0_.goods_model_no as goods_m33_8_,
+        iforderdet0_.goods_price as goods_p34_8_,
+        iforderdet0_.list_image_data as list_im35_8_,
+        iforderdet0_.member_dc_price as member_36_8_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_,
+        iforderdet0_.option_price as option_38_8_,
+        iforderdet0_.option_text_info as option_39_8_,
+        iforderdet0_.option_text_price as option_40_8_,
+        iforderdet0_.order_id as order_i41_8_,
+        iforderdet0_.order_seq as order_s42_8_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_,
+        iforderdet0_.scm_no as scm_no44_8_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.channel_gb=? 
+        and iforderdet0_.channel_order_no=? 
+        and iforderdet0_.channel_order_seq=?
+Hibernate: 
+    select
+        max(iforderdet0_.if_no_seq) as col_0_0_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=?
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_0_,
+        iforderdet0_.if_no_seq as if_no_se2_8_0_,
+        iforderdet0_.add_goods_price as add_good3_8_0_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_0_,
+        iforderdet0_.channel_gb as channel_5_8_0_,
+        iforderdet0_.channel_goods_nm as channel_6_8_0_,
+        iforderdet0_.channel_goods_no as channel_7_8_0_,
+        iforderdet0_.channel_goods_type as channel_8_8_0_,
+        iforderdet0_.channel_option_info as channel_9_8_0_,
+        iforderdet0_.channel_options_no as channel10_8_0_,
+        iforderdet0_.channel_order_no as channel11_8_0_,
+        iforderdet0_.channel_order_seq as channel12_8_0_,
+        iforderdet0_.channel_order_status as channel13_8_0_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_0_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_0_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_0_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_0_,
+        iforderdet0_.cost_price as cost_pr18_8_0_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_0_,
+        iforderdet0_.deli_price as deli_pr20_8_0_,
+        iforderdet0_.delivery_info as deliver21_8_0_,
+        iforderdet0_.delivery_method_gb as deliver22_8_0_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_0_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_0_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_0_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_0_,
+        iforderdet0_.division_use_deposit as divisio27_8_0_,
+        iforderdet0_.division_use_mileage as divisio28_8_0_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_0_,
+        iforderdet0_.fixed_price as fixed_p30_8_0_,
+        iforderdet0_.goods_cnt as goods_c31_8_0_,
+        iforderdet0_.goods_dc_price as goods_d32_8_0_,
+        iforderdet0_.goods_model_no as goods_m33_8_0_,
+        iforderdet0_.goods_price as goods_p34_8_0_,
+        iforderdet0_.list_image_data as list_im35_8_0_,
+        iforderdet0_.member_dc_price as member_36_8_0_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_0_,
+        iforderdet0_.option_price as option_38_8_0_,
+        iforderdet0_.option_text_info as option_39_8_0_,
+        iforderdet0_.option_text_price as option_40_8_0_,
+        iforderdet0_.order_id as order_i41_8_0_,
+        iforderdet0_.order_seq as order_s42_8_0_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_0_,
+        iforderdet0_.scm_no as scm_no44_8_0_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=? 
+        and iforderdet0_.if_no_seq=?
+2021-10-14T10:10:30,284 DEBUG [main] i.s.m.a.OrderSearch: 해당 orderSearchData는 addGoodsData가 없음.
+***********************************OrderSearchData*****************************************
+Hibernate: 
+    insert 
+    into
+        if_order_detail
+        (add_goods_price, admin_dc_price, channel_gb, channel_goods_nm, channel_goods_no, channel_goods_type, channel_option_info, channel_options_no, channel_order_no, channel_order_seq, channel_order_status, channel_parent_goods_no, claim_handle_detail_reason, claim_handle_mode, claim_handle_reason, cost_price, coupon_dc_price, deli_price, delivery_info, delivery_method_gb, division_coupon_order_dc_price, division_coupon_order_mileage, division_goods_delivery_use_deposit, division_goods_delivery_use_mileage, division_use_deposit, division_use_mileage, etc_dc_price, fixed_price, goods_cnt, goods_dc_price, goods_model_no, goods_price, list_image_data, member_dc_price, member_overlap_dc_price, option_price, option_text_info, option_text_price, order_id, order_seq, parent_channel_order_seq, scm_no, if_no, if_no_seq) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2021-10-14T10:10:30,317 INFO  [main] o.s.b.c.s.AbstractStep: Step: [searchOrderStep1] executed in 1s1ms
+2021-10-14T10:10:30,376 INFO  [main] o.s.b.c.j.SimpleStepHandler: Executing step: [searchOrderStep2]
+2021-10-14T10:10:30,400 DEBUG [main] o.s.b.i.d.AbstractPagingItemReader: Reading page 0
+Hibernate: 
+    select
+        ifordermas0_.if_no as if_no1_9_,
+        ifordermas0_.reg_dt as reg_dt2_9_,
+        ifordermas0_.reg_id as reg_id3_9_,
+        ifordermas0_.upd_dt as upd_dt4_9_,
+        ifordermas0_.upd_id as upd_id5_9_,
+        ifordermas0_.channel_gb as channel_6_9_,
+        ifordermas0_.channel_info as channel_7_9_,
+        ifordermas0_.channel_order_no as channel_8_9_,
+        ifordermas0_.channel_order_status as channel_9_9_,
+        ifordermas0_.customer_id as custome10_9_,
+        ifordermas0_.if_status as if_stat11_9_,
+        ifordermas0_.mem_no as mem_no12_9_,
+        ifordermas0_.order_addr1 as order_a13_9_,
+        ifordermas0_.order_addr2 as order_a14_9_,
+        ifordermas0_.order_date as order_d15_9_,
+        ifordermas0_.order_email as order_e16_9_,
+        ifordermas0_.order_id as order_i17_9_,
+        ifordermas0_.order_memo as order_m18_9_,
+        ifordermas0_.order_name as order_n19_9_,
+        ifordermas0_.order_tel as order_t20_9_,
+        ifordermas0_.order_zipcode as order_z21_9_,
+        ifordermas0_.pay_amt as pay_amt22_9_,
+        ifordermas0_.pay_dt as pay_dt23_9_,
+        ifordermas0_.pay_gb as pay_gb24_9_,
+        ifordermas0_.receiver_addr1 as receive25_9_,
+        ifordermas0_.receiver_addr2 as receive26_9_,
+        ifordermas0_.receiver_name as receive27_9_,
+        ifordermas0_.receiver_tel as receive28_9_,
+        ifordermas0_.receiver_zipcode as receive29_9_,
+        ifordermas0_.total_coupon_delivery_dc_price as total_c30_9_,
+        ifordermas0_.total_coupon_goods_dc_price as total_c31_9_,
+        ifordermas0_.total_coupon_goods_mileage as total_c32_9_,
+        ifordermas0_.total_coupon_order_dc_price as total_c33_9_,
+        ifordermas0_.total_coupon_order_mileage as total_c34_9_,
+        ifordermas0_.total_delivery_charge as total_d35_9_,
+        ifordermas0_.total_goods_dc_price as total_g36_9_,
+        ifordermas0_.total_goods_mileage as total_g37_9_,
+        ifordermas0_.total_goods_price as total_g38_9_,
+        ifordermas0_.total_member_dc_price as total_m39_9_,
+        ifordermas0_.total_member_mileage as total_m40_9_,
+        ifordermas0_.total_member_overlap_dc_price as total_m41_9_,
+        ifordermas0_.total_mileage as total_m42_9_ 
+    from
+        if_order_master ifordermas0_ 
+    where
+        ifordermas0_.if_status='01' limit ?
+getOrderEmail ==> vhslwjwkddyd@naver.com
+Hibernate: 
+    select
+        tbmember0_.cust_id as cust_id1_35_,
+        tbmember0_.reg_dt as reg_dt2_35_,
+        tbmember0_.reg_id as reg_id3_35_,
+        tbmember0_.upd_dt as upd_dt4_35_,
+        tbmember0_.upd_id as upd_id5_35_,
+        tbmember0_.channel_gb as channel_6_35_,
+        tbmember0_.cust_addr1 as cust_add7_35_,
+        tbmember0_.cust_addr2 as cust_add8_35_,
+        tbmember0_.cust_email as cust_ema9_35_,
+        tbmember0_.cust_gb as cust_gb10_35_,
+        tbmember0_.cust_grade as cust_gr11_35_,
+        tbmember0_.cust_hp as cust_hp12_35_,
+        tbmember0_.cust_nm as cust_nm13_35_,
+        tbmember0_.cust_status as cust_st14_35_,
+        tbmember0_.cust_tel as cust_te15_35_,
+        tbmember0_.cust_zipcode as cust_zi16_35_,
+        tbmember0_.login_id as login_i17_35_,
+        tbmember0_.login_pw as login_p18_35_ 
+    from
+        tb_member tbmember0_ 
+    where
+        tbmember0_.login_id=?
+Hibernate: 
+    insert 
+    into
+        tb_member
+        (reg_dt, reg_id, upd_dt, upd_id, channel_gb, cust_addr1, cust_addr2, cust_email, cust_gb, cust_grade, cust_hp, cust_nm, cust_status, cust_tel, cust_zipcode, login_id, login_pw) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+25275
+박선홍
+Hibernate: 
+    select
+        tbmemberad0_.deli_id as deli_id1_36_,
+        tbmemberad0_.reg_dt as reg_dt2_36_,
+        tbmemberad0_.reg_id as reg_id3_36_,
+        tbmemberad0_.upd_dt as upd_dt4_36_,
+        tbmemberad0_.upd_id as upd_id5_36_,
+        tbmemberad0_.cust_id as cust_id6_36_,
+        tbmemberad0_.deli_addr1 as deli_add7_36_,
+        tbmemberad0_.deli_addr2 as deli_add8_36_,
+        tbmemberad0_.deli_gb as deli_gb9_36_,
+        tbmemberad0_.deli_hp as deli_hp10_36_,
+        tbmemberad0_.deli_nm as deli_nm11_36_,
+        tbmemberad0_.deli_tel as deli_te12_36_,
+        tbmemberad0_.deli_zipcode as deli_zi13_36_ 
+    from
+        tb_member_address tbmemberad0_ 
+    where
+        tbmemberad0_.cust_id=?
+Hibernate: 
+    insert 
+    into
+        tb_member_address
+        (reg_dt, reg_id, upd_dt, upd_id, cust_id, deli_addr1, deli_addr2, deli_gb, deli_hp, deli_nm, deli_tel, deli_zipcode) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_0_,
+        iforderdet0_.if_no_seq as if_no_se2_8_0_,
+        iforderdet0_.if_no as if_no1_8_1_,
+        iforderdet0_.if_no_seq as if_no_se2_8_1_,
+        iforderdet0_.add_goods_price as add_good3_8_1_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_1_,
+        iforderdet0_.channel_gb as channel_5_8_1_,
+        iforderdet0_.channel_goods_nm as channel_6_8_1_,
+        iforderdet0_.channel_goods_no as channel_7_8_1_,
+        iforderdet0_.channel_goods_type as channel_8_8_1_,
+        iforderdet0_.channel_option_info as channel_9_8_1_,
+        iforderdet0_.channel_options_no as channel10_8_1_,
+        iforderdet0_.channel_order_no as channel11_8_1_,
+        iforderdet0_.channel_order_seq as channel12_8_1_,
+        iforderdet0_.channel_order_status as channel13_8_1_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_1_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_1_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_1_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_1_,
+        iforderdet0_.cost_price as cost_pr18_8_1_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_1_,
+        iforderdet0_.deli_price as deli_pr20_8_1_,
+        iforderdet0_.delivery_info as deliver21_8_1_,
+        iforderdet0_.delivery_method_gb as deliver22_8_1_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_1_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_1_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_1_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_1_,
+        iforderdet0_.division_use_deposit as divisio27_8_1_,
+        iforderdet0_.division_use_mileage as divisio28_8_1_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_1_,
+        iforderdet0_.fixed_price as fixed_p30_8_1_,
+        iforderdet0_.goods_cnt as goods_c31_8_1_,
+        iforderdet0_.goods_dc_price as goods_d32_8_1_,
+        iforderdet0_.goods_model_no as goods_m33_8_1_,
+        iforderdet0_.goods_price as goods_p34_8_1_,
+        iforderdet0_.list_image_data as list_im35_8_1_,
+        iforderdet0_.member_dc_price as member_36_8_1_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_1_,
+        iforderdet0_.option_price as option_38_8_1_,
+        iforderdet0_.option_text_info as option_39_8_1_,
+        iforderdet0_.option_text_price as option_40_8_1_,
+        iforderdet0_.order_id as order_i41_8_1_,
+        iforderdet0_.order_seq as order_s42_8_1_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_1_,
+        iforderdet0_.scm_no as scm_no44_8_1_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=?
+Hibernate: 
+    select
+        tborderdet0_.order_id as order_id1_37_,
+        tborderdet0_.order_seq as order_se2_37_,
+        tborderdet0_.reg_dt as reg_dt3_37_,
+        tborderdet0_.reg_id as reg_id4_37_,
+        tborderdet0_.upd_dt as upd_dt5_37_,
+        tborderdet0_.upd_id as upd_id6_37_,
+        tborderdet0_.admin_dc_price as admin_dc7_37_,
+        tborderdet0_.assort_gb as assort_g8_37_,
+        tborderdet0_.assort_id as assort_i9_37_,
+        tborderdet0_.channel_order_no as channel10_37_,
+        tborderdet0_.channel_order_seq as channel11_37_,
+        tborderdet0_.claim_handle_detail_reason as claim_h12_37_,
+        tborderdet0_.claim_handle_mode as claim_h13_37_,
+        tborderdet0_.claim_handle_reason as claim_h14_37_,
+        tborderdet0_.coupon_dc_price as coupon_15_37_,
+        tborderdet0_.dc_sum_price as dc_sum_16_37_,
+        tborderdet0_.deli_method as deli_me17_37_,
+        tborderdet0_.deli_price as deli_pr18_37_,
+        tborderdet0_.delivery_info as deliver19_37_,
+        tborderdet0_.goods_dc_price as goods_d20_37_,
+        tborderdet0_.goods_nm as goods_n21_37_,
+        tborderdet0_.goods_price as goods_p22_37_,
+        tborderdet0_.item_amt as item_am23_37_,
+        tborderdet0_.item_id as item_id24_37_,
+        tborderdet0_.last_category_id as last_ca25_37_,
+        tborderdet0_.last_gb as last_gb26_37_,
+        tborderdet0_.list_image_data as list_im27_37_,
+        tborderdet0_.member_dc_price as member_28_37_,
+        tborderdet0_.option_info as option_29_37_,
+        tborderdet0_.option_price as option_30_37_,
+        tborderdet0_.option_text_info as option_31_37_,
+        tborderdet0_.option_text_price as option_32_37_,
+        tborderdet0_.parent_order_seq as parent_33_37_,
+        tborderdet0_.qty as qty34_37_,
+        tborderdet0_.sale_price as sale_pr35_37_,
+        tborderdet0_.scm_no as scm_no36_37_,
+        tborderdet0_.set_gb as set_gb37_37_,
+        tborderdet0_.set_order_id as set_ord38_37_,
+        tborderdet0_.set_order_seq as set_ord39_37_,
+        tborderdet0_.status_cd as status_40_37_,
+        tborderdet0_.storage_id as storage41_37_ 
+    from
+        tb_order_detail tborderdet0_ 
+    where
+        tborderdet0_.channel_order_no=? 
+        and tborderdet0_.channel_order_seq=?
+===== itemNm : [Alessi/알레시] 데데 도어스탑_블랙 / PS18 B ===== goodsNo : 1000049239
+===== orderId : null ===== goodsNm : [Alessi/알레시] 데데 도어스탑_블랙 / PS18 B
+Hibernate: 
+    select
+        tmitem0_.assort_id as assort_i1_40_,
+        tmitem0_.channel_gb as channel_2_40_,
+        tmitem0_.eff_end_dt as eff_end_3_40_,
+        tmitem0_.eff_sta_dt as eff_sta_4_40_,
+        tmitem0_.item_id as item_id5_40_,
+        tmitem0_.reg_dt as reg_dt6_40_,
+        tmitem0_.reg_id as reg_id7_40_,
+        tmitem0_.upd_dt as upd_dt8_40_,
+        tmitem0_.upd_id as upd_id9_40_,
+        tmitem0_.channel_goods_no as channel10_40_,
+        tmitem0_.channel_options_no as channel11_40_,
+        tmitem0_.variation_seq1 as variati16_40_,
+        tmitem0_.variation_seq2 as variati17_40_,
+        tmitem0_.option_price as option_12_40_,
+        tmitem0_.short_yn as short_y13_40_,
+        tmitem0_.variation_gb1 as variati14_40_,
+        tmitem0_.variation_gb2 as variati15_40_ 
+    from
+        tmitem tmitem0_ 
+    where
+        tmitem0_.channel_gb=? 
+        and tmitem0_.channel_goods_no=? 
+        and tmitem0_.channel_options_no=?
+Hibernate: 
+    select
+        tmmapi0_.assort_id as assort_i1_41_,
+        tmmapi0_.channel_gb as channel_2_41_,
+        tmmapi0_.reg_dt as reg_dt3_41_,
+        tmmapi0_.reg_id as reg_id4_41_,
+        tmmapi0_.upd_dt as upd_dt5_41_,
+        tmmapi0_.upd_id as upd_id6_41_,
+        tmmapi0_.assort_nm as assort_n7_41_,
+        tmmapi0_.channel_goods_no as channel_8_41_,
+        tmmapi0_.deli_gb as deli_gb9_41_,
+        tmmapi0_.deli_max_price as deli_ma10_41_,
+        tmmapi0_.deli_price as deli_pr11_41_,
+        tmmapi0_.error_msg as error_m12_41_,
+        tmmapi0_.join_status as join_st13_41_,
+        tmmapi0_.sale_price as sale_pr14_41_,
+        tmmapi0_.shortage_yn as shortag15_41_,
+        tmmapi0_.standard_price as standar16_41_,
+        tmmapi0_.up_assort_nm as up_asso17_41_,
+        tmmapi0_.up_deli_gb as up_deli18_41_,
+        tmmapi0_.up_deli_max_price as up_deli19_41_,
+        tmmapi0_.up_deli_price as up_deli20_41_,
+        tmmapi0_.up_join_category_id as up_join21_41_,
+        tmmapi0_.up_join_maker_id as up_join22_41_,
+        tmmapi0_.up_sale_price as up_sale23_41_,
+        tmmapi0_.up_shortage_yn as up_shor24_41_,
+        tmmapi0_.up_standard_price as up_stan25_41_,
+        tmmapi0_.upload_dt as upload_26_41_,
+        tmmapi0_.upload_rmk as upload_27_41_,
+        tmmapi0_.upload_type as upload_28_41_,
+        tmmapi0_.upload_yn as upload_29_41_ 
+    from
+        tmmapi tmmapi0_ 
+    where
+        tmmapi0_.channel_gb=? 
+        and tmmapi0_.channel_goods_no=?
+2021-10-14T10:10:30,566 DEBUG [main] i.s.m.a.OrderSearch: tmitem에 해당 goodsNo 정보가 들어가 있지 않습니다.
+Hibernate: 
+    select
+        ititmm0_.assort_id as assort_i1_19_0_,
+        ititmm0_.item_id as item_id2_19_0_,
+        itasrt1_.assort_id as assort_i1_14_1_,
+        ititmm0_.reg_dt as reg_dt3_19_0_,
+        ititmm0_.reg_id as reg_id4_19_0_,
+        ititmm0_.upd_dt as upd_dt5_19_0_,
+        ititmm0_.upd_id as upd_id6_19_0_,
+        ititmm0_.add_price as add_pric7_19_0_,
+        ititmm0_.day_deli_cnt as day_deli8_19_0_,
+        ititmm0_.item_nm as item_nm9_19_0_,
+        ititmm0_.variation_seq1 as variati19_19_0_,
+        ititmm0_.variation_seq2 as variati20_19_0_,
+        ititmm0_.max_cnt as max_cnt10_19_0_,
+        ititmm0_.min_cnt as min_cnt11_19_0_,
+        ititmm0_.order_lmt_cnt as order_l12_19_0_,
+        ititmm0_.order_lmt_yn as order_l13_19_0_,
+        ititmm0_.set_yn as set_yn14_19_0_,
+        ititmm0_.short_yn as short_y15_19_0_,
+        ititmm0_.tot_deli_cnt as tot_del16_19_0_,
+        ititmm0_.variation_gb1 as variati17_19_0_,
+        ititmm0_.variation_gb2 as variati18_19_0_,
+        itasrt1_.reg_dt as reg_dt2_14_1_,
+        itasrt1_.reg_id as reg_id3_14_1_,
+        itasrt1_.upd_dt as upd_dt4_14_1_,
+        itasrt1_.upd_id as upd_id5_14_1_,
+        itasrt1_.add_goods_yn as add_good6_14_1_,
+        itasrt1_.add_image_url as add_imag7_14_1_,
+        itasrt1_.add_option_nm as add_opti8_14_1_,
+        itasrt1_.as_height as as_heigh9_14_1_,
+        itasrt1_.as_length as as_leng10_14_1_,
+        itasrt1_.as_width as as_widt11_14_1_,
+        itasrt1_.assort_color as assort_12_14_1_,
+        itasrt1_.assort_gb as assort_13_14_1_,
+        itasrt1_.assort_model as assort_14_14_1_,
+        itasrt1_.assort_nm as assort_15_14_1_,
+        itasrt1_.assort_state as assort_16_14_1_,
+        itasrt1_.brand_id as brand_i17_14_1_,
+        itasrt1_.buy_exchange_rate as buy_exc18_14_1_,
+        itasrt1_.buy_rrp_increment as buy_rrp19_14_1_,
+        itasrt1_.buy_supply_discount as buy_sup20_14_1_,
+        itasrt1_.buy_tax as buy_tax21_14_1_,
+        itasrt1_.buy_where as buy_whe22_14_1_,
+        itasrt1_.category_id as categor23_14_1_,
+        itasrt1_.deli_price as deli_pr24_14_1_,
+        itasrt1_.disp_category_id as disp_ca25_14_1_,
+        itasrt1_.local_deli_fee as local_d26_14_1_,
+        itasrt1_.local_price as local_p27_14_1_,
+        itasrt1_.local_sale as local_s28_14_1_,
+        itasrt1_.manufacture_nm as manufac29_14_1_,
+        itasrt1_.margin as margin30_14_1_,
+        itasrt1_.md_discount_rate as md_disc31_14_1_,
+        itasrt1_.md_goods_vatrate as md_good32_14_1_,
+        itasrt1_.md_margin as md_marg33_14_1_,
+        itasrt1_.md_offline_price as md_offl34_14_1_,
+        itasrt1_.md_online_price as md_onli35_14_1_,
+        itasrt1_.md_rrp as md_rrp36_14_1_,
+        itasrt1_.md_tax as md_tax37_14_1_,
+        itasrt1_.md_vatrate as md_vatr38_14_1_,
+        itasrt1_.md_year as md_year39_14_1_,
+        itasrt1_.option_gb_name as option_40_14_1_,
+        itasrt1_.option_use_yn as option_41_14_1_,
+        itasrt1_.origin as origin42_14_1_,
+        itasrt1_.owner_id as owner_i43_14_1_,
+        itasrt1_.sell_end_dt as sell_en44_14_1_,
+        itasrt1_.sell_sta_dt as sell_st45_14_1_,
+        itasrt1_.shortage_yn as shortag46_14_1_,
+        itasrt1_.site_gb as site_gb47_14_1_,
+        itasrt1_.stock_cnt as stock_c48_14_1_,
+        itasrt1_.storage_id as storage49_14_1_,
+        itasrt1_.tax_gb as tax_gb50_14_1_,
+        itasrt1_.weight as weight51_14_1_ 
+    from
+        ititmm ititmm0_ 
+    inner join
+        itasrt itasrt1_ 
+            on ititmm0_.assort_id=itasrt1_.assort_id 
+    where
+        ititmm0_.assort_id=? 
+        and ititmm0_.item_id=?
+Hibernate: 
+    select
+        itcatg0_.category_id as category1_16_0_,
+        itcatg0_.reg_dt as reg_dt2_16_0_,
+        itcatg0_.reg_id as reg_id3_16_0_,
+        itcatg0_.upd_dt as upd_dt4_16_0_,
+        itcatg0_.upd_id as upd_id5_16_0_,
+        itcatg0_.brand_id as brand_id6_16_0_,
+        itcatg0_.category_enm as category7_16_0_,
+        itcatg0_.category_gb as category8_16_0_,
+        itcatg0_.category_gid as category9_16_0_,
+        itcatg0_.category_nm as categor10_16_0_,
+        itcatg0_.coupon_use_yn as coupon_11_16_0_,
+        itcatg0_.disp_gb as disp_gb12_16_0_,
+        itcatg0_.disp_nm as disp_nm13_16_0_,
+        itcatg0_.disp_order as disp_or14_16_0_,
+        itcatg0_.disp_type as disp_ty15_16_0_,
+        itcatg0_.eff_end_dt as eff_end16_16_0_,
+        itcatg0_.eff_sta_dt as eff_sta17_16_0_,
+        itcatg0_.global_ctg_id as global_18_16_0_,
+        itcatg0_.inner_ctg_id as inner_c19_16_0_,
+        itcatg0_.is_bottom_yn as is_bott20_16_0_,
+        itcatg0_.join_id as join_id21_16_0_,
+        itcatg0_.link_url as link_ur22_16_0_,
+        itcatg0_.lvl as lvl23_16_0_,
+        itcatg0_.order_type as order_t24_16_0_,
+        itcatg0_.root_category_id as root_ca25_16_0_,
+        itcatg0_.site_cate_type as site_ca26_16_0_,
+        itcatg0_.template_id as templat27_16_0_,
+        itcatg0_.tstop_yn as tstop_y28_16_0_,
+        itcatg0_.up_category_id as up_cate29_16_0_,
+        itcatg0_.user_id as user_id30_16_0_ 
+    from
+        itcatg itcatg0_ 
+    where
+        itcatg0_.category_id=?
+Hibernate: 
+    select
+        tborderdet0_.order_id as order_id1_37_,
+        tborderdet0_.order_seq as order_se2_37_,
+        tborderdet0_.reg_dt as reg_dt3_37_,
+        tborderdet0_.reg_id as reg_id4_37_,
+        tborderdet0_.upd_dt as upd_dt5_37_,
+        tborderdet0_.upd_id as upd_id6_37_,
+        tborderdet0_.admin_dc_price as admin_dc7_37_,
+        tborderdet0_.assort_gb as assort_g8_37_,
+        tborderdet0_.assort_id as assort_i9_37_,
+        tborderdet0_.channel_order_no as channel10_37_,
+        tborderdet0_.channel_order_seq as channel11_37_,
+        tborderdet0_.claim_handle_detail_reason as claim_h12_37_,
+        tborderdet0_.claim_handle_mode as claim_h13_37_,
+        tborderdet0_.claim_handle_reason as claim_h14_37_,
+        tborderdet0_.coupon_dc_price as coupon_15_37_,
+        tborderdet0_.dc_sum_price as dc_sum_16_37_,
+        tborderdet0_.deli_method as deli_me17_37_,
+        tborderdet0_.deli_price as deli_pr18_37_,
+        tborderdet0_.delivery_info as deliver19_37_,
+        tborderdet0_.goods_dc_price as goods_d20_37_,
+        tborderdet0_.goods_nm as goods_n21_37_,
+        tborderdet0_.goods_price as goods_p22_37_,
+        tborderdet0_.item_amt as item_am23_37_,
+        tborderdet0_.item_id as item_id24_37_,
+        tborderdet0_.last_category_id as last_ca25_37_,
+        tborderdet0_.last_gb as last_gb26_37_,
+        tborderdet0_.list_image_data as list_im27_37_,
+        tborderdet0_.member_dc_price as member_28_37_,
+        tborderdet0_.option_info as option_29_37_,
+        tborderdet0_.option_price as option_30_37_,
+        tborderdet0_.option_text_info as option_31_37_,
+        tborderdet0_.option_text_price as option_32_37_,
+        tborderdet0_.parent_order_seq as parent_33_37_,
+        tborderdet0_.qty as qty34_37_,
+        tborderdet0_.sale_price as sale_pr35_37_,
+        tborderdet0_.scm_no as scm_no36_37_,
+        tborderdet0_.set_gb as set_gb37_37_,
+        tborderdet0_.set_order_id as set_ord38_37_,
+        tborderdet0_.set_order_seq as set_ord39_37_,
+        tborderdet0_.status_cd as status_40_37_,
+        tborderdet0_.storage_id as storage41_37_ 
+    from
+        tb_order_detail tborderdet0_ 
+    where
+        tborderdet0_.channel_order_no=?
+Hibernate: 
+    select
+        nextval(?) as nextval
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_0_,
+        iforderdet0_.if_no_seq as if_no_se2_8_0_,
+        iforderdet0_.add_goods_price as add_good3_8_0_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_0_,
+        iforderdet0_.channel_gb as channel_5_8_0_,
+        iforderdet0_.channel_goods_nm as channel_6_8_0_,
+        iforderdet0_.channel_goods_no as channel_7_8_0_,
+        iforderdet0_.channel_goods_type as channel_8_8_0_,
+        iforderdet0_.channel_option_info as channel_9_8_0_,
+        iforderdet0_.channel_options_no as channel10_8_0_,
+        iforderdet0_.channel_order_no as channel11_8_0_,
+        iforderdet0_.channel_order_seq as channel12_8_0_,
+        iforderdet0_.channel_order_status as channel13_8_0_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_0_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_0_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_0_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_0_,
+        iforderdet0_.cost_price as cost_pr18_8_0_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_0_,
+        iforderdet0_.deli_price as deli_pr20_8_0_,
+        iforderdet0_.delivery_info as deliver21_8_0_,
+        iforderdet0_.delivery_method_gb as deliver22_8_0_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_0_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_0_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_0_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_0_,
+        iforderdet0_.division_use_deposit as divisio27_8_0_,
+        iforderdet0_.division_use_mileage as divisio28_8_0_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_0_,
+        iforderdet0_.fixed_price as fixed_p30_8_0_,
+        iforderdet0_.goods_cnt as goods_c31_8_0_,
+        iforderdet0_.goods_dc_price as goods_d32_8_0_,
+        iforderdet0_.goods_model_no as goods_m33_8_0_,
+        iforderdet0_.goods_price as goods_p34_8_0_,
+        iforderdet0_.list_image_data as list_im35_8_0_,
+        iforderdet0_.member_dc_price as member_36_8_0_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_0_,
+        iforderdet0_.option_price as option_38_8_0_,
+        iforderdet0_.option_text_info as option_39_8_0_,
+        iforderdet0_.option_text_price as option_40_8_0_,
+        iforderdet0_.order_id as order_i41_8_0_,
+        iforderdet0_.order_seq as order_s42_8_0_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_0_,
+        iforderdet0_.scm_no as scm_no44_8_0_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=? 
+        and iforderdet0_.if_no_seq=?
+Hibernate: 
+    update
+        if_order_detail 
+    set
+        add_goods_price=?,
+        admin_dc_price=?,
+        channel_gb=?,
+        channel_goods_nm=?,
+        channel_goods_no=?,
+        channel_goods_type=?,
+        channel_option_info=?,
+        channel_options_no=?,
+        channel_order_no=?,
+        channel_order_seq=?,
+        channel_order_status=?,
+        channel_parent_goods_no=?,
+        claim_handle_detail_reason=?,
+        claim_handle_mode=?,
+        claim_handle_reason=?,
+        cost_price=?,
+        coupon_dc_price=?,
+        deli_price=?,
+        delivery_info=?,
+        delivery_method_gb=?,
+        division_coupon_order_dc_price=?,
+        division_coupon_order_mileage=?,
+        division_goods_delivery_use_deposit=?,
+        division_goods_delivery_use_mileage=?,
+        division_use_deposit=?,
+        division_use_mileage=?,
+        etc_dc_price=?,
+        fixed_price=?,
+        goods_cnt=?,
+        goods_dc_price=?,
+        goods_model_no=?,
+        goods_price=?,
+        list_image_data=?,
+        member_dc_price=?,
+        member_overlap_dc_price=?,
+        option_price=?,
+        option_text_info=?,
+        option_text_price=?,
+        order_id=?,
+        order_seq=?,
+        parent_channel_order_seq=?,
+        scm_no=? 
+    where
+        if_no=? 
+        and if_no_seq=?
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_,
+        iforderdet0_.if_no_seq as if_no_se2_8_,
+        iforderdet0_.add_goods_price as add_good3_8_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_,
+        iforderdet0_.channel_gb as channel_5_8_,
+        iforderdet0_.channel_goods_nm as channel_6_8_,
+        iforderdet0_.channel_goods_no as channel_7_8_,
+        iforderdet0_.channel_goods_type as channel_8_8_,
+        iforderdet0_.channel_option_info as channel_9_8_,
+        iforderdet0_.channel_options_no as channel10_8_,
+        iforderdet0_.channel_order_no as channel11_8_,
+        iforderdet0_.channel_order_seq as channel12_8_,
+        iforderdet0_.channel_order_status as channel13_8_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_,
+        iforderdet0_.cost_price as cost_pr18_8_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_,
+        iforderdet0_.deli_price as deli_pr20_8_,
+        iforderdet0_.delivery_info as deliver21_8_,
+        iforderdet0_.delivery_method_gb as deliver22_8_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_,
+        iforderdet0_.division_use_deposit as divisio27_8_,
+        iforderdet0_.division_use_mileage as divisio28_8_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_,
+        iforderdet0_.fixed_price as fixed_p30_8_,
+        iforderdet0_.goods_cnt as goods_c31_8_,
+        iforderdet0_.goods_dc_price as goods_d32_8_,
+        iforderdet0_.goods_model_no as goods_m33_8_,
+        iforderdet0_.goods_price as goods_p34_8_,
+        iforderdet0_.list_image_data as list_im35_8_,
+        iforderdet0_.member_dc_price as member_36_8_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_,
+        iforderdet0_.option_price as option_38_8_,
+        iforderdet0_.option_text_info as option_39_8_,
+        iforderdet0_.option_text_price as option_40_8_,
+        iforderdet0_.order_id as order_i41_8_,
+        iforderdet0_.order_seq as order_s42_8_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_,
+        iforderdet0_.scm_no as scm_no44_8_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=? 
+        and iforderdet0_.channel_order_no=? 
+        and (
+            iforderdet0_.channel_order_seq is null
+        )
+Hibernate: 
+    insert 
+    into
+        tb_order_detail
+        (reg_dt, reg_id, upd_dt, upd_id, admin_dc_price, assort_gb, assort_id, channel_order_no, channel_order_seq, claim_handle_detail_reason, claim_handle_mode, claim_handle_reason, coupon_dc_price, dc_sum_price, deli_method, deli_price, delivery_info, goods_dc_price, goods_nm, goods_price, item_amt, item_id, last_category_id, last_gb, list_image_data, member_dc_price, option_info, option_price, option_text_info, option_text_price, parent_order_seq, qty, sale_price, scm_no, set_gb, set_order_id, set_order_seq, status_cd, storage_id, order_id, order_seq) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_log
+        (reg_dt, reg_id, upd_dt, upd_id, current_status, order_id, order_seq, prev_status) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tborderhis0_.seq as seq1_38_,
+        tborderhis0_.reg_dt as reg_dt2_38_,
+        tborderhis0_.reg_id as reg_id3_38_,
+        tborderhis0_.upd_dt as upd_dt4_38_,
+        tborderhis0_.upd_id as upd_id5_38_,
+        tborderhis0_.eff_end_dt as eff_end_6_38_,
+        tborderhis0_.eff_start_dt as eff_star7_38_,
+        tborderhis0_.last_yn as last_yn8_38_,
+        tborderhis0_.order_id as order_id9_38_,
+        tborderhis0_.order_seq as order_s10_38_,
+        tborderhis0_.status_cd as status_11_38_ 
+    from
+        tb_order_history tborderhis0_ 
+    where
+        tborderhis0_.order_id=? 
+        and tborderhis0_.order_seq=? 
+        and tborderhis0_.eff_end_dt=?
+Hibernate: 
+    insert 
+    into
+        tb_order_history
+        (reg_dt, reg_id, upd_dt, upd_id, eff_end_dt, eff_start_dt, last_yn, order_id, order_seq, status_cd) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tbordermas0_.order_id as order_id1_39_,
+        tbordermas0_.reg_dt as reg_dt2_39_,
+        tbordermas0_.reg_id as reg_id3_39_,
+        tbordermas0_.upd_dt as upd_dt4_39_,
+        tbordermas0_.upd_id as upd_id5_39_,
+        tbordermas0_.channel_gb as channel_6_39_,
+        tbordermas0_.channel_order_no as channel_7_39_,
+        tbordermas0_.cust_id as cust_id8_39_,
+        tbordermas0_.cust_pcode as cust_pco9_39_,
+        tbordermas0_.deli_id as deli_id10_39_,
+        tbordermas0_.first_order_gb as first_o11_39_,
+        tbordermas0_.first_order_id as first_o12_39_,
+        tbordermas0_.order_amt as order_a13_39_,
+        tbordermas0_.order_date as order_d14_39_,
+        tbordermas0_.order_gb as order_g15_39_,
+        tbordermas0_.order_memo as order_m16_39_,
+        tbordermas0_.order_status as order_s17_39_,
+        tbordermas0_.pay_dt as pay_dt18_39_,
+        tbordermas0_.pay_gb as pay_gb19_39_,
+        tbordermas0_.receipt_amt as receipt20_39_,
+        tbordermas0_.total_coupon_delivery_dc_price as total_c21_39_,
+        tbordermas0_.total_coupon_goods_dc_price as total_c22_39_,
+        tbordermas0_.total_coupon_goods_mileage as total_c23_39_,
+        tbordermas0_.total_coupon_order_dc_price as total_c24_39_,
+        tbordermas0_.total_coupon_order_mileage as total_c25_39_,
+        tbordermas0_.total_delivery_charge as total_d26_39_,
+        tbordermas0_.total_goods_dc_price as total_g27_39_,
+        tbordermas0_.total_goods_mileage as total_g28_39_,
+        tbordermas0_.total_goods_price as total_g29_39_,
+        tbordermas0_.total_member_dc_price as total_m30_39_,
+        tbordermas0_.total_member_mileage as total_m31_39_,
+        tbordermas0_.total_member_overlap_dc_price as total_m32_39_,
+        tbordermas0_.total_mileage as total_m33_39_ 
+    from
+        tb_order_master tbordermas0_ 
+    where
+        tbordermas0_.channel_order_no=?
+Hibernate: 
+    select
+        ifordermas0_.if_no as if_no1_9_0_,
+        ifordermas0_.reg_dt as reg_dt2_9_0_,
+        ifordermas0_.reg_id as reg_id3_9_0_,
+        ifordermas0_.upd_dt as upd_dt4_9_0_,
+        ifordermas0_.upd_id as upd_id5_9_0_,
+        ifordermas0_.channel_gb as channel_6_9_0_,
+        ifordermas0_.channel_info as channel_7_9_0_,
+        ifordermas0_.channel_order_no as channel_8_9_0_,
+        ifordermas0_.channel_order_status as channel_9_9_0_,
+        ifordermas0_.customer_id as custome10_9_0_,
+        ifordermas0_.if_status as if_stat11_9_0_,
+        ifordermas0_.mem_no as mem_no12_9_0_,
+        ifordermas0_.order_addr1 as order_a13_9_0_,
+        ifordermas0_.order_addr2 as order_a14_9_0_,
+        ifordermas0_.order_date as order_d15_9_0_,
+        ifordermas0_.order_email as order_e16_9_0_,
+        ifordermas0_.order_id as order_i17_9_0_,
+        ifordermas0_.order_memo as order_m18_9_0_,
+        ifordermas0_.order_name as order_n19_9_0_,
+        ifordermas0_.order_tel as order_t20_9_0_,
+        ifordermas0_.order_zipcode as order_z21_9_0_,
+        ifordermas0_.pay_amt as pay_amt22_9_0_,
+        ifordermas0_.pay_dt as pay_dt23_9_0_,
+        ifordermas0_.pay_gb as pay_gb24_9_0_,
+        ifordermas0_.receiver_addr1 as receive25_9_0_,
+        ifordermas0_.receiver_addr2 as receive26_9_0_,
+        ifordermas0_.receiver_name as receive27_9_0_,
+        ifordermas0_.receiver_tel as receive28_9_0_,
+        ifordermas0_.receiver_zipcode as receive29_9_0_,
+        ifordermas0_.total_coupon_delivery_dc_price as total_c30_9_0_,
+        ifordermas0_.total_coupon_goods_dc_price as total_c31_9_0_,
+        ifordermas0_.total_coupon_goods_mileage as total_c32_9_0_,
+        ifordermas0_.total_coupon_order_dc_price as total_c33_9_0_,
+        ifordermas0_.total_coupon_order_mileage as total_c34_9_0_,
+        ifordermas0_.total_delivery_charge as total_d35_9_0_,
+        ifordermas0_.total_goods_dc_price as total_g36_9_0_,
+        ifordermas0_.total_goods_mileage as total_g37_9_0_,
+        ifordermas0_.total_goods_price as total_g38_9_0_,
+        ifordermas0_.total_member_dc_price as total_m39_9_0_,
+        ifordermas0_.total_member_mileage as total_m40_9_0_,
+        ifordermas0_.total_member_overlap_dc_price as total_m41_9_0_,
+        ifordermas0_.total_mileage as total_m42_9_0_ 
+    from
+        if_order_master ifordermas0_ 
+    where
+        ifordermas0_.if_no=?
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_0_,
+        iforderdet0_.if_no_seq as if_no_se2_8_0_,
+        iforderdet0_.if_no as if_no1_8_1_,
+        iforderdet0_.if_no_seq as if_no_se2_8_1_,
+        iforderdet0_.add_goods_price as add_good3_8_1_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_1_,
+        iforderdet0_.channel_gb as channel_5_8_1_,
+        iforderdet0_.channel_goods_nm as channel_6_8_1_,
+        iforderdet0_.channel_goods_no as channel_7_8_1_,
+        iforderdet0_.channel_goods_type as channel_8_8_1_,
+        iforderdet0_.channel_option_info as channel_9_8_1_,
+        iforderdet0_.channel_options_no as channel10_8_1_,
+        iforderdet0_.channel_order_no as channel11_8_1_,
+        iforderdet0_.channel_order_seq as channel12_8_1_,
+        iforderdet0_.channel_order_status as channel13_8_1_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_1_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_1_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_1_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_1_,
+        iforderdet0_.cost_price as cost_pr18_8_1_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_1_,
+        iforderdet0_.deli_price as deli_pr20_8_1_,
+        iforderdet0_.delivery_info as deliver21_8_1_,
+        iforderdet0_.delivery_method_gb as deliver22_8_1_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_1_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_1_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_1_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_1_,
+        iforderdet0_.division_use_deposit as divisio27_8_1_,
+        iforderdet0_.division_use_mileage as divisio28_8_1_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_1_,
+        iforderdet0_.fixed_price as fixed_p30_8_1_,
+        iforderdet0_.goods_cnt as goods_c31_8_1_,
+        iforderdet0_.goods_dc_price as goods_d32_8_1_,
+        iforderdet0_.goods_model_no as goods_m33_8_1_,
+        iforderdet0_.goods_price as goods_p34_8_1_,
+        iforderdet0_.list_image_data as list_im35_8_1_,
+        iforderdet0_.member_dc_price as member_36_8_1_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_1_,
+        iforderdet0_.option_price as option_38_8_1_,
+        iforderdet0_.option_text_info as option_39_8_1_,
+        iforderdet0_.option_text_price as option_40_8_1_,
+        iforderdet0_.order_id as order_i41_8_1_,
+        iforderdet0_.order_seq as order_s42_8_1_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_1_,
+        iforderdet0_.scm_no as scm_no44_8_1_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=?
+2110131726091278
+p어쩌고
+Hibernate: 
+    select
+        tborderdet0_.order_id as order_id1_37_,
+        tborderdet0_.order_seq as order_se2_37_,
+        tborderdet0_.reg_dt as reg_dt3_37_,
+        tborderdet0_.reg_id as reg_id4_37_,
+        tborderdet0_.upd_dt as upd_dt5_37_,
+        tborderdet0_.upd_id as upd_id6_37_,
+        tborderdet0_.admin_dc_price as admin_dc7_37_,
+        tborderdet0_.assort_gb as assort_g8_37_,
+        tborderdet0_.assort_id as assort_i9_37_,
+        tborderdet0_.channel_order_no as channel10_37_,
+        tborderdet0_.channel_order_seq as channel11_37_,
+        tborderdet0_.claim_handle_detail_reason as claim_h12_37_,
+        tborderdet0_.claim_handle_mode as claim_h13_37_,
+        tborderdet0_.claim_handle_reason as claim_h14_37_,
+        tborderdet0_.coupon_dc_price as coupon_15_37_,
+        tborderdet0_.dc_sum_price as dc_sum_16_37_,
+        tborderdet0_.deli_method as deli_me17_37_,
+        tborderdet0_.deli_price as deli_pr18_37_,
+        tborderdet0_.delivery_info as deliver19_37_,
+        tborderdet0_.goods_dc_price as goods_d20_37_,
+        tborderdet0_.goods_nm as goods_n21_37_,
+        tborderdet0_.goods_price as goods_p22_37_,
+        tborderdet0_.item_amt as item_am23_37_,
+        tborderdet0_.item_id as item_id24_37_,
+        tborderdet0_.last_category_id as last_ca25_37_,
+        tborderdet0_.last_gb as last_gb26_37_,
+        tborderdet0_.list_image_data as list_im27_37_,
+        tborderdet0_.member_dc_price as member_28_37_,
+        tborderdet0_.option_info as option_29_37_,
+        tborderdet0_.option_price as option_30_37_,
+        tborderdet0_.option_text_info as option_31_37_,
+        tborderdet0_.option_text_price as option_32_37_,
+        tborderdet0_.parent_order_seq as parent_33_37_,
+        tborderdet0_.qty as qty34_37_,
+        tborderdet0_.sale_price as sale_pr35_37_,
+        tborderdet0_.scm_no as scm_no36_37_,
+        tborderdet0_.set_gb as set_gb37_37_,
+        tborderdet0_.set_order_id as set_ord38_37_,
+        tborderdet0_.set_order_seq as set_ord39_37_,
+        tborderdet0_.status_cd as status_40_37_,
+        tborderdet0_.storage_id as storage41_37_ 
+    from
+        tb_order_detail tborderdet0_ 
+    where
+        tborderdet0_.channel_order_no=? 
+        and tborderdet0_.channel_order_seq=?
+===== itemNm : [Alessi/알레시] 매직버니 마그넷_블루 / ASG16 AZM ===== goodsNo : 1000049289
+===== orderId : null ===== goodsNm : [Alessi/알레시] 매직버니 마그넷_블루 / ASG16 AZM
+Hibernate: 
+    select
+        tmitem0_.assort_id as assort_i1_40_,
+        tmitem0_.channel_gb as channel_2_40_,
+        tmitem0_.eff_end_dt as eff_end_3_40_,
+        tmitem0_.eff_sta_dt as eff_sta_4_40_,
+        tmitem0_.item_id as item_id5_40_,
+        tmitem0_.reg_dt as reg_dt6_40_,
+        tmitem0_.reg_id as reg_id7_40_,
+        tmitem0_.upd_dt as upd_dt8_40_,
+        tmitem0_.upd_id as upd_id9_40_,
+        tmitem0_.channel_goods_no as channel10_40_,
+        tmitem0_.channel_options_no as channel11_40_,
+        tmitem0_.variation_seq1 as variati16_40_,
+        tmitem0_.variation_seq2 as variati17_40_,
+        tmitem0_.option_price as option_12_40_,
+        tmitem0_.short_yn as short_y13_40_,
+        tmitem0_.variation_gb1 as variati14_40_,
+        tmitem0_.variation_gb2 as variati15_40_ 
+    from
+        tmitem tmitem0_ 
+    where
+        tmitem0_.channel_gb=? 
+        and tmitem0_.channel_goods_no=? 
+        and tmitem0_.channel_options_no=?
+Hibernate: 
+    select
+        tmmapi0_.assort_id as assort_i1_41_,
+        tmmapi0_.channel_gb as channel_2_41_,
+        tmmapi0_.reg_dt as reg_dt3_41_,
+        tmmapi0_.reg_id as reg_id4_41_,
+        tmmapi0_.upd_dt as upd_dt5_41_,
+        tmmapi0_.upd_id as upd_id6_41_,
+        tmmapi0_.assort_nm as assort_n7_41_,
+        tmmapi0_.channel_goods_no as channel_8_41_,
+        tmmapi0_.deli_gb as deli_gb9_41_,
+        tmmapi0_.deli_max_price as deli_ma10_41_,
+        tmmapi0_.deli_price as deli_pr11_41_,
+        tmmapi0_.error_msg as error_m12_41_,
+        tmmapi0_.join_status as join_st13_41_,
+        tmmapi0_.sale_price as sale_pr14_41_,
+        tmmapi0_.shortage_yn as shortag15_41_,
+        tmmapi0_.standard_price as standar16_41_,
+        tmmapi0_.up_assort_nm as up_asso17_41_,
+        tmmapi0_.up_deli_gb as up_deli18_41_,
+        tmmapi0_.up_deli_max_price as up_deli19_41_,
+        tmmapi0_.up_deli_price as up_deli20_41_,
+        tmmapi0_.up_join_category_id as up_join21_41_,
+        tmmapi0_.up_join_maker_id as up_join22_41_,
+        tmmapi0_.up_sale_price as up_sale23_41_,
+        tmmapi0_.up_shortage_yn as up_shor24_41_,
+        tmmapi0_.up_standard_price as up_stan25_41_,
+        tmmapi0_.upload_dt as upload_26_41_,
+        tmmapi0_.upload_rmk as upload_27_41_,
+        tmmapi0_.upload_type as upload_28_41_,
+        tmmapi0_.upload_yn as upload_29_41_ 
+    from
+        tmmapi tmmapi0_ 
+    where
+        tmmapi0_.channel_gb=? 
+        and tmmapi0_.channel_goods_no=?
+2021-10-14T10:10:30,766 DEBUG [main] i.s.m.a.OrderSearch: tmitem에 해당 goodsNo 정보가 들어가 있지 않습니다.
+Hibernate: 
+    select
+        ititmm0_.assort_id as assort_i1_19_0_,
+        ititmm0_.item_id as item_id2_19_0_,
+        itasrt1_.assort_id as assort_i1_14_1_,
+        ititmm0_.reg_dt as reg_dt3_19_0_,
+        ititmm0_.reg_id as reg_id4_19_0_,
+        ititmm0_.upd_dt as upd_dt5_19_0_,
+        ititmm0_.upd_id as upd_id6_19_0_,
+        ititmm0_.add_price as add_pric7_19_0_,
+        ititmm0_.day_deli_cnt as day_deli8_19_0_,
+        ititmm0_.item_nm as item_nm9_19_0_,
+        ititmm0_.variation_seq1 as variati19_19_0_,
+        ititmm0_.variation_seq2 as variati20_19_0_,
+        ititmm0_.max_cnt as max_cnt10_19_0_,
+        ititmm0_.min_cnt as min_cnt11_19_0_,
+        ititmm0_.order_lmt_cnt as order_l12_19_0_,
+        ititmm0_.order_lmt_yn as order_l13_19_0_,
+        ititmm0_.set_yn as set_yn14_19_0_,
+        ititmm0_.short_yn as short_y15_19_0_,
+        ititmm0_.tot_deli_cnt as tot_del16_19_0_,
+        ititmm0_.variation_gb1 as variati17_19_0_,
+        ititmm0_.variation_gb2 as variati18_19_0_,
+        itasrt1_.reg_dt as reg_dt2_14_1_,
+        itasrt1_.reg_id as reg_id3_14_1_,
+        itasrt1_.upd_dt as upd_dt4_14_1_,
+        itasrt1_.upd_id as upd_id5_14_1_,
+        itasrt1_.add_goods_yn as add_good6_14_1_,
+        itasrt1_.add_image_url as add_imag7_14_1_,
+        itasrt1_.add_option_nm as add_opti8_14_1_,
+        itasrt1_.as_height as as_heigh9_14_1_,
+        itasrt1_.as_length as as_leng10_14_1_,
+        itasrt1_.as_width as as_widt11_14_1_,
+        itasrt1_.assort_color as assort_12_14_1_,
+        itasrt1_.assort_gb as assort_13_14_1_,
+        itasrt1_.assort_model as assort_14_14_1_,
+        itasrt1_.assort_nm as assort_15_14_1_,
+        itasrt1_.assort_state as assort_16_14_1_,
+        itasrt1_.brand_id as brand_i17_14_1_,
+        itasrt1_.buy_exchange_rate as buy_exc18_14_1_,
+        itasrt1_.buy_rrp_increment as buy_rrp19_14_1_,
+        itasrt1_.buy_supply_discount as buy_sup20_14_1_,
+        itasrt1_.buy_tax as buy_tax21_14_1_,
+        itasrt1_.buy_where as buy_whe22_14_1_,
+        itasrt1_.category_id as categor23_14_1_,
+        itasrt1_.deli_price as deli_pr24_14_1_,
+        itasrt1_.disp_category_id as disp_ca25_14_1_,
+        itasrt1_.local_deli_fee as local_d26_14_1_,
+        itasrt1_.local_price as local_p27_14_1_,
+        itasrt1_.local_sale as local_s28_14_1_,
+        itasrt1_.manufacture_nm as manufac29_14_1_,
+        itasrt1_.margin as margin30_14_1_,
+        itasrt1_.md_discount_rate as md_disc31_14_1_,
+        itasrt1_.md_goods_vatrate as md_good32_14_1_,
+        itasrt1_.md_margin as md_marg33_14_1_,
+        itasrt1_.md_offline_price as md_offl34_14_1_,
+        itasrt1_.md_online_price as md_onli35_14_1_,
+        itasrt1_.md_rrp as md_rrp36_14_1_,
+        itasrt1_.md_tax as md_tax37_14_1_,
+        itasrt1_.md_vatrate as md_vatr38_14_1_,
+        itasrt1_.md_year as md_year39_14_1_,
+        itasrt1_.option_gb_name as option_40_14_1_,
+        itasrt1_.option_use_yn as option_41_14_1_,
+        itasrt1_.origin as origin42_14_1_,
+        itasrt1_.owner_id as owner_i43_14_1_,
+        itasrt1_.sell_end_dt as sell_en44_14_1_,
+        itasrt1_.sell_sta_dt as sell_st45_14_1_,
+        itasrt1_.shortage_yn as shortag46_14_1_,
+        itasrt1_.site_gb as site_gb47_14_1_,
+        itasrt1_.stock_cnt as stock_c48_14_1_,
+        itasrt1_.storage_id as storage49_14_1_,
+        itasrt1_.tax_gb as tax_gb50_14_1_,
+        itasrt1_.weight as weight51_14_1_ 
+    from
+        ititmm ititmm0_ 
+    inner join
+        itasrt itasrt1_ 
+            on ititmm0_.assort_id=itasrt1_.assort_id 
+    where
+        ititmm0_.assort_id=? 
+        and ititmm0_.item_id=?
+Hibernate: 
+    select
+        itcatg0_.category_id as category1_16_0_,
+        itcatg0_.reg_dt as reg_dt2_16_0_,
+        itcatg0_.reg_id as reg_id3_16_0_,
+        itcatg0_.upd_dt as upd_dt4_16_0_,
+        itcatg0_.upd_id as upd_id5_16_0_,
+        itcatg0_.brand_id as brand_id6_16_0_,
+        itcatg0_.category_enm as category7_16_0_,
+        itcatg0_.category_gb as category8_16_0_,
+        itcatg0_.category_gid as category9_16_0_,
+        itcatg0_.category_nm as categor10_16_0_,
+        itcatg0_.coupon_use_yn as coupon_11_16_0_,
+        itcatg0_.disp_gb as disp_gb12_16_0_,
+        itcatg0_.disp_nm as disp_nm13_16_0_,
+        itcatg0_.disp_order as disp_or14_16_0_,
+        itcatg0_.disp_type as disp_ty15_16_0_,
+        itcatg0_.eff_end_dt as eff_end16_16_0_,
+        itcatg0_.eff_sta_dt as eff_sta17_16_0_,
+        itcatg0_.global_ctg_id as global_18_16_0_,
+        itcatg0_.inner_ctg_id as inner_c19_16_0_,
+        itcatg0_.is_bottom_yn as is_bott20_16_0_,
+        itcatg0_.join_id as join_id21_16_0_,
+        itcatg0_.link_url as link_ur22_16_0_,
+        itcatg0_.lvl as lvl23_16_0_,
+        itcatg0_.order_type as order_t24_16_0_,
+        itcatg0_.root_category_id as root_ca25_16_0_,
+        itcatg0_.site_cate_type as site_ca26_16_0_,
+        itcatg0_.template_id as templat27_16_0_,
+        itcatg0_.tstop_yn as tstop_y28_16_0_,
+        itcatg0_.up_category_id as up_cate29_16_0_,
+        itcatg0_.user_id as user_id30_16_0_ 
+    from
+        itcatg itcatg0_ 
+    where
+        itcatg0_.category_id=?
+Hibernate: 
+    select
+        tborderdet0_.order_id as order_id1_37_,
+        tborderdet0_.order_seq as order_se2_37_,
+        tborderdet0_.reg_dt as reg_dt3_37_,
+        tborderdet0_.reg_id as reg_id4_37_,
+        tborderdet0_.upd_dt as upd_dt5_37_,
+        tborderdet0_.upd_id as upd_id6_37_,
+        tborderdet0_.admin_dc_price as admin_dc7_37_,
+        tborderdet0_.assort_gb as assort_g8_37_,
+        tborderdet0_.assort_id as assort_i9_37_,
+        tborderdet0_.channel_order_no as channel10_37_,
+        tborderdet0_.channel_order_seq as channel11_37_,
+        tborderdet0_.claim_handle_detail_reason as claim_h12_37_,
+        tborderdet0_.claim_handle_mode as claim_h13_37_,
+        tborderdet0_.claim_handle_reason as claim_h14_37_,
+        tborderdet0_.coupon_dc_price as coupon_15_37_,
+        tborderdet0_.dc_sum_price as dc_sum_16_37_,
+        tborderdet0_.deli_method as deli_me17_37_,
+        tborderdet0_.deli_price as deli_pr18_37_,
+        tborderdet0_.delivery_info as deliver19_37_,
+        tborderdet0_.goods_dc_price as goods_d20_37_,
+        tborderdet0_.goods_nm as goods_n21_37_,
+        tborderdet0_.goods_price as goods_p22_37_,
+        tborderdet0_.item_amt as item_am23_37_,
+        tborderdet0_.item_id as item_id24_37_,
+        tborderdet0_.last_category_id as last_ca25_37_,
+        tborderdet0_.last_gb as last_gb26_37_,
+        tborderdet0_.list_image_data as list_im27_37_,
+        tborderdet0_.member_dc_price as member_28_37_,
+        tborderdet0_.option_info as option_29_37_,
+        tborderdet0_.option_price as option_30_37_,
+        tborderdet0_.option_text_info as option_31_37_,
+        tborderdet0_.option_text_price as option_32_37_,
+        tborderdet0_.parent_order_seq as parent_33_37_,
+        tborderdet0_.qty as qty34_37_,
+        tborderdet0_.sale_price as sale_pr35_37_,
+        tborderdet0_.scm_no as scm_no36_37_,
+        tborderdet0_.set_gb as set_gb37_37_,
+        tborderdet0_.set_order_id as set_ord38_37_,
+        tborderdet0_.set_order_seq as set_ord39_37_,
+        tborderdet0_.status_cd as status_40_37_,
+        tborderdet0_.storage_id as storage41_37_ 
+    from
+        tb_order_detail tborderdet0_ 
+    where
+        tborderdet0_.channel_order_no=?
+Hibernate: 
+    insert 
+    into
+        tb_order_master
+        (reg_dt, reg_id, upd_dt, upd_id, channel_gb, channel_order_no, cust_id, cust_pcode, deli_id, first_order_gb, first_order_id, order_amt, order_date, order_gb, order_memo, order_status, pay_dt, pay_gb, receipt_amt, total_coupon_delivery_dc_price, total_coupon_goods_dc_price, total_coupon_goods_mileage, total_coupon_order_dc_price, total_coupon_order_mileage, total_delivery_charge, total_goods_dc_price, total_goods_mileage, total_goods_price, total_member_dc_price, total_member_mileage, total_member_overlap_dc_price, total_mileage, order_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        if_order_master 
+    set
+        reg_dt=?,
+        reg_id=?,
+        upd_dt=?,
+        upd_id=?,
+        channel_gb=?,
+        channel_info=?,
+        channel_order_no=?,
+        channel_order_status=?,
+        customer_id=?,
+        if_status=?,
+        mem_no=?,
+        order_addr1=?,
+        order_addr2=?,
+        order_date=?,
+        order_email=?,
+        order_id=?,
+        order_memo=?,
+        order_name=?,
+        order_tel=?,
+        order_zipcode=?,
+        pay_amt=?,
+        pay_dt=?,
+        pay_gb=?,
+        receiver_addr1=?,
+        receiver_addr2=?,
+        receiver_name=?,
+        receiver_tel=?,
+        receiver_zipcode=?,
+        total_coupon_delivery_dc_price=?,
+        total_coupon_goods_dc_price=?,
+        total_coupon_goods_mileage=?,
+        total_coupon_order_dc_price=?,
+        total_coupon_order_mileage=?,
+        total_delivery_charge=?,
+        total_goods_dc_price=?,
+        total_goods_mileage=?,
+        total_goods_price=?,
+        total_member_dc_price=?,
+        total_member_mileage=?,
+        total_member_overlap_dc_price=?,
+        total_mileage=? 
+    where
+        if_no=?
+Hibernate: 
+    update
+        if_order_detail 
+    set
+        add_goods_price=?,
+        admin_dc_price=?,
+        channel_gb=?,
+        channel_goods_nm=?,
+        channel_goods_no=?,
+        channel_goods_type=?,
+        channel_option_info=?,
+        channel_options_no=?,
+        channel_order_no=?,
+        channel_order_seq=?,
+        channel_order_status=?,
+        channel_parent_goods_no=?,
+        claim_handle_detail_reason=?,
+        claim_handle_mode=?,
+        claim_handle_reason=?,
+        cost_price=?,
+        coupon_dc_price=?,
+        deli_price=?,
+        delivery_info=?,
+        delivery_method_gb=?,
+        division_coupon_order_dc_price=?,
+        division_coupon_order_mileage=?,
+        division_goods_delivery_use_deposit=?,
+        division_goods_delivery_use_mileage=?,
+        division_use_deposit=?,
+        division_use_mileage=?,
+        etc_dc_price=?,
+        fixed_price=?,
+        goods_cnt=?,
+        goods_dc_price=?,
+        goods_model_no=?,
+        goods_price=?,
+        list_image_data=?,
+        member_dc_price=?,
+        member_overlap_dc_price=?,
+        option_price=?,
+        option_text_info=?,
+        option_text_price=?,
+        order_id=?,
+        order_seq=?,
+        parent_channel_order_seq=?,
+        scm_no=? 
+    where
+        if_no=? 
+        and if_no_seq=?
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_,
+        iforderdet0_.if_no_seq as if_no_se2_8_,
+        iforderdet0_.add_goods_price as add_good3_8_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_,
+        iforderdet0_.channel_gb as channel_5_8_,
+        iforderdet0_.channel_goods_nm as channel_6_8_,
+        iforderdet0_.channel_goods_no as channel_7_8_,
+        iforderdet0_.channel_goods_type as channel_8_8_,
+        iforderdet0_.channel_option_info as channel_9_8_,
+        iforderdet0_.channel_options_no as channel10_8_,
+        iforderdet0_.channel_order_no as channel11_8_,
+        iforderdet0_.channel_order_seq as channel12_8_,
+        iforderdet0_.channel_order_status as channel13_8_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_,
+        iforderdet0_.cost_price as cost_pr18_8_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_,
+        iforderdet0_.deli_price as deli_pr20_8_,
+        iforderdet0_.delivery_info as deliver21_8_,
+        iforderdet0_.delivery_method_gb as deliver22_8_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_,
+        iforderdet0_.division_use_deposit as divisio27_8_,
+        iforderdet0_.division_use_mileage as divisio28_8_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_,
+        iforderdet0_.fixed_price as fixed_p30_8_,
+        iforderdet0_.goods_cnt as goods_c31_8_,
+        iforderdet0_.goods_dc_price as goods_d32_8_,
+        iforderdet0_.goods_model_no as goods_m33_8_,
+        iforderdet0_.goods_price as goods_p34_8_,
+        iforderdet0_.list_image_data as list_im35_8_,
+        iforderdet0_.member_dc_price as member_36_8_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_,
+        iforderdet0_.option_price as option_38_8_,
+        iforderdet0_.option_text_info as option_39_8_,
+        iforderdet0_.option_text_price as option_40_8_,
+        iforderdet0_.order_id as order_i41_8_,
+        iforderdet0_.order_seq as order_s42_8_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_,
+        iforderdet0_.scm_no as scm_no44_8_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=? 
+        and iforderdet0_.channel_order_no=? 
+        and (
+            iforderdet0_.channel_order_seq is null
+        )
+Hibernate: 
+    insert 
+    into
+        tb_order_detail
+        (reg_dt, reg_id, upd_dt, upd_id, admin_dc_price, assort_gb, assort_id, channel_order_no, channel_order_seq, claim_handle_detail_reason, claim_handle_mode, claim_handle_reason, coupon_dc_price, dc_sum_price, deli_method, deli_price, delivery_info, goods_dc_price, goods_nm, goods_price, item_amt, item_id, last_category_id, last_gb, list_image_data, member_dc_price, option_info, option_price, option_text_info, option_text_price, parent_order_seq, qty, sale_price, scm_no, set_gb, set_order_id, set_order_seq, status_cd, storage_id, order_id, order_seq) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_log
+        (reg_dt, reg_id, upd_dt, upd_id, current_status, order_id, order_seq, prev_status) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tborderhis0_.seq as seq1_38_,
+        tborderhis0_.reg_dt as reg_dt2_38_,
+        tborderhis0_.reg_id as reg_id3_38_,
+        tborderhis0_.upd_dt as upd_dt4_38_,
+        tborderhis0_.upd_id as upd_id5_38_,
+        tborderhis0_.eff_end_dt as eff_end_6_38_,
+        tborderhis0_.eff_start_dt as eff_star7_38_,
+        tborderhis0_.last_yn as last_yn8_38_,
+        tborderhis0_.order_id as order_id9_38_,
+        tborderhis0_.order_seq as order_s10_38_,
+        tborderhis0_.status_cd as status_11_38_ 
+    from
+        tb_order_history tborderhis0_ 
+    where
+        tborderhis0_.order_id=? 
+        and tborderhis0_.order_seq=? 
+        and tborderhis0_.eff_end_dt=?
+Hibernate: 
+    insert 
+    into
+        tb_order_history
+        (reg_dt, reg_id, upd_dt, upd_id, eff_end_dt, eff_start_dt, last_yn, order_id, order_seq, status_cd) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tborderdet0_.order_id as order_id1_37_,
+        tborderdet0_.order_seq as order_se2_37_,
+        tborderdet0_.reg_dt as reg_dt3_37_,
+        tborderdet0_.reg_id as reg_id4_37_,
+        tborderdet0_.upd_dt as upd_dt5_37_,
+        tborderdet0_.upd_id as upd_id6_37_,
+        tborderdet0_.admin_dc_price as admin_dc7_37_,
+        tborderdet0_.assort_gb as assort_g8_37_,
+        tborderdet0_.assort_id as assort_i9_37_,
+        tborderdet0_.channel_order_no as channel10_37_,
+        tborderdet0_.channel_order_seq as channel11_37_,
+        tborderdet0_.claim_handle_detail_reason as claim_h12_37_,
+        tborderdet0_.claim_handle_mode as claim_h13_37_,
+        tborderdet0_.claim_handle_reason as claim_h14_37_,
+        tborderdet0_.coupon_dc_price as coupon_15_37_,
+        tborderdet0_.dc_sum_price as dc_sum_16_37_,
+        tborderdet0_.deli_method as deli_me17_37_,
+        tborderdet0_.deli_price as deli_pr18_37_,
+        tborderdet0_.delivery_info as deliver19_37_,
+        tborderdet0_.goods_dc_price as goods_d20_37_,
+        tborderdet0_.goods_nm as goods_n21_37_,
+        tborderdet0_.goods_price as goods_p22_37_,
+        tborderdet0_.item_amt as item_am23_37_,
+        tborderdet0_.item_id as item_id24_37_,
+        tborderdet0_.last_category_id as last_ca25_37_,
+        tborderdet0_.last_gb as last_gb26_37_,
+        tborderdet0_.list_image_data as list_im27_37_,
+        tborderdet0_.member_dc_price as member_28_37_,
+        tborderdet0_.option_info as option_29_37_,
+        tborderdet0_.option_price as option_30_37_,
+        tborderdet0_.option_text_info as option_31_37_,
+        tborderdet0_.option_text_price as option_32_37_,
+        tborderdet0_.parent_order_seq as parent_33_37_,
+        tborderdet0_.qty as qty34_37_,
+        tborderdet0_.sale_price as sale_pr35_37_,
+        tborderdet0_.scm_no as scm_no36_37_,
+        tborderdet0_.set_gb as set_gb37_37_,
+        tborderdet0_.set_order_id as set_ord38_37_,
+        tborderdet0_.set_order_seq as set_ord39_37_,
+        tborderdet0_.status_cd as status_40_37_,
+        tborderdet0_.storage_id as storage41_37_ 
+    from
+        tb_order_detail tborderdet0_ 
+    where
+        tborderdet0_.channel_order_no=? 
+        and tborderdet0_.channel_order_seq=?
+===== itemNm : TEST // TEST test ===== goodsNo : 1000038462
+===== orderId : null ===== goodsNm : TEST // TEST test
+Hibernate: 
+    select
+        tmitem0_.assort_id as assort_i1_40_,
+        tmitem0_.channel_gb as channel_2_40_,
+        tmitem0_.eff_end_dt as eff_end_3_40_,
+        tmitem0_.eff_sta_dt as eff_sta_4_40_,
+        tmitem0_.item_id as item_id5_40_,
+        tmitem0_.reg_dt as reg_dt6_40_,
+        tmitem0_.reg_id as reg_id7_40_,
+        tmitem0_.upd_dt as upd_dt8_40_,
+        tmitem0_.upd_id as upd_id9_40_,
+        tmitem0_.channel_goods_no as channel10_40_,
+        tmitem0_.channel_options_no as channel11_40_,
+        tmitem0_.variation_seq1 as variati16_40_,
+        tmitem0_.variation_seq2 as variati17_40_,
+        tmitem0_.option_price as option_12_40_,
+        tmitem0_.short_yn as short_y13_40_,
+        tmitem0_.variation_gb1 as variati14_40_,
+        tmitem0_.variation_gb2 as variati15_40_ 
+    from
+        tmitem tmitem0_ 
+    where
+        tmitem0_.channel_gb=? 
+        and tmitem0_.channel_goods_no=? 
+        and tmitem0_.channel_options_no=?
+Hibernate: 
+    select
+        tmmapi0_.assort_id as assort_i1_41_,
+        tmmapi0_.channel_gb as channel_2_41_,
+        tmmapi0_.reg_dt as reg_dt3_41_,
+        tmmapi0_.reg_id as reg_id4_41_,
+        tmmapi0_.upd_dt as upd_dt5_41_,
+        tmmapi0_.upd_id as upd_id6_41_,
+        tmmapi0_.assort_nm as assort_n7_41_,
+        tmmapi0_.channel_goods_no as channel_8_41_,
+        tmmapi0_.deli_gb as deli_gb9_41_,
+        tmmapi0_.deli_max_price as deli_ma10_41_,
+        tmmapi0_.deli_price as deli_pr11_41_,
+        tmmapi0_.error_msg as error_m12_41_,
+        tmmapi0_.join_status as join_st13_41_,
+        tmmapi0_.sale_price as sale_pr14_41_,
+        tmmapi0_.shortage_yn as shortag15_41_,
+        tmmapi0_.standard_price as standar16_41_,
+        tmmapi0_.up_assort_nm as up_asso17_41_,
+        tmmapi0_.up_deli_gb as up_deli18_41_,
+        tmmapi0_.up_deli_max_price as up_deli19_41_,
+        tmmapi0_.up_deli_price as up_deli20_41_,
+        tmmapi0_.up_join_category_id as up_join21_41_,
+        tmmapi0_.up_join_maker_id as up_join22_41_,
+        tmmapi0_.up_sale_price as up_sale23_41_,
+        tmmapi0_.up_shortage_yn as up_shor24_41_,
+        tmmapi0_.up_standard_price as up_stan25_41_,
+        tmmapi0_.upload_dt as upload_26_41_,
+        tmmapi0_.upload_rmk as upload_27_41_,
+        tmmapi0_.upload_type as upload_28_41_,
+        tmmapi0_.upload_yn as upload_29_41_ 
+    from
+        tmmapi tmmapi0_ 
+    where
+        tmmapi0_.channel_gb=? 
+        and tmmapi0_.channel_goods_no=?
+2021-10-14T10:10:31,037 DEBUG [main] i.s.m.a.OrderSearch: tmitem에 해당 goodsNo 정보가 들어가 있지 않습니다.
+Hibernate: 
+    select
+        ititmm0_.assort_id as assort_i1_19_0_,
+        ititmm0_.item_id as item_id2_19_0_,
+        itasrt1_.assort_id as assort_i1_14_1_,
+        ititmm0_.reg_dt as reg_dt3_19_0_,
+        ititmm0_.reg_id as reg_id4_19_0_,
+        ititmm0_.upd_dt as upd_dt5_19_0_,
+        ititmm0_.upd_id as upd_id6_19_0_,
+        ititmm0_.add_price as add_pric7_19_0_,
+        ititmm0_.day_deli_cnt as day_deli8_19_0_,
+        ititmm0_.item_nm as item_nm9_19_0_,
+        ititmm0_.variation_seq1 as variati19_19_0_,
+        ititmm0_.variation_seq2 as variati20_19_0_,
+        ititmm0_.max_cnt as max_cnt10_19_0_,
+        ititmm0_.min_cnt as min_cnt11_19_0_,
+        ititmm0_.order_lmt_cnt as order_l12_19_0_,
+        ititmm0_.order_lmt_yn as order_l13_19_0_,
+        ititmm0_.set_yn as set_yn14_19_0_,
+        ititmm0_.short_yn as short_y15_19_0_,
+        ititmm0_.tot_deli_cnt as tot_del16_19_0_,
+        ititmm0_.variation_gb1 as variati17_19_0_,
+        ititmm0_.variation_gb2 as variati18_19_0_,
+        itasrt1_.reg_dt as reg_dt2_14_1_,
+        itasrt1_.reg_id as reg_id3_14_1_,
+        itasrt1_.upd_dt as upd_dt4_14_1_,
+        itasrt1_.upd_id as upd_id5_14_1_,
+        itasrt1_.add_goods_yn as add_good6_14_1_,
+        itasrt1_.add_image_url as add_imag7_14_1_,
+        itasrt1_.add_option_nm as add_opti8_14_1_,
+        itasrt1_.as_height as as_heigh9_14_1_,
+        itasrt1_.as_length as as_leng10_14_1_,
+        itasrt1_.as_width as as_widt11_14_1_,
+        itasrt1_.assort_color as assort_12_14_1_,
+        itasrt1_.assort_gb as assort_13_14_1_,
+        itasrt1_.assort_model as assort_14_14_1_,
+        itasrt1_.assort_nm as assort_15_14_1_,
+        itasrt1_.assort_state as assort_16_14_1_,
+        itasrt1_.brand_id as brand_i17_14_1_,
+        itasrt1_.buy_exchange_rate as buy_exc18_14_1_,
+        itasrt1_.buy_rrp_increment as buy_rrp19_14_1_,
+        itasrt1_.buy_supply_discount as buy_sup20_14_1_,
+        itasrt1_.buy_tax as buy_tax21_14_1_,
+        itasrt1_.buy_where as buy_whe22_14_1_,
+        itasrt1_.category_id as categor23_14_1_,
+        itasrt1_.deli_price as deli_pr24_14_1_,
+        itasrt1_.disp_category_id as disp_ca25_14_1_,
+        itasrt1_.local_deli_fee as local_d26_14_1_,
+        itasrt1_.local_price as local_p27_14_1_,
+        itasrt1_.local_sale as local_s28_14_1_,
+        itasrt1_.manufacture_nm as manufac29_14_1_,
+        itasrt1_.margin as margin30_14_1_,
+        itasrt1_.md_discount_rate as md_disc31_14_1_,
+        itasrt1_.md_goods_vatrate as md_good32_14_1_,
+        itasrt1_.md_margin as md_marg33_14_1_,
+        itasrt1_.md_offline_price as md_offl34_14_1_,
+        itasrt1_.md_online_price as md_onli35_14_1_,
+        itasrt1_.md_rrp as md_rrp36_14_1_,
+        itasrt1_.md_tax as md_tax37_14_1_,
+        itasrt1_.md_vatrate as md_vatr38_14_1_,
+        itasrt1_.md_year as md_year39_14_1_,
+        itasrt1_.option_gb_name as option_40_14_1_,
+        itasrt1_.option_use_yn as option_41_14_1_,
+        itasrt1_.origin as origin42_14_1_,
+        itasrt1_.owner_id as owner_i43_14_1_,
+        itasrt1_.sell_end_dt as sell_en44_14_1_,
+        itasrt1_.sell_sta_dt as sell_st45_14_1_,
+        itasrt1_.shortage_yn as shortag46_14_1_,
+        itasrt1_.site_gb as site_gb47_14_1_,
+        itasrt1_.stock_cnt as stock_c48_14_1_,
+        itasrt1_.storage_id as storage49_14_1_,
+        itasrt1_.tax_gb as tax_gb50_14_1_,
+        itasrt1_.weight as weight51_14_1_ 
+    from
+        ititmm ititmm0_ 
+    inner join
+        itasrt itasrt1_ 
+            on ititmm0_.assort_id=itasrt1_.assort_id 
+    where
+        ititmm0_.assort_id=? 
+        and ititmm0_.item_id=?
+Hibernate: 
+    select
+        itcatg0_.category_id as category1_16_0_,
+        itcatg0_.reg_dt as reg_dt2_16_0_,
+        itcatg0_.reg_id as reg_id3_16_0_,
+        itcatg0_.upd_dt as upd_dt4_16_0_,
+        itcatg0_.upd_id as upd_id5_16_0_,
+        itcatg0_.brand_id as brand_id6_16_0_,
+        itcatg0_.category_enm as category7_16_0_,
+        itcatg0_.category_gb as category8_16_0_,
+        itcatg0_.category_gid as category9_16_0_,
+        itcatg0_.category_nm as categor10_16_0_,
+        itcatg0_.coupon_use_yn as coupon_11_16_0_,
+        itcatg0_.disp_gb as disp_gb12_16_0_,
+        itcatg0_.disp_nm as disp_nm13_16_0_,
+        itcatg0_.disp_order as disp_or14_16_0_,
+        itcatg0_.disp_type as disp_ty15_16_0_,
+        itcatg0_.eff_end_dt as eff_end16_16_0_,
+        itcatg0_.eff_sta_dt as eff_sta17_16_0_,
+        itcatg0_.global_ctg_id as global_18_16_0_,
+        itcatg0_.inner_ctg_id as inner_c19_16_0_,
+        itcatg0_.is_bottom_yn as is_bott20_16_0_,
+        itcatg0_.join_id as join_id21_16_0_,
+        itcatg0_.link_url as link_ur22_16_0_,
+        itcatg0_.lvl as lvl23_16_0_,
+        itcatg0_.order_type as order_t24_16_0_,
+        itcatg0_.root_category_id as root_ca25_16_0_,
+        itcatg0_.site_cate_type as site_ca26_16_0_,
+        itcatg0_.template_id as templat27_16_0_,
+        itcatg0_.tstop_yn as tstop_y28_16_0_,
+        itcatg0_.up_category_id as up_cate29_16_0_,
+        itcatg0_.user_id as user_id30_16_0_ 
+    from
+        itcatg itcatg0_ 
+    where
+        itcatg0_.category_id=?
+Hibernate: 
+    select
+        tborderdet0_.order_id as order_id1_37_,
+        tborderdet0_.order_seq as order_se2_37_,
+        tborderdet0_.reg_dt as reg_dt3_37_,
+        tborderdet0_.reg_id as reg_id4_37_,
+        tborderdet0_.upd_dt as upd_dt5_37_,
+        tborderdet0_.upd_id as upd_id6_37_,
+        tborderdet0_.admin_dc_price as admin_dc7_37_,
+        tborderdet0_.assort_gb as assort_g8_37_,
+        tborderdet0_.assort_id as assort_i9_37_,
+        tborderdet0_.channel_order_no as channel10_37_,
+        tborderdet0_.channel_order_seq as channel11_37_,
+        tborderdet0_.claim_handle_detail_reason as claim_h12_37_,
+        tborderdet0_.claim_handle_mode as claim_h13_37_,
+        tborderdet0_.claim_handle_reason as claim_h14_37_,
+        tborderdet0_.coupon_dc_price as coupon_15_37_,
+        tborderdet0_.dc_sum_price as dc_sum_16_37_,
+        tborderdet0_.deli_method as deli_me17_37_,
+        tborderdet0_.deli_price as deli_pr18_37_,
+        tborderdet0_.delivery_info as deliver19_37_,
+        tborderdet0_.goods_dc_price as goods_d20_37_,
+        tborderdet0_.goods_nm as goods_n21_37_,
+        tborderdet0_.goods_price as goods_p22_37_,
+        tborderdet0_.item_amt as item_am23_37_,
+        tborderdet0_.item_id as item_id24_37_,
+        tborderdet0_.last_category_id as last_ca25_37_,
+        tborderdet0_.last_gb as last_gb26_37_,
+        tborderdet0_.list_image_data as list_im27_37_,
+        tborderdet0_.member_dc_price as member_28_37_,
+        tborderdet0_.option_info as option_29_37_,
+        tborderdet0_.option_price as option_30_37_,
+        tborderdet0_.option_text_info as option_31_37_,
+        tborderdet0_.option_text_price as option_32_37_,
+        tborderdet0_.parent_order_seq as parent_33_37_,
+        tborderdet0_.qty as qty34_37_,
+        tborderdet0_.sale_price as sale_pr35_37_,
+        tborderdet0_.scm_no as scm_no36_37_,
+        tborderdet0_.set_gb as set_gb37_37_,
+        tborderdet0_.set_order_id as set_ord38_37_,
+        tborderdet0_.set_order_seq as set_ord39_37_,
+        tborderdet0_.status_cd as status_40_37_,
+        tborderdet0_.storage_id as storage41_37_ 
+    from
+        tb_order_detail tborderdet0_ 
+    where
+        tborderdet0_.channel_order_no=?
+Hibernate: 
+    update
+        if_order_detail 
+    set
+        add_goods_price=?,
+        admin_dc_price=?,
+        channel_gb=?,
+        channel_goods_nm=?,
+        channel_goods_no=?,
+        channel_goods_type=?,
+        channel_option_info=?,
+        channel_options_no=?,
+        channel_order_no=?,
+        channel_order_seq=?,
+        channel_order_status=?,
+        channel_parent_goods_no=?,
+        claim_handle_detail_reason=?,
+        claim_handle_mode=?,
+        claim_handle_reason=?,
+        cost_price=?,
+        coupon_dc_price=?,
+        deli_price=?,
+        delivery_info=?,
+        delivery_method_gb=?,
+        division_coupon_order_dc_price=?,
+        division_coupon_order_mileage=?,
+        division_goods_delivery_use_deposit=?,
+        division_goods_delivery_use_mileage=?,
+        division_use_deposit=?,
+        division_use_mileage=?,
+        etc_dc_price=?,
+        fixed_price=?,
+        goods_cnt=?,
+        goods_dc_price=?,
+        goods_model_no=?,
+        goods_price=?,
+        list_image_data=?,
+        member_dc_price=?,
+        member_overlap_dc_price=?,
+        option_price=?,
+        option_text_info=?,
+        option_text_price=?,
+        order_id=?,
+        order_seq=?,
+        parent_channel_order_seq=?,
+        scm_no=? 
+    where
+        if_no=? 
+        and if_no_seq=?
+Hibernate: 
+    select
+        iforderdet0_.if_no as if_no1_8_,
+        iforderdet0_.if_no_seq as if_no_se2_8_,
+        iforderdet0_.add_goods_price as add_good3_8_,
+        iforderdet0_.admin_dc_price as admin_dc4_8_,
+        iforderdet0_.channel_gb as channel_5_8_,
+        iforderdet0_.channel_goods_nm as channel_6_8_,
+        iforderdet0_.channel_goods_no as channel_7_8_,
+        iforderdet0_.channel_goods_type as channel_8_8_,
+        iforderdet0_.channel_option_info as channel_9_8_,
+        iforderdet0_.channel_options_no as channel10_8_,
+        iforderdet0_.channel_order_no as channel11_8_,
+        iforderdet0_.channel_order_seq as channel12_8_,
+        iforderdet0_.channel_order_status as channel13_8_,
+        iforderdet0_.channel_parent_goods_no as channel14_8_,
+        iforderdet0_.claim_handle_detail_reason as claim_h15_8_,
+        iforderdet0_.claim_handle_mode as claim_h16_8_,
+        iforderdet0_.claim_handle_reason as claim_h17_8_,
+        iforderdet0_.cost_price as cost_pr18_8_,
+        iforderdet0_.coupon_dc_price as coupon_19_8_,
+        iforderdet0_.deli_price as deli_pr20_8_,
+        iforderdet0_.delivery_info as deliver21_8_,
+        iforderdet0_.delivery_method_gb as deliver22_8_,
+        iforderdet0_.division_coupon_order_dc_price as divisio23_8_,
+        iforderdet0_.division_coupon_order_mileage as divisio24_8_,
+        iforderdet0_.division_goods_delivery_use_deposit as divisio25_8_,
+        iforderdet0_.division_goods_delivery_use_mileage as divisio26_8_,
+        iforderdet0_.division_use_deposit as divisio27_8_,
+        iforderdet0_.division_use_mileage as divisio28_8_,
+        iforderdet0_.etc_dc_price as etc_dc_29_8_,
+        iforderdet0_.fixed_price as fixed_p30_8_,
+        iforderdet0_.goods_cnt as goods_c31_8_,
+        iforderdet0_.goods_dc_price as goods_d32_8_,
+        iforderdet0_.goods_model_no as goods_m33_8_,
+        iforderdet0_.goods_price as goods_p34_8_,
+        iforderdet0_.list_image_data as list_im35_8_,
+        iforderdet0_.member_dc_price as member_36_8_,
+        iforderdet0_.member_overlap_dc_price as member_37_8_,
+        iforderdet0_.option_price as option_38_8_,
+        iforderdet0_.option_text_info as option_39_8_,
+        iforderdet0_.option_text_price as option_40_8_,
+        iforderdet0_.order_id as order_i41_8_,
+        iforderdet0_.order_seq as order_s42_8_,
+        iforderdet0_.parent_channel_order_seq as parent_43_8_,
+        iforderdet0_.scm_no as scm_no44_8_ 
+    from
+        if_order_detail iforderdet0_ 
+    where
+        iforderdet0_.if_no=? 
+        and iforderdet0_.channel_order_no=? 
+        and (
+            iforderdet0_.channel_order_seq is null
+        )
+Hibernate: 
+    insert 
+    into
+        tb_order_detail
+        (reg_dt, reg_id, upd_dt, upd_id, admin_dc_price, assort_gb, assort_id, channel_order_no, channel_order_seq, claim_handle_detail_reason, claim_handle_mode, claim_handle_reason, coupon_dc_price, dc_sum_price, deli_method, deli_price, delivery_info, goods_dc_price, goods_nm, goods_price, item_amt, item_id, last_category_id, last_gb, list_image_data, member_dc_price, option_info, option_price, option_text_info, option_text_price, parent_order_seq, qty, sale_price, scm_no, set_gb, set_order_id, set_order_seq, status_cd, storage_id, order_id, order_seq) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_log
+        (reg_dt, reg_id, upd_dt, upd_id, current_status, order_id, order_seq, prev_status) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        tborderhis0_.seq as seq1_38_,
+        tborderhis0_.reg_dt as reg_dt2_38_,
+        tborderhis0_.reg_id as reg_id3_38_,
+        tborderhis0_.upd_dt as upd_dt4_38_,
+        tborderhis0_.upd_id as upd_id5_38_,
+        tborderhis0_.eff_end_dt as eff_end_6_38_,
+        tborderhis0_.eff_start_dt as eff_star7_38_,
+        tborderhis0_.last_yn as last_yn8_38_,
+        tborderhis0_.order_id as order_id9_38_,
+        tborderhis0_.order_seq as order_s10_38_,
+        tborderhis0_.status_cd as status_11_38_ 
+    from
+        tb_order_history tborderhis0_ 
+    where
+        tborderhis0_.order_id=? 
+        and tborderhis0_.order_seq=? 
+        and tborderhis0_.eff_end_dt=?
+Hibernate: 
+    insert 
+    into
+        tb_order_history
+        (reg_dt, reg_id, upd_dt, upd_id, eff_end_dt, eff_start_dt, last_yn, order_id, order_seq, status_cd) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        if_order_master 
+    set
+        reg_dt=?,
+        reg_id=?,
+        upd_dt=?,
+        upd_id=?,
+        channel_gb=?,
+        channel_info=?,
+        channel_order_no=?,
+        channel_order_status=?,
+        customer_id=?,
+        if_status=?,
+        mem_no=?,
+        order_addr1=?,
+        order_addr2=?,
+        order_date=?,
+        order_email=?,
+        order_id=?,
+        order_memo=?,
+        order_name=?,
+        order_tel=?,
+        order_zipcode=?,
+        pay_amt=?,
+        pay_dt=?,
+        pay_gb=?,
+        receiver_addr1=?,
+        receiver_addr2=?,
+        receiver_name=?,
+        receiver_tel=?,
+        receiver_zipcode=?,
+        total_coupon_delivery_dc_price=?,
+        total_coupon_goods_dc_price=?,
+        total_coupon_goods_mileage=?,
+        total_coupon_order_dc_price=?,
+        total_coupon_order_mileage=?,
+        total_delivery_charge=?,
+        total_goods_dc_price=?,
+        total_goods_mileage=?,
+        total_goods_price=?,
+        total_member_dc_price=?,
+        total_member_mileage=?,
+        total_member_overlap_dc_price=?,
+        total_mileage=? 
+    where
+        if_no=?
+2021-10-14T10:10:31,117 DEBUG [main] o.s.b.i.d.AbstractPagingItemReader: Reading page 0
+Hibernate: 
+    update
+        if_order_master 
+    set
+        reg_dt=?,
+        reg_id=?,
+        upd_dt=?,
+        upd_id=?,
+        channel_gb=?,
+        channel_info=?,
+        channel_order_no=?,
+        channel_order_status=?,
+        customer_id=?,
+        if_status=?,
+        mem_no=?,
+        order_addr1=?,
+        order_addr2=?,
+        order_date=?,
+        order_email=?,
+        order_id=?,
+        order_memo=?,
+        order_name=?,
+        order_tel=?,
+        order_zipcode=?,
+        pay_amt=?,
+        pay_dt=?,
+        pay_gb=?,
+        receiver_addr1=?,
+        receiver_addr2=?,
+        receiver_name=?,
+        receiver_tel=?,
+        receiver_zipcode=?,
+        total_coupon_delivery_dc_price=?,
+        total_coupon_goods_dc_price=?,
+        total_coupon_goods_mileage=?,
+        total_coupon_order_dc_price=?,
+        total_coupon_order_mileage=?,
+        total_delivery_charge=?,
+        total_goods_dc_price=?,
+        total_goods_mileage=?,
+        total_goods_price=?,
+        total_member_dc_price=?,
+        total_member_mileage=?,
+        total_member_overlap_dc_price=?,
+        total_mileage=? 
+    where
+        if_no=?
+Hibernate: 
+    update
+        if_order_detail 
+    set
+        add_goods_price=?,
+        admin_dc_price=?,
+        channel_gb=?,
+        channel_goods_nm=?,
+        channel_goods_no=?,
+        channel_goods_type=?,
+        channel_option_info=?,
+        channel_options_no=?,
+        channel_order_no=?,
+        channel_order_seq=?,
+        channel_order_status=?,
+        channel_parent_goods_no=?,
+        claim_handle_detail_reason=?,
+        claim_handle_mode=?,
+        claim_handle_reason=?,
+        cost_price=?,
+        coupon_dc_price=?,
+        deli_price=?,
+        delivery_info=?,
+        delivery_method_gb=?,
+        division_coupon_order_dc_price=?,
+        division_coupon_order_mileage=?,
+        division_goods_delivery_use_deposit=?,
+        division_goods_delivery_use_mileage=?,
+        division_use_deposit=?,
+        division_use_mileage=?,
+        etc_dc_price=?,
+        fixed_price=?,
+        goods_cnt=?,
+        goods_dc_price=?,
+        goods_model_no=?,
+        goods_price=?,
+        list_image_data=?,
+        member_dc_price=?,
+        member_overlap_dc_price=?,
+        option_price=?,
+        option_text_info=?,
+        option_text_price=?,
+        order_id=?,
+        order_seq=?,
+        parent_channel_order_seq=?,
+        scm_no=? 
+    where
+        if_no=? 
+        and if_no_seq=?
+Hibernate: 
+    update
+        if_order_detail 
+    set
+        add_goods_price=?,
+        admin_dc_price=?,
+        channel_gb=?,
+        channel_goods_nm=?,
+        channel_goods_no=?,
+        channel_goods_type=?,
+        channel_option_info=?,
+        channel_options_no=?,
+        channel_order_no=?,
+        channel_order_seq=?,
+        channel_order_status=?,
+        channel_parent_goods_no=?,
+        claim_handle_detail_reason=?,
+        claim_handle_mode=?,
+        claim_handle_reason=?,
+        cost_price=?,
+        coupon_dc_price=?,
+        deli_price=?,
+        delivery_info=?,
+        delivery_method_gb=?,
+        division_coupon_order_dc_price=?,
+        division_coupon_order_mileage=?,
+        division_goods_delivery_use_deposit=?,
+        division_goods_delivery_use_mileage=?,
+        division_use_deposit=?,
+        division_use_mileage=?,
+        etc_dc_price=?,
+        fixed_price=?,
+        goods_cnt=?,
+        goods_dc_price=?,
+        goods_model_no=?,
+        goods_price=?,
+        list_image_data=?,
+        member_dc_price=?,
+        member_overlap_dc_price=?,
+        option_price=?,
+        option_text_info=?,
+        option_text_price=?,
+        order_id=?,
+        order_seq=?,
+        parent_channel_order_seq=?,
+        scm_no=? 
+    where
+        if_no=? 
+        and if_no_seq=?
+Hibernate: 
+    update
+        if_order_detail 
+    set
+        add_goods_price=?,
+        admin_dc_price=?,
+        channel_gb=?,
+        channel_goods_nm=?,
+        channel_goods_no=?,
+        channel_goods_type=?,
+        channel_option_info=?,
+        channel_options_no=?,
+        channel_order_no=?,
+        channel_order_seq=?,
+        channel_order_status=?,
+        channel_parent_goods_no=?,
+        claim_handle_detail_reason=?,
+        claim_handle_mode=?,
+        claim_handle_reason=?,
+        cost_price=?,
+        coupon_dc_price=?,
+        deli_price=?,
+        delivery_info=?,
+        delivery_method_gb=?,
+        division_coupon_order_dc_price=?,
+        division_coupon_order_mileage=?,
+        division_goods_delivery_use_deposit=?,
+        division_goods_delivery_use_mileage=?,
+        division_use_deposit=?,
+        division_use_mileage=?,
+        etc_dc_price=?,
+        fixed_price=?,
+        goods_cnt=?,
+        goods_dc_price=?,
+        goods_model_no=?,
+        goods_price=?,
+        list_image_data=?,
+        member_dc_price=?,
+        member_overlap_dc_price=?,
+        option_price=?,
+        option_text_info=?,
+        option_text_price=?,
+        order_id=?,
+        order_seq=?,
+        parent_channel_order_seq=?,
+        scm_no=? 
+    where
+        if_no=? 
+        and if_no_seq=?
+Hibernate: 
+    select
+        ifordermas0_.if_no as if_no1_9_,
+        ifordermas0_.reg_dt as reg_dt2_9_,
+        ifordermas0_.reg_id as reg_id3_9_,
+        ifordermas0_.upd_dt as upd_dt4_9_,
+        ifordermas0_.upd_id as upd_id5_9_,
+        ifordermas0_.channel_gb as channel_6_9_,
+        ifordermas0_.channel_info as channel_7_9_,
+        ifordermas0_.channel_order_no as channel_8_9_,
+        ifordermas0_.channel_order_status as channel_9_9_,
+        ifordermas0_.customer_id as custome10_9_,
+        ifordermas0_.if_status as if_stat11_9_,
+        ifordermas0_.mem_no as mem_no12_9_,
+        ifordermas0_.order_addr1 as order_a13_9_,
+        ifordermas0_.order_addr2 as order_a14_9_,
+        ifordermas0_.order_date as order_d15_9_,
+        ifordermas0_.order_email as order_e16_9_,
+        ifordermas0_.order_id as order_i17_9_,
+        ifordermas0_.order_memo as order_m18_9_,
+        ifordermas0_.order_name as order_n19_9_,
+        ifordermas0_.order_tel as order_t20_9_,
+        ifordermas0_.order_zipcode as order_z21_9_,
+        ifordermas0_.pay_amt as pay_amt22_9_,
+        ifordermas0_.pay_dt as pay_dt23_9_,
+        ifordermas0_.pay_gb as pay_gb24_9_,
+        ifordermas0_.receiver_addr1 as receive25_9_,
+        ifordermas0_.receiver_addr2 as receive26_9_,
+        ifordermas0_.receiver_name as receive27_9_,
+        ifordermas0_.receiver_tel as receive28_9_,
+        ifordermas0_.receiver_zipcode as receive29_9_,
+        ifordermas0_.total_coupon_delivery_dc_price as total_c30_9_,
+        ifordermas0_.total_coupon_goods_dc_price as total_c31_9_,
+        ifordermas0_.total_coupon_goods_mileage as total_c32_9_,
+        ifordermas0_.total_coupon_order_dc_price as total_c33_9_,
+        ifordermas0_.total_coupon_order_mileage as total_c34_9_,
+        ifordermas0_.total_delivery_charge as total_d35_9_,
+        ifordermas0_.total_goods_dc_price as total_g36_9_,
+        ifordermas0_.total_goods_mileage as total_g37_9_,
+        ifordermas0_.total_goods_price as total_g38_9_,
+        ifordermas0_.total_member_dc_price as total_m39_9_,
+        ifordermas0_.total_member_mileage as total_m40_9_,
+        ifordermas0_.total_member_overlap_dc_price as total_m41_9_,
+        ifordermas0_.total_mileage as total_m42_9_ 
+    from
+        if_order_master ifordermas0_ 
+    where
+        ifordermas0_.if_status='01' limit ?
+2021-10-14T10:10:31,166 INFO  [main] o.s.b.c.s.AbstractStep: Step: [searchOrderStep2] executed in 790ms
+2021-10-14T10:10:31,257 INFO  [main] o.s.b.c.j.SimpleStepHandler: Executing step: [searchOrderStep3]
+2021-10-14T10:10:31,279 DEBUG [main] o.s.b.i.d.AbstractPagingItemReader: Reading page 0
+Hibernate: 
+    select
+        tborderdet0_.order_id as order_id1_37_,
+        tborderdet0_.order_seq as order_se2_37_,
+        tborderdet0_.reg_dt as reg_dt3_37_,
+        tborderdet0_.reg_id as reg_id4_37_,
+        tborderdet0_.upd_dt as upd_dt5_37_,
+        tborderdet0_.upd_id as upd_id6_37_,
+        tborderdet0_.admin_dc_price as admin_dc7_37_,
+        tborderdet0_.assort_gb as assort_g8_37_,
+        tborderdet0_.assort_id as assort_i9_37_,
+        tborderdet0_.channel_order_no as channel10_37_,
+        tborderdet0_.channel_order_seq as channel11_37_,
+        tborderdet0_.claim_handle_detail_reason as claim_h12_37_,
+        tborderdet0_.claim_handle_mode as claim_h13_37_,
+        tborderdet0_.claim_handle_reason as claim_h14_37_,
+        tborderdet0_.coupon_dc_price as coupon_15_37_,
+        tborderdet0_.dc_sum_price as dc_sum_16_37_,
+        tborderdet0_.deli_method as deli_me17_37_,
+        tborderdet0_.deli_price as deli_pr18_37_,
+        tborderdet0_.delivery_info as deliver19_37_,
+        tborderdet0_.goods_dc_price as goods_d20_37_,
+        tborderdet0_.goods_nm as goods_n21_37_,
+        tborderdet0_.goods_price as goods_p22_37_,
+        tborderdet0_.item_amt as item_am23_37_,
+        tborderdet0_.item_id as item_id24_37_,
+        tborderdet0_.last_category_id as last_ca25_37_,
+        tborderdet0_.last_gb as last_gb26_37_,
+        tborderdet0_.list_image_data as list_im27_37_,
+        tborderdet0_.member_dc_price as member_28_37_,
+        tborderdet0_.option_info as option_29_37_,
+        tborderdet0_.option_price as option_30_37_,
+        tborderdet0_.option_text_info as option_31_37_,
+        tborderdet0_.option_text_price as option_32_37_,
+        tborderdet0_.parent_order_seq as parent_33_37_,
+        tborderdet0_.qty as qty34_37_,
+        tborderdet0_.sale_price as sale_pr35_37_,
+        tborderdet0_.scm_no as scm_no36_37_,
+        tborderdet0_.set_gb as set_gb37_37_,
+        tborderdet0_.set_order_id as set_ord38_37_,
+        tborderdet0_.set_order_seq as set_ord39_37_,
+        tborderdet0_.status_cd as status_40_37_,
+        tborderdet0_.storage_id as storage41_37_ 
+    from
+        tb_order_detail tborderdet0_ 
+    where
+        tborderdet0_.order_id in (
+            select
+                ifordermas1_.order_id 
+            from
+                if_order_master ifordermas1_ 
+            where
+                ifordermas1_.if_status='02'
+        ) 
+    order by
+        tborderdet0_.order_id asc limit ?
+Hibernate: 
+    select
+        ifordermas0_.if_no as if_no1_9_0_,
+        ifordermas0_.reg_dt as reg_dt2_9_0_,
+        ifordermas0_.reg_id as reg_id3_9_0_,
+        ifordermas0_.upd_dt as upd_dt4_9_0_,
+        ifordermas0_.upd_id as upd_id5_9_0_,
+        ifordermas0_.channel_gb as channel_6_9_0_,
+        ifordermas0_.channel_info as channel_7_9_0_,
+        ifordermas0_.channel_order_no as channel_8_9_0_,
+        ifordermas0_.channel_order_status as channel_9_9_0_,
+        ifordermas0_.customer_id as custome10_9_0_,
+        ifordermas0_.if_status as if_stat11_9_0_,
+        ifordermas0_.mem_no as mem_no12_9_0_,
+        ifordermas0_.order_addr1 as order_a13_9_0_,
+        ifordermas0_.order_addr2 as order_a14_9_0_,
+        ifordermas0_.order_date as order_d15_9_0_,
+        ifordermas0_.order_email as order_e16_9_0_,
+        ifordermas0_.order_id as order_i17_9_0_,
+        ifordermas0_.order_memo as order_m18_9_0_,
+        ifordermas0_.order_name as order_n19_9_0_,
+        ifordermas0_.order_tel as order_t20_9_0_,
+        ifordermas0_.order_zipcode as order_z21_9_0_,
+        ifordermas0_.pay_amt as pay_amt22_9_0_,
+        ifordermas0_.pay_dt as pay_dt23_9_0_,
+        ifordermas0_.pay_gb as pay_gb24_9_0_,
+        ifordermas0_.receiver_addr1 as receive25_9_0_,
+        ifordermas0_.receiver_addr2 as receive26_9_0_,
+        ifordermas0_.receiver_name as receive27_9_0_,
+        ifordermas0_.receiver_tel as receive28_9_0_,
+        ifordermas0_.receiver_zipcode as receive29_9_0_,
+        ifordermas0_.total_coupon_delivery_dc_price as total_c30_9_0_,
+        ifordermas0_.total_coupon_goods_dc_price as total_c31_9_0_,
+        ifordermas0_.total_coupon_goods_mileage as total_c32_9_0_,
+        ifordermas0_.total_coupon_order_dc_price as total_c33_9_0_,
+        ifordermas0_.total_coupon_order_mileage as total_c34_9_0_,
+        ifordermas0_.total_delivery_charge as total_d35_9_0_,
+        ifordermas0_.total_goods_dc_price as total_g36_9_0_,
+        ifordermas0_.total_goods_mileage as total_g37_9_0_,
+        ifordermas0_.total_goods_price as total_g38_9_0_,
+        ifordermas0_.total_member_dc_price as total_m39_9_0_,
+        ifordermas0_.total_member_mileage as total_m40_9_0_,
+        ifordermas0_.total_member_overlap_dc_price as total_m41_9_0_,
+        ifordermas0_.total_mileage as total_m42_9_0_ 
+    from
+        if_order_master ifordermas0_ 
+    where
+        ifordermas0_.channel_order_no=?
+Hibernate: 
+    select
+        ititmm0_.assort_id as assort_i1_19_0_,
+        ititmm0_.item_id as item_id2_19_0_,
+        ititmm0_.reg_dt as reg_dt3_19_0_,
+        ititmm0_.reg_id as reg_id4_19_0_,
+        ititmm0_.upd_dt as upd_dt5_19_0_,
+        ititmm0_.upd_id as upd_id6_19_0_,
+        ititmm0_.add_price as add_pric7_19_0_,
+        ititmm0_.day_deli_cnt as day_deli8_19_0_,
+        ititmm0_.item_nm as item_nm9_19_0_,
+        ititmm0_.variation_seq1 as variati19_19_0_,
+        ititmm0_.variation_seq2 as variati20_19_0_,
+        ititmm0_.max_cnt as max_cnt10_19_0_,
+        ititmm0_.min_cnt as min_cnt11_19_0_,
+        ititmm0_.order_lmt_cnt as order_l12_19_0_,
+        ititmm0_.order_lmt_yn as order_l13_19_0_,
+        ititmm0_.set_yn as set_yn14_19_0_,
+        ititmm0_.short_yn as short_y15_19_0_,
+        ititmm0_.tot_deli_cnt as tot_del16_19_0_,
+        ititmm0_.variation_gb1 as variati17_19_0_,
+        ititmm0_.variation_gb2 as variati18_19_0_ 
+    from
+        ititmm ititmm0_ 
+    where
+        ititmm0_.assort_id=? 
+        and ititmm0_.item_id=?
+Hibernate: 
+    select
+        tbordermas0_.order_id as order_id1_39_0_,
+        tbordermas0_.reg_dt as reg_dt2_39_0_,
+        tbordermas0_.reg_id as reg_id3_39_0_,
+        tbordermas0_.upd_dt as upd_dt4_39_0_,
+        tbordermas0_.upd_id as upd_id5_39_0_,
+        tbordermas0_.channel_gb as channel_6_39_0_,
+        tbordermas0_.channel_order_no as channel_7_39_0_,
+        tbordermas0_.cust_id as cust_id8_39_0_,
+        tbordermas0_.cust_pcode as cust_pco9_39_0_,
+        tbordermas0_.deli_id as deli_id10_39_0_,
+        tbordermas0_.first_order_gb as first_o11_39_0_,
+        tbordermas0_.first_order_id as first_o12_39_0_,
+        tbordermas0_.order_amt as order_a13_39_0_,
+        tbordermas0_.order_date as order_d14_39_0_,
+        tbordermas0_.order_gb as order_g15_39_0_,
+        tbordermas0_.order_memo as order_m16_39_0_,
+        tbordermas0_.order_status as order_s17_39_0_,
+        tbordermas0_.pay_dt as pay_dt18_39_0_,
+        tbordermas0_.pay_gb as pay_gb19_39_0_,
+        tbordermas0_.receipt_amt as receipt20_39_0_,
+        tbordermas0_.total_coupon_delivery_dc_price as total_c21_39_0_,
+        tbordermas0_.total_coupon_goods_dc_price as total_c22_39_0_,
+        tbordermas0_.total_coupon_goods_mileage as total_c23_39_0_,
+        tbordermas0_.total_coupon_order_dc_price as total_c24_39_0_,
+        tbordermas0_.total_coupon_order_mileage as total_c25_39_0_,
+        tbordermas0_.total_delivery_charge as total_d26_39_0_,
+        tbordermas0_.total_goods_dc_price as total_g27_39_0_,
+        tbordermas0_.total_goods_mileage as total_g28_39_0_,
+        tbordermas0_.total_goods_price as total_g29_39_0_,
+        tbordermas0_.total_member_dc_price as total_m30_39_0_,
+        tbordermas0_.total_member_mileage as total_m31_39_0_,
+        tbordermas0_.total_member_overlap_dc_price as total_m32_39_0_,
+        tbordermas0_.total_mileage as total_m33_39_0_ 
+    from
+        tb_order_master tbordermas0_ 
+    where
+        tbordermas0_.order_id=?
+2021-10-14T10:10:31,311 DEBUG [main] i.s.m.a.OrderSearch: 해당 주문의 orderStatus가 p1이 아닙니다.
+Hibernate: 
+    select
+        ifordermas0_.if_no as if_no1_9_0_,
+        ifordermas0_.reg_dt as reg_dt2_9_0_,
+        ifordermas0_.reg_id as reg_id3_9_0_,
+        ifordermas0_.upd_dt as upd_dt4_9_0_,
+        ifordermas0_.upd_id as upd_id5_9_0_,
+        ifordermas0_.channel_gb as channel_6_9_0_,
+        ifordermas0_.channel_info as channel_7_9_0_,
+        ifordermas0_.channel_order_no as channel_8_9_0_,
+        ifordermas0_.channel_order_status as channel_9_9_0_,
+        ifordermas0_.customer_id as custome10_9_0_,
+        ifordermas0_.if_status as if_stat11_9_0_,
+        ifordermas0_.mem_no as mem_no12_9_0_,
+        ifordermas0_.order_addr1 as order_a13_9_0_,
+        ifordermas0_.order_addr2 as order_a14_9_0_,
+        ifordermas0_.order_date as order_d15_9_0_,
+        ifordermas0_.order_email as order_e16_9_0_,
+        ifordermas0_.order_id as order_i17_9_0_,
+        ifordermas0_.order_memo as order_m18_9_0_,
+        ifordermas0_.order_name as order_n19_9_0_,
+        ifordermas0_.order_tel as order_t20_9_0_,
+        ifordermas0_.order_zipcode as order_z21_9_0_,
+        ifordermas0_.pay_amt as pay_amt22_9_0_,
+        ifordermas0_.pay_dt as pay_dt23_9_0_,
+        ifordermas0_.pay_gb as pay_gb24_9_0_,
+        ifordermas0_.receiver_addr1 as receive25_9_0_,
+        ifordermas0_.receiver_addr2 as receive26_9_0_,
+        ifordermas0_.receiver_name as receive27_9_0_,
+        ifordermas0_.receiver_tel as receive28_9_0_,
+        ifordermas0_.receiver_zipcode as receive29_9_0_,
+        ifordermas0_.total_coupon_delivery_dc_price as total_c30_9_0_,
+        ifordermas0_.total_coupon_goods_dc_price as total_c31_9_0_,
+        ifordermas0_.total_coupon_goods_mileage as total_c32_9_0_,
+        ifordermas0_.total_coupon_order_dc_price as total_c33_9_0_,
+        ifordermas0_.total_coupon_order_mileage as total_c34_9_0_,
+        ifordermas0_.total_delivery_charge as total_d35_9_0_,
+        ifordermas0_.total_goods_dc_price as total_g36_9_0_,
+        ifordermas0_.total_goods_mileage as total_g37_9_0_,
+        ifordermas0_.total_goods_price as total_g38_9_0_,
+        ifordermas0_.total_member_dc_price as total_m39_9_0_,
+        ifordermas0_.total_member_mileage as total_m40_9_0_,
+        ifordermas0_.total_member_overlap_dc_price as total_m41_9_0_,
+        ifordermas0_.total_mileage as total_m42_9_0_ 
+    from
+        if_order_master ifordermas0_ 
+    where
+        ifordermas0_.if_no=?
+Hibernate: 
+    update
+        if_order_master 
+    set
+        reg_dt=?,
+        reg_id=?,
+        upd_dt=?,
+        upd_id=?,
+        channel_gb=?,
+        channel_info=?,
+        channel_order_no=?,
+        channel_order_status=?,
+        customer_id=?,
+        if_status=?,
+        mem_no=?,
+        order_addr1=?,
+        order_addr2=?,
+        order_date=?,
+        order_email=?,
+        order_id=?,
+        order_memo=?,
+        order_name=?,
+        order_tel=?,
+        order_zipcode=?,
+        pay_amt=?,
+        pay_dt=?,
+        pay_gb=?,
+        receiver_addr1=?,
+        receiver_addr2=?,
+        receiver_name=?,
+        receiver_tel=?,
+        receiver_zipcode=?,
+        total_coupon_delivery_dc_price=?,
+        total_coupon_goods_dc_price=?,
+        total_coupon_goods_mileage=?,
+        total_coupon_order_dc_price=?,
+        total_coupon_order_mileage=?,
+        total_delivery_charge=?,
+        total_goods_dc_price=?,
+        total_goods_mileage=?,
+        total_goods_price=?,
+        total_member_dc_price=?,
+        total_member_mileage=?,
+        total_member_overlap_dc_price=?,
+        total_mileage=? 
+    where
+        if_no=?
+2021-10-14T10:10:31,340 DEBUG [main] o.s.b.i.d.AbstractPagingItemReader: Reading page 0
+Hibernate: 
+    update
+        if_order_master 
+    set
+        reg_dt=?,
+        reg_id=?,
+        upd_dt=?,
+        upd_id=?,
+        channel_gb=?,
+        channel_info=?,
+        channel_order_no=?,
+        channel_order_status=?,
+        customer_id=?,
+        if_status=?,
+        mem_no=?,
+        order_addr1=?,
+        order_addr2=?,
+        order_date=?,
+        order_email=?,
+        order_id=?,
+        order_memo=?,
+        order_name=?,
+        order_tel=?,
+        order_zipcode=?,
+        pay_amt=?,
+        pay_dt=?,
+        pay_gb=?,
+        receiver_addr1=?,
+        receiver_addr2=?,
+        receiver_name=?,
+        receiver_tel=?,
+        receiver_zipcode=?,
+        total_coupon_delivery_dc_price=?,
+        total_coupon_goods_dc_price=?,
+        total_coupon_goods_mileage=?,
+        total_coupon_order_dc_price=?,
+        total_coupon_order_mileage=?,
+        total_delivery_charge=?,
+        total_goods_dc_price=?,
+        total_goods_mileage=?,
+        total_goods_price=?,
+        total_member_dc_price=?,
+        total_member_mileage=?,
+        total_member_overlap_dc_price=?,
+        total_mileage=? 
+    where
+        if_no=?
+Hibernate: 
+    select
+        tborderdet0_.order_id as order_id1_37_,
+        tborderdet0_.order_seq as order_se2_37_,
+        tborderdet0_.reg_dt as reg_dt3_37_,
+        tborderdet0_.reg_id as reg_id4_37_,
+        tborderdet0_.upd_dt as upd_dt5_37_,
+        tborderdet0_.upd_id as upd_id6_37_,
+        tborderdet0_.admin_dc_price as admin_dc7_37_,
+        tborderdet0_.assort_gb as assort_g8_37_,
+        tborderdet0_.assort_id as assort_i9_37_,
+        tborderdet0_.channel_order_no as channel10_37_,
+        tborderdet0_.channel_order_seq as channel11_37_,
+        tborderdet0_.claim_handle_detail_reason as claim_h12_37_,
+        tborderdet0_.claim_handle_mode as claim_h13_37_,
+        tborderdet0_.claim_handle_reason as claim_h14_37_,
+        tborderdet0_.coupon_dc_price as coupon_15_37_,
+        tborderdet0_.dc_sum_price as dc_sum_16_37_,
+        tborderdet0_.deli_method as deli_me17_37_,
+        tborderdet0_.deli_price as deli_pr18_37_,
+        tborderdet0_.delivery_info as deliver19_37_,
+        tborderdet0_.goods_dc_price as goods_d20_37_,
+        tborderdet0_.goods_nm as goods_n21_37_,
+        tborderdet0_.goods_price as goods_p22_37_,
+        tborderdet0_.item_amt as item_am23_37_,
+        tborderdet0_.item_id as item_id24_37_,
+        tborderdet0_.last_category_id as last_ca25_37_,
+        tborderdet0_.last_gb as last_gb26_37_,
+        tborderdet0_.list_image_data as list_im27_37_,
+        tborderdet0_.member_dc_price as member_28_37_,
+        tborderdet0_.option_info as option_29_37_,
+        tborderdet0_.option_price as option_30_37_,
+        tborderdet0_.option_text_info as option_31_37_,
+        tborderdet0_.option_text_price as option_32_37_,
+        tborderdet0_.parent_order_seq as parent_33_37_,
+        tborderdet0_.qty as qty34_37_,
+        tborderdet0_.sale_price as sale_pr35_37_,
+        tborderdet0_.scm_no as scm_no36_37_,
+        tborderdet0_.set_gb as set_gb37_37_,
+        tborderdet0_.set_order_id as set_ord38_37_,
+        tborderdet0_.set_order_seq as set_ord39_37_,
+        tborderdet0_.status_cd as status_40_37_,
+        tborderdet0_.storage_id as storage41_37_ 
+    from
+        tb_order_detail tborderdet0_ 
+    where
+        tborderdet0_.order_id in (
+            select
+                ifordermas1_.order_id 
+            from
+                if_order_master ifordermas1_ 
+            where
+                ifordermas1_.if_status='02'
+        ) 
+    order by
+        tborderdet0_.order_id asc limit ?
+2021-10-14T10:10:31,377 INFO  [main] o.s.b.c.s.AbstractStep: Step: [searchOrderStep3] executed in 120ms
+2021-10-14T10:10:31,415 INFO  [main] o.s.b.c.l.s.SimpleJobLauncher$1: Job: [SimpleJob: [name=searchOrderJob]] completed with the following parameters: [{next=true, orderNo=2110131726091278, dateType=modify, run.id=257}] and the following status: [COMPLETED] in 2s203ms
+2021-10-14T10:10:31,762 INFO  [main] o.s.s.c.ExecutorConfigurationSupport: Shutting down ExecutorService 'applicationTaskExecutor'
+2021-10-14T10:10:31,762 WARN  [main] o.s.b.f.s.DisposableBeanAdapter: Destroy method 'close' on bean with name 'jpaGoodsSearchItemWriterReader' threw an exception: org.springframework.batch.item.ItemStreamException: Error while closing item reader
+2021-10-14T10:10:31,773 INFO  [main] o.s.o.j.AbstractEntityManagerFactoryBean: Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-10-14T10:10:31,773 INFO  [main] c.z.h.HikariDataSource: HikariPool-1 - Shutdown initiated...
+2021-10-14T10:10:31,803 INFO  [main] c.z.h.HikariDataSource: HikariPool-1 - Shutdown completed.
