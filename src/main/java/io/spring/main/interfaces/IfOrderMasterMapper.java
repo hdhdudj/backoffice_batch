@@ -3,7 +3,6 @@ package io.spring.main.interfaces;
 import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.model.order.entity.IfOrderMaster;
 import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface IfOrderMasterMapper{//<OrderInfoData, IfOrderMaster> extends GenericMapper<OrderInfoData, IfOrderMaster>{

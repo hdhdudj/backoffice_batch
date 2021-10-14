@@ -64,7 +64,7 @@ public class OrderSearchJobConfiguration {
                     
                     // 트랜잭션1. if table 저장
                     int n = page == null || page.trim().equals("")? -1 : Integer.parseInt(page);
-                    int day = 30;
+                    int day = 7; // 긁어올 날짜 단위(일)
 
                     String orderNum = orderNo == null? "": orderNo;
 
@@ -148,7 +148,8 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' order by t.orderId asc");
+        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') order by td.orderId asc");
+//        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' order by t.orderId asc");
 //        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' and t.orderId='O00000363' and t.orderSeq='0001'");
         return jpaPagingItemReader;
     }

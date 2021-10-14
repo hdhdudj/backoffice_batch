@@ -647,7 +647,7 @@ public class OrderSearch {
             }
             String orderSeq = Utilities.plusOne(Integer.toString(num),4);
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
-            tbOrderDetail = //new TbOrderDetail(orderId, orderSeq);
+            tbOrderDetail = new TbOrderDetail(orderId, orderSeq);
             ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
             ifOrderDetail.setOrderSeq(tbOrderDetail.getOrderSeq());
             jpaIfOrderDetailRepository.save(ifOrderDetail);

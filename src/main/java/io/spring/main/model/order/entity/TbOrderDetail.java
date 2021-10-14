@@ -29,7 +29,7 @@ import lombok.Setter;
 @Table(name="tb_order_detail")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(TbOrderDetailId.class)
 @EqualsAndHashCode(exclude = {"ititmm"}, callSuper = false)
 public class TbOrderDetail extends CommonProps
@@ -38,8 +38,7 @@ public class TbOrderDetail extends CommonProps
 //        this.orderId = tbOrderMaster.getOrderId();
 //        this.orderSeq = StringFactory.getThreeStartCd(); // 001 하드코딩
 //    }
-    public TbOrderDetail(String orderId){
-        this.orderId = orderId;
+    public TbOrderDetail(){
     }
     public TbOrderDetail(String orderId, String orderSeq){
         this.orderId = orderId;

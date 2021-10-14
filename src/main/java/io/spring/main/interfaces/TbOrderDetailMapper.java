@@ -1,7 +1,6 @@
 package io.spring.main.interfaces;
 
 import io.spring.main.model.goods.entity.Ititmm;
-import io.spring.main.model.order.OrderSearchData;
 import io.spring.main.model.order.entity.IfOrderDetail;
 import io.spring.main.model.order.entity.TbOrderDetail;
 import org.mapstruct.Mapper;
@@ -23,10 +22,9 @@ public interface TbOrderDetailMapper {
 //    @Mapping(source = "og.goodsDeliveryCollectPrice", target = "deliPrice")
 //    @Mapping(source = "og.deliveryCond", target = "deliveryInfo")
     @Mapping(source = "id.goodsCnt", target = "qty")
-    @Mapping(source = "id.goodsCnt", target = "qty")
     @Mapping(source = "id.channelOptionInfo", target = "optionInfo")
     @Mapping(source = "id.channelGoodsNm", target = "goodsNm")
-    @Mapping(target = "storageId", defaultValue = "000001")
+    @Mapping(target = "storageId", constant = "000001")
     @Mapping(source = "it.itemId", target = "itemId")
     @Mapping(source = "it.assortId", target = "assortId")
     TbOrderDetail to(IfOrderDetail id, Ititmm it);
