@@ -667,10 +667,10 @@ public class OrderSearch {
                 return null;
             }
         }
-//        if(ititmm != null){
-//            tbOrderDetail.setItemId(ititmm.getItemId());
-//            tbOrderDetail.setAssortId(ititmm.getAssortId());
-//        }
+        if(ititmm != null){
+            tbOrderDetail.setItemId(ititmm.getItemId());
+            tbOrderDetail.setAssortId(ititmm.getAssortId());
+        }
 
 
 		if (ifOrderDetail.getChannelGoodsType().equals("002")) {
@@ -681,8 +681,8 @@ public class OrderSearch {
 			}
 		}
 
-//        tbOrderDetail.setGoodsNm(ifOrderDetail.getChannelGoodsNm());
-//        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 고도몰 주문(주문자 받는 곳 - 한국창고) : 000001
+        tbOrderDetail.setGoodsNm(ifOrderDetail.getChannelGoodsNm());
+        tbOrderDetail.setStorageId(StringUtils.leftPad(StringFactory.getStrOne(),6,'0')); // 고도몰 주문(주문자 받는 곳 - 한국창고) : 000001
 
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
 
@@ -702,9 +702,9 @@ public class OrderSearch {
 
         tbOrderDetail.setStatusCd(orderStatus); // 고도몰에서는 A01 상태만 가져옴.
 
-//        tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
+        tbOrderDetail.setOptionInfo(ifOrderDetail.getChannelOptionInfo());
         tbOrderDetail.setQty(ifOrderDetail.getGoodsCnt());
-//        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice()); // fixedPrice
+        tbOrderDetail.setGoodsPrice(ifOrderDetail.getGoodsPrice()); // fixedPrice
         float goodsDcPrice = ifOrderDetail.getGoodsDcPrice() == null? 0 : ifOrderDetail.getGoodsDcPrice();
         float memberDcPrice = ifOrderDetail.getMemberDcPrice() == null? 0 : ifOrderDetail.getMemberDcPrice();
         float couponDcPrice = ifOrderDetail.getCouponDcPrice() == null? 0 : ifOrderDetail.getCouponDcPrice();
@@ -712,9 +712,9 @@ public class OrderSearch {
         tbOrderDetail.setGoodsDcPrice(ifOrderDetail.getGoodsDcPrice());
         tbOrderDetail.setMemberDcPrice(ifOrderDetail.getMemberDcPrice());
         tbOrderDetail.setCouponDcPrice(ifOrderDetail.getCouponDcPrice());
-//        tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice()); // 일단 사용안함
+        tbOrderDetail.setAdminDcPrice(ifOrderDetail.getAdminDcPrice()); // 일단 사용안함
         tbOrderDetail.setDcSumPrice(goodsDcPrice + memberDcPrice + couponDcPrice + adminDcPrice);
-//        tbOrderDetail.setSalePrice(tbOrderDetail.getGoodsPrice() - tbOrderDetail.getDcSumPrice()); // goodsPrice
+        tbOrderDetail.setSalePrice(tbOrderDetail.getGoodsPrice() - tbOrderDetail.getDcSumPrice()); // goodsPrice
         tbOrderDetail.setDeliMethod(ifOrderDetail.getDeliveryMethodGb()); // 추후 수정
         tbOrderDetail.setDeliPrice(ifOrderDetail.getDeliPrice());
         tbOrderDetail.setChannelOrderNo(ifOrderDetail.getChannelOrderNo());
