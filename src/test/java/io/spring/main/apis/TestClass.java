@@ -7,16 +7,16 @@ import io.spring.main.enums.TrdstOrderStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = {TestMapperImpl.class, TestMapper.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {TestMapper.class})
 public class TestClass {
     private TestMapper testMapper = Mappers.getMapper(TestMapper.class);
 
@@ -33,16 +33,16 @@ public class TestClass {
         System.out.println(beforeMonth);
     }
 
-    @Test
-    public void equalsTest(){
-//        IfGoodsMaster if1 = new IfGoodsMaster();
-//        IfGoodsMaster if2 = new IfGoodsMaster();
-//        if2.setGoodsNo("2");
-//
-//        System.out.println(if1.toString());
-//        System.out.println(if2.toString());
-//        System.out.println(if1.equals(if2));
-    }
+//    @Test
+//    public void equalsTest(){
+////        IfGoodsMaster if1 = new IfGoodsMaster();
+////        IfGoodsMaster if2 = new IfGoodsMaster();
+////        if2.setGoodsNo("2");
+////
+////        System.out.println(if1.toString());
+////        System.out.println(if2.toString());
+////        System.out.println(if1.equals(if2));
+//    }
 
     @Test
     public void matchTest(){
@@ -59,10 +59,10 @@ public class TestClass {
         }
     }
 
-    @Test
-    public void builderTest(){
-//        TbOrderDetail tbOrderDetail = new TbOrderDetail();
-//        tbOrderDetail = tbOrderDetail.builder().orderId("aaaa").build();
-//        System.out.println(tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
-    }
+//    @Test
+//    public void builderTest(){
+////        TbOrderDetail tbOrderDetail = new TbOrderDetail();
+////        tbOrderDetail = tbOrderDetail.builder().orderId("aaaa").build();
+////        System.out.println(tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
+//    }
 }
