@@ -22,6 +22,8 @@ public interface TbOrderDetailMapper {
     @Mapping(source = "it.assortId", target = "assortId")
     @Mapping(source = "orderId", target = "orderId")
     @Mapping(source = "orderSeq", target = "orderSeq")
+    @Mapping(ignore = true, target = "super.updDt")
+    @Mapping(ignore = true, target = "super.regDt")
     TbOrderDetail to(String orderId, String orderSeq, IfOrderDetail id, Ititmm it);
 
     TbOrderDetail copy(TbOrderDetail tbOrderDetail);

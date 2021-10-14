@@ -168,8 +168,8 @@ public class OrderSearch {
             ifOrderMaster.setIfStatus(StringFactory.getGbOne());
         }
         // not null 컬럼들 설정
-        ifOrderMaster.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
-        ifOrderMaster.setChannelOrderStatus(orderSearchData.getOrderStatus());
+//        ifOrderMaster.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
+//        ifOrderMaster.setChannelOrderStatus(orderSearchData.getOrderStatus());
 		// System.out.println("getAddField ===> " + orderSearchData.getAddField());
 
 		try { // 오류가 난다면 pcode * 처리
@@ -274,39 +274,6 @@ public class OrderSearch {
             this.saveAddGoods(orderSearchData, ifOrderDetail, addGoodsDataMap);
         }
     }
-//                ifOrderDetail.setDeliveryMethodGb(this.changeDeliMethodToCode(orderGoodsData.getDeliveryMethodFl()));
-//            ifOrderDetail.setChannelGoodsType(this.changeGoodsAddGoodsToCode(orderGoodsData.getGoodsType()));
-        //            // not null
-////            ifOrderDetail.setChannelOrderNo(Long.toString(orderSearchData.getOrderNo()));
-////            ifOrderDetail.setChannelOrderSeq(Long.toString(orderGoodsData.getSno()));
-////            ifOrderDetail.setChannelOrderStatus(orderGoodsData.getOrderStatus());
-////            ifOrderDetail.setChannelGoodsNo(orderGoodsData.getGoodsNo());
-////            ifOrderDetail.setChannelOptionsNo(Long.toString(orderGoodsData.getOptionSno()));
-////            ifOrderDetail.setChannelOptionInfo(orderGoodsData.getOptionInfo());
-//            // goodsNm 가져오기
-//			// List<GoodsSearchData> goodsSearchDataList =
-//			// goodsSearch.retrieveGoods(orderGoodsData.getGoodsNo(), "", "", "");
-////            ifOrderDetail.setChannelGoodsNm(orderGoodsData.getGoodsNm());
-////            ifOrderDetail.setChannelGoodsNm(jpaTmitemRepository.f/indByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), orderGoodsData.getGoodsNo(), Long.toString(orderGoodsData.getOptionSno())).geta);
-//            //
-////            ifOrderDetail.setChannelParentGoodsNo(Long.toString(orderGoodsData.getParentGoodsNo()));
-////            ifOrderDetail.setGoodsCnt(orderGoodsData.getGoodsCnt());
-////            ifOrderDetail.setGoodsPrice(orderGoodsData.getGoodsPrice());
-////            ifOrderDetail.setGoodsDcPrice(orderGoodsData.getGoodsDcPrice());
-////            ifOrderDetail.setCouponDcPrice(orderGoodsData.getCouponGoodsDcPrice());
-////            ifOrderDetail.setMemberDcPrice(orderGoodsData.getMemberDcPrice());
-////            ifOrderDetail.setDeliPrice(orderGoodsData.getGoodsDeliveryCollectPrice());
-////            ifOrderDetail.setOrderId(orderSearchData.getMemId().split(StringFactory.getStrAt())[0]); // tb_order_detail.order_id
-////            ifOrderDetail.setDeliveryInfo(orderGoodsData.getDeliveryCond());
-//
-//            // 21-10-05 추가
-////            ifOrderDetail.setScmNo(orderGoodsData.getScmNo());
-//
-//            // 21-10-06 추가
-////            ifOrderDetail.setListImageData(orderGoodsData.getListImageData());
-////            ifOrderDetail.setOptionTextInfo(orderGoodsData.getOptionTextInfo());
-//        }
-//    }
 
 //    private void saveIfOrderDetail(OrderSearchData orderSearchData) {
 //        //

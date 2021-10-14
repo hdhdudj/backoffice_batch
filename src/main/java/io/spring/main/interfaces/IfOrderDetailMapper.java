@@ -25,7 +25,10 @@ public interface IfOrderDetailMapper {//<OrderInfoData, IfOrderMaster> extends G
     @Mapping(source = "og.goodsDeliveryCollectPrice", target = "deliPrice")
     @Mapping(source = "og.deliveryCond", target = "deliveryInfo")
     @Mapping(source = "og.deliveryMethodFl", target = "deliveryMethodGb")
+    @Mapping(ignore = true, target = "super.updDt")
+    @Mapping(ignore = true, target = "super.regDt")
     IfOrderDetail to(OrderSearchData os, OrderSearchData.OrderGoodsData og);
+
 //    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 //    void updateFromDto(OrderSearchData.OrderInfoData dto, @MappingTarget IfOrderMaster entity);
 }

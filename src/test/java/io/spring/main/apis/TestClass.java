@@ -1,40 +1,24 @@
 package io.spring.main.apis;
 
+import io.spring.main.apis.interfaces.TestMapper;
+import io.spring.main.apis.model.TestAClass;
+import io.spring.main.apis.model.TestBClass;
 import io.spring.main.enums.TrdstOrderStatus;
-import io.spring.main.interfaces.Asdf;
-import io.spring.main.interfaces.Bsdf;
-import io.spring.main.interfaces.TestMapper;
-import io.spring.main.interfaces.TestMapperImpl;
-import io.spring.main.model.goods.entity.IfGoodsMaster;
-import io.spring.main.model.order.OrderSearchData;
-import io.spring.main.model.order.entity.IfOrderMaster;
-import io.spring.main.model.order.entity.TbOrderDetail;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
-import lombok.RequiredArgsConstructor;
-import org.assertj.core.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mapstruct.Mapper;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {TestMapperImpl.class, TestMapper.class})
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = {TestMapperImpl.class, TestMapper.class})
 public class TestClass {
-    @Autowired
-    private TestMapper testMapper;
+    private TestMapper testMapper = Mappers.getMapper(TestMapper.class);
 
     @Test
     public void DateTest() throws ParseException {
@@ -62,11 +46,10 @@ public class TestClass {
 
     @Test
     public void matchTest(){
-        Asdf a = new Asdf("아아");
-        a.setAsdf1(1223l);
-        Bsdf b = testMapper.to(a);
-        System.out.println(b.getAsdf1());
-        System.out.println(b.getAsdf());
+        TestAClass a = new TestAClass();
+        TestBClass b;
+        b = testMapper.to(a);
+        System.out.println(b.getAsdf1() + ", " + b.getAsdf2() + ", " + b.getAsdf3() + ", " + b.getAsdf4() + ", " + b.getAsdf5() + ", ");
     }
 
     @Test
