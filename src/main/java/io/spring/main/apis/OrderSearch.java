@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 
 import io.spring.main.enums.GodoOrderStatus;
 import io.spring.main.interfaces.TbOrderDetailMapper;
+import io.spring.main.interfaces.TbOrderMasterMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -109,6 +110,7 @@ public class OrderSearch {
     private final IfOrderMasterMapper ifOrderMasterMapper;
     private final IfOrderDetailMapper ifOrderDetailMapper;
     private final TbOrderDetailMapper tbOrderDetailMapper;
+    private final TbOrderMasterMapper tbOrderMasterMapper;
 
 
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
@@ -704,58 +706,49 @@ public class OrderSearch {
 
         TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         if(tbOrderMaster == null){
-//            String ordId = jpaTbOrderMasterRepository.findMaxOrderId();
-//            if(ordId == null){
-//                ordId = StringUtils.leftPad(StringFactory.getStrOne(), 9, '0');
-//            }
-//            else{
-//                ordId = Utilities.plusOne(ordId, 9);
-//            }
-//            tbOrderMaster = new TbOrderMaster(ordId);
-//            String orderId = Utilities.getStringNo('O',ifOrderMaster.getIfNo(),9);
-            tbOrderMaster = new TbOrderMaster(tbOrderDetail.getOrderId());
+            tbOrderMaster = tbOrderMasterMapper.to(tbOrderMaster.getOrderId(), ifOrderMaster, tbMember, tbMemberAddress);//new TbOrderMaster(tbOrderDetail.getOrderId());
             ifOrderMaster.setOrderId(tbOrderMaster.getOrderId());
             jpaIfOrderMasterRepository.save(ifOrderMaster);
         }
-        tbOrderMaster.setChannelOrderNo(ifOrderMaster.getChannelOrderNo());
-        tbOrderMaster.setFirstOrderId(ifOrderMaster.getChannelOrderNo());
-        tbOrderMaster.setOrderStatus(ifOrderMaster.getChannelOrderStatus());
-        tbOrderMaster.setChannelGb(ifOrderMaster.getChannelGb());
+//        tbOrderMaster.setChannelOrderNo(ifOrderMaster.getChannelOrderNo());
+//        tbOrderMaster.setFirstOrderId(ifOrderMaster.getChannelOrderNo());
+//        tbOrderMaster.setOrderStatus(ifOrderMaster.getChannelOrderStatus());
+//        tbOrderMaster.setChannelGb(ifOrderMaster.getChannelGb());
         //tbOrderMaster.setCustId(Long.parseLong(ifOrderMaster.getMemNo()));
-        tbOrderMaster.setReceiptAmt(ifOrderMaster.getPayAmt());
+//        tbOrderMaster.setReceiptAmt(ifOrderMaster.getPayAmt());
 		System.out.println(ifOrderMaster.getChannelOrderNo());
 		System.out.println(ifOrderMaster.getCustomerId());
 		if (ifOrderMaster.getCustomerId().trim().length() >= 13) {
-		tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId().trim().substring(0, 13));// 고객번호는 13자리번호여서 13자리만 추출
+		    tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId().trim().substring(0, 13));// 고객번호는 13자리번호여서 13자리만 추출
 		}else {
 			tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId().trim());// 고객번호는 13자리번호여서 13자리만 추출
 		}
-        tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
-        tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
+//        tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
+//        tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
 
-        tbOrderMaster.setCustId(tbMember.getCustId());
-        tbOrderMaster.setDeliId(tbMemberAddress.getDeliId());
-        tbOrderMaster.setOrderAmt(ifOrderMaster.getPayAmt());
-        tbOrderMaster.setPayGb(ifOrderMaster.getPayGb());
+//        tbOrderMaster.setCustId(tbMember.getCustId());
+//        tbOrderMaster.setDeliId(tbMemberAddress.getDeliId());
+//        tbOrderMaster.setOrderAmt(ifOrderMaster.getPayAmt());
+//        tbOrderMaster.setPayGb(ifOrderMaster.getPayGb());
         tbOrderMaster.setPayDt(Utilities.dateToLocalDateTime(ifOrderMaster.getPayDt()));
 //        tbOrderMaster.setOrderId(ifOrderMaster.getOrderId());
-        tbOrderMaster.setFirstOrderGb(StringFactory.getGbOne()); // 첫주문 01 그다음 02
-        tbOrderMaster.setOrderGb(StringFactory.getGbOne()); // 01 : 주문, 02 : 반품, 03 : 교환
+//        tbOrderMaster.setFirstOrderGb(StringFactory.getGbOne()); // 첫주문 01 그다음 02
+//        tbOrderMaster.setOrderGb(StringFactory.getGbOne()); // 01 : 주문, 02 : 반품, 03 : 교환
 
         // 21-10-07 추가
-        tbOrderMaster.setTotalGoodsPrice(ifOrderMaster.getTotalGoodsPrice());
-        tbOrderMaster.setTotalDeliveryCharge(ifOrderMaster.getTotalDeliveryCharge());
-        tbOrderMaster.setTotalGoodsDcPrice(ifOrderMaster.getTotalGoodsDcPrice());
-        tbOrderMaster.setTotalMemberDcPrice(ifOrderMaster.getTotalMemberDcPrice());
-        tbOrderMaster.setTotalMemberOverlapDcPrice(ifOrderMaster.getTotalMemberOverlapDcPrice());
-        tbOrderMaster.setTotalCouponGoodsDcPrice(ifOrderMaster.getTotalCouponGoodsDcPrice());
-        tbOrderMaster.setTotalCouponOrderDcPrice(ifOrderMaster.getTotalCouponOrderDcPrice());
-        tbOrderMaster.setTotalCouponDeliveryDcPrice(ifOrderMaster.getTotalCouponDeliveryDcPrice());
-        tbOrderMaster.setTotalMileage(ifOrderMaster.getTotalMileage());
-        tbOrderMaster.setTotalGoodsMileage(ifOrderMaster.getTotalGoodsMileage());
-        tbOrderMaster.setTotalMemberMileage(ifOrderMaster.getTotalMemberMileage());
-        tbOrderMaster.setTotalCouponGoodsMileage(ifOrderMaster.getTotalCouponGoodsMileage());
-        tbOrderMaster.setTotalCouponOrderMileage(ifOrderMaster.getTotalCouponOrderMileage());
+//        tbOrderMaster.setTotalGoodsPrice(ifOrderMaster.getTotalGoodsPrice());
+//        tbOrderMaster.setTotalDeliveryCharge(ifOrderMaster.getTotalDeliveryCharge());
+//        tbOrderMaster.setTotalGoodsDcPrice(ifOrderMaster.getTotalGoodsDcPrice());
+//        tbOrderMaster.setTotalMemberDcPrice(ifOrderMaster.getTotalMemberDcPrice());
+//        tbOrderMaster.setTotalMemberOverlapDcPrice(ifOrderMaster.getTotalMemberOverlapDcPrice());
+//        tbOrderMaster.setTotalCouponGoodsDcPrice(ifOrderMaster.getTotalCouponGoodsDcPrice());
+//        tbOrderMaster.setTotalCouponOrderDcPrice(ifOrderMaster.getTotalCouponOrderDcPrice());
+//        tbOrderMaster.setTotalCouponDeliveryDcPrice(ifOrderMaster.getTotalCouponDeliveryDcPrice());
+//        tbOrderMaster.setTotalMileage(ifOrderMaster.getTotalMileage());
+//        tbOrderMaster.setTotalGoodsMileage(ifOrderMaster.getTotalGoodsMileage());
+//        tbOrderMaster.setTotalMemberMileage(ifOrderMaster.getTotalMemberMileage());
+//        tbOrderMaster.setTotalCouponGoodsMileage(ifOrderMaster.getTotalCouponGoodsMileage());
+//        tbOrderMaster.setTotalCouponOrderMileage(ifOrderMaster.getTotalCouponOrderMileage());
 
 //        if(effectIfOrderDetailListNum > 0){
 //            em.persist(tbOrderMaster);
