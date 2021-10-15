@@ -664,15 +664,17 @@ public class OrderSearch {
         tbOrderDetail.setDcSumPrice(goodsDcPrice + memberDcPrice + couponDcPrice + adminDcPrice);
 
         tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetail.getIfNoSeq(), 4,'0'));
-//        IfOrderDetail ifOrderDetailParent = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getIfNo(), ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getParentChannelOrderSeq());
-//        if(ifOrderDetailParent == null){
-//            tbOrderDetail.setParentOrderSeq(ifOrderDetail.getOrderSeq());
-//        }
-//        else {
-//            tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetailParent.getIfNoSeq(), 4,'0'));
-//        }
+        
+        // 부모 ifOrderDetail 찾기
+        IfOrderDetail ifOrderDetailParent = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getIfNo(), ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getParentChannelOrderSeq());
+        if(ifOrderDetailParent == null){
+            tbOrderDetail.setParentOrderSeq(ifOrderDetail.getOrderSeq() == null? tbOrderDetail.getParentOrderSeq():ifOrderDetail.getOrderSeq());
+        }
+        else {
+            tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetailParent.getIfNoSeq(), 4,'0'));
+        }
 
-        boolean isEqual = compareTbOrderDetail.equals(tbOrderDetail);
+        boolean isEqual = tbOrderDetail.equals(compareTbOrderDetail);
 
         if(!flag && isEqual){ // update인데 tbOrderDetail의 값이 불변
             tbOrderDetail = null;
