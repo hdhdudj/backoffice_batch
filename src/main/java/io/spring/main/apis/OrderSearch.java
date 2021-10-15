@@ -503,18 +503,17 @@ public class OrderSearch {
         // tb_order_detail, tb_order_history
         int num = 0;
         for(IfOrderDetail ifOrderDetail : ifOrderMaster.getIfOrderDetail()){
-//            if(!ifOrderDetail.getChannelOrderStatus().equals(StringFactory.getStrPOne())){
-//                log.debug("결제 완료되지 않은 주문입니다.");
-//                continue;
-//            }
             TbOrderDetail tbOrderDetail = this.saveTbOrderDetail(ifOrderDetail);
             if(tbOrderDetail != null){
                 this.saveTbOrderHistory(ifOrderDetail, tbOrderDetail);
             }
+            else{
+                log.debug("tbOrderDetail의 값이 변화 없음.");
+            }
             
             if(num == 0 && tbOrderDetail != null){
                 TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster, tbOrderDetail, tbMember, tbMemberAddress);
-                em.persist(tbOrderMaster);
+                jpaTbOrderMasterRepository.save(tbOrderMaster);
             }
             num++;
         }
@@ -572,14 +571,8 @@ public class OrderSearch {
 			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, agItem);
         }
 		
-		
-
-
 		//ifOrderDetail.getChannelGoodsNo()
-		
-		
-		
-        
+
 //        Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null? null : tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
 //        tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm);
         return tbOrderDetail;
@@ -670,18 +663,22 @@ public class OrderSearch {
         float adminDcPrice = ifOrderDetail.getAdminDcPrice() == null? 0 : ifOrderDetail.getAdminDcPrice();
         tbOrderDetail.setDcSumPrice(goodsDcPrice + memberDcPrice + couponDcPrice + adminDcPrice);
 
-        IfOrderDetail ifOrderDetailParent = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getIfNo(), ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getParentChannelOrderSeq());
-        if(ifOrderDetailParent == null){
-            tbOrderDetail.setParentOrderSeq(ifOrderDetail.getOrderSeq());
-        }
-        else {
-            tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetailParent.getIfNoSeq(), 4,'0'));
-        }
+        tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetail.getIfNoSeq(), 4,'0'));
+//        IfOrderDetail ifOrderDetailParent = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getIfNo(), ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getParentChannelOrderSeq());
+//        if(ifOrderDetailParent == null){
+//            tbOrderDetail.setParentOrderSeq(ifOrderDetail.getOrderSeq());
+//        }
+//        else {
+//            tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetailParent.getIfNoSeq(), 4,'0'));
+//        }
 
-        // TbOrderDetail가 기존 대비 변한 값이 있는지 확인하고 변하지 않았으면 null을 return 해준다. (history 쪽 함수에서 null을 받으면 업데이트하지 않도록)
-        em.persist(tbOrderDetail);
-        if(!flag && compareTbOrderDetail.equals(tbOrderDetail)){
+        boolean isEqual = compareTbOrderDetail.equals(tbOrderDetail);
+
+        if(!flag && isEqual){ // update인데 tbOrderDetail의 값이 불변
             tbOrderDetail = null;
+        }
+        else{
+            jpaTbOrderDetailRepository.save(tbOrderDetail);
         }
 
         if(tbOrderDetail != null){
@@ -701,69 +698,39 @@ public class OrderSearch {
     }
 
     private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster, TbOrderDetail tbOrderDetail, TbMember tbMember, TbMemberAddress tbMemberAddress) {
-//        System.out.println("------ + " + ifOrderMaster.toString());
-//        int effectIfOrderDetailListNum = ifOrderMaster.getIfOrderDetail().stream().filter(x->x.getChannelOrderStatus().equals(StringFactory.getStrPOne())).collect(Collectors.toList()).size();
-
         TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
-        if(tbOrderMaster == null){
-            tbOrderMaster = tbOrderMasterMapper.to(tbOrderMaster.getOrderId(), ifOrderMaster, tbMember, tbMemberAddress);//new TbOrderMaster(tbOrderDetail.getOrderId());
+        TbOrderMaster origTM = null;
+        if(tbOrderMaster == null){ // insert
+            tbOrderMaster = tbOrderMasterMapper.to(tbOrderDetail.getOrderId(), ifOrderMaster, tbMember, tbMemberAddress);//new TbOrderMaster(tbOrderDetail.getOrderId());
             ifOrderMaster.setOrderId(tbOrderMaster.getOrderId());
             jpaIfOrderMasterRepository.save(ifOrderMaster);
         }
-//        tbOrderMaster.setChannelOrderNo(ifOrderMaster.getChannelOrderNo());
-//        tbOrderMaster.setFirstOrderId(ifOrderMaster.getChannelOrderNo());
-//        tbOrderMaster.setOrderStatus(ifOrderMaster.getChannelOrderStatus());
-//        tbOrderMaster.setChannelGb(ifOrderMaster.getChannelGb());
-        //tbOrderMaster.setCustId(Long.parseLong(ifOrderMaster.getMemNo()));
-//        tbOrderMaster.setReceiptAmt(ifOrderMaster.getPayAmt());
-		System.out.println(ifOrderMaster.getChannelOrderNo());
-		System.out.println(ifOrderMaster.getCustomerId());
+        else{ // update
+            origTM = tbOrderMasterMapper.copy(tbOrderMaster); // 기존 tbOrderMaster
+            tbOrderMaster = tbOrderMasterMapper.to(tbOrderDetail.getOrderId(), ifOrderMaster, tbMember, tbMemberAddress); // 새로 입력된 정보를 기반으로 만든 tbOrderMaster
+        }
+
 		if (ifOrderMaster.getCustomerId().trim().length() >= 13) {
 		    tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId().trim().substring(0, 13));// 고객번호는 13자리번호여서 13자리만 추출
 		}else {
 			tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId().trim());// 고객번호는 13자리번호여서 13자리만 추출
 		}
-//        tbOrderMaster.setOrderMemo(ifOrderMaster.getOrderMemo());
-//        tbOrderMaster.setOrderDate(ifOrderMaster.getOrderDate());
 
-//        tbOrderMaster.setCustId(tbMember.getCustId());
-//        tbOrderMaster.setDeliId(tbMemberAddress.getDeliId());
-//        tbOrderMaster.setOrderAmt(ifOrderMaster.getPayAmt());
-//        tbOrderMaster.setPayGb(ifOrderMaster.getPayGb());
         tbOrderMaster.setPayDt(Utilities.dateToLocalDateTime(ifOrderMaster.getPayDt()));
-//        tbOrderMaster.setOrderId(ifOrderMaster.getOrderId());
-//        tbOrderMaster.setFirstOrderGb(StringFactory.getGbOne()); // 첫주문 01 그다음 02
-//        tbOrderMaster.setOrderGb(StringFactory.getGbOne()); // 01 : 주문, 02 : 반품, 03 : 교환
 
-        // 21-10-07 추가
-//        tbOrderMaster.setTotalGoodsPrice(ifOrderMaster.getTotalGoodsPrice());
-//        tbOrderMaster.setTotalDeliveryCharge(ifOrderMaster.getTotalDeliveryCharge());
-//        tbOrderMaster.setTotalGoodsDcPrice(ifOrderMaster.getTotalGoodsDcPrice());
-//        tbOrderMaster.setTotalMemberDcPrice(ifOrderMaster.getTotalMemberDcPrice());
-//        tbOrderMaster.setTotalMemberOverlapDcPrice(ifOrderMaster.getTotalMemberOverlapDcPrice());
-//        tbOrderMaster.setTotalCouponGoodsDcPrice(ifOrderMaster.getTotalCouponGoodsDcPrice());
-//        tbOrderMaster.setTotalCouponOrderDcPrice(ifOrderMaster.getTotalCouponOrderDcPrice());
-//        tbOrderMaster.setTotalCouponDeliveryDcPrice(ifOrderMaster.getTotalCouponDeliveryDcPrice());
-//        tbOrderMaster.setTotalMileage(ifOrderMaster.getTotalMileage());
-//        tbOrderMaster.setTotalGoodsMileage(ifOrderMaster.getTotalGoodsMileage());
-//        tbOrderMaster.setTotalMemberMileage(ifOrderMaster.getTotalMemberMileage());
-//        tbOrderMaster.setTotalCouponGoodsMileage(ifOrderMaster.getTotalCouponGoodsMileage());
-//        tbOrderMaster.setTotalCouponOrderMileage(ifOrderMaster.getTotalCouponOrderMileage());
-
-//        if(effectIfOrderDetailListNum > 0){
-//            em.persist(tbOrderMaster);
-//        }
+        if(origTM != null){ // update인 경우
+            tbOrderMaster = tbOrderMaster.equals(origTM)? origTM : tbOrderMaster;
+            origTM = null;
+        }
 
         return tbOrderMaster;
     }
 
     private void saveTbOrderHistory(IfOrderDetail ifOrderDetail, TbOrderDetail tbOrderDetail) {
-        if(tbOrderDetail == null){
-            log.debug("tbOrderDetail의 값이 변화 없음.");
-            return;
-        }
         TbOrderHistory tbOrderHistory = jpaTbOrderHistoryRepository.findByOrderIdAndOrderSeqAndEffEndDt(tbOrderDetail.getOrderId(), tbOrderDetail.getOrderSeq(), Utilities.getStringToDate(StringFactory.getDoomDay()));
+        boolean isInsert = false;
         if(tbOrderHistory == null){ // insert
+            isInsert = true;
             tbOrderHistory = new TbOrderHistory(tbOrderDetail);
         }
         else{ // update
@@ -773,10 +740,12 @@ public class OrderSearch {
             TbOrderHistory newTbOrderHistory = new TbOrderHistory(tbOrderDetail);
 //            newTbOrderHistory.setOrderSeq(tbOrderHistory.getOrderSeq());
             newTbOrderHistory.setStatusCd(tbOrderDetail.getStatusCd()); // 추후 수정
-            em.persist(newTbOrderHistory);
+            jpaTbOrderHistoryRepository.save(newTbOrderHistory);
         }
-        tbOrderHistory.setStatusCd(tbOrderDetail.getStatusCd()); // 추후 수정
-        em.persist(tbOrderHistory);
+        if(isInsert){
+            tbOrderHistory.setStatusCd(tbOrderDetail.getStatusCd());
+        }
+        jpaTbOrderHistoryRepository.save(tbOrderHistory);
     }
 
     private TbMember saveTbMember(IfOrderMaster ifOrderMaster) {

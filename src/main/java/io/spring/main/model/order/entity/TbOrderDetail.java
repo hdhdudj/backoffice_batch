@@ -27,7 +27,7 @@ import io.spring.main.model.order.idclass.TbOrderDetailId;
 @Setter
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(TbOrderDetailId.class)
-@EqualsAndHashCode(exclude = {"ititmm"}, callSuper = false)
+@EqualsAndHashCode(exclude = {"ititmm", "ifOrderMaster", "tbOrderMaster"}, callSuper = false)
 public class TbOrderDetail extends CommonProps{
 //    public TbOrderDetail(TbOrderMaster tbOrderMaster, Ititmm ititmm){
 //        this.orderId = tbOrderMaster.getOrderId();

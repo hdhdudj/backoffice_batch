@@ -2,10 +2,7 @@ package io.spring.main.model.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.spring.main.model.goods.entity.CommonProps;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,6 +15,7 @@ import java.util.Date;
 @Entity
 @Table(name="tb_order_master")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public class TbOrderMaster extends CommonProps {
     public TbOrderMaster(String orderId){
         this.orderId = orderId;
