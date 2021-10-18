@@ -667,10 +667,10 @@ public class OrderSearch {
         
         // 부모 ifOrderDetail 찾기
         IfOrderDetail ifOrderDetailParent = jpaIfOrderDetailRepository.findByIfNoAndChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getIfNo(), ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getParentChannelOrderSeq());
-        if(ifOrderDetailParent == null){
-            tbOrderDetail.setParentOrderSeq(ifOrderDetail.getOrderSeq() == null? tbOrderDetail.getParentOrderSeq():ifOrderDetail.getOrderSeq());
-        }
-        else {
+//        if(ifOrderDetailParent == null){
+//            tbOrderDetail.setParentOrderSeq(ifOrderDetail.getOrderSeq() == null? tbOrderDetail.getParentOrderSeq():ifOrderDetail.getOrderSeq());
+//        }
+        if(ifOrderDetailParent != null){
             tbOrderDetail.setParentOrderSeq(StringUtils.leftPad(ifOrderDetailParent.getIfNoSeq(), 4,'0'));
         }
 
