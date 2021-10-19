@@ -624,8 +624,8 @@ public class OrderSearch {
             jpaIfOrderDetailRepository.save(ifOrderDetail);
         }
         else { // update
-            compareTbOrderDetail = tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
-            tbOrderDetail = outTbOrderDetail;
+            compareTbOrderDetail = tbOrderDetailMapper.copy(outTbOrderDetail);//tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
+            tbOrderDetail = tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
 
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
             if(this.isTrdstOrderStatus(compareTbOrderDetail.getStatusCd())){
@@ -638,7 +638,6 @@ public class OrderSearch {
 			if (ag != null) {
 				tbOrderDetail.setItemId(StringFactory.getFourStartCd()); // 0001 하드코딩
 				tbOrderDetail.setAssortId(ag.getAddGoodsId());
-
 			}
 		}
 
@@ -882,7 +881,7 @@ public class OrderSearch {
 
         IfOrderMaster ifOrderMaster1 = tbOrderDetail.getIfOrderMaster();
         if(!tbOrderDetail.getIfOrderMaster().getChannelOrderStatus().equals(StringFactory.getStrPOne())){
-            log.debug("해당 주문의 orderStatus가 p1이 아닙니다.");
+            log.debug("해당 주문의 orderStatus가 p1이 아닙니다. orderId : " + tbOrderDetail.getOrderId() + ", orderSeq : " + tbOrderDetail.getOrderSeq());
             ifOrderMaster1.setIfStatus(StringFactory.getGbFour());
             jpaIfOrderMasterRepository.save(ifOrderMaster1);
             return null;
@@ -890,10 +889,10 @@ public class OrderSearch {
         List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
         List<Integer> resList = new ArrayList<>();
         for(TbOrderDetail td : tbOrderDetailList){
-            if(!td.getStatusCd().equals(StringFactory.getStrA01())){
-              log.debug("이미 status 변경 과정을 거친 주문입니다.");
-              continue;
-            }
+//            if(!td.getStatusCd().equals(StringFactory.getStrA01())){
+//              log.debug("이미 status 변경 과정을 거친 주문입니다.");
+//              continue;
+//            }
             String url = serverChangeStatusUrl + "?orderId=" + td.getOrderId() + "&orderSeq=" + td.getOrderSeq();
             log.debug("===== url : " + url);
             int res = this.get(url);
