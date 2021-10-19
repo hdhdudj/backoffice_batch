@@ -1,5 +1,6 @@
 package io.spring.main.jparepos.goods;
 
+import io.spring.main.model.goods.entity.Itadgs;
 import io.spring.main.model.goods.entity.Itasrt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,8 @@ import java.util.List;
 public interface JpaItasrtRepository extends JpaRepository<Itasrt, String> {
     @Query(value = "select i.assortId, i.assortNm, i.shortageYn, i.brandId, ib.brandNm, i.dispCategoryId, ic.categoryNm from Itasrt i, Itbrnd ib, Itcatg ic where 1=1 and i.brandId = ib.brandId and i.dispCategoryId = ic.categoryId and i.shortageYn = ?1 and i.regDt between ?2 and ?3")
     List<Object[]> getGoodsList(String shortageYn, Date regDtBegin, Date regDtEnd);
+
+    Itasrt findByAssortId(String assortId);
 }
 
 //select

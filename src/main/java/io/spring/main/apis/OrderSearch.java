@@ -624,6 +624,11 @@ public class OrderSearch {
             jpaIfOrderDetailRepository.save(ifOrderDetail);
         }
         else { // update
+            // trdstOrderStatus를 가지고 있으면 update 하지 않음.
+            if(this.isTrdstOrderStatus(outTbOrderDetail.getStatusCd())){
+                log.debug("trdst의 orderStatus를 탄 주문은 update 할 수 없습니다. orderId : " + outTbOrderDetail.getOrderId() + ", orderSeq : " + outTbOrderDetail.getSetOrderSeq());
+                return null;
+            }
             compareTbOrderDetail = tbOrderDetailMapper.copy(outTbOrderDetail);//tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
             tbOrderDetail = tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
 

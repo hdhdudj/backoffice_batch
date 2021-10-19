@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import io.spring.main.interfaces.IfGoodsAddGoodsMapper;
+import io.spring.main.interfaces.ItasrtMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -82,6 +84,10 @@ public class GoodsSearch {
     private final ObjectMapper objectMapper;
     private final CommonXmlParse commonXmlParse;
     private final GoodsMapper goodsMapper;
+
+    // mapstruct mapper
+    private final ItasrtMapper itasrtMapper;
+    private final IfGoodsAddGoodsMapper ifGoodsAddGoodsMapper;
 
     private final List<String> goodsSearchGotListPropsMap;
 
@@ -269,9 +275,13 @@ public class GoodsSearch {
                 break;
             }
             for(String addGoods : goodsNoData){
-                IfGoodsAddGoods ifGoodsAddGoods = objectMapper.convertValue(goodsSearchData, IfGoodsAddGoods.class);
+                IfGoodsAddGoods ifGoodsAddGoods = ifGoodsAddGoodsMapper.to(StringFactory.getGbOne(), goodsSearchData.getGoodsNo(), goodsSearchData); // 채널 01 하드코딩
+                //objectMapper.convertValue(goodsSearchData, IfGoodsAddGoods.class);
                 ifGoodsAddGoods.setAssortId(goodsSearchData.getAssortId());
                 ifGoodsAddGoods.setAddGoodsNo(addGoods);
+                ifGoodsAddGoods.setStockCnt(goodsSearchData.getStock());
+                ifGoodsAddGoods.setViewFl(GbOneOrTwo.valueOf(goodsSearchData.getGoodsDisplayFl()).getFieldName());
+                ifGoodsAddGoods.setSoldOutFl(GbOneOrTwo.valueOf(goodsSearchData.getSoldOutFl()).getFieldName());
                 ifGoodsAddGoods.setTitle(addGoodsData.getTitle());
 
                 jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
@@ -297,6 +307,12 @@ public class GoodsSearch {
                 ifAddGoods.setTitle(addGoodsData.getTitle());
 
                 jpaIfAddGoodsRepository.save(ifAddGoods);
+
+                List<IfGoodsAddGoods> ifGoodsAddGoodsList = jpaIfGoodsAddGoodsRepository.findByChannelGbAndAddGoodsNo(StringFactory.getGbOne(), ifAddGoods.getAddGoodsNo());
+                for(IfGoodsAddGoods ig : ifGoodsAddGoodsList){
+                    ig.setAddGoodsId(ifAddGoods.getAddGoodsId());
+                    jpaIfGoodsAddGoodsRepository.save(ig);
+                }
             }
         }
     }
@@ -376,11 +392,9 @@ public class GoodsSearch {
 		System.out.println("goodsNo ==> " + goodsNo);
 
         // 2. itasrt, itasrn, itasrd (from if_goods_master) 저장
-        // itadgs (from if_goods_add_goods) 저장
         Itasrt itasrt = this.saveItasrt(ifGoodsMaster); // itasrt
         this.saveItasrn(ifGoodsMaster); // itasrn
         this.saveItasrd(ifGoodsMaster); // itasrd
-        // itadgs
 
         // 3. if_goods_master 테이블 updateStatus 02로 업데이트
         ifGoodsMaster.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
@@ -572,9 +586,8 @@ public class GoodsSearch {
             }
             jpaItadgsRepository.save(itadgs);
             // 21-10-06 addGoods도 똑같이 itasrt에 들어가기로 함
-            Itasrt addGoodsItasrt = new Itasrt(itadgs);
-            jpaItasrtRepository.save(addGoodsItasrt);
-            
+            Itasrt addGoodsItasrt = this.saveItadgsToItasrt(ifAddGoods, ifGoodsAddGoods, itadgs);//new Itasrt(itadgs);
+
 			// todo:20211012 addGoods 도 ititmm을 만들어줘함
 
 			Itvari addGoodsitvari = this.saveSingleItvari(addGoodsItasrt.getAssortId());
@@ -606,6 +619,27 @@ public class GoodsSearch {
         }
 
         return ifGoodsMaster;
+    }
+
+    // itadgs를 통해 itasrt를 만듦
+    private Itasrt saveItadgsToItasrt(IfAddGoods ig, IfGoodsAddGoods ia, Itadgs itadgs) {
+        boolean isUpdate = true;
+        IfGoodsMaster im = jpaIfGoodsMasterRepository.findByChannelGbAndGoodsNo(StringFactory.getGbOne(), ia.getGoodsNo());
+        Itasrt itasrt = jpaItasrtRepository.findByAssortId(itadgs.getAddGoodsId());
+        if(itasrt == null){ // insert
+            itasrt = new Itasrt(itadgs);
+        }
+        else { // update
+            Itasrt origItasrt = itasrtMapper.copy(itasrt);
+            itasrt = itasrtMapper.to(itadgs.getAddGoodsId(), itadgs);
+            if(origItasrt.equals(itasrt)){
+                isUpdate = false;
+            }
+        }
+        if(isUpdate){
+            jpaItasrtRepository.save(itasrt);
+        }
+        return itasrt;
     }
 
     // itasrn 저장 함수

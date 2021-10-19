@@ -3,10 +3,7 @@ package io.spring.main.model.goods.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.spring.main.util.StringFactory;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -24,8 +21,11 @@ import java.util.List;
 @Table(name = "itasrt")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(exclude = {"itvariList","ititmmList","itasrdList","itcatg","itbrnd"})
 public class Itasrt extends CommonProps{
+	public Itasrt(){
+
+	}
 	public Itasrt(IfGoodsMaster ifGoodsMaster){
 		super(ifGoodsMaster.getRegDt(), ifGoodsMaster.getUpdDt());
 		this.assortId = ifGoodsMaster.getAssortId();
@@ -68,7 +68,7 @@ public class Itasrt extends CommonProps{
 		// 21-10-05 추가
 		this.ownerId = StringUtils.leftPad(Long.toString(ifGoodsMaster.getScmNo()),6,'0');
 		// 21-10-06 추가
-		this.addGoodsYn = StringFactory.getGbTwo(); // 02 하드코딩
+		this.addGoodsYn = StringFactory.getGbTwo(); // 02 하드코딩, 01 : 추가상품 02 : 추가상품아님
 	}
 
 	public Itasrt(Itadgs itadgs){

@@ -57,7 +57,7 @@ public class GoodsSearchJobConfiguration {
 
 //					goodsNo = "1000003553";
 
-					goodsSearch.saveIfTables("", "", "", page); // , ifGoodsOptionList, ifGoodsTextOptionList,
+					goodsSearch.saveIfTables(goodsNo, "", "", page); // , ifGoodsOptionList, ifGoodsTextOptionList,
 																			// ifGoodsAddGoodsList);
                     return RepeatStatus.FINISHED;
                 })
