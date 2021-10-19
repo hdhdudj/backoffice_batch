@@ -647,8 +647,7 @@ public class OrderSearch {
 		}
 
 //        System.out.println("----------------------- : " + tbOrderDetail.getOrderId() + ", " + tbOrderDetail.getOrderSeq());
-
-        String orderStatus = StringFactory.getStrPOne().equals(ifOrderDetail.getChannelOrderStatus())? StringFactory.getStrA01():ifOrderDetail.getChannelOrderStatus();
+        String orderStatus = ifOrderDetail.getChannelOrderStatus();
 
 		// claim에 따른 상품상태변경 (r = 환불접수, b = 반품접수, e = 교환접수
 		if (ifOrderDetail.getClaimHandleMode() != null) {
@@ -871,12 +870,35 @@ public class OrderSearch {
     }
 
     /**
-     * tbOrderDetail의 상태(statusCd)를 바꿔줌
+     * tbOrderDetail의 상태(statusCd)를 바꿔줌 - 1 (p1인 주문들을 A01로 바꿈)
      * @param tbOrderDetail
      * @return
      */
     @Transactional
-    public TbOrderDetail changeOneToStatusCd(TbOrderDetail tbOrderDetail) {
+    public TbOrderDetail changeOneToStatusCd1(TbOrderDetail tbOrderDetail) {
+        if (tbOrderDetail.getScmNo().equals(StringFactory.getScmNo63())
+                || tbOrderDetail.getScmNo().equals(StringFactory.getScmNo64())) {
+            log.debug("공급사 (scmNo : " + tbOrderDetail.getScmNo() + ") 주문입니다.");
+            return null;
+        }
+
+        if(!tbOrderDetail.getStatusCd().equals(StringFactory.getStrPOne())){
+            log.debug("해당 주문의 orderStatus가 p1이 아닙니다. orderId : " + tbOrderDetail.getOrderId() + ", orderSeq : " + tbOrderDetail.getOrderSeq());
+            return null;
+        }
+        else{
+            this.updateOrderStatusCd(tbOrderDetail.getOrderId(), tbOrderDetail.getOrderSeq(), StringFactory.getStrA01());
+        }
+        return null;
+    }
+    
+    /**
+     * tbOrderDetail의 상태(statusCd)를 바꿔줌 - 2 (A01인 주문들을 서버에 보내서 판단시킴)
+     * @param tbOrderDetail
+     * @return
+     */
+    @Transactional
+    public TbOrderDetail changeOneToStatusCd2(TbOrderDetail tbOrderDetail) {
         // todo(완) : 2021-10-12 공급사 주문 (scmNo가 63,64)인 경우 tb_order_detail 을 만들고 상태에 대한 변경은 없음.
         if (tbOrderDetail.getScmNo().equals(StringFactory.getScmNo63())
                 || tbOrderDetail.getScmNo().equals(StringFactory.getScmNo64())) {
@@ -944,5 +966,42 @@ public class OrderSearch {
             log.debug(e.toString());
         }
         return -1;
+    }
+
+    /**
+     * JB
+     * orderDetail의 orderStatusCd를 update할 때 orderDetail과 orderHistory를 한꺼번에 update 시켜주는 함수
+     * @param orderId
+     * @param orderSeq
+     * @param statusCd
+     */
+    public void updateOrderStatusCd(String orderId, String orderSeq, String statusCd) {
+
+        TbOrderDetail tod = jpaTbOrderDetailRepository.findByOrderIdAndOrderSeq(orderId, orderSeq);
+        Date date = Utilities.getStringToDate(StringFactory.getDoomDay());
+        List<TbOrderHistory> tohs = new ArrayList<>();
+        tohs.add(jpaTbOrderHistoryRepository.findByOrderIdAndOrderSeqAndEffEndDt(orderId, orderSeq, date));
+
+        tod.setStatusCd(statusCd);
+
+        Date newEffEndDate = new Date();
+
+        for (int i = 0; i < tohs.size(); i++) {
+            tohs.get(i).setEffEndDt(newEffEndDate);
+            tohs.get(i).setLastYn("002");
+        }
+
+        TbOrderHistory toh = new TbOrderHistory(orderId, orderSeq, statusCd, "001", newEffEndDate,
+                Utilities.getStringToDate(StringFactory.getDoomDay()));
+        // 임시 코드
+        toh.setRegId(1l);
+        toh.setUpdId(1l);
+
+        tohs.add(toh);
+
+//        System.out.println(tod);
+        TbOrderDetail t = jpaTbOrderDetailRepository.save(tod);
+//        System.out.println(t);
+        jpaTbOrderHistoryRepository.saveAll(tohs);
     }
 }

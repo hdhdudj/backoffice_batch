@@ -8,5 +8,5 @@ import java.util.Date;
 public interface JpaTbOrderHistoryRepository extends JpaRepository<TbOrderHistory, String> {
     TbOrderHistory findByOrderIdAndEffEndDt(String orderId, Date effEndDate);
 
-    TbOrderHistory findByOrderIdAndOrderSeqAndEffEndDt(String orderId, String orderSeq,Date stringToDate);
+    TbOrderHistory findByOrderIdAndOrderSeqAndEffEndDt(String orderId, String orderSeq, Date stringToDate);
 }

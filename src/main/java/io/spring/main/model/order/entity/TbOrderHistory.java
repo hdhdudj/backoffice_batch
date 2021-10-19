@@ -24,8 +24,19 @@ public class TbOrderHistory extends CommonProps {
     public TbOrderHistory(TbOrderDetail tbOrderDetail){
         this.orderId = tbOrderDetail.getOrderId();
         this.orderSeq = tbOrderDetail.getOrderSeq();//StringUtils.leftPad(StringFactory.getStrOne(), 3,'0'); // 001 하드코딩
-        this.lastYn = StringUtils.leftPad(StringFactory.getStrTwo(), 3,'0'); // 002 하드코딩
+        this.lastYn = StringUtils.leftPad(StringFactory.getStrOne(), 3,'0'); // 001 하드코딩
         this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
+    }
+
+    public TbOrderHistory(String orderId, String orderSeq, String statusCd, String lastYn, Date effStartDt,
+                          Date effEndDt) {
+
+        this.orderId = orderId;
+        this.orderSeq = orderSeq;
+        this.statusCd = statusCd;
+        this.lastYn = lastYn;
+        this.effStartDt = effStartDt;
+        this.effEndDt = effEndDt;
     }
 
     @Id
