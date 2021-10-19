@@ -462,7 +462,7 @@ public class OrderSearch {
         fromDt = fromDt == null? "":fromDt;
         toDt = toDt == null? "":toDt;
 
-		mode = mode == null ? "modify" : mode;
+		mode = mode == null ? "order" : mode;
 
         String urlstr = orderSearchUrl + StringFactory.getStrQuestion() + StringFactory.getOrderSearchParams()[0] + StringFactory.getStrEqual() +
                 pKey + StringFactory.getStrAnd() +StringFactory.getOrderSearchParams()[1]
