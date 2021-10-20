@@ -899,12 +899,6 @@ public class OrderSearch {
      */
     @Transactional
     public TbOrderDetail changeOneToStatusCd2(TbOrderDetail tbOrderDetail) {
-        // todo(완) : 2021-10-12 공급사 주문 (scmNo가 63,64)인 경우 tb_order_detail 을 만들고 상태에 대한 변경은 없음.
-        if (tbOrderDetail.getScmNo().equals(StringFactory.getScmNo63())
-                || tbOrderDetail.getScmNo().equals(StringFactory.getScmNo64())) {
-            log.debug("공급사 (scmNo : " + tbOrderDetail.getScmNo() + ") 주문입니다.");
-            return null;
-        }
 
         IfOrderMaster ifOrderMaster1 = tbOrderDetail.getIfOrderMaster();
         if(!tbOrderDetail.getIfOrderMaster().getChannelOrderStatus().equals(StringFactory.getStrPOne())){
@@ -913,6 +907,22 @@ public class OrderSearch {
             jpaIfOrderMasterRepository.save(ifOrderMaster1);
             return null;
         }
+        // todo(완) : 2021-10-12 공급사 주문 (scmNo가 63,64)인 경우 tb_order_detail 을 만들고 상태에 대한 변경은 없음.
+        if (tbOrderDetail.getScmNo().equals(StringFactory.getScmNo63())
+                || tbOrderDetail.getScmNo().equals(StringFactory.getScmNo64())) {
+            log.debug("공급사 (scmNo : " + tbOrderDetail.getScmNo() + ") 주문입니다.");
+            ifOrderMaster1.setIfStatus(StringFactory.getGbThree());
+            jpaIfOrderMasterRepository.save(ifOrderMaster1);
+            return null;
+        }
+        if(this.isTrdstOrderStatus(tbOrderDetail.getStatusCd())){
+            log.debug("trdst의 orderStatus를 탄 주문은 더 이상 건드릴 수 없습니다. (in step4, changeOneToStatusCd2(TbOrderDetail td))" +
+                    "orderId : " + tbOrderDetail.getOrderId() + ", orderSeq : " + tbOrderDetail.getOrderSeq());
+            ifOrderMaster1.setIfStatus(StringFactory.getGbThree());
+            jpaIfOrderMasterRepository.save(ifOrderMaster1);
+            return null;
+        }
+
         List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
         List<Integer> resList = new ArrayList<>();
         for(TbOrderDetail td : tbOrderDetailList){
