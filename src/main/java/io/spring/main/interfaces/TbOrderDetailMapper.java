@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 public interface TbOrderDetailMapper {
     @Mapping(target = "lastCategoryId", constant = "01")
     @Mapping(target = "lastGb", constant = "01")
-    @Mapping(target = "storageId", constant = "000001")
+    @Mapping(target = "storageId", constant = "000002") // 현재는 외국으로 입고되므로 일단 000002 하드코딩
     @Mapping(source = "id.channelGoodsType", target = "assortGb")
     @Mapping(source = "id.goodsPrice", target = "salePrice")
     @Mapping(source = "id.fixedPrice", target = "goodsPrice")
