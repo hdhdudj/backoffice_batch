@@ -43,7 +43,7 @@ public class OrderSearchJobConfiguration {
     @Bean
     public Job searchOrderJob(){
         return jobBuilderFactory.get("searchOrderJob")
-				.start(searchOrderStep1(null, null, false, null))
+				.start(searchOrderStep1(null, null, null, null))
                 .next(searchOrderStep2())
                 .next(searchOrderStep3())
                 .next(searchOrderStep4())
@@ -57,10 +57,12 @@ public class OrderSearchJobConfiguration {
     @Bean
     @JobScope
 	public Step searchOrderStep1(@Value("#{jobParameters[page]}") String page,
-			@Value("#{jobParameters[mode]}") String mode, @Value("#{jobParameters[next]}") boolean next, @Value("#{jobParameters[orderNo]}") String orderNo) {
+			@Value("#{jobParameters[mode]}") String mode, @Value("#{jobParameters[next]}") String nexts, @Value("#{jobParameters[orderNo]}") String orderNo) {
         return stepBuilderFactory.get("searchOrderStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchOrderStep1");
+
+                    boolean next = nexts == null || nexts.equals("false")? false : true; // false가 기본값
                     
 					// if(mode==null) {
 //                    	mode="modify";
@@ -74,6 +76,7 @@ public class OrderSearchJobConfiguration {
 
                     String startDt;
                     String endDt;
+                    String dateType;
                     if(n >= 0 && !next){
                         startDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, day * -(n+1));
                         endDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, day * -n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
@@ -86,7 +89,10 @@ public class OrderSearchJobConfiguration {
                         startDt = null;
                         endDt = null;
                     }
-					orderSearch.saveIfTables(orderNum, startDt, endDt, mode); // "2106301555509122","2107021751024711",
+                    startDt = startDt == null? "":startDt;
+                    endDt = endDt == null? "":endDt;
+                    dateType = mode == null ? "order" : mode;
+					orderSearch.saveIfTables(orderNum, startDt, endDt, dateType); // "2106301555509122","2107021751024711",
 																					// "2101081407020195"(addGoods 정렬
 																					// 테스트용), "2110061315569293"(최신)
                     return RepeatStatus.FINISHED;

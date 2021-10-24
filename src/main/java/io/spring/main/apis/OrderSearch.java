@@ -116,7 +116,7 @@ public class OrderSearch {
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
 	public void saveIfTables(String orderNo, String startDt, String endDt, String mode) {
-		List<OrderSearchData> orderSearchDataList = retrieveOrders(orderNo, startDt, endDt, mode);
+		List<OrderSearchData> orderSearchDataList = this.retrieveOrders(orderNo, startDt, endDt, mode);
 
         // 1. if table 저장
         for(OrderSearchData orderSearchData : orderSearchDataList){
@@ -446,7 +446,9 @@ public class OrderSearch {
     private boolean isTrdstOrderStatus(String goodsType) {
         List<String> enumList = new ArrayList<>();
         for(TrdstOrderStatus val : TrdstOrderStatus.values()){
-            enumList.add(val.toString());
+            if(!val.equals(TrdstOrderStatus.A01)){
+                enumList.add(val.toString());
+            }
         }
         if(enumList.contains(goodsType)){
             return true;
@@ -459,10 +461,6 @@ public class OrderSearch {
     // goods xml 받아오는 함수
 	public List<OrderSearchData> retrieveOrders(String orderNo, String fromDt, String toDt, String mode) {
         //OpenApi호출
-        fromDt = fromDt == null? "":fromDt;
-        toDt = toDt == null? "":toDt;
-
-		mode = mode == null ? "order" : mode;
 
         String urlstr = orderSearchUrl + StringFactory.getStrQuestion() + StringFactory.getOrderSearchParams()[0] + StringFactory.getStrEqual() +
                 pKey + StringFactory.getStrAnd() +StringFactory.getOrderSearchParams()[1]
