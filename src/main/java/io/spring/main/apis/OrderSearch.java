@@ -624,8 +624,15 @@ public class OrderSearch {
             String orderSeq = Utilities.plusOne(Integer.toString(num),4);
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
             tbOrderDetail = tbOrderDetailMapper.to(orderId, orderSeq, ifOrderDetail);//, ititmm);//new TbOrderDetail(orderId, orderSeq);
-            tbOrderDetail.setAssortId(tmmapi == null? null : tmmapi.getAssortId());
-            tbOrderDetail.setItemId(ititmm == null? null : ititmm.getItemId());
+
+			if (ifOrderDetail.getChannelGoodsType().equals("001")) {
+				tbOrderDetail.setAssortId(tmmapi == null ? null : tmmapi.getAssortId());
+				tbOrderDetail.setItemId(ititmm == null ? null : ititmm.getItemId());
+
+			} else {
+				tbOrderDetail.setAssortId(ag == null ? null : ag.getAddGoodsId());
+				tbOrderDetail.setItemId(ag == null ? null : "0001");
+			}
 
             ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
             ifOrderDetail.setOrderSeq(tbOrderDetail.getOrderSeq());
@@ -639,8 +646,18 @@ public class OrderSearch {
             }
             compareTbOrderDetail = tbOrderDetailMapper.copy(outTbOrderDetail);//tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
             tbOrderDetail = tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail);//, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
-			tbOrderDetail.setAssortId(tmmapi == null ? null : tmmapi.getAssortId());
-            tbOrderDetail.setItemId(ititmm == null? null : ititmm.getItemId());
+
+			if (ifOrderDetail.getChannelGoodsType().equals("001")) {
+				tbOrderDetail.setAssortId(tmmapi == null ? null : tmmapi.getAssortId());
+				tbOrderDetail.setItemId(ititmm == null ? null : ititmm.getItemId());
+
+			} else {
+				tbOrderDetail.setAssortId(ag == null ? null : ag.getAddGoodsId());
+				tbOrderDetail.setItemId(ag == null ? null : "0001");
+			}
+
+//			tbOrderDetail.setAssortId(tmmapi == null ? null : tmmapi.getAssortId());
+			// tbOrderDetail.setItemId(ititmm == null? null : ititmm.getItemId());
 
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
             if(this.isTrdstOrderStatus(compareTbOrderDetail.getStatusCd())){

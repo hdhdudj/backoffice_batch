@@ -1,9 +1,12 @@
 package io.spring.main.interfaces;
 
-import io.spring.main.model.goods.entity.Ititmm;
-import io.spring.main.model.order.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import io.spring.main.model.order.entity.IfOrderMaster;
+import io.spring.main.model.order.entity.TbMember;
+import io.spring.main.model.order.entity.TbMemberAddress;
+import io.spring.main.model.order.entity.TbOrderMaster;
 
 @Mapper(componentModel = "spring")
 public interface TbOrderMasterMapper {
@@ -13,7 +16,7 @@ public interface TbOrderMasterMapper {
     @Mapping(source = "im.payAmt", target = "receiptAmt")
     @Mapping(source = "im.payAmt", target = "orderAmt")
     @Mapping(source = "im.channelOrderStatus", target = "orderStatus")
-    @Mapping(source = "im.channelOrderNo", target = "firstOrderId")
+	@Mapping(source = "orderId", target = "firstOrderId")
     @Mapping(source = "im.channelGb", target = "channelGb")
     @Mapping(source = "im.regId", target = "regId")
     @Mapping(source = "im.updId", target = "updId")
