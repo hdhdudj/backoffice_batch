@@ -553,20 +553,20 @@ public class OrderSearch {
         }
         
 		if (ifOrderDetail.getChannelGoodsType().equals("001")) { // goods
-            Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null? null : tmmapi.getAssortId(), tmitem == null? StringFactory.getFourStartCd():tmitem.getItemId()); // tmitem이 없으면 0001
-			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, null);
+            Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null? null : tmmapi.getAssortId(), tmitem == null? null:tmitem.getItemId()); // tmitem이 없으면 null
+			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, tmmapi, null);
 		} else { // add_goods
 
 			System.out.println("addGood => " + ifOrderDetail.getChannelGoodsNo());
 
 			Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null ? null : tmmapi.getAssortId(),
-					tmitem == null ? StringFactory.getFourStartCd() : tmitem.getItemId()); // tmitem이 없으면 0001
+					tmitem == null ? null : tmitem.getItemId()); // tmitem이 없으면 null
 
 			IfAddGoods agItem = jpaIfAddGoodsRepository.findByAddGoodsNo(ifOrderDetail.getChannelGoodsNo());
 			System.out.println("agItem => " + agItem);
 
 			// IfGoodsAddGoods ag = agItem.get(0);
-			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, agItem);
+			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, tmmapi, agItem);
         }
 		
 		//ifOrderDetail.getChannelGoodsNo()
@@ -577,6 +577,9 @@ public class OrderSearch {
     }
 
     private Ititmm getItitmmWithItasrt(String assortId, String itemId) {
+        if(assortId == null || itemId == null){
+            return null;
+        }
         TypedQuery<Ititmm> query = em.createQuery("select m from Ititmm m join fetch m.itasrt t where m.assortId=?1 and m.itemId=?2", Ititmm.class);
         query.setParameter(1,assortId).setParameter(2,itemId);
         List<Ititmm> ititmmList = query.getResultList();
@@ -596,7 +599,7 @@ public class OrderSearch {
      * @param ititmm
      */
 	private TbOrderDetail saveSingleTbOrderDetail(TbOrderDetail outTbOrderDetail, IfOrderDetail ifOrderDetail,
-			Ititmm ititmm, IfAddGoods ag) {
+			Ititmm ititmm, Tmmapi tmmapi, IfAddGoods ag) {
         boolean flag = outTbOrderDetail == null; // true : insert, false : update
         TbOrderDetail tbOrderDetail;
         TbOrderDetail compareTbOrderDetail = null;
@@ -615,7 +618,9 @@ public class OrderSearch {
             }
             String orderSeq = Utilities.plusOne(Integer.toString(num),4);
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
-            tbOrderDetail = tbOrderDetailMapper.to(orderId, orderSeq, ifOrderDetail, ititmm);//new TbOrderDetail(orderId, orderSeq);
+            tbOrderDetail = tbOrderDetailMapper.to(orderId, orderSeq, ifOrderDetail);//, ititmm);//new TbOrderDetail(orderId, orderSeq);
+            tbOrderDetail.setAssortId(tmmapi == null? null : tmmapi.getAssortId());
+            tbOrderDetail.setItemId(ititmm == null? null : ititmm.getItemId());
 
             ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
             ifOrderDetail.setOrderSeq(tbOrderDetail.getOrderSeq());
@@ -628,7 +633,9 @@ public class OrderSearch {
                 return null;
             }
             compareTbOrderDetail = tbOrderDetailMapper.copy(outTbOrderDetail);//tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
-            tbOrderDetail = tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
+            tbOrderDetail = tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail);//, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
+            tbOrderDetail.setAssortId(tmmapi.getAssortId());
+            tbOrderDetail.setItemId(ititmm == null? null : ititmm.getItemId());
 
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
             if(this.isTrdstOrderStatus(compareTbOrderDetail.getStatusCd())){

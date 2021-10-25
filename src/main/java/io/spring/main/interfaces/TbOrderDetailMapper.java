@@ -18,13 +18,13 @@ public interface TbOrderDetailMapper {
     @Mapping(source = "id.goodsCnt", target = "qty")
     @Mapping(source = "id.channelOptionInfo", target = "optionInfo")
     @Mapping(source = "id.channelGoodsNm", target = "goodsNm")
-    @Mapping(source = "it.itemId", target = "itemId")
-    @Mapping(source = "it.assortId", target = "assortId")
+//    @Mapping(source = "it.itemId", target = "itemId")
+//    @Mapping(source = "it.assortId", target = "assortId")
     @Mapping(source = "orderId", target = "orderId")
     @Mapping(source = "orderSeq", target = "orderSeq")
     @Mapping(ignore = true, target = "super.updDt")
     @Mapping(ignore = true, target = "super.regDt")
-    TbOrderDetail to(String orderId, String orderSeq, IfOrderDetail id, Ititmm it);
+    TbOrderDetail to(String orderId, String orderSeq, IfOrderDetail id);
 
     TbOrderDetail copy(TbOrderDetail tbOrderDetail);
 }
