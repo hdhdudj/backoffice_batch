@@ -628,6 +628,7 @@ public class GoodsSearch {
         Itasrt itasrt = jpaItasrtRepository.findByAssortId(itadgs.getAddGoodsId());
         if(itasrt == null){ // insert
             itasrt = new Itasrt(itadgs);
+            itasrt.setStorageId("000002"); // 000002 하드코딩
         }
         else { // update
             Itasrt origItasrt = itasrtMapper.copy(itasrt);

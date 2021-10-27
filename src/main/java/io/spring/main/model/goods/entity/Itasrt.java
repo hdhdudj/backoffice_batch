@@ -69,6 +69,9 @@ public class Itasrt extends CommonProps{
 		this.ownerId = StringUtils.leftPad(Long.toString(ifGoodsMaster.getScmNo()),6,'0');
 		// 21-10-06 추가
 		this.addGoodsYn = StringFactory.getGbTwo(); // 02 하드코딩, 01 : 추가상품 02 : 추가상품아님
+
+		// 21-10-27 추가
+		this.storageId = "000002"; // 000002 하드코딩
 	}
 
 	public Itasrt(Itadgs itadgs){
