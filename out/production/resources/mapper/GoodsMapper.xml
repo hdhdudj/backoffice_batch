@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.spring.main.mapper.GoodsMapper">
+
+
+   <select id="selectGoodsListAll" resultType="HashMap">
+    	<![CDATA[
+		select * from itasrt 		
+    	]]>
+    </select>
+
+	<select id="selectMaxSeqItasrt" resultType="string">
+    	<![CDATA[
+		select max(seq)+1 seq from itasrt where assort_id = #{assortId}
+		]]>
+    </select>
+
+	<select id="selectMaxSeqItvari" resultType="string">
+    	<![CDATA[
+		select max(seq)+1 seq from itvari where assort_id = #{assortId}
+		]]>
+    </select>
+
+	<select id="selectMaxSeqItasrd" resultType="string">
+    	<![CDATA[
+		select max(seq)+1 seq from itasrd where assort_id = #{assortId}
+		]]>
+    </select>
+
+	<select id="selectMaxItemIdItitmm" resultType="string">
+    	<![CDATA[
+		select max(item_id)+1 item_id from ititmm where assort_id = #{assortId}
+		]]>
+    </select>
+
+	<select id="selectOneSeqOptionGb" resultType="HashMap">
+    	<![CDATA[
+		select seq, option_gb from itvari where assort_id = #{assortId} and option_nm = #{optionNm}
+		]]>
+    </select>
+    
+	<insert id="insertGoods">
+		<![CDATA[ 
+		insert into  itasrt
+		(assort_id
+		
+		,reg_dt
+		,reg_id
+		,upd_id
+		,upd_dt
+		
+		,assort_nm 
+		,assort_color
+		,disp_category_id
+		,brand_id
+		,origin
+		,manufacture_nm
+		,assort_model
+		,tax_gb
+		,assort_state
+		,shortage_yn
+		,sell_sta_dt 
+		,sell_end_dt
+		,local_price
+		,local_sale
+		,deli_price
+		,margin
+		,vendor_id 
+		
+		,mdRrp
+		,mdYear
+		,mdTax
+		,mdVatrate
+		,mdDiscountRate
+		,mdGoodsVatrate
+		
+		
+		,buyWhere
+		,buySupplyDiscount
+		,buyRrpIncrement
+		,buyTax
+		,mdMargin
+		,buyExchangeRate
+		)
+		
+		values(
+		#{assortId}
+				
+		,#{regDt}
+		,#{regId}
+		,#{updId}
+		,#{updDt}
+		
+		,#{assortNm}
+		,#{assortColor}
+		,#{dispCategory}
+		,#{brandId}
+		,#{origin}
+		,#{manufactureNm}
+		,#{assortModel}
+		,#{taxGb}
+		,#{assortState}
+		,#{shortageYn}
+		,#{sellSta}
+		,#{sellEnd}
+		,#{localPrice}
+		,#{localSale}
+		,#{deliPrice}
+		,#{margin}
+		,#{vendorId}
+		
+		,#{mdRrp}
+		,#{mdYear}
+		,#{mdTax}
+		,#{mdVatrate}
+		,#{mdDiscountRate}
+		,#{mdGoodsVatrate}
+		
+		,#{buyWhere}
+		,#{buySupplyDiscount}
+		,#{buyRrpIncrement}
+		,#{buyTax}
+		,#{mdMargin}
+		,#{buyExchangeRate}
+		)
+		]]>
+	</insert>
+
+	<update id="updateTmitem">
+		<![CDATA[
+		
+		
+		delete from tmitem;
+			
+		]]>
+	</update>
+
+	<insert id="insertTmitem">
+		<![CDATA[
+		insert into tmitem
+		select *
+		from (
+				 select
+					 '01' channel_Gb
+					  ,aa.assort_id assort_id
+					  ,aa.item_id item_id
+					  ,now() eff_sta_dt
+					  ,'9999-12-31 23:59:59' eff_end_dt
+					  ,aa.short_yn  short_yn
+					  ,aa.variation_gb1  variation_gb1
+					  ,aa.variation_seq1  variation_seq1
+					  ,(select option_nm from itvari cc where cc.assort_id  = aa.assort_id  and cc.variation_gb = aa.variation_gb1 and cc.seq = aa.variation_seq1) option_name1
+					  ,aa.variation_gb2 variation_gb2
+					  ,aa.variation_seq2 variation_seq2
+					  ,(select option_nm from itvari cc where cc.assort_id  = aa.assort_id  and cc.variation_gb = aa.variation_gb2 and cc.seq = aa.variation_seq2) option_name2
+					  ,(select bb.goods_no  from if_goods_option bb where bb.assort_id = aa.assort_id and bb.item_id = aa.item_id) goodsNo
+					  ,(select bb.sno  from if_goods_option bb where bb.assort_id = aa.assort_id and bb.item_id = aa.item_id) sno
+					  ,aa.add_price add_price
+					  ,1 reg_id
+					  ,now() reg_dt
+					  ,1 upd_id
+					  ,now() upd_dt
+				 from ititmm aa
+			 ) zz
+		where goodsNo is not null
+		]]>
+	</insert>
+
+	<insert id="insertTmmapi">
+		<![CDATA[
+			insert into tmmapi
+			( channel_gb
+			, assort_id
+			, channel_goods_no
+			, upload_type
+			, upload_yn
+			, upload_dt
+			, upload_rmk
+			, join_status
+			, error_msg
+			, reg_id
+			, reg_dt
+			, upd_id
+			, upd_dt)
+			select '01'  channel_gb
+				 , assort_id
+				 , goods_no
+				 , '01'  upload_type
+				 , '01'  upload_yn
+				 , now() upload_dt
+				 , '연동건' upload_rmk
+				 , '01'  join_status
+				 , '성공'  error_msg
+				 , 1     reg_id
+				 , now() reg_dt
+				 , 1     upd_id
+				 , now() upd_dt
+			from if_goods_master igm
+			where assort_id not in (
+				select assort_id from tmmapi
+			)
+			  and channel_gb='01';
+		]]>
+	</insert>
+
+</mapper>
