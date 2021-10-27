@@ -18,7 +18,7 @@ public class Itadgs extends CommonProps {
     public Itadgs(IfGoodsMaster ifGoodsMaster, IfGoodsAddGoods ifGoodsAddGoods){
         super(ifGoodsAddGoods.getRegDt(), ifGoodsAddGoods.getUpdDt());
         this.addGoodsId = ifGoodsAddGoods.getAddGoodsId();
-        this.addGoodsNm = ifGoodsAddGoods.getGoodsNm();
+        this.addGoodsNm = ifGoodsAddGoods.getGoodsNm() + "-" +ifGoodsAddGoods.getOptionNm();
         this.localSale = ifGoodsAddGoods.getGoodsPrice();
         this.shortYn = ifGoodsAddGoods.getSoldOutFl();
         this.optionNm = ifGoodsAddGoods.getOptionNm();
