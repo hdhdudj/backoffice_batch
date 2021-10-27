@@ -10,9 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import io.spring.main.enums.GodoOrderStatus;
-import io.spring.main.interfaces.TbOrderDetailMapper;
-import io.spring.main.interfaces.TbOrderMasterMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -28,10 +25,13 @@ import org.w3c.dom.NodeList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.spring.main.enums.DeliveryMethod;
+import io.spring.main.enums.GodoOrderStatus;
 import io.spring.main.enums.GoodsOrAddGoods;
 import io.spring.main.enums.TrdstOrderStatus;
 import io.spring.main.interfaces.IfOrderDetailMapper;
 import io.spring.main.interfaces.IfOrderMasterMapper;
+import io.spring.main.interfaces.TbOrderDetailMapper;
+import io.spring.main.interfaces.TbOrderMasterMapper;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.JpaIfAddGoodsRepository;
 import io.spring.main.jparepos.goods.JpaIfGoodsAddGoodsRepository;
@@ -544,6 +544,9 @@ public class OrderSearch {
         Tmitem tmitem = jpaTmitemRepository.findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo(), ifOrderDetail.getChannelOptionsNo());
         Tmmapi tmmapi = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo());
         
+        
+		IfAddGoods ifAddGoods = jpaIfAddGoodsRepository.findByAddGoodsNo(ifOrderDetail.getChannelGoodsNo());
+        
         if(tmmapi == null){
             log.debug("tmmapi에 해당 goodsNo 정보가 들어가 있지 않습니다.");
         }
@@ -559,14 +562,16 @@ public class OrderSearch {
 
 			System.out.println("addGood => " + ifOrderDetail.getChannelGoodsNo());
 
-			Ititmm ititmm = this.getItitmmWithItasrt(tmmapi == null ? null : tmmapi.getAssortId(),
-					tmitem == null ? null : tmitem.getItemId()); // tmitem이 없으면 null
+			Ititmm ititmm = this.getItitmmWithItasrt(ifAddGoods == null ? null : ifAddGoods.getAddGoodsId(),
+					ifAddGoods == null ? null : "0001");
+			// tmitem == null ? null : tmitem.getItemId()); // tmitem이 없으면 null
 
-			IfAddGoods agItem = jpaIfAddGoodsRepository.findByAddGoodsNo(ifOrderDetail.getChannelGoodsNo());
-			System.out.println("agItem => " + agItem);
+			// IfAddGoods agItem =
+			// jpaIfAddGoodsRepository.findByAddGoodsNo(ifOrderDetail.getChannelGoodsNo());
+//			System.out.println("agItem => " + agItem);
 
 			// IfGoodsAddGoods ag = agItem.get(0);
-			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, tmmapi, agItem);
+			tbOrderDetail = this.saveSingleTbOrderDetail(tbOrderDetail, ifOrderDetail, ititmm, tmmapi, ifAddGoods);
         }
 		
 		//ifOrderDetail.getChannelGoodsNo()
@@ -619,8 +624,15 @@ public class OrderSearch {
             String orderSeq = Utilities.plusOne(Integer.toString(num),4);
             orderSeq = orderSeq == null? StringFactory.getFourStartCd() : orderSeq;
             tbOrderDetail = tbOrderDetailMapper.to(orderId, orderSeq, ifOrderDetail);//, ititmm);//new TbOrderDetail(orderId, orderSeq);
-            tbOrderDetail.setAssortId(tmmapi == null? null : tmmapi.getAssortId());
-            tbOrderDetail.setItemId(ititmm == null? null : ititmm.getItemId());
+
+			if (ifOrderDetail.getChannelGoodsType().equals("001")) {
+				tbOrderDetail.setAssortId(tmmapi == null ? null : tmmapi.getAssortId());
+				tbOrderDetail.setItemId(ititmm == null ? null : ititmm.getItemId());
+
+			} else {
+				tbOrderDetail.setAssortId(ag == null ? null : ag.getAddGoodsId());
+				tbOrderDetail.setItemId(ag == null ? null : "0001");
+			}
 
             ifOrderDetail.setOrderId(tbOrderDetail.getOrderId());
             ifOrderDetail.setOrderSeq(tbOrderDetail.getOrderSeq());
@@ -634,8 +646,18 @@ public class OrderSearch {
             }
             compareTbOrderDetail = tbOrderDetailMapper.copy(outTbOrderDetail);//tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
             tbOrderDetail = tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail);//, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
-            tbOrderDetail.setAssortId(tmmapi.getAssortId());
-            tbOrderDetail.setItemId(ititmm == null? null : ititmm.getItemId());
+
+			if (ifOrderDetail.getChannelGoodsType().equals("001")) {
+				tbOrderDetail.setAssortId(tmmapi == null ? null : tmmapi.getAssortId());
+				tbOrderDetail.setItemId(ititmm == null ? null : ititmm.getItemId());
+
+			} else {
+				tbOrderDetail.setAssortId(ag == null ? null : ag.getAddGoodsId());
+				tbOrderDetail.setItemId(ag == null ? null : "0001");
+			}
+
+//			tbOrderDetail.setAssortId(tmmapi == null ? null : tmmapi.getAssortId());
+			// tbOrderDetail.setItemId(ititmm == null? null : ititmm.getItemId());
 
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
             if(this.isTrdstOrderStatus(compareTbOrderDetail.getStatusCd())){
