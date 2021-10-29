@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import io.spring.main.interfaces.IfGoodsAddGoodsMapper;
@@ -90,6 +91,7 @@ public class GoodsSearch {
     private final IfGoodsAddGoodsMapper ifGoodsAddGoodsMapper;
 
     private final List<String> goodsSearchGotListPropsMap;
+    private final EntityManager em;
 
 
     // 고도몰 관련 값들
@@ -687,7 +689,8 @@ public class GoodsSearch {
     private Itvari saveSingleItvari(String assortId) {
         // option이 없는 경우. seq 0001, 옵션구분 01, variation구분 01, 옵션명 '단품'
         Itvari itvari = new Itvari(assortId);
-        jpaItvariRepository.save(itvari);
+        em.clear();
+        jpaItvariRepository.saveAndFlush(itvari);
         return itvari;
     }
     private void saveSingleItitmm(Itasrt itasrt, Itvari itvari) {
@@ -705,7 +708,7 @@ public class GoodsSearch {
         itvariColor.setOptionNm(ifGoodsOption.getOptionValue1());
         String seq = "";
         System.out.println("--------------------------- " + ifGoodsOption.getAssortId());
-        List<Itvari> itvariList0 = jpaItvariRepository.findByAssortId(ifGoodsOption.getAssortId());
+//        List<Itvari> itvariList0 = jpaItvariRepository.findByAssortId(ifGoodsOption.getAssortId());
         Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvariColor.getOptionGb(), itvariColor.getOptionNm());
         if(itvariList == null){
             seq = this.getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
@@ -836,8 +839,18 @@ public class GoodsSearch {
 	}
 
     private Itasrt saveItasrt(IfGoodsMaster ifGoodsMaster) {
-        Itasrt itasrt = new Itasrt(ifGoodsMaster); // itasrt
-        jpaItasrtRepository.save(itasrt);
+        Itasrt itasrt = jpaItasrtRepository.findByAssortId(ifGoodsMaster.getAssortId());
+        if(itasrt == null){ // insert
+            itasrt = new Itasrt(ifGoodsMaster); // itasrt
+            jpaItasrtRepository.save(itasrt);
+        }
+        else{
+            Itasrt newItasrt = new Itasrt(ifGoodsMaster);
+            if(!itasrt.equals(newItasrt)){
+                itasrt = newItasrt;
+                jpaItasrtRepository.save(itasrt);
+            }
+        }
         return itasrt;
     }
 
