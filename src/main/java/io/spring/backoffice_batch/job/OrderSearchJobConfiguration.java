@@ -37,7 +37,7 @@ public class OrderSearchJobConfiguration {
     private final EntityManagerFactory entityManagerFactory;
     private final OrderSearch orderSearch;
 
-    private static final int chunkSize = 1;
+	private static final int chunkSize = 1000;
 
 
     @Bean
@@ -46,7 +46,7 @@ public class OrderSearchJobConfiguration {
 				.start(searchOrderStep1(null, null, null, null))
                 .next(searchOrderStep2())
                 .next(searchOrderStep3())
-                .next(searchOrderStep4())
+				// .next(searchOrderStep4())
                 .incrementer(new UniqueRunIdIncrementer())
                 .build();
     }

@@ -33,7 +33,7 @@ public class GoodsSearchJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
     private final GoodsSearch goodsSearch;
-    private static final int chunkSize = 1;
+	private static final int chunkSize = 100;
     private int cnt = 0;
 
     @Bean
