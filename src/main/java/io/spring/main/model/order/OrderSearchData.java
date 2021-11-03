@@ -115,6 +115,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
+	@ToString
     public static class OrderInfoData {
         private Long sno;
         private Long orderInfoCd;

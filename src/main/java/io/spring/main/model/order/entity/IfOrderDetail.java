@@ -7,11 +7,17 @@ import javax.persistence.Table;
 
 import io.spring.main.model.order.idclass.IfOrderDetailId;
 import io.spring.main.util.StringFactory;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "if_order_detail")
 @IdClass(value = IfOrderDetailId.class)
