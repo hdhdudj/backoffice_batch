@@ -647,8 +647,10 @@ public class GoodsSearch {
 
     // itasrn 저장 함수
     private Itasrn saveItasrn(IfGoodsMaster ifGoodsMaster){
+        log.debug("ifGoodsMaster.goodsNo : " + ifGoodsMaster.getGoodsNo());
         Date effEndDt = null;
         effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
+        System.out.println("itasrn.assortId : " + ifGoodsMaster.getAssortId());
         Itasrn itasrn = jpaItasrnRepository.findByAssortIdAndEffEndDt(ifGoodsMaster.getAssortId(), effEndDt);
         if(itasrn == null){ // insert
             itasrn = new Itasrn(ifGoodsMaster);

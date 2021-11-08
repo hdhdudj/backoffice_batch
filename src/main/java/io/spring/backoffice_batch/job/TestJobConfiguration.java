@@ -40,9 +40,9 @@ public class TestJobConfiguration {
 
 	@Bean
 	public Job testJob() {
-		
 
-		
+
+
 		return jobBuilderFactory.get("testJob12").start(testStep1())
 				// .incrementer(new UniqueRunIdIncrementer())
 				.incrementer(new UniqueRunIdIncrementer())
@@ -70,29 +70,29 @@ public class TestJobConfiguration {
 	 * @Bean public JpaCustomPagingItemReader testReader() {
 	 * JpaCustomPagingItemReader<IfOrderMaster> jpaPagingItemReader = new
 	 * JpaCustomPagingItemReader<IfOrderMaster>() {
-	 * 
+	 *
 	 * @Override public int getPage() { return 0; }
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * }; jpaPagingItemReader.setName("testReader");
 	 * jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
 	 * jpaPagingItemReader.setPageSize(chunkSize); jpaPagingItemReader.
 	 * setQueryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01'"); return
 	 * jpaPagingItemReader; }
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @Bean public JpaItemWriter testWriter() { JpaItemWriter jpaItemWriter = new
 	 * JpaItemWriter(); jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
 	 * return jpaItemWriter; }
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @Bean public TestWriter1 testWriter11() { return new TestWriter1(); }
-	 * 
+	 *
 	 * @Bean public TestProcessor testProcessor() { return new TestProcessor(); }
-	 * 
+	 *
 	 */
 
 	@Bean
@@ -106,9 +106,9 @@ public class TestJobConfiguration {
 
 	@Bean
 	    public ItemProcessor<OrderSearchData, IfItem> itemProcessor1() {
-	      
+
 			return orderSearchData -> {
-			  
+
 				// orderSearch
 
 				IfOrderMaster iom = orderSearch.getIfOrderMaster(orderSearchData);
@@ -116,9 +116,9 @@ public class TestJobConfiguration {
 				List<IfOrderDetail> iods = orderSearch.getIfOrderDetail(orderSearchData);
 
 			  IfItem o = new IfItem();
-			  
 
-			  
+
+
 				o.setIom(iom);
 				o.setIods(iods);
 				o.setOrderSearchData(orderSearchData);
@@ -129,9 +129,9 @@ public class TestJobConfiguration {
 			  return o;
 
 			};
-		  
-		  
-		  
+
+
+
 	    }
 
 		@Bean
@@ -147,26 +147,26 @@ public class TestJobConfiguration {
 		/*
 		 * @Bean public ItemProcessor<IfItem, IfItem> itemProcessor2() { return
 		 * orderSearchData -> {
-		 * 
+		 *
 		 * // IfItem o = new IfItem();
-		 * 
+		 *
 		 * List<IfOrderDetail> iods = new ArrayList<IfOrderDetail>();
-		 * 
+		 *
 		 * // IfOrderMaster iom = new IfOrderMaster(orderSearchData); IfOrderDetail iod
 		 * = new IfOrderDetail("XX11");
-		 * 
+		 *
 		 * iods.add(iod);
-		 * 
+		 *
 		 * System.out.println("itemProcessor2");
-		 * 
-		 * 
+		 *
+		 *
 		 * // iom.setChannelOrderNo(orderSearchData.getOrderNo().toString());
-		 * 
+		 *
 		 * // o.setIom(iom); orderSearchData.setIods(iods);
 		 * System.out.println(orderSearchData); return orderSearchData;
-		 * 
+		 *
 		 * }; }
-		 * 
+		 *
 		 */
 
 	// private class TestWriter1 implements ItemWriter<HashMap<String, Object>> {
@@ -211,7 +211,7 @@ public class TestJobConfiguration {
 	@Bean
 	public ListItemReader<OrderSearchData> xmlReader() {
 
-		
+
 		List<OrderSearchData> orderSearchDataList = orderSearch.retrieveOrders("", "2021-11-01", "2021-11-03", "order");
 
 		// List<HashMap<String, Object>> l= new ArrayList<HashMap<String, Object>>();
@@ -223,30 +223,30 @@ public class TestJobConfiguration {
 	}
 	/*
 	 * private class TestReader implements ItemReader<OrderSearchData> {
-	 * 
+	 *
 	 * private List<OrderSearchData> list; private int nextIndex;
-	 * 
+	 *
 	 * public TestReader(List<OrderSearchData> l) { this.list = l; nextIndex = 0;
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * @Override public OrderSearchData read() throws Exception,
 	 * UnexpectedInputException, ParseException, NonTransientResourceException { //
 	 * TODO Auto-generated method stub
-	 * 
+	 *
 	 * OrderSearchData nextObj = null;
-	 * 
+	 *
 	 * System.out.println("read ");
-	 * 
+	 *
 	 * System.out.println(list);
-	 * 
+	 *
 	 * if (nextIndex < list.size()) { nextObj = list.get(nextIndex); nextIndex++; }
 	 * else { nextIndex = 0; }
-	 * 
+	 *
 	 * return nextObj;
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * }
 	 */
 }

@@ -5,10 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -78,6 +76,16 @@ public class Utilities {
             log.debug(e.getMessage());
         }
         return getDate;
+    }
+
+    /**
+     * LocalDateTime을 받아서 T를 뗀 String(1111-11-11 11:11:11 꼴)을 반환하는 함수
+     * @return String
+     */
+    public static String removeTAndTransToStr(LocalDateTime localDateTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        String strDate = localDateTime.format(formatter);
+        return strDate.replace('T', ' ');
     }
 
     /**
