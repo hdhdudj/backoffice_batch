@@ -133,7 +133,7 @@ public class OrderSearchJobConfiguration {
      */
     @Bean
     public Step searchOrderStep4(){
-        log.info("----- This is searchOrderStep3");
+        log.info("----- This is searchOrderStep4");
         return stepBuilderFactory.get("searchOrderStep4")
                 .<IfOrderMaster, String>chunk(chunkSize)
                 .reader(jpaOrderSearchItemWriterReader3())
