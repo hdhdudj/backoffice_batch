@@ -34,6 +34,7 @@ public class GoodsSearchJobConfiguration {
     private final EntityManagerFactory entityManagerFactory;
     private final GoodsSearch goodsSearch;
 	private static final int chunkSize = 100;
+    private static final int pageSize = 100;
     private int cnt = 0;
 
     @Bean
@@ -77,6 +78,7 @@ public class GoodsSearchJobConfiguration {
 
     @Bean
     public JpaPagingItemReader jpaGoodsSearchItemWriterReader() {
+        log.debug("실행됨.");
         JpaPagingItemReader<IfGoodsMaster> jpaPagingItemReader = new JpaPagingItemReader<IfGoodsMaster>(){
             @Override
             public int getPage() {
@@ -85,7 +87,7 @@ public class GoodsSearchJobConfiguration {
         };
         jpaPagingItemReader.setName("jpaGoodsSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
-        jpaPagingItemReader.setPageSize(1);
+        jpaPagingItemReader.setPageSize(pageSize);
         jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' order by i.goodsNo asc");
         return jpaPagingItemReader;
     }

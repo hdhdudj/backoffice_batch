@@ -957,7 +957,7 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = goodsAddSearchUrl + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 pKey + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + key+"&"+goodsNo+"="+goodsNo;
+                + "=" + key+"&goodsNo="+goodsNo;
         NodeList nodeList = CommonXmlParse.getXmlNodes(urlstr);
         List<AddGoodsData> addGoodsDataList = new ArrayList<>();
 
