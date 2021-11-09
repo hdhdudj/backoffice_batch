@@ -116,6 +116,7 @@ public class OrderSearch {
     // 고도몰에서 일주일치 주문을 땡겨와서 if_order_master, if_order_detail에 저장하는 함수
     @Transactional
 	public void saveIfTables(String orderNo, String startDt, String endDt, String mode) {
+
 		List<OrderSearchData> orderSearchDataList = this.retrieveOrders(orderNo, startDt, endDt, mode);
 
         // 1. if table 저장
@@ -144,6 +145,7 @@ public class OrderSearch {
 
     private IfOrderMaster saveIfOrderMaster(OrderSearchData orderSearchData) {
 
+		System.out.println("saveIfOrderMaster");
 		System.out.println(orderSearchData.getOrderNo());
 
         String ifNo;
@@ -490,6 +492,9 @@ public class OrderSearch {
 
     @Transactional
     public IfOrderMaster saveOneIfNo(IfOrderMaster ifOrderMaster) {
+
+		log.debug("saveOneIfNo ifOrderMaster ==>" + ifOrderMaster.getChannelOrderNo());
+
 //        IfOrderMaster ifOrderMaster1 = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), ifOrderMaster.getChannelOrderNo()); // 채널은 01 하드코딩
 //        // 이미 저장한 주문이면 pass
 //        if(ifOrderMaster1.getIfStatus().equals(StringFactory.getGbTwo())){ // ifStatus가 02면 저장 포기
@@ -497,6 +502,7 @@ public class OrderSearch {
 //            return ifOrderMaster1;
 //        }
         // tb_order_master, tb_member, tb_member_address 저장
+
         TbMember tbMember = this.saveTbMember(ifOrderMaster);
         TbMemberAddress tbMemberAddress = this.saveTbMemberAddress(ifOrderMaster, tbMember);
 
@@ -532,7 +538,10 @@ public class OrderSearch {
      * @param ifOrderDetail
      * @return
      */
-    private TbOrderDetail saveTbOrderDetail(IfOrderDetail ifOrderDetail) {
+	private TbOrderDetail saveTbOrderDetail(IfOrderDetail ifOrderDetail) {
+    	
+    	log.debug("saveTbOrderDetail ifOrderDetail ==>" + ifOrderDetail.getChannelOrderNo());
+    	
         // ifOrderDetail의 정보를 tbOrderDetail에 저장할 때, tmmapi의 goodsNo를 확인해서 assortId를 추출해야 함.
         // 옵션이 없는 애들은 tmmapi에서 assortId 찾아오기, 옵션이 있는 애들은 tmitem에서 assortId, itemId 찾아오기
         // goods 정보를 고도몰에서 가져올 필요x. 우리가 가진 데이터로도 가능.
@@ -732,6 +741,9 @@ public class OrderSearch {
     }
 
     private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster, TbOrderDetail tbOrderDetail, TbMember tbMember, TbMemberAddress tbMemberAddress) {
+
+		log.debug("saveTbOrderMaster ifOrderMaster ==>" + ifOrderMaster.getChannelOrderNo());
+
         TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
         TbOrderMaster origTM = null;
         if(tbOrderMaster == null){ // insert
@@ -784,6 +796,8 @@ public class OrderSearch {
 
     private TbMember saveTbMember(IfOrderMaster ifOrderMaster) {
     	
+		log.debug("saveTbMember ifOrderMaster ==>" + ifOrderMaster.getChannelOrderNo());
+
 		TbMember tbMember = null;
 
 		// memNo가 0 이라면 비회원
@@ -877,6 +891,8 @@ public class OrderSearch {
     }
 
     private TbMemberAddress saveTbMemberAddress(IfOrderMaster ifOrderMaster, TbMember tbMember) {
+
+		log.debug("saveTbMemberAddress ifOrderMaster ==>" + ifOrderMaster.getChannelOrderNo());
 
 		System.out.println(tbMember.getCustId());
 		System.out.println(tbMember.getCustNm());

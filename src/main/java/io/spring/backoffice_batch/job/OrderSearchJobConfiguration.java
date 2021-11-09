@@ -93,6 +93,9 @@ public class OrderSearchJobConfiguration {
                     startDt = startDt == null? "":startDt;
                     endDt = endDt == null? "":endDt;
                     dateType = mode == null ? "order" : mode;
+
+
+
 					orderSearch.saveIfTables(orderNum, startDt, endDt, dateType); // "2106301555509122","2107021751024711",
 																					// "2101081407020195"(addGoods 정렬
 																					// 테스트용), "2110061315569293"(최신)
