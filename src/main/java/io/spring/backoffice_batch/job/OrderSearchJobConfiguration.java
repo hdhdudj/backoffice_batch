@@ -144,7 +144,7 @@ public class OrderSearchJobConfiguration {
 
     @Bean
     public JpaPagingItemReader jpaOrderSearchItemWriterReader() {
-        String now = Utilities.removeTAndTransToStr(LocalDateTime.now());
+        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
         String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(1));
         JpaPagingItemReader<IfOrderMaster> jpaPagingItemReader = new JpaPagingItemReader<IfOrderMaster>(){
             @Override
@@ -165,7 +165,7 @@ public class OrderSearchJobConfiguration {
 
     @Bean
     public JpaPagingItemReader jpaOrderSearchItemWriterReader2() {
-        String now = Utilities.removeTAndTransToStr(LocalDateTime.now());
+        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
         String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(1));
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
             @Override
@@ -183,7 +183,7 @@ public class OrderSearchJobConfiguration {
     }
     @Bean
     public JpaPagingItemReader jpaOrderSearchItemWriterReader3() {
-        String now = Utilities.removeTAndTransToStr(LocalDateTime.now());
+        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
         String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(1));
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
             @Override
