@@ -71,7 +71,7 @@ public class OrderSearchJobConfiguration {
                     
                     // 트랜잭션1. if table 저장
                     int n = page == null || page.trim().equals("")? -1 : Integer.parseInt(page);
-                    int day = 7; // 긁어올 날짜 단위(일)
+                    int day = 2; // 긁어올 날짜 단위(일)
 
                     String orderNum = orderNo == null? "": orderNo;
 
