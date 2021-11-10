@@ -47,7 +47,7 @@ public class OrderSearchJobConfiguration {
 				.start(searchOrderStep1(null, null, null, null))
                 .next(searchOrderStep2())
                 .next(searchOrderStep3())
-				// .next(searchOrderStep4())
+				 .next(searchOrderStep4())
                 .incrementer(new UniqueRunIdIncrementer())
                 .build();
     }
