@@ -991,7 +991,7 @@ public class OrderSearch {
             ifOrderMaster.setIfStatus(StringFactory.getGbThree());
         }
         else{
-            ifOrderMaster.setIfStatus(StringFactory.getGbFour());
+//            ifOrderMaster.setIfStatus(StringFactory.getGbFour());
         }
         jpaIfOrderMasterRepository.save(ifOrderMaster);
         return null;
