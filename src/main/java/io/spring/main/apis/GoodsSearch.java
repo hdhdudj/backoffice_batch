@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 
 import io.spring.main.interfaces.IfGoodsAddGoodsMapper;
 import io.spring.main.interfaces.ItasrtMapper;
+import io.spring.main.model.order.entity.TbOrderHistory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -395,8 +396,8 @@ public class GoodsSearch {
 
         // 2. itasrt, itasrn, itasrd (from if_goods_master) 저장
         Itasrt itasrt = this.saveItasrt(ifGoodsMaster); // itasrt
-        this.saveItasrn(ifGoodsMaster); // itasrn
         this.saveItasrd(ifGoodsMaster); // itasrd
+        this.saveItasrn(ifGoodsMaster); // itasrn
 
         // 3. if_goods_master 테이블 updateStatus 02로 업데이트
         ifGoodsMaster.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
@@ -646,15 +647,16 @@ public class GoodsSearch {
     }
 
     // itasrn 저장 함수
-    private Itasrn saveItasrn(IfGoodsMaster ifGoodsMaster){
+    private void saveItasrn(IfGoodsMaster ifGoodsMaster){
         log.debug("ifGoodsMaster.goodsNo : " + ifGoodsMaster.getGoodsNo());
-        Date effEndDt = null;
-        effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
+        Date effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
         System.out.println("itasrn.assortId : " + ifGoodsMaster.getAssortId());
         Itasrn itasrn = jpaItasrnRepository.findByAssortIdAndEffEndDt(ifGoodsMaster.getAssortId(), effEndDt);
+        Itasrn newItasrn = null;
         if(itasrn == null){ // insert
             itasrn = new Itasrn(ifGoodsMaster);
             itasrn.setAssortId(ifGoodsMaster.getAssortId());
+            jpaItasrnRepository.saveAndFlush(itasrn);
         }
         else{ // update
             Calendar cal = Calendar.getInstance();
@@ -662,12 +664,11 @@ public class GoodsSearch {
             cal.add(Calendar.SECOND, -1);
             itasrn.setEffEndDt(cal.getTime());
             // update 후 새 이력 insert
-            Itasrn newItasrn = new Itasrn(ifGoodsMaster);
+            newItasrn = new Itasrn(ifGoodsMaster);
             newItasrn.setAssortId(ifGoodsMaster.getAssortId());
-            jpaItasrnRepository.save(newItasrn);
+            jpaItasrnRepository.saveAndFlush(itasrn);
+            jpaItasrnRepository.saveAndFlush(newItasrn);
         }
-        jpaItasrnRepository.save(itasrn);
-        return itasrn;
     }
 
     private void saveItasrd(IfGoodsMaster ifGoodsMaster) {
