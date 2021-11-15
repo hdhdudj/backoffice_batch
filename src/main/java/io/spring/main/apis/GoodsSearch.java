@@ -664,7 +664,7 @@ public class GoodsSearch {
             // update 후 새 이력 insert
             newItasrn = new Itasrn(ifGoodsMaster);
             newItasrn.setAssortId(ifGoodsMaster.getAssortId());
-            jpaItasrnRepository.save(newItasrn);
+            jpaItasrnRepository.saveAndFlush(newItasrn);
         }
         Itasrn itasrn1 = jpaItasrnRepository.save(itasrn);
         return itasrn1;
