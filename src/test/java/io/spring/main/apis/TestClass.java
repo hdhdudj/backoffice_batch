@@ -1,10 +1,9 @@
 package io.spring.main.apis;
 
 import io.spring.main.enums.TrdstOrderStatus;
+import org.apache.commons.lang3.EnumUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mapstruct.factory.Mappers;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
@@ -43,6 +42,11 @@ public class TestClass {
         for(TrdstOrderStatus val : TrdstOrderStatus.values()){
             System.out.println(val.toString());
         }
+    }
+
+    @Test
+    public void enumTest2(){
+        System.out.println(EnumUtils.isValidEnum(TrdstOrderStatus.class, "a01"));
     }
 
 //    @Test

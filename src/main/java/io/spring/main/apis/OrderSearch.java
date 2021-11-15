@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -444,22 +445,6 @@ public class OrderSearch {
         return GoodsOrAddGoods.valueOf(goodsType).getFieldName();
     }
 
-    // orderStatus가 trdstStatus 안에 존재하는지 판단해줌
-    private boolean isTrdstOrderStatus(String goodsType) {
-        List<String> enumList = new ArrayList<>();
-        for(TrdstOrderStatus val : TrdstOrderStatus.values()){
-            if(!val.equals(TrdstOrderStatus.A01)){
-                enumList.add(val.toString());
-            }
-        }
-        if(enumList.contains(goodsType)){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     // goods xml 받아오는 함수
 	public List<OrderSearchData> retrieveOrders(String orderNo, String fromDt, String toDt, String mode) {
         //OpenApi호출
@@ -651,7 +636,7 @@ public class OrderSearch {
         }
         else { // update
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
-            if(this.isTrdstOrderStatus(outTbOrderDetail.getStatusCd())){
+            if(EnumUtils.isValidEnum(TrdstOrderStatus.class, outTbOrderDetail.getStatusCd())){
                 log.debug("trdst의 orderStatus를 탄 주문은 update 할 수 없습니다. orderId : " + outTbOrderDetail.getOrderId() + ", orderSeq : " + outTbOrderDetail.getSetOrderSeq());
                 return null;
             }
@@ -671,7 +656,7 @@ public class OrderSearch {
 			// tbOrderDetail.setItemId(ititmm == null? null : ititmm.getItemId());
 
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
-            if(this.isTrdstOrderStatus(compareTbOrderDetail.getStatusCd())){
+            if(EnumUtils.isValidEnum(TrdstOrderStatus.class, compareTbOrderDetail.getStatusCd())){
                 log.debug("trdst의 orderStatus를 탄 주문은 update 할 수 없습니다. orderId : " + compareTbOrderDetail.getOrderId() + ", orderSeq : " + compareTbOrderDetail.getSetOrderSeq());
                 return null;
             }
@@ -946,8 +931,8 @@ public class OrderSearch {
     public TbOrderDetail changeOneToStatusCd2(TbOrderDetail tbOrderDetail) {
 
         IfOrderMaster ifOrderMaster1 = tbOrderDetail.getIfOrderMaster();
-        if(!tbOrderDetail.getIfOrderMaster().getChannelOrderStatus().equals(StringFactory.getStrPOne())){
-            log.debug("해당 주문의 orderStatus가 p1이 아닙니다. orderId : " + tbOrderDetail.getOrderId() + ", orderSeq : " + tbOrderDetail.getOrderSeq());
+        if(!tbOrderDetail.getIfOrderMaster().getChannelOrderStatus().equals(TrdstOrderStatus.A01.toString())){
+            log.debug("해당 주문의 orderStatus가 A01이 아닙니다. orderId : " + tbOrderDetail.getOrderId() + ", orderSeq : " + tbOrderDetail.getOrderSeq());
             ifOrderMaster1.setIfStatus(StringFactory.getGbFour());
             jpaIfOrderMasterRepository.save(ifOrderMaster1);
             return null;
@@ -960,7 +945,7 @@ public class OrderSearch {
             jpaIfOrderMasterRepository.save(ifOrderMaster1);
             return null;
         }
-        if(this.isTrdstOrderStatus(tbOrderDetail.getStatusCd())){
+        if(EnumUtils.isValidEnum(TrdstOrderStatus.class, tbOrderDetail.getStatusCd())){
             log.debug("trdst의 orderStatus를 탄 주문은 더 이상 건드릴 수 없습니다. (in step4, changeOneToStatusCd2(TbOrderDetail td))" +
                     "orderId : " + tbOrderDetail.getOrderId() + ", orderSeq : " + tbOrderDetail.getOrderSeq());
             ifOrderMaster1.setIfStatus(StringFactory.getGbThree());
