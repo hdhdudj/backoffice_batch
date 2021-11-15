@@ -620,7 +620,6 @@ public class GoodsSearch {
             StringFactory.getGbTwo(); // 02 하드코딩
             jpaIfGoodsAddGoodsRepository.save(ifGoodsAddGoods);
         }
-
         return ifGoodsMaster;
     }
 
@@ -647,7 +646,7 @@ public class GoodsSearch {
     }
 
     // itasrn 저장 함수
-    private void saveItasrn(IfGoodsMaster ifGoodsMaster){
+    private Itasrn saveItasrn(IfGoodsMaster ifGoodsMaster){
         log.debug("ifGoodsMaster.goodsNo : " + ifGoodsMaster.getGoodsNo());
         Date effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay()); // 마지막 날짜(없을 경우 9999-12-31 23:59:59?)
         System.out.println("itasrn.assortId : " + ifGoodsMaster.getAssortId());
@@ -656,7 +655,6 @@ public class GoodsSearch {
         if(itasrn == null){ // insert
             itasrn = new Itasrn(ifGoodsMaster);
             itasrn.setAssortId(ifGoodsMaster.getAssortId());
-            jpaItasrnRepository.saveAndFlush(itasrn);
         }
         else{ // update
             Calendar cal = Calendar.getInstance();
@@ -666,9 +664,10 @@ public class GoodsSearch {
             // update 후 새 이력 insert
             newItasrn = new Itasrn(ifGoodsMaster);
             newItasrn.setAssortId(ifGoodsMaster.getAssortId());
-            jpaItasrnRepository.saveAndFlush(itasrn);
-            jpaItasrnRepository.saveAndFlush(newItasrn);
+            jpaItasrnRepository.save(newItasrn);
         }
+        Itasrn itasrn1 = jpaItasrnRepository.save(itasrn);
+        return itasrn1;
     }
 
     private void saveItasrd(IfGoodsMaster ifGoodsMaster) {
