@@ -24,6 +24,8 @@ import io.spring.main.model.goods.entity.IfGoodsMaster;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
+
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
@@ -40,7 +42,7 @@ public class GoodsSearchJobConfiguration {
     @Bean
     public Job searchGoodsJob(){
         return jobBuilderFactory.get("searchGoodsJob")
-                .start(searchGoodsStep1(null, null))
+                .start(searchGoodsStep1(null, null, null, null))
                 .next(searchGoodsStep2())
                 .next(searchGoodsStep3())
                 .incrementer(new UniqueRunIdIncrementer())
@@ -49,7 +51,9 @@ public class GoodsSearchJobConfiguration {
 
     @Bean
     @JobScope
-    public Step searchGoodsStep1(@Value("#{jobParameters[page]}") String page, @Value("#{jobParameters[goodsNo]}") String goodsNo){
+    public Step searchGoodsStep1(@Value("#{jobParameters[page]}") String page, @Value("#{jobParameters[goodsNo]}") String goodsNo,
+                                 @Value("#{jobParameters[searchDateType]}") String searchDateType,
+                                 @Value("#{jobParameters[dateParam]}")String dateParam){
         return stepBuilderFactory.get("searchGoodsStep1")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchGoodsStep1");
@@ -58,7 +62,7 @@ public class GoodsSearchJobConfiguration {
 
 //					goodsNo = "1000003553";
 
-					goodsSearch.saveIfTables(goodsNo, "", "", page); // , ifGoodsOptionList, ifGoodsTextOptionList,
+					goodsSearch.saveIfTables(goodsNo, searchDateType, dateParam, page); // , ifGoodsOptionList, ifGoodsTextOptionList,
 																			// ifGoodsAddGoodsList);
                     return RepeatStatus.FINISHED;
                 })

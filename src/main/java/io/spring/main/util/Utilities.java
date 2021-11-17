@@ -103,13 +103,18 @@ public class Utilities {
      * mode : Calendar.DATE, Calendar.MONTH 등...
      * n : +는 현재 날짜에서 더하기, -는 현재 날짜에서 빼기
      */
-    public static String getAnotherDate(String startDt, String dataFormat, int mode, int n) throws ParseException {
+    public static String getAnotherDate(String startDt, String dataFormat, int mode, int n){
         //한달 전
         DateFormat form = new java.text.SimpleDateFormat(dataFormat);
         Calendar mon = Calendar.getInstance();
         if(startDt != null){
-            Date startDt2 = form.parse("2017-01-01");
-            mon.setTime(startDt2);
+            try{
+                Date startDt2 = form.parse(startDt);
+                mon.setTime(startDt2);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
         mon.add(mode , n);
         String beforeMonth = form.format(mon.getTime());

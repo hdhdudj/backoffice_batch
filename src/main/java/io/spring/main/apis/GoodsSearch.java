@@ -1,5 +1,6 @@
 package io.spring.main.apis;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,9 +11,11 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import io.spring.main.enums.SearchDateType;
 import io.spring.main.interfaces.IfGoodsAddGoodsMapper;
 import io.spring.main.interfaces.ItasrtMapper;
 import io.spring.main.model.order.entity.TbOrderHistory;
+import jdk.vm.ci.meta.Local;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -128,19 +131,28 @@ public class GoodsSearch {
 //    }
 
     @Transactional
-    public void saveIfTables(String goodsNo, String fromDt, String toDt, String page){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
+    public void saveIfTables(String goodsNo, String searchDateType, String dateParam, String page){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
         if(page == null){
             page = "";
         }
+        int day = Integer.parseInt(dateParam); // 긁어올 날짜 단위(일)
         if(goodsNo == null){
             goodsNo = "";
         }
 
+        String fromDt = "";
+        String toDt = "";
+        if(searchDateType == null || searchDateType.trim().equals("")){
+            searchDateType = "";
+        }
+        else {
+            fromDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, day * -1);
+            toDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, 0);
+        }
+
 		System.out.println("start page ==> " + page);
 
-
-		
-        List<GoodsSearchData> goodsSearchDataList = this.retrieveGoods(goodsNo, fromDt, toDt, page); // test용 goodsNo : 1000040120
+        List<GoodsSearchData> goodsSearchDataList = this.retrieveGoods(goodsNo, searchDateType, fromDt, toDt, page); // test용 goodsNo : 1000040120
 //        String assortId = "";
 
         // 1. if table 저장
@@ -897,14 +909,15 @@ public class GoodsSearch {
 
 	// TODO(완) : 전체호출 ?? 은 어떻게? -> page로 수정완료
     // goods xml 받아오는 함수
-    public List<GoodsSearchData> retrieveGoods(String goodsNo, String fromDt, String toDt, String page) {
+    public List<GoodsSearchData> retrieveGoods(String goodsNo, String searchDateType, String fromDt, String toDt, String page) {
         //OpenApi호출
         String urlstr = goodsSearchUrl + StringFactory.getStrQuestion() + StringFactory.getGoodsSearchParams()[0] + StringFactory.getStrEqual() +
                 pKey + StringFactory.getStrAnd() +StringFactory.getGoodsSearchParams()[1]
                 + StringFactory.getStrEqual() + key
 //                + StringFactory.getStrAnd() + StringFactory.getGoodsSearchParams()[3]
 //                + StringFactory.getStrEqual()
-                + "&goodsNo="+goodsNo + "&page=" + page;
+                +"&startDate=" + fromDt + "&endDate=" + toDt
+                + "&goodsNo="+goodsNo + "&page=" + page + "&searchDateType=" + searchDateType;
 //        System.out.println("##### " + urlstr);
         NodeList nodeList =  CommonXmlParse.getXmlNodes(urlstr);
         List<GoodsSearchData> goodsSearchData = new ArrayList<>();
