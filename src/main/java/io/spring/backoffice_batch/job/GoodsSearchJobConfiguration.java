@@ -89,10 +89,11 @@ public class GoodsSearchJobConfiguration {
                 return 0;
             }
         };
+        String goodsNo = null;
         jpaPagingItemReader.setName("jpaGoodsSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(pageSize);
-        jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' order by i.goodsNo asc");
+        jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' and ("+goodsNo+" is null or i.goodsNo='"+goodsNo+"') order by i.goodsNo asc");
         return jpaPagingItemReader;
     }
 

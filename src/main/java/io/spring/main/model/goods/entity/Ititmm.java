@@ -101,4 +101,7 @@ public class Ititmm extends CommonProps implements Serializable {
     private String dayDeliCnt;
     private String totDeliCnt;
     private String setYn = StringFactory.getGbTwo(); // 02 하드코딩
+
+    // 21-11-22 추가
+    private String delYn = StringFactory.getGbTwo(); // 02 하드코딩 (default 값)
 }

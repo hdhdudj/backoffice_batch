@@ -2,6 +2,7 @@ package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.spring.main.model.goods.idclass.IfGoodsTextOptionId;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,6 +19,7 @@ import java.util.Date;
 @Setter
 @Table(name="if_goods_text_option")
 @IdClass(IfGoodsTextOptionId.class)
+@EqualsAndHashCode(exclude = {"uploadStatus, regDt, modDt, regId, updId"})
 public class IfGoodsTextOption {
     @Id
     private String channelGb;
