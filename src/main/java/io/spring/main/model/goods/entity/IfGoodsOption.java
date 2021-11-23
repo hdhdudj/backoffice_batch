@@ -22,7 +22,7 @@ import lombok.ToString;
 @ToString
 @IdClass(IfGoodsOptionId.class)
 public class IfGoodsOption {
-
+    public IfGoodsOption(){}
     @Id
     private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     @Id

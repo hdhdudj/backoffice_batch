@@ -25,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -89,11 +91,14 @@ public class GoodsSearchJobConfiguration {
                 return 0;
             }
         };
-        String goodsNo = null;
+        String goodsNo = null; // 1000061723
         jpaPagingItemReader.setName("jpaGoodsSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(pageSize);
-        jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' and ("+goodsNo+" is null or i.goodsNo='"+goodsNo+"') order by i.goodsNo asc");
+        jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' and ( :goodsNo is null or i.goodsNo=:goodsNo) order by i.goodsNo asc");
+        Map<String, Object> map = new HashMap<>();
+        map.put("goodsNo", goodsNo);
+        jpaPagingItemReader.setParameterValues(map);
         return jpaPagingItemReader;
     }
 

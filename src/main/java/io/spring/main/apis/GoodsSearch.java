@@ -13,6 +13,8 @@ import javax.transaction.Transactional;
 
 import io.spring.main.enums.SearchDateType;
 import io.spring.main.interfaces.IfGoodsAddGoodsMapper;
+import io.spring.main.interfaces.IfGoodsMasterMapper;
+import io.spring.main.interfaces.IfGoodsOptionMapper;
 import io.spring.main.interfaces.ItasrtMapper;
 import io.spring.main.model.order.entity.TbOrderHistory;
 import jdk.vm.ci.meta.Local;
@@ -93,6 +95,8 @@ public class GoodsSearch {
     // mapstruct mapper
     private final ItasrtMapper itasrtMapper;
     private final IfGoodsAddGoodsMapper ifGoodsAddGoodsMapper;
+    private final IfGoodsMasterMapper ifGoodsMasterMapper;
+    private final IfGoodsOptionMapper ifGoodsOptionMapper;
 
     private final List<String> goodsSearchGotListPropsMap;
     private final EntityManager em;
@@ -196,7 +200,7 @@ public class GoodsSearch {
             log.debug("Step1, saveIfGoodsOption : "+(System.currentTimeMillis()-start));
             if(isIfGoodsTextOptionChanged || isIfGoodsOptionChanged){
                 igm.setUploadStatus(StringFactory.getGbOne()); // 01 하드코딩
-                jpaIfGoodsMasterRepository.save(igm);
+                jpaIfGoodsMasterRepository.saveAndFlush(igm);
             }
 //            }
         }
@@ -220,7 +224,7 @@ public class GoodsSearch {
         IfGoodsMaster origIfGoodsMaster = jpaIfGoodsMasterRepository.findByChannelGbAndGoodsNo(StringFactory.getGbOne(), Long.toString(goodsSearchData.getGoodsNo()));
         IfGoodsMaster ifGoodsMaster = null;
 
-        ifGoodsMaster = objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);//origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
+        ifGoodsMaster = ifGoodsMasterMapper.to(goodsSearchData);//objectMapper.convertValue(goodsSearchData, IfGoodsMaster.class);//origIfGoodsMaster.clone();//new IfGoodsMaster(origIfGoodsMaster);
         if(origIfGoodsMaster != null){ // update
             ifGoodsMaster.setRegDt(origIfGoodsMaster.getRegDt());
             isUpdate = true;
@@ -358,10 +362,10 @@ public class GoodsSearch {
         }
         List<IfGoodsOption> n = new ArrayList<IfGoodsOption>();
         for(GoodsSearchData.OptionData optionData : optionDataList){
-            IfGoodsOption ifGoodsOption = objectMapper.convertValue(optionData,IfGoodsOption.class);
-            ifGoodsOption.setAssortId(goodsSearchData.getAssortId());
-            ifGoodsOption.setUploadStatus(StringFactory.getGbOne());
-            ifGoodsOption.setOptionName(goodsSearchData.getOptionName());
+            IfGoodsOption ifGoodsOption = ifGoodsOptionMapper.to(optionData, goodsSearchData);//objectMapper.convertValue(optionData,IfGoodsOption.class);
+//            ifGoodsOption.setAssortId(goodsSearchData.getAssortId());
+//            ifGoodsOption.setUploadStatus(StringFactory.getGbOne());
+//            ifGoodsOption.setOptionName(goodsSearchData.getOptionName());
            // jpaIfGoodsOptionRepository.save(ifGoodsOption);
             n.add(ifGoodsOption);
         }

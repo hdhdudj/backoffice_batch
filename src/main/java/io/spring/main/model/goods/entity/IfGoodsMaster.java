@@ -17,7 +17,6 @@ import java.util.Date;
 @Getter
 @Setter
 @IdClass(IfGoodsMasterId.class)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(exclude = "uploadStatus")
 public class IfGoodsMaster extends CommonProps implements Cloneable {
     @Override
@@ -28,6 +27,9 @@ public class IfGoodsMaster extends CommonProps implements Cloneable {
             // Cloneable을 구현했기 때문에 이 블록이 실행되는 일은 없다.
             return null;
         }
+    }
+    public IfGoodsMaster(){
+
     }
 
     public IfGoodsMaster(Itasrt itasrt, Itasrn itasrn, Itasrd itasrd){
