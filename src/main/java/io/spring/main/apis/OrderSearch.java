@@ -931,7 +931,7 @@ public class OrderSearch {
     public TbOrderDetail changeOneToStatusCd2(TbOrderDetail tbOrderDetail) {
 
         IfOrderMaster ifOrderMaster1 = tbOrderDetail.getIfOrderMaster();
-        if(!tbOrderDetail.getIfOrderMaster().getChannelOrderStatus().equals(TrdstOrderStatus.A01.toString())){
+        if(!tbOrderDetail.getStatusCd().equals(TrdstOrderStatus.A01.toString())){
             log.debug("해당 주문의 orderStatus가 A01이 아닙니다. orderId : " + tbOrderDetail.getOrderId() + ", orderSeq : " + tbOrderDetail.getOrderSeq());
             ifOrderMaster1.setIfStatus(StringFactory.getGbFour());
             jpaIfOrderMasterRepository.save(ifOrderMaster1);
@@ -945,7 +945,7 @@ public class OrderSearch {
             jpaIfOrderMasterRepository.save(ifOrderMaster1);
             return null;
         }
-        if(EnumUtils.isValidEnum(TrdstOrderStatus.class, tbOrderDetail.getStatusCd())){
+        if(EnumUtils.isValidEnum(TrdstOrderStatus.class, tbOrderDetail.getStatusCd()) && !tbOrderDetail.getStatusCd().equals(TrdstOrderStatus.A01.toString())){
             log.debug("trdst의 orderStatus를 탄 주문은 더 이상 건드릴 수 없습니다. (in step4, changeOneToStatusCd2(TbOrderDetail td))" +
                     "orderId : " + tbOrderDetail.getOrderId() + ", orderSeq : " + tbOrderDetail.getOrderSeq());
             ifOrderMaster1.setIfStatus(StringFactory.getGbThree());

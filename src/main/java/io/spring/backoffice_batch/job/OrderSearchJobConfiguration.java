@@ -2,6 +2,8 @@ package io.spring.backoffice_batch.job;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -197,7 +199,11 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and td.statusCd='A01' and td.updDt between '"+yesterday+"' and '"+now+"' order by td.orderId asc");
+        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and (td.channelOrderNo=:channelOrderNo or :channelOrderNo is null) and td.statusCd='A01' and td.updDt between '"+yesterday+"' and '"+now +"' order by td.orderId asc");
+        Map<String, Object> param = new HashMap<>();
+        String channelOrderNo = null;
+        param.put("channelOrderNo", channelOrderNo);
+        jpaPagingItemReader.setParameterValues(param);
 //        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' order by t.orderId asc");
 //        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' and t.orderId='O00000363' and t.orderSeq='0001'");
         return jpaPagingItemReader;
