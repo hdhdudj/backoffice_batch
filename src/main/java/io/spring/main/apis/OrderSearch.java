@@ -945,13 +945,6 @@ public class OrderSearch {
             jpaIfOrderMasterRepository.save(ifOrderMaster1);
             return null;
         }
-        if(EnumUtils.isValidEnum(TrdstOrderStatus.class, tbOrderDetail.getStatusCd()) && !tbOrderDetail.getStatusCd().equals(TrdstOrderStatus.A01.toString())){
-            log.debug("trdst의 orderStatus를 탄 주문은 더 이상 건드릴 수 없습니다. (in step4, changeOneToStatusCd2(TbOrderDetail td))" +
-                    "orderId : " + tbOrderDetail.getOrderId() + ", orderSeq : " + tbOrderDetail.getOrderSeq());
-            ifOrderMaster1.setIfStatus(StringFactory.getGbThree());
-            jpaIfOrderMasterRepository.save(ifOrderMaster1);
-            return null;
-        }
 
         List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
         List<Integer> resList = new ArrayList<>();
