@@ -865,10 +865,9 @@ public class OrderSearch {
         tbMember.setCustTel(ifOrderMaster.getOrderTel());
         tbMember.setCustHp(ifOrderMaster.getOrderTel());
         tbMember.setCustZipcode(ifOrderMaster.getOrderZipcode());
+        tbMember.setOrderZonecode(ifOrderMaster.getOrderZonecode());
         tbMember.setCustAddr1(ifOrderMaster.getOrderAddr1());
         tbMember.setCustAddr2(ifOrderMaster.getOrderAddr2());
-
-
 
         em.persist(tbMember);
 
@@ -889,6 +888,7 @@ public class OrderSearch {
         tbMemberAddress.setDeliTel(ifOrderMaster.getReceiverTel());
         tbMemberAddress.setDeliHp(ifOrderMaster.getReceiverTel());
         tbMemberAddress.setDeliZipcode(ifOrderMaster.getReceiverZipcode());
+        tbMemberAddress.setReceiverZonecode(ifOrderMaster.getReceiverZonecode());
         tbMemberAddress.setDeliAddr1(ifOrderMaster.getReceiverAddr1());
         tbMemberAddress.setDeliAddr2(ifOrderMaster.getReceiverAddr2());
 

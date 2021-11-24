@@ -82,6 +82,10 @@ public class IfOrderMaster extends CommonProps implements Serializable {
     private Float totalCouponGoodsMileage;
     private Float totalCouponOrderMileage;
 
+    // 21-11-24
+    private String orderZonecode;
+    private String receiverZonecode;
+
     @Override
     public String toString(){
         return "ifNo : " + ifNo + ", channelOrderNo : " + channelOrderNo + ", ifStatus : " + ifStatus;

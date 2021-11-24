@@ -46,4 +46,7 @@ public class TbMember extends CommonProps {
     private String custZipcode;
     private String custAddr1;
     private String custAddr2;
+
+    // 21-11-24 추가
+    private String orderZonecode;
 }

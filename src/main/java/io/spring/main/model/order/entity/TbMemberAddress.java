@@ -29,4 +29,7 @@ public class TbMemberAddress extends CommonProps {
     private String deliZipcode;
     private String deliAddr1;
     private String deliAddr2;
+
+    // 21-11-24 추가
+    private String receiverZonecode;
 }
