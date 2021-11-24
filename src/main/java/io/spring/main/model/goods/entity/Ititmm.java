@@ -26,7 +26,6 @@ import lombok.ToString;
 @Table(name = "ititmm")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(ItitmmId.class)
 public class Ititmm extends CommonProps implements Serializable {
