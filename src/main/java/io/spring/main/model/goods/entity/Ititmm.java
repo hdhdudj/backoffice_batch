@@ -62,6 +62,10 @@ public class Ititmm extends CommonProps implements Serializable {
     private String variationSeq1;
     private String variationGb2;
     private String variationSeq2;
+    // 21-11-25 추가
+    private String variationGb3;
+    private String variationSeq3;
+    // 추가 끝
     private String addPrice;
 //    private Long regId;
 //    private Long updId;
