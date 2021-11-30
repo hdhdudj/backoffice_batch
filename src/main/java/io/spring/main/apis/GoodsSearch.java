@@ -468,7 +468,8 @@ public class GoodsSearch {
 
 				String o11Val1 = "";
 				String o11Val2 = "";
-				
+				String o11Val3 = "";
+
 				if(o11.getVariationSeq1()!=null && !o11.getVariationSeq1().equals("")) {
 					ItvariId iv = new ItvariId(ifGoodsMaster.getAssortId(),o11.getVariationSeq1());	
 					Itvari itvari1 =  jpaItvariRepository.findById(iv).orElse(null);
@@ -487,6 +488,15 @@ public class GoodsSearch {
 					o11Val2 = "";
 				}
 
+                if (o11.getVariationSeq3() != null && !o11.getVariationSeq3().equals("")) {
+                    ItvariId iv = new ItvariId(ifGoodsMaster.getAssortId(), o11.getVariationSeq3());
+                    Itvari itvari3 = jpaItvariRepository.findById(iv).orElse(null);
+
+                    o11Val3 = itvari3.getOptionNm();
+                } else {
+                    o11Val3 = "";
+                }
+
 				/*
 				 * 
 				 * if (o11.getItvari1() == null) { o11Val1 = ""; } else { o11Val1 =
@@ -503,10 +513,13 @@ public class GoodsSearch {
 				 */
 				String o12Val1 = o12.getOptionValue1() == null ? "" : o12.getOptionValue1();
 				String o12Val2 = o12.getOptionValue2() == null ? "" : o12.getOptionValue2();
-				
-				
+				String o12Val3 = o12.getOptionValue3() == null ? "" : o12.getOptionValue3();
 
-				if (o11Val1.equals(o12Val1) && o11Val2.equals(o12Val2)) {
+//                System.out.println("1. "+o11Val1+", " +o12Val1);
+//                System.out.println("2. "+o11Val2+", " +o12Val2);
+//                System.out.println("3. "+o11Val3+", " +o12Val3);
+
+				if (o12Val1.equals(o11Val1) && o12Val2.equals(o11Val2) && o12Val3.equals(o11Val3)) {
 
 					HashMap<String, Object> m = new HashMap<String, Object>();
 
@@ -747,44 +760,74 @@ public class GoodsSearch {
     }
 
     private void saveItvari(IfGoodsOption ifGoodsOption) { // 01 색깔, 02 사이즈 저장
-
-        Itvari itvariColor = new Itvari(ifGoodsOption);
-        // 옵션 01 : 색깔 저장
-        itvariColor.setOptionGb(StringFactory.getGbOne()); // 01 하드코딩
-        itvariColor.setVariationGb(StringFactory.getGbOne()); // 01 하드코딩
-        itvariColor.setOptionNm(ifGoodsOption.getOptionValue1());
-        String seq = "";
-        System.out.println("--------------------------- " + ifGoodsOption.getAssortId());
-//        List<Itvari> itvariList0 = jpaItvariRepository.findByAssortId(ifGoodsOption.getAssortId());
-        Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvariColor.getOptionGb(), itvariColor.getOptionNm());
-        if(itvariList == null){
-            seq = this.getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
-            itvariColor.setSeq(seq);
-            jpaItvariRepository.save(itvariColor);
+        List<String> gbList = new ArrayList<>();
+        gbList.add(StringFactory.getGbOne());
+        gbList.add(StringFactory.getGbTwo());
+        gbList.add(StringFactory.getGbThree());
+        List<String> optionNmList = new ArrayList<>();
+        optionNmList.add(ifGoodsOption.getOptionValue1());
+        optionNmList.add(ifGoodsOption.getOptionValue2());
+        optionNmList.add(ifGoodsOption.getOptionValue3());
+        int i = 0;
+        for(String gb : gbList){
+            Itvari itvari = new Itvari(ifGoodsOption);
+            itvari.setOptionGb(gb);
+            itvari.setVariationGb(gb);
+            itvari.setOptionNm(optionNmList.get(i));
+            String seq = "";
+            Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvari.getOptionGb(), itvari.getOptionNm());
+            if(itvariList == null){
+                seq = this.getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
+                itvari.setSeq(seq);
+                jpaItvariRepository.save(itvari);
+            }
+            i++;
         }
-
-        Itvari itvariSize = new Itvari(ifGoodsOption);
-        if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
-            itvariSize.setOptionGb(StringFactory.getGbTwo()); // 02 하드코딩
-            itvariSize.setVariationGb(StringFactory.getGbTwo()); // 02 하드코딩
-            itvariSize.setOptionNm(ifGoodsOption.getOptionValue2());
-        }
-        else{
-            return;
-        }
-        // 옵션 02 : 사이즈 저장
-        if(!seq.equals("")){
-            seq = Utilities.plusOne(seq,4);
-        }
-        else{
-            seq = this.getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
-        }
-
-        if (jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),
-                itvariSize.getOptionGb(), itvariSize.getOptionNm()) == null) {
-            itvariSize.setSeq(seq);
-            jpaItvariRepository.save(itvariSize);
-        }
+//
+//        Itvari itvariColor = new Itvari(ifGoodsOption);
+//        // 옵션 01 : 색깔 저장
+//        itvariColor.setOptionGb(StringFactory.getGbOne()); // 01 하드코딩
+//        itvariColor.setVariationGb(StringFactory.getGbOne()); // 01 하드코딩
+//        itvariColor.setOptionNm(ifGoodsOption.getOptionValue1());
+//        String seq = "";
+//        System.out.println("--------------------------- " + ifGoodsOption.getAssortId());
+////        List<Itvari> itvariList0 = jpaItvariRepository.findByAssortId(ifGoodsOption.getAssortId());
+//        Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvariColor.getOptionGb(), itvariColor.getOptionNm());
+//        if(itvariList == null){
+//            seq = this.getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
+//            itvariColor.setSeq(seq);
+//            jpaItvariRepository.save(itvariColor);
+//        }
+//        // 사이즈
+//        Itvari itvariSize = new Itvari(ifGoodsOption);
+//        if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
+//            itvariSize.setOptionGb(StringFactory.getGbTwo()); // 02 하드코딩
+//            itvariSize.setVariationGb(StringFactory.getGbTwo()); // 02 하드코딩
+//            itvariSize.setOptionNm(ifGoodsOption.getOptionValue2());
+//        }
+//        // 재질
+//        Itvari itvariMaterial = new Itvari(ifGoodsOption);
+//        if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 3){
+//            itvariMaterial.setOptionGb(StringFactory.getGbThree()); // 03 하드코딩
+//            itvariMaterial.setVariationGb(StringFactory.getGbThree()); // 03 하드코딩
+//            itvariMaterial.setOptionNm(ifGoodsOption.getOptionValue3());
+//        }
+//        else{
+//            return;
+//        }
+//        // 옵션 02 : 사이즈 저장
+//        if(!seq.equals("")){
+//            seq = Utilities.plusOne(seq,4);
+//        }
+//        else{
+//            seq = this.getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
+//        }
+//
+//        if (jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),
+//                itvariSize.getOptionGb(), itvariSize.getOptionNm()) == null) {
+//            itvariSize.setSeq(seq);
+//            jpaItvariRepository.save(itvariSize);
+//        }
     }
 
     private void saveItitmm(IfGoodsOption ifGoodsOption, IfGoodsMaster ifGoodsMaster) {
@@ -795,24 +838,33 @@ public class GoodsSearch {
         if(itvariOp1 == null){
             ititmm.setVariationGb1(StringFactory.getGbOne()); // 01
             ititmm.setVariationSeq1(StringUtils.leftPad(StringFactory.getStrOne(),4,'0'));
+            ititmm.setItemId(StringUtils.leftPad(StringFactory.getStrOne(),4,'0'));
+            ititmm.setItemNm(StringFactory.getStrSingleGoods()); // 단품
+            jpaItitmmRepository.save(ititmm);
+            return;
         }
         else{
             ititmm.setVariationGb1(itvariOp1.getVariationGb());
             ititmm.setVariationSeq1(itvariOp1.getSeq());
         }
-
-        if(ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
+        if(ifGoodsOption.getOptionName() != null && ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
             Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ititmm.getAssortId(), StringFactory.getGbTwo(), ifGoodsOption.getOptionValue2());
             Itvari itvariOp2 = itvariList;
             ititmm.setVariationGb2(itvariOp2.getVariationGb());
             ititmm.setVariationSeq2(itvariOp2.getSeq());
         }
+        if(ifGoodsOption.getOptionName() != null && ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 3){
+            Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ititmm.getAssortId(), StringFactory.getGbThree(), ifGoodsOption.getOptionValue3());
+            Itvari itvariOp3 = itvariList;
+            ititmm.setVariationGb3(itvariOp3.getVariationGb());
+            ititmm.setVariationSeq3(itvariOp3.getSeq());
+        }
 
 		Ititmm itm = null;
 		if (itvariOp1 != null) {
 
-			itm = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2(ititmm.getAssortId(),
-					ititmm.getVariationSeq1(), ititmm.getVariationSeq2());
+			itm = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(ititmm.getAssortId(),
+					ititmm.getVariationSeq1(), ititmm.getVariationSeq2(), ititmm.getVariationSeq3());
 
 		}
 
@@ -825,8 +877,6 @@ public class GoodsSearch {
 			ititmm.setItemNm(ifGoodsMaster.getGoodsNm());
 			jpaItitmmRepository.save(ititmm);
 		}
-
-
     }
 
 
