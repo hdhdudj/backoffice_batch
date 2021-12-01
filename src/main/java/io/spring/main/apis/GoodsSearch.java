@@ -604,7 +604,7 @@ public class GoodsSearch {
             ifGoodsAddGoods.setAddGoodsId(ifAddGoods.getAddGoodsId());
             System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡ addGoodsId : " + ifGoodsAddGoods.getAddGoodsId() + ", assortId : " + ifGoodsAddGoods.getAssortId());
             //OpenApi호출
-            AddGoodsData addGoodsData = this.retrieveAddGoods(ifGoodsAddGoods.getGoodsNo());
+            AddGoodsData addGoodsData = this.retrieveAddGoods(ifGoodsAddGoods.getAddGoodsNo());
 
             ifGoodsAddGoods.setGoodsNm(addGoodsData.getGoodsNm());
             ifGoodsAddGoods.setOptionNm(addGoodsData.getOptionNm());
@@ -1053,7 +1053,7 @@ public class GoodsSearch {
         //OpenApi호출
         String urlstr = goodsAddSearchUrl + "?" + StringFactory.getGoodsSearchParams()[0] + "=" +
                 pKey + "&" +StringFactory.getGoodsSearchParams()[1]
-                + "=" + key+"&goodsNo="+goodsNo;
+                + "=" + key+"&addGoodsNo="+goodsNo;
         NodeList nodeList = CommonXmlParse.getXmlNodes(urlstr);
         List<AddGoodsData> addGoodsDataList = new ArrayList<>();
 
