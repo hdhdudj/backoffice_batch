@@ -769,6 +769,9 @@ public class GoodsSearch {
         optionNmList.add(ifGoodsOption.getOptionValue2());
         optionNmList.add(ifGoodsOption.getOptionValue3());
         int i = 0;
+
+		String maxSeq = jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId());
+
         for(String gb : gbList){
             Itvari itvari = new Itvari(ifGoodsOption);
             itvari.setOptionGb(gb);
@@ -777,7 +780,8 @@ public class GoodsSearch {
             String seq = "";
             Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ifGoodsOption.getAssortId(),itvari.getOptionGb(), itvari.getOptionNm());
             if(itvariList == null){
-                seq = this.getSeq(jpaItvariRepository.findMaxSeqByAssortId(ifGoodsOption.getAssortId()),4);
+				maxSeq = this.getSeq(maxSeq, 4);
+				seq = maxSeq;
                 itvari.setSeq(seq);
                 jpaItvariRepository.save(itvari);
             }
