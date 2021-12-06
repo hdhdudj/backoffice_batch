@@ -1,16 +1,20 @@
 package io.spring.main.model.goods.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.spring.main.util.StringFactory;
-import io.spring.main.model.goods.idclass.IfGoodsMasterId;
-import lombok.*;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.spring.main.model.goods.idclass.IfGoodsMasterId;
+import io.spring.main.util.StringFactory;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "if_goods_master")
@@ -195,4 +199,9 @@ public class IfGoodsMaster extends CommonProps implements Cloneable {
     private Long scmNo;
     // 21-10-12 추가
     private String purchaseNm;
+
+	// 21-12-06 추가
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+	private Date modDt;
+
 }

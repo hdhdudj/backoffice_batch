@@ -1,5 +1,8 @@
 package io.spring.backoffice_batch.job;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.batch.core.Job;
@@ -23,10 +26,6 @@ import io.spring.main.apis.GoodsSearch;
 import io.spring.main.model.goods.entity.IfGoodsMaster;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -82,6 +81,14 @@ public class GoodsSearchJobConfiguration {
                 .build();
     }
 
+	@Bean
+	public Step searchGoodsStep4() {
+		log.info("----- This is searchGoodsStep4");
+		return stepBuilderFactory.get("searchGoodsStep4").<IfGoodsMaster, String>chunk(chunkSize)
+				.reader(jpaGoodsSearchItemWriterReader()).processor(jpaGoodsSearchItemProcessor())
+				.writer(jpaGoodsSearchItemWriter()).build();
+	}
+
     @Bean
     public JpaPagingItemReader jpaGoodsSearchItemWriterReader() {
         log.debug("실행됨.");
@@ -91,7 +98,9 @@ public class GoodsSearchJobConfiguration {
                 return 0;
             }
         };
-        String goodsNo = null;//"1000002511";//"1000049979"; // 1000061723
+		// String goodsNo = "1000059238";// null;//"1000002511";//"1000049979"; //
+		// 1000061723
+		String goodsNo = null;
         jpaPagingItemReader.setName("jpaGoodsSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(pageSize);
@@ -123,7 +132,7 @@ public class GoodsSearchJobConfiguration {
         return stepBuilderFactory.get("searchGoodsStep3")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchGoodsStep3");
-                    goodsSearch.insertTms(); // tmitem, tmmapi 삽입 query 실행
+					goodsSearch.insertTms1(); // tmitem, tmmapi 삽입 query 실행
                     return RepeatStatus.FINISHED;
                 })
                 .build();

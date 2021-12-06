@@ -13,6 +13,8 @@ public interface JpaItitmmRepository extends JpaRepository<Ititmm, ItitmmId> {
     String findMaxItemIdByAssortId(String assortId);
     List<Ititmm> findByAssortId(String assortId);
 
+	List<Ititmm> findByAssortIdAndDelYn(String assortId, String delYn);
+
     Ititmm findByAssortIdAndItemId(String assortId, String itemId);
 
     Ititmm findByItemNm(String channelGoodsNm);

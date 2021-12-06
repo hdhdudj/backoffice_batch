@@ -1,13 +1,23 @@
 package io.spring.main.model.goods.entity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.spring.main.util.StringFactory;
+
 import io.spring.main.model.goods.idclass.TmitemId;
+import io.spring.main.util.StringFactory;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -15,6 +25,34 @@ import java.util.Date;
 @Table(name = "tmitem")
 @IdClass(TmitemId.class)
 public class Tmitem extends CommonProps{
+
+	public Tmitem(IfGoodsMaster igm, Ititmm im,IfGoodsOption igo) {
+		super(new Date(), new Date());
+		
+		try {
+			this.channelGb = igm.getChannelGb();
+			this.assortId = igm.getAssortId();
+			this.itemId = im.getItemId();
+			this.channelGoodsNo = igm.getGoodsNo();
+			this.effStaDt = new Date();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			this.effEndDt = sdf.parse("9999-12-31 23:59:59");
+			this.shortYn = im.getShortYn();
+			this.variationGb1 = im.getVariationGb1();
+			this.variationSeq1 = im.getVariationSeq1();
+			this.channelGoodsNo = igo.getGoodsNo();
+			this.channelOptionsNo = igo.getSno();
+			
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+
+	}
+
     @Id
     private String channelGb = StringFactory.getGbOne(); // 01 하드코딩
     @Id
@@ -32,9 +70,12 @@ public class Tmitem extends CommonProps{
     private String variationSeq1;
     private String variationGb2;
     private String variationSeq2;
+	private String variationGb3;
+	private String variationSeq3;
     private String channelGoodsNo;
     private String channelOptionsNo;
     private Float optionPrice;
+
 
     // itvari 연관관계
     @OneToOne(fetch = FetchType.LAZY)
@@ -51,4 +92,11 @@ public class Tmitem extends CommonProps{
             @JoinColumn(name = "variationSeq2", referencedColumnName="seq", insertable = false, updatable = false, foreignKey = @javax.persistence.ForeignKey(name = "none")),
     })
     private Itvari itvari2;
+
+	// itvari 연관관계
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumns({
+			@JoinColumn(name = "assortId", referencedColumnName = "assortId", insertable = false, updatable = false, foreignKey = @javax.persistence.ForeignKey(name = "none")),
+			@JoinColumn(name = "variationSeq3", referencedColumnName = "seq", insertable = false, updatable = false, foreignKey = @javax.persistence.ForeignKey(name = "none")), })
+	private Itvari itvari3;
 }

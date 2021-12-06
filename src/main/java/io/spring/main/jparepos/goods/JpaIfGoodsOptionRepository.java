@@ -1,10 +1,14 @@
 package io.spring.main.jparepos.goods;
 
-import io.spring.main.model.goods.entity.IfGoodsOption;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import io.spring.main.model.goods.entity.IfGoodsOption;
 
 public interface JpaIfGoodsOptionRepository extends JpaRepository<IfGoodsOption, String> {
     List<IfGoodsOption> findByGoodsNo(String goodsNo);
+
+	IfGoodsOption findByAssortIdAndItemId(String assortId, String itemId);
+
 }
