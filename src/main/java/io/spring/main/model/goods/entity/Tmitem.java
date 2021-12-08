@@ -42,6 +42,11 @@ public class Tmitem extends CommonProps{
 			this.shortYn = im.getShortYn();
 			this.variationGb1 = im.getVariationGb1();
 			this.variationSeq1 = im.getVariationSeq1();
+			this.variationGb2 = im.getVariationGb2();
+			this.variationSeq2 = im.getVariationSeq2();
+			this.variationGb3 = im.getVariationGb3();
+			this.variationSeq3 = im.getVariationSeq3();
+
 			this.channelGoodsNo = igo.getGoodsNo();
 			this.channelOptionsNo = igo.getSno();
 			
