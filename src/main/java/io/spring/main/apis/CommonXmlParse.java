@@ -21,6 +21,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -40,6 +41,61 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class CommonXmlParse {
     private final ObjectMapper objectMapper;
+
+	public static HashMap<String, Object> getGoodsOptionData(String goodsNo) {
+
+		// CloseableHttpClient httpClient = HttpClients.createDefault();
+		HashMap<String, Object> r = new HashMap<String, Object>();
+		try {
+
+			String url = "https://www.trdst.com/goods/goods_view.php?goodsNo=" + goodsNo;
+
+			org.jsoup.nodes.Document doc = Jsoup.connect(url).get();
+
+			org.jsoup.select.Elements l = doc.select("input[name=optionSno[]]");
+
+			if (l.size() > 0) {
+				String v = l.get(0).val();
+				System.out.println("------------------------------------------------------------------------");
+				System.out.println(v);
+
+				r.put("optionSno", v);
+
+			}
+
+			// String title = doc.title();
+
+//			HttpGet request = new HttpGet(url);
+			// CloseableHttpResponse response = httpClient.execute(request);
+
+			// HttpEntity entity = response.getEntity();
+			// String result = null;
+
+//			if (entity != null) {
+				// return it as a String
+
+				// Utilities.filterBadXMLCharactors(EntityUtils.toString(entity));
+
+				// result = EntityUtils.toString(entity).replace(new Character((char)
+				// 3).toString(), "");
+
+				// result = Utilities.filterBadXMLCharactors(EntityUtils.toString(entity)); //
+				// 이상한 문저 처리용
+				// System.out.println(result);
+				// httpClient.close();
+				// }
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+
+
+
+		return r;
+
+	}
 
     /**
      * get xml by open api and return node list of xml.

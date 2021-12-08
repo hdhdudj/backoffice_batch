@@ -36,8 +36,8 @@ public class GoodsSearchJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
     private final GoodsSearch goodsSearch;
-	private static final int chunkSize = 100;
-    private static final int pageSize = 100;
+	private static final int chunkSize = 1000;
+	private static final int pageSize = 1000;
     private int cnt = 0;
 
     @Bean
@@ -128,7 +128,6 @@ public class GoodsSearchJobConfiguration {
     @Bean
     @JobScope
     public Step searchGoodsStep3(){
-        log.info("----- This is searchGoodsStep3");
         return stepBuilderFactory.get("searchGoodsStep3")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchGoodsStep3");

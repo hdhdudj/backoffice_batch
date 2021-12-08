@@ -1,6 +1,5 @@
 package io.spring.main.model.goods.entity;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -16,7 +15,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.spring.main.model.goods.idclass.TmitemId;
 import io.spring.main.util.StringFactory;
+import io.spring.main.util.Utilities;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -24,20 +25,20 @@ import lombok.Setter;
 @Setter
 @Table(name = "tmitem")
 @IdClass(TmitemId.class)
+@NoArgsConstructor
 public class Tmitem extends CommonProps{
 
 	public Tmitem(IfGoodsMaster igm, Ititmm im,IfGoodsOption igo) {
 		super(new Date(), new Date());
 		
-		try {
+
 			this.channelGb = igm.getChannelGb();
 			this.assortId = igm.getAssortId();
 			this.itemId = im.getItemId();
 			this.channelGoodsNo = igm.getGoodsNo();
 			this.effStaDt = new Date();
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			this.effEndDt = sdf.parse("9999-12-31 23:59:59");
+
+			this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
 			this.shortYn = im.getShortYn();
 			this.variationGb1 = im.getVariationGb1();
 			this.variationSeq1 = im.getVariationSeq1();
@@ -46,9 +47,6 @@ public class Tmitem extends CommonProps{
 			
 			
 			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
 		
 
 	}

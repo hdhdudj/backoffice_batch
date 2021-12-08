@@ -13,6 +13,9 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -76,11 +79,12 @@ public class Tmmapi extends CommonProps{
     private String errorMsg;
 
     // tmitem 연관관계
-    @JoinColumns({
+	@JoinColumns({
         @JoinColumn(name = "assortId", referencedColumnName="assortId", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none")),
-        @JoinColumn(name = "channelGb", referencedColumnName="channelGb", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
+			@JoinColumn(name = "channelGb", referencedColumnName = "channelGb", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "none"))
     })
-    @OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
     @JsonIgnore
+	@NotFound(action = NotFoundAction.IGNORE)
     private List<Tmitem> tmitemList;
 }

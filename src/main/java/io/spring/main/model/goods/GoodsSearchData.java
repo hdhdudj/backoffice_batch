@@ -281,6 +281,7 @@ public class GoodsSearchData {
 
     @Getter
     @Setter
+	@NoArgsConstructor
     public static class OptionData {
         private Long sno;
         private Long optionNo;
@@ -300,6 +301,7 @@ public class GoodsSearchData {
         private Date regDt;
         @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private Date modDt;
+
     }
 
     @Getter

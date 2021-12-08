@@ -194,8 +194,8 @@ public class GoodsSearch {
             IfGoodsMaster igm = this.saveIfGoodsMaster(goodsSearchData); // if_goods_master : itasrt, itasrn, itasrd  * 여기서 assortId 생성
             log.debug("Step1, saveIfGoodsMaster : "+(System.currentTimeMillis()-start));
 
-			// 마스터정보가 수정및 생성되는 건에 대해서만 데이타 처리를 함.
 
+			// 마스터정보가 수정및 생성되는 건에 대해서만 데이타 처리를 함.
 			if (igm != null) {
 				start = System.currentTimeMillis();
 				boolean isIfGoodsTextOptionChanged = this.saveIfGoodsTextOption(goodsSearchData); // if_goods_text_option
@@ -270,7 +270,11 @@ public class GoodsSearch {
 		try {
 			mod1 = sdf2.parse(goodsSearchData.getModDt());
 			// Date mod2 = sdf2.parse(origIfGoodsMaster.getModDt().toString());
-			mod2 = origIfGoodsMaster.getModDt();
+			if (origIfGoodsMaster == null) {
+				mod2 = null;
+			} else {
+				mod2 = origIfGoodsMaster.getModDt();
+			}
 
 			if (mod1 != null && mod2 != null) {
 
@@ -463,11 +467,51 @@ public class GoodsSearch {
     }
 
     private boolean saveIfGoodsOption(GoodsSearchData goodsSearchData){ //, List<IfGoodsOption> ifGoodsOptionList) {
-        List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
-        if(optionDataList == null){
+
+		System.out.println("===================================================================");
+
+		System.out.println("saveIfGoodsOption");
+
+
+		List<GoodsSearchData.OptionData> optionDataList1 = goodsSearchData.getOptionData();
+
+		System.out.println("optionDataList length =>" + optionDataList1.size());
+
+		if (optionDataList1.size() == 0) {
+			System.out.println("===================================================================");
+			System.out.println("optionDataList is null.");
+			HashMap<String, Object> r = CommonXmlParse.getGoodsOptionData(goodsSearchData.getGoodsNo().toString());
+
+			if (r.get("optionSno") == null) {
+				log.debug("optionDataList value is null.");
+			} else {
+				GoodsSearchData.OptionData opt = new GoodsSearchData.OptionData();
+
+				List<GoodsSearchData.OptionData> l = new ArrayList<GoodsSearchData.OptionData>();
+
+				opt.setSno(Long.parseLong(r.get("optionSno").toString()));
+				opt.setGoodsNo(goodsSearchData.getGoodsNo());
+				opt.setOptionNo(1L);
+				opt.setOptionValue1("단품");
+				opt.setOptionViewFl("y");
+				opt.setOptionSellFl("y");
+				opt.setRegDt(goodsSearchData.getRegDt());
+				opt.setModDt(new Date());
+
+
+				l.add(opt);
+
+				goodsSearchData.setOptionData(l);
+
+			}
+
             log.debug("optionDataList is null.");
-            return false;
+			log.debug("make single optionData");
+//            return false;
         }
+
+		List<GoodsSearchData.OptionData> optionDataList = goodsSearchData.getOptionData();
+
         List<IfGoodsOption> n = new ArrayList<IfGoodsOption>();
         for(GoodsSearchData.OptionData optionData : optionDataList){
             IfGoodsOption ifGoodsOption = ifGoodsOptionMapper.to(optionData, goodsSearchData);//objectMapper.convertValue(optionData,IfGoodsOption.class);
@@ -534,7 +578,9 @@ public class GoodsSearch {
         log.debug("Step2, saveItasrn : " + (System.currentTimeMillis()-start));
 
         // 3. if_goods_master 테이블 updateStatus 02로 업데이트
-        ifGoodsMaster.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
+//        ifGoodsMaster.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
+		ifGoodsMaster.setUploadStatus(StringFactory.getGbFour()); // 02 하드코딩
+
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
 
 
@@ -700,8 +746,8 @@ public class GoodsSearch {
 				}
 			}
 
-			// ifGoodsOption.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
-			ifGoodsOption.setUploadStatus(StringFactory.getGbFour()); // 02 하드코딩
+			ifGoodsOption.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
+			// ifGoodsOption.setUploadStatus(StringFactory.getGbFour()); // 02 하드코딩
 
             jpaIfGoodsOptionRepository.save(ifGoodsOption);
         }
@@ -1387,68 +1433,111 @@ public class GoodsSearch {
 	@Transactional
 	public void insertTms1() {
 
+
 		List<Tmmapi> tmmapiList = new ArrayList<Tmmapi>();
 		List<Tmitem> tmitemList = new ArrayList<Tmitem>();
 
-		List<IfGoodsMaster> list = jpaIfGoodsMasterRepository.findByUploadStatus("04");
 
-		for (IfGoodsMaster o : list) {
+			List<IfGoodsMaster> list = jpaIfGoodsMasterRepository.findByUploadStatus("04");
 
-			Tmmapi tm = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo("01", o.getGoodsNo());
+			for (IfGoodsMaster o : list) {
 
-			if (tm == null) {
-				Tmmapi tm1 = new Tmmapi(o);
+				System.out.println("step3 insertTms1 =>> " + o.getGoodsNo());
 
-				tmmapiList.add(tm1);
+				Tmmapi tm = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo("01", o.getGoodsNo());
 
-			} else {
+				System.out.println("step3 insertTms1 end=>> " + o.getGoodsNo());
 
-				tm.setChannelGoodsNo(o.getGoodsNo());
-				tm.setUploadDt(new Date());
+				if (tm == null) {
+					System.out.println("step3 tmmapi insert =>> " + o.getGoodsNo());
 
-				tm.setUpdDt(new Date());
+					tm = new Tmmapi(o);
 
-				tmmapiList.add(tm);
-			}
+//					tmmapiList.add(tm);
 
-			List<Ititmm> l = jpaItitmmRepository.findByAssortId(o.getAssortId());
+				} else {
 
-			for (Ititmm o1 : l) {
-				IfGoodsOption igo1 = jpaIfGoodsOptionRepository.findByAssortIdAndItemId(o1.getAssortId(),
-						o1.getItemId());
+					tm.setChannelGoodsNo(o.getGoodsNo());
+					tm.setUploadDt(new Date());
 
-				if (igo1 != null) {
-					Tmitem tim = jpaTmitemRepository
-							.findByAssortIdAndItemIdAndChannelGbAndChannelGoodsNoAndChannelOptionsNo(o1.getAssortId(),
-									o1.getItemId(), igo1.getChannelGb(), igo1.getGoodsNo(), igo1.getSno());
+					tm.setUpdDt(new Date());
 
-					if (tim == null) {
-						Tmitem tim1 = new Tmitem(o, o1, igo1);
-						tmitemList.add(tim1);
-						// jpaTmitemRepository.save(tm1);
+					// tmmapiList.add(tm);
+				}
+
+				List<Ititmm> l = jpaItitmmRepository.findByAssortId(o.getAssortId());
+
+				for (Ititmm o1 : l) {
+					IfGoodsOption igo1 = jpaIfGoodsOptionRepository.findByAssortIdAndItemId(o1.getAssortId(),
+							o1.getItemId());
+
+					if (igo1 != null) {
+
+						/*
+						 * List<Tmitem> timList =
+						 * jpaTmitemRepository.findByAssortIdAndItemId(o1.getAssortId(),
+						 * o1.getItemId());
+						 * 
+						 * System.out.println("timList size =>> " + timList.size());
+						 * 
+						 * for (Tmitem o11 : timList) { jpaTmitemRepository.delete(o11); }
+						 */
+						Tmitem tim = jpaTmitemRepository
+								.findByAssortIdAndItemIdAndChannelGbAndChannelGoodsNoAndChannelOptionsNo(
+										o1.getAssortId(), o1.getItemId(), igo1.getChannelGb(), igo1.getGoodsNo(),
+										igo1.getSno());
+
+						if (tim == null) {
+
+							System.out.println("step3 Tmitem insert =>> " + o.getGoodsNo());
+
+							Tmitem tim1 = new Tmitem(o, o1, igo1);
+//							 tmitemList.add(tim1);
+							// jpaTmitemRepository.save(tm1);
+
+//							jpaTmitemRepository.saveAndFlush(tim1);
+							jpaTmitemRepository.save(tim1);
+						} else {
+							tim.setUpdDt(new Date());
+
+//							tmitemList.add(tim);
+//							jpaTmitemRepository.saveAndFlush(tim);
+							jpaTmitemRepository.save(tim);
+						}
+
+
+
 					}
 
 
 				}
 
+				// jpaTmmapiRepository.saveAll(tmmapiList);
+				jpaTmmapiRepository.save(tm);
+
+				// jpaTmitemRepository.saveAll(tmitemList);
+
+				o.setUploadStatus("02");
+				o.setUpdDt(new Date());
+
+				System.out.println("o.getAssortId ==> " + o.getAssortId());
+
+				jpaIfGoodsMasterRepository.save(o);
+				// o.getAssortId()
 
 			}
 
-			jpaTmmapiRepository.saveAll(tmmapiList);
-			jpaTmitemRepository.saveAll(tmitemList);
-
-			o.setUploadStatus("02");
-			o.setUpdDt(new Date());
-
-			System.out.println("o.getAssortId ==> " + o.getAssortId());
-
-			jpaIfGoodsMasterRepository.save(o);
-			// o.getAssortId()
-
-		}
 
 		// goodsMapper.insertTmmapi();
 		// goodsMapper.updateTmitem();
 		// goodsMapper.insertTmitem();
     }
+
+	private GoodsSearchData.OptionData getOptionData(String goodsNo){
+		
+		
+		GoodsSearchData.OptionData o = new GoodsSearchData.OptionData();
+		
+		return o;
+	}
 }
