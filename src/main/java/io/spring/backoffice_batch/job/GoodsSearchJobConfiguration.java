@@ -98,9 +98,7 @@ public class GoodsSearchJobConfiguration {
                 return 0;
             }
         };
-		// String goodsNo = "1000059238";// null;//"1000002511";//"1000049979"; //
-		// 1000061723
-		String goodsNo = null;
+        String goodsNo = null;//"1000061723";//"1000002511";//"1000049979"; // 1000061723
         jpaPagingItemReader.setName("jpaGoodsSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(pageSize);

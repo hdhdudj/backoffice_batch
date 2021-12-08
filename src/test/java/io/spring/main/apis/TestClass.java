@@ -1,5 +1,6 @@
 package io.spring.main.apis;
 
+import io.spring.main.enums.DeliveryMethod;
 import io.spring.main.enums.TrdstOrderStatus;
 import org.apache.commons.lang3.EnumUtils;
 import org.junit.Test;
@@ -39,9 +40,10 @@ public class TestClass {
 
     @Test
     public void enumTest(){
-        for(TrdstOrderStatus val : TrdstOrderStatus.values()){
-            System.out.println(val.toString());
-        }
+        System.out.printf(DeliveryMethod.valueOf(DeliveryMethod.class, "delivery").toString());
+//        for(DeliveryMethod val : DeliveryMethod.valueOf(DeliveryMethod.class, "001")){
+//            System.out.println(val.toString());
+//        }
     }
 
     @Test
