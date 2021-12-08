@@ -20,7 +20,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "ititmm")
@@ -38,6 +37,16 @@ public class Ititmm extends CommonProps implements Serializable {
         itemNm = itasrt.getAssortNm();
         addPrice = StringFactory.getStrZero();
     }
+
+	public Ititmm(Itasrt itasrt, String seq, Itvari itvari) { // 옵션데이터 없을때(단품일때)
+		this.assortId = itasrt.getAssortId();
+		this.shortYn = itasrt.getShortageYn();
+		variationGb1 = itvari.getVariationGb();
+		variationSeq1 = itvari.getSeq();
+		itemId = seq;
+		itemNm = itasrt.getAssortNm();
+		addPrice = StringFactory.getStrZero();
+	}
 
     public Ititmm(IfGoodsOption ifGoodsOption){
         super(ifGoodsOption.getRegDt(), ifGoodsOption.getModDt());

@@ -1,5 +1,8 @@
 package io.spring.backoffice_batch.job;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.batch.core.Job;
@@ -24,10 +27,6 @@ import io.spring.main.model.goods.entity.IfGoodsMaster;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
@@ -37,8 +36,8 @@ public class GoodsSearchJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
     private final GoodsSearch goodsSearch;
-	private static final int chunkSize = 100;
-    private static final int pageSize = 100;
+	private static final int chunkSize = 1000;
+	private static final int pageSize = 1000;
     private int cnt = 0;
 
     @Bean
@@ -82,6 +81,14 @@ public class GoodsSearchJobConfiguration {
                 .build();
     }
 
+	@Bean
+	public Step searchGoodsStep4() {
+		log.info("----- This is searchGoodsStep4");
+		return stepBuilderFactory.get("searchGoodsStep4").<IfGoodsMaster, String>chunk(chunkSize)
+				.reader(jpaGoodsSearchItemWriterReader()).processor(jpaGoodsSearchItemProcessor())
+				.writer(jpaGoodsSearchItemWriter()).build();
+	}
+
     @Bean
     public JpaPagingItemReader jpaGoodsSearchItemWriterReader() {
         log.debug("실행됨.");
@@ -119,11 +126,10 @@ public class GoodsSearchJobConfiguration {
     @Bean
     @JobScope
     public Step searchGoodsStep3(){
-        log.info("----- This is searchGoodsStep3");
         return stepBuilderFactory.get("searchGoodsStep3")
                 .tasklet((contribution, chunkContext) -> {
                     log.info("----- This is searchGoodsStep3");
-                    goodsSearch.insertTms(); // tmitem, tmmapi 삽입 query 실행
+					goodsSearch.insertTms1(); // tmitem, tmmapi 삽입 query 실행
                     return RepeatStatus.FINISHED;
                 })
                 .build();

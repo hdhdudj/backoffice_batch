@@ -1,16 +1,22 @@
 package io.spring.main.model.goods.entity;
 
-import io.spring.main.util.StringFactory;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.apache.commons.lang3.StringUtils;
+
 import io.spring.main.model.goods.idclass.ItvariId;
+import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "itvari")
@@ -26,6 +32,15 @@ public class Itvari extends CommonProps{
         this.variationGb = optionGb;
         this.optionNm = StringFactory.getStrSingleGoods();
     }
+
+	public Itvari(String assortId, String Seq) { // 단품인 경우
+		this.assortId = assortId;
+		this.seq = Seq;
+		this.optionGb = StringFactory.getGbOne();
+		this.variationGb = optionGb;
+		this.optionNm = StringFactory.getStrSingleGoods();
+	}
+
     /**
      *
      * @param goodsInsertRequestData
