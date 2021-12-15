@@ -1177,14 +1177,22 @@ public class GoodsSearch {
 		// }
 
 		if (itm == null) {
-			Ititmm ititmm = new Ititmm(ifGoodsOption);
+			
+			// Ititmm ititmm = new Ititmm(ifGoodsOption); // ititmm 만들떄 이렇게 만들면 잘못만들어짐.
 			// itemId 채번
 			String itemId = jpaItitmmRepository.findMaxItemIdByAssortId(ifGoodsMaster.getAssortId());
 			itemId = getSeq(itemId, 4);
+			
+			Itasrt itasrt = jpaItasrtRepository.findById(ifGoodsMaster.getAssortId()).orElse(null);
+			
+			Ititmm ititmm = new Ititmm(itasrt, itemId, variSeq1, variSeq2, variSeq3);
+			
+			
 			ifGoodsOption.setItemId(itemId);
 			ititmm.setItemId(itemId);
 			ititmm.setItemNm(ifGoodsMaster.getGoodsNm());
 			jpaItitmmRepository.save(ititmm);
+
 		} else {
 			itm.setDelYn("02");
 			itm.setUpdDt(new Date());
