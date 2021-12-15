@@ -1148,8 +1148,8 @@ public class GoodsSearch {
 			variSeq3 = it3.getSeq();
 		}
 		
-		Ititmm itm = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
-				ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3);
+		Ititmm itm = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3AndDelYn(
+				ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3, "02").get(0);
 
 		if (itm == null) {
 			Ititmm ititmm = new Ititmm(ifGoodsOption);

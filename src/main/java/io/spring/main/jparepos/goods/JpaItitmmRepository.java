@@ -22,4 +22,7 @@ public interface JpaItitmmRepository extends JpaRepository<Ititmm, ItitmmId> {
 	Ititmm findByAssortIdAndVariationSeq1AndVariationSeq2(String assortId, String variationSeq1, String variationSeq2);
 
     Ititmm findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(String assortId, String variationSeq1, String variationSeq2, String variationSeq3);
+
+	List<Ititmm> findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3AndDelYn(String assortId,
+			String variationSeq1, String variationSeq2, String variationSeq3, String delYn);
 }
