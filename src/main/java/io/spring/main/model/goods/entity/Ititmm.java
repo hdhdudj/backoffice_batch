@@ -38,6 +38,32 @@ public class Ititmm extends CommonProps implements Serializable {
         addPrice = StringFactory.getStrZero();
     }
 
+	public Ititmm(Itasrt itasrt, String seq, String variSeq1, String variSeq2, String variSeq3) { // 옵션데이터 없을때(단품일때)
+		this.assortId = itasrt.getAssortId();
+		this.shortYn = itasrt.getShortageYn();
+
+		this.variationGb1 = "01";
+		this.variationSeq1 = variSeq1;
+
+		if (variSeq2 != null) {
+			this.variationGb2 = "02";
+			this.variationSeq2 = variSeq2;
+
+		}
+
+		if (variSeq3 != null) {
+			this.variationGb3 = "03";
+			this.variationSeq3 = variSeq3;
+
+		}
+
+
+
+		itemId = seq;
+		itemNm = itasrt.getAssortNm();
+		addPrice = StringFactory.getStrZero();
+	}
+
 	public Ititmm(Itasrt itasrt, String seq, Itvari itvari) { // 옵션데이터 없을때(단품일때)
 		this.assortId = itasrt.getAssortId();
 		this.shortYn = itasrt.getShortageYn();
