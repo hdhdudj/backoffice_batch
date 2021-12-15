@@ -947,8 +947,13 @@ public class GoodsSearch {
 	private String saveSingleItitmm(Itasrt itasrt, Itvari itvari) {
         // option이 없는 경우. seq 0001, 옵션구분 01, variation구분 01, 옵션명 '단품'
 
-		Ititmm ititmm = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
+		List<Ititmm> l = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
 				itasrt.getAssortId(), itvari.getSeq(), null, null);
+
+		Ititmm ititmm = null;
+		if (l.size() > 0) {
+			ititmm = l.get(l.size() - 1);
+		}
 
 		if (ititmm == null) {
 
@@ -1147,17 +1152,29 @@ public class GoodsSearch {
 		if (it3 != null) {
 			variSeq3 = it3.getSeq();
 		}
+
 		
-		List<Ititmm> l = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3AndDelYn(
-				ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3, "02");
+		List<Ititmm> l = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
+				ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3);
+
 
 		Ititmm itm = null;
 		if (l.size() > 0) {
-			itm = l.get(0);
-		} else {
-			itm = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
-					ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3);
+			itm = l.get(l.size() - 1);
 		}
+
+		// List<Ititmm> l =
+		// jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3AndDelYn(
+		// ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3, "02");
+
+//		Ititmm itm = null;
+		// if (l.size() > 0) {
+		// itm = l.get(0);
+		// } else {
+		// itm =
+		// jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
+		// ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3);
+		// }
 
 		if (itm == null) {
 			Ititmm ititmm = new Ititmm(ifGoodsOption);
@@ -1210,8 +1227,18 @@ public class GoodsSearch {
 		Ititmm itm = null;
 		if (itvariOp1 != null) {
 
-			itm = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(ititmm.getAssortId(),
+			List<Ititmm> l = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
+					ititmm.getAssortId(),
 					ititmm.getVariationSeq1(), ititmm.getVariationSeq2(), ititmm.getVariationSeq3());
+
+			if (l.size() > 0) {
+				itm = l.get(l.size() - 1);
+			}
+
+			// itm =
+			// jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(ititmm.getAssortId(),
+			// ititmm.getVariationSeq1(), ititmm.getVariationSeq2(),
+			// ititmm.getVariationSeq3());
 
 		}
 
