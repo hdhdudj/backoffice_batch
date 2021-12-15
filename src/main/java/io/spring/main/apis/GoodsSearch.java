@@ -1148,8 +1148,16 @@ public class GoodsSearch {
 			variSeq3 = it3.getSeq();
 		}
 		
-		Ititmm itm = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3AndDelYn(
-				ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3, "02").get(0);
+		List<Ititmm> l = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3AndDelYn(
+				ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3, "02");
+
+		Ititmm itm = null;
+		if (l.size() > 0) {
+			itm = l.get(0);
+		} else {
+			itm = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
+					ifGoodsMaster.getAssortId(), variSeq1, variSeq2, variSeq3);
+		}
 
 		if (itm == null) {
 			Ititmm ititmm = new Ititmm(ifGoodsOption);
