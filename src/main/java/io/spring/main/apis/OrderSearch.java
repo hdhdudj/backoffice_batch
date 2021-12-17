@@ -539,7 +539,7 @@ public class OrderSearch {
 
         // todo : 나중에 리스트로 받는 거 없애야함
         List<Tmitem> tmitemList = jpaTmitemRepository.findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo(), ifOrderDetail.getChannelOptionsNo());
-        Tmitem tmitem = tmitemList.get(tmitemList.size()-1);
+        Tmitem tmitem = tmitemList.size() == 0? null : tmitemList.get(tmitemList.size()-1);
         Tmmapi tmmapi = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo());
         
         
