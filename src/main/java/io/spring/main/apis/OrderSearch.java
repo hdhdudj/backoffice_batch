@@ -815,13 +815,13 @@ public class OrderSearch {
 
 			// if(ifOrderMaster.getOrderEmail())
 
-			if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
-				// loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
-				tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail());
-			} else {
+//			if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
+//				// loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
+//				tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getOrderEmail());
+//			} else {
 				// loginId = ifOrderMaster.getMemNo() + "@guest";
-				tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getMemNo() + "@member");
-			}
+            tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getMemNo());// + "@member");
+//			}
 
 			if (tbMember == null) {
 				tbMember = new TbMember(ifOrderMaster);
@@ -833,7 +833,7 @@ public class OrderSearch {
 //                if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
 //                    loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
 //                } else {
-                String loginId = ifOrderMaster.getMemNo() + "@member";
+                String loginId = ifOrderMaster.getMemNo();// + "@member";
 //                }
 //				} else {
 //					loginId = tbMember.getCustId().toString() + "@guest";
