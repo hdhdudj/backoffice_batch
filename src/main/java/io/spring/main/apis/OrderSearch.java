@@ -794,27 +794,23 @@ public class OrderSearch {
 			
 			String loginId = "";
 
-			if (!ifOrderMaster.getMemNo().equals("0")) {
-				if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
-					loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
-				} else {
-					loginId = ifOrderMaster.getMemNo() + "@member";
-				}
-
-			} else {
-				loginId = ifOrderMaster.getChannelOrderNo() + "@guest";
-
-			}
+//			if (!ifOrderMaster.getMemNo().equals("0")) {
+//				if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
+//					loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
+//				} else {
+//					loginId = ifOrderMaster.getMemNo() + "@member";
+//				}
+//
+//			} else {
+            loginId = ifOrderMaster.getChannelOrderNo() + "@guest";
+//			}
 			
 			tbMember.setLoginId(loginId);
-					
-			
-			
-			
-		} else {
 
-			
-			
+		}
+        // 회원인 경우
+        else {
+
 			System.out.println("getOrderEmail ==> " + ifOrderMaster.getOrderEmail());
 
 			// if(ifOrderMaster.getOrderEmail())
@@ -827,28 +823,23 @@ public class OrderSearch {
 				tbMember = jpaTbMemberRepository.findByLoginId(ifOrderMaster.getMemNo() + "@member");
 			}
 
-
-
 			if (tbMember == null) {
 				tbMember = new TbMember(ifOrderMaster);
 				tbMember.setCustGb("01");
 
-				String loginId = "";
+//				String loginId = "";
 
-				if (!ifOrderMaster.getMemNo().equals("0")) {
-					if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
-						loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
-					} else {
-						loginId = ifOrderMaster.getMemNo() + "@member";
-					}
-
-				} else {
-					loginId = tbMember.getCustId().toString() + "@guest";
-
-				}
-
+//				if (!ifOrderMaster.getMemNo().equals("0")) {
+//                if (!ifOrderMaster.getOrderEmail().equals("") && ifOrderMaster.getOrderEmail() != null) {
+//                    loginId = ifOrderMaster.getOrderEmail(); // 아이디 그냥 이메일 사용
+//                } else {
+                String loginId = ifOrderMaster.getMemNo() + "@member";
+//                }
+//				} else {
+//					loginId = tbMember.getCustId().toString() + "@guest";
+//
+//				}
 				tbMember.setLoginId(loginId);
-
 
 			}
 

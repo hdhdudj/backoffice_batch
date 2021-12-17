@@ -27,7 +27,6 @@ public class TbMember extends CommonProps {
         custEmail = ifOrderMaster.getOrderEmail();
 		// loginId = custEmail.split("@")[0];
 
-
         loginPw = "";
     }
     @Id
