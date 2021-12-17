@@ -89,7 +89,7 @@ bin/
 
 ### properties ###
 application.properties
-godourl.yml
+src/main/resources/godourl.yml
 
 
 log.txt

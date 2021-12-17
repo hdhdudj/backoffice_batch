@@ -56,4 +56,10 @@ public class TbOrderMaster extends CommonProps {
     private Float totalMemberMileage;
     private Float totalCouponGoodsMileage;
     private Float totalCouponOrderMileage;
+
+    // 21-12-17 추가된 컬럼
+    private String receiverName;
+    private String receiverTel;
+    private String receiverAddr1;
+    private String receiverAddr2;
 }
