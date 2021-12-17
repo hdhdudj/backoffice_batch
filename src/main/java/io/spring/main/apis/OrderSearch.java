@@ -536,8 +536,10 @@ public class OrderSearch {
         TbOrderDetail tbOrderDetail = jpaTbOrderDetailRepository.findByChannelOrderNoAndChannelOrderSeq(ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getChannelOrderSeq());//, goodsSearchData.getGoodsNm());
         System.out.println("===== itemNm : " + ifOrderDetail.getChannelGoodsNm() + " ===== goodsNo : " + ifOrderDetail.getChannelGoodsNo());
         System.out.println("===== orderId : " + ifOrderDetail.getOrderId() + " ===== goodsNm : " + ifOrderDetail.getChannelGoodsNm());
-     
-        Tmitem tmitem = jpaTmitemRepository.findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo(), ifOrderDetail.getChannelOptionsNo());
+
+        // todo : 나중에 리스트로 받는 거 없애야함
+        List<Tmitem> tmitemList = jpaTmitemRepository.findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo(), ifOrderDetail.getChannelOptionsNo());
+        Tmitem tmitem = tmitemList.get(tmitemList.size()-1);
         Tmmapi tmmapi = jpaTmmapiRepository.findByChannelGbAndChannelGoodsNo(StringFactory.getGbOne(), ifOrderDetail.getChannelGoodsNo());
         
         

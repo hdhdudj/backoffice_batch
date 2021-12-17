@@ -12,7 +12,8 @@ public interface JpaTmitemRepository extends JpaRepository<Tmitem, TmitemId> {
 
 	List<Tmitem> findByChannelGbAndAssortId(String channelGb, String assortId);
 
-    Tmitem findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(String gbOne, String channelGoodsNo, String channelOptionsNo);
+	// todo : 리스트로 받는 것 나중에 단일 오브젝트로 받는 걸로 바꿔야 함
+    List<Tmitem> findByChannelGbAndChannelGoodsNoAndChannelOptionsNo(String gbOne, String channelGoodsNo, String channelOptionsNo);
 
 	Tmitem findByAssortIdAndItemIdAndChannelGbAndChannelGoodsNoAndChannelOptionsNo(String assortId, String itemId,
 			String gbOne, String channelGoodsNo, String channelOptionsNo);
