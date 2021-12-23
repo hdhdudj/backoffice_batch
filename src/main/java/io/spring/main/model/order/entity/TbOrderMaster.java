@@ -15,7 +15,7 @@ import java.util.Date;
 @Entity
 @Table(name="tb_order_master")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class TbOrderMaster extends CommonProps {
     public TbOrderMaster(String orderId){
         this.orderId = orderId;
@@ -58,8 +58,12 @@ public class TbOrderMaster extends CommonProps {
     private Float totalCouponOrderMileage;
 
     // 21-12-17 추가된 컬럼
-    private String receiverName;
-    private String receiverTel;
-    private String receiverAddr1;
-    private String receiverAddr2;
+    private String orderName; // 주문자명
+    private String orderAddr1; // 주문자 주소1
+    private String orderAddr2; // 주문자 주소2 (상세주소)
+    // 21-12-21 추가된 컬럼
+    private String orderZipcode; // 주문자 구 우편번호
+    private String orderZonecode; // 주문자 신 우편번호
+    private String orderTel; // 주문자 전화
+    private String orderHp; // 주문자 폰
 }

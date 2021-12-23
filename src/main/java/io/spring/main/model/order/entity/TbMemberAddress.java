@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
+/**
+ * 수취자 (receiver) 정보 저장 테이블
+ */
 @Entity
 @Getter
 @Setter

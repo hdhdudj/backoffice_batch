@@ -21,7 +21,7 @@ import java.util.List;
 @Table(name = "itasrt")
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"itvariList","ititmmList","itasrdList","itcatg","itbrnd"})
+@EqualsAndHashCode(exclude = {"itvariList","ititmmList","itasrdList","itcatg","itbrnd"}, callSuper = false)
 public class Itasrt extends CommonProps{
 	public Itasrt(){
 
@@ -145,6 +145,9 @@ public class Itasrt extends CommonProps{
 	private String addOptionNm;
 	private String addImageUrl;
 	private Long stockCnt;
+	// 21-12-23 추가
+	private String listImageData;
+	private String custCategory;
 
 
 	//// 다른 테이블과 엮으면 나오는 프로퍼티들

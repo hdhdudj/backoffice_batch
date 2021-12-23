@@ -19,7 +19,7 @@ import java.util.Date;
 @Setter
 @Table(name="if_goods_text_option")
 @IdClass(IfGoodsTextOptionId.class)
-@EqualsAndHashCode(exclude = {"uploadStatus, regDt, modDt, regId, updId"})
+@EqualsAndHashCode(exclude = {"uploadStatus, regDt, modDt, regId, updId"}, callSuper = false)
 public class IfGoodsTextOption {
     @Id
     private String channelGb;

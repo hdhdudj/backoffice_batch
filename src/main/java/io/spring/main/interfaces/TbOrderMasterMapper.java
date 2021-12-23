@@ -21,6 +21,7 @@ public interface TbOrderMasterMapper {
     @Mapping(source = "im.regId", target = "regId")
     @Mapping(source = "im.updId", target = "updId")
     @Mapping(source = "orderId", target = "orderId")
+    @Mapping(source = "im.orderZonecode", target = "orderZonecode")
     @Mapping(ignore = true, target = "regDt")
     @Mapping(ignore = true, target = "updDt")
     TbOrderMaster to(String orderId, IfOrderMaster im, TbMember tm, TbMemberAddress ta);

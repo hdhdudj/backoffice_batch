@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @IdClass(IfGoodsMasterId.class)
-@EqualsAndHashCode(exclude = "uploadStatus")
+@EqualsAndHashCode(exclude = "uploadStatus", callSuper = false)
 public class IfGoodsMaster extends CommonProps implements Cloneable {
     @Override
     public IfGoodsMaster clone() {

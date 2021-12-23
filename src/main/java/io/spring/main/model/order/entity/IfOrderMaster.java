@@ -27,7 +27,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "if_order_master")
 public class IfOrderMaster extends CommonProps implements Serializable {
@@ -85,6 +84,10 @@ public class IfOrderMaster extends CommonProps implements Serializable {
     // 21-11-24
     private String orderZonecode;
     private String receiverZonecode;
+
+    // 21-12-21
+    private String receiverHp; // 수취자 폰
+    private String orderHp; // 주문자 폰
 
     @Override
     public String toString(){
