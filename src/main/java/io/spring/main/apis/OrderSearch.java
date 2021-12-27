@@ -952,10 +952,14 @@ public class OrderSearch {
 //              log.debug("이미 status 변경 과정을 거친 주문입니다.");
 //              continue;
 //            }
-            String url = serverChangeStatusUrl + "?orderId=" + td.getOrderId() + "&orderSeq=" + td.getOrderSeq();
-            log.debug("===== url : " + url);
-            int res = this.get(url);
-            resList.add(res);
+
+			if (td.getStatusCd().equals("A01")) {
+				String url = serverChangeStatusUrl + "?orderId=" + td.getOrderId() + "&orderSeq=" + td.getOrderSeq();
+				log.debug("===== url : " + url);
+				int res = this.get(url);
+				resList.add(res);
+			}
+
         }
         int successNum = 0;
         for(int res : resList){
