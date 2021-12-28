@@ -1,5 +1,6 @@
 package io.spring.main.model.goods.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -35,14 +36,14 @@ import lombok.Setter;
 public class Tmmapi extends CommonProps{
 
 	public Tmmapi(IfGoodsMaster ifGoodsMaster) {
-		super(new Date(), new Date());
+		super(LocalDateTime.now(), LocalDateTime.now());
 
 		this.channelGb = ifGoodsMaster.getChannelGb();
 		this.assortId = ifGoodsMaster.getAssortId();
 		this.channelGoodsNo = ifGoodsMaster.getGoodsNo();
 		this.uploadType = "01";
 		this.uploadYn = "01";
-		this.uploadDt = new Date();
+		this.uploadDt = LocalDateTime.now();
 		this.uploadRmk = "배치생성";
 		this.joinStatus = "01";
 		this.errorMsg = "성공";
@@ -73,7 +74,7 @@ public class Tmmapi extends CommonProps{
     private String uploadType;
     private String uploadYn;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date uploadDt;
+    private LocalDateTime uploadDt;
     private String uploadRmk;
     private String joinStatus;
     private String errorMsg;

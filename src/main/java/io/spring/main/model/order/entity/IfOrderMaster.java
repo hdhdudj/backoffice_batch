@@ -1,6 +1,7 @@
 package io.spring.main.model.order.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -60,11 +61,11 @@ public class IfOrderMaster extends CommonProps implements Serializable {
     private String payGb;
     private Float payAmt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date payDt;
+    private LocalDateTime payDt;
     private String orderId;
     private String orderMemo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     // 21-09-28 추가된 컬럼
     private Float totalGoodsPrice;

@@ -1,6 +1,7 @@
 package io.spring.main.apis;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -1195,7 +1196,7 @@ public class GoodsSearch {
 
 		} else {
 			itm.setDelYn("02");
-			itm.setUpdDt(new Date());
+			itm.setUpdDt(LocalDateTime.now());
 			jpaItitmmRepository.save(itm);
 		}
 		
@@ -1501,9 +1502,9 @@ public class GoodsSearch {
 				} else {
 
 					tm.setChannelGoodsNo(o.getGoodsNo());
-					tm.setUploadDt(new Date());
+					tm.setUploadDt(LocalDateTime.now());
 
-					tm.setUpdDt(new Date());
+					tm.setUpdDt(LocalDateTime.now());
 
 					// tmmapiList.add(tm);
 				}
@@ -1541,7 +1542,7 @@ public class GoodsSearch {
 //							jpaTmitemRepository.saveAndFlush(tim1);
 							jpaTmitemRepository.save(tim1);
 						} else {
-							tim.setUpdDt(new Date());
+							tim.setUpdDt(LocalDateTime.now());
 
 //							tmitemList.add(tim);
 //							jpaTmitemRepository.saveAndFlush(tim);
@@ -1561,7 +1562,7 @@ public class GoodsSearch {
 				// jpaTmitemRepository.saveAll(tmitemList);
 
 				o.setUploadStatus("02");
-				o.setUpdDt(new Date());
+				o.setUpdDt(LocalDateTime.now());
 
 				System.out.println("o.getAssortId ==> " + o.getAssortId());
 
