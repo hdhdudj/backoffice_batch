@@ -149,8 +149,8 @@ public class OrderSearchJobConfiguration {
 
     @Bean
     public JpaPagingItemReader jpaOrderSearchItemWriterReader() {
-        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
-        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
+//        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
+//        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
         JpaPagingItemReader<IfOrderMaster> jpaPagingItemReader = new JpaPagingItemReader<IfOrderMaster>(){
             @Override
             public int getPage() {
@@ -160,7 +160,11 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01' and i.updDt between '"+yesterday+"' and '"+now+"'");
+        jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01' and i.updDt between :yesterday and :now");
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("now", LocalDateTime.now().plusDays(1));
+        paramMap.put("yesterday", LocalDateTime.now().minusDays(3));
+        jpaPagingItemReader.setParameterValues(paramMap);
         return jpaPagingItemReader;
     }
     @Bean
@@ -170,8 +174,8 @@ public class OrderSearchJobConfiguration {
 
     @Bean
     public JpaPagingItemReader jpaOrderSearchItemWriterReader2() {
-        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
-        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
+//        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
+//        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
             @Override
             public int getPage() {
@@ -181,15 +185,19 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where statusCd='p1' and td.updDt between '"+yesterday+"' and '"+now +"' order by td.orderId asc ");
+        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where statusCd='p1' and td.updDt between :yesterday and :now order by td.orderId asc ");
+        Map<String, Object> param = new HashMap<>();
+        param.put("now", LocalDateTime.now().plusDays(1));
+        param.put("yesterday", LocalDateTime.now().minusDays(3));
+        jpaPagingItemReader.setParameterValues(param);
 //        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' order by t.orderId asc");
 //        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' and t.orderId='O00000363' and t.orderSeq='0001'");
         return jpaPagingItemReader;
     }
     @Bean
     public JpaPagingItemReader jpaOrderSearchItemWriterReader3() {
-        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
-        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
+//        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
+//        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
             @Override
             public int getPage() {
@@ -199,10 +207,12 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and (td.channelOrderNo=:channelOrderNo or :channelOrderNo is null) and td.statusCd='A01' and td.updDt between '"+yesterday+"' and '"+now +"' order by td.orderId asc");
+        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and (td.channelOrderNo=:channelOrderNo or :channelOrderNo is null) and td.statusCd='A01' and td.updDt between :yesterday and :now order by td.orderId asc");
         Map<String, Object> param = new HashMap<>();
         String channelOrderNo = null;//"2111241449240603";
         param.put("channelOrderNo", channelOrderNo);
+        param.put("now", LocalDateTime.now().plusDays(1));
+        param.put("yesterday", LocalDateTime.now().minusDays(3));
         jpaPagingItemReader.setParameterValues(param);
 //        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' order by t.orderId asc");
 //        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' and t.orderId='O00000363' and t.orderSeq='0001'");

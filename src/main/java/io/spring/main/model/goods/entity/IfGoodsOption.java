@@ -1,5 +1,6 @@
 package io.spring.main.model.goods.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -46,9 +47,9 @@ public class IfGoodsOption {
     private Long minOrderCnt;
     private Long maxOrderCnt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date regDt;
+    private LocalDateTime regDt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date modDt;
+    private LocalDateTime modDt;
     private Long regId;
     private Long updId;
     private String uploadStatus;

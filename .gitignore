@@ -47,6 +47,7 @@ Thumbs.db
 *.mov
 *.wmv
 
+*.gradle
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar

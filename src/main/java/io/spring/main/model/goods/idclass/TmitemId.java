@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.idclass;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import lombok.AccessLevel;
@@ -14,6 +15,6 @@ public class TmitemId implements Serializable {
     private String channelGb;
     private String assortId;
     private String itemId;
-    private Date effStaDt;
-    private Date effEndDt;
+    private LocalDateTime effStaDt;
+    private LocalDateTime effEndDt;
 }

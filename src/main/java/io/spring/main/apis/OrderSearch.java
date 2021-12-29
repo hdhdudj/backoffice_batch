@@ -862,7 +862,7 @@ public class OrderSearch {
 			tbOrderMaster.setCustPcode(ifOrderMaster.getCustomerId().trim());// 고객번호는 13자리번호여서 13자리만 추출
 		}
 
-        tbOrderMaster.setPayDt(Utilities.dateToLocalDateTime(ifOrderMaster.getPayDt()));
+        tbOrderMaster.setPayDt(ifOrderMaster.getPayDt());
 
         if(origTM != null){ // update인 경우
             tbOrderMaster = tbOrderMaster.equals(origTM)? origTM : tbOrderMaster;

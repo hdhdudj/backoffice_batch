@@ -1,5 +1,6 @@
 package io.spring.main.model.goods.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -29,16 +30,16 @@ import lombok.Setter;
 public class Tmitem extends CommonProps{
 
 	public Tmitem(IfGoodsMaster igm, Ititmm im,IfGoodsOption igo) {
-		super(new Date(), new Date());
+		super(LocalDateTime.now(), LocalDateTime.now());
 		
 
 			this.channelGb = igm.getChannelGb();
 			this.assortId = igm.getAssortId();
 			this.itemId = im.getItemId();
 			this.channelGoodsNo = igm.getGoodsNo();
-			this.effStaDt = new Date();
+			this.effStaDt = LocalDateTime.now();
 
-			this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
+			this.effEndDt = Utilities.strToLocalDateTime(StringFactory.getDoomDay());
 			this.shortYn = im.getShortYn();
 			this.variationGb1 = im.getVariationGb1();
 			this.variationSeq1 = im.getVariationSeq1();
@@ -63,11 +64,11 @@ public class Tmitem extends CommonProps{
     @Id
     private String itemId;
     @Id
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date effStaDt;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime effStaDt;
     @Id
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date effEndDt;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime effEndDt;
     private String shortYn;
     private String variationGb1;
     private String variationSeq1;

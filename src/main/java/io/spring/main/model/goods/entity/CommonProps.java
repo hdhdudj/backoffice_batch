@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -16,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor(access=AccessLevel.PROTECTED)
 @MappedSuperclass
 public class CommonProps {
-    CommonProps(Date regDt, Date updDt){
+    CommonProps(LocalDateTime regDt, LocalDateTime updDt){
         this.regDt = regDt;
         this.updDt = updDt;
     }
@@ -24,8 +25,8 @@ public class CommonProps {
     private Long updId = 1l;
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date regDt;
+    private LocalDateTime regDt;
     @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private Date updDt;
+    private LocalDateTime updDt;
 }

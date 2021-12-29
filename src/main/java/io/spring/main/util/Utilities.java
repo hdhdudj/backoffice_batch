@@ -79,6 +79,16 @@ public class Utilities {
     }
 
     /**
+     * String 날짜(yyyy-MM-dd HH:mm:ss 꼴)를 받아서 LocalDateTime으로 변환해 반환하는 함수
+     * @param strDt
+     * @return LocalDateTime
+     */
+    public static LocalDateTime strToLocalDateTime(String strDt){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        return LocalDateTime.parse(strDt, formatter);
+    }
+
+    /**
      * LocalDateTime을 받아서 T를 뗀 String(1111-11-11 11:11:11 꼴)을 반환하는 함수
      * @return String
      */
