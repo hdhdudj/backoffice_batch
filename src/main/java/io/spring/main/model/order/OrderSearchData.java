@@ -101,6 +101,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
+	@ToString
     public static class OrderDeliveryData {
         private Long scmNo;
         private Float commission;
@@ -144,6 +145,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
+	@ToString
     public static class AddGoodsData {
         private Long sno;
         private Long addGoodsNo;
@@ -216,6 +218,7 @@ public class OrderSearchData {
 
     @Getter
     @Setter
+	@ToString
     public static class GiftData {
         private Long sno;
         private String presentTitle;
@@ -316,6 +319,7 @@ public class OrderSearchData {
     }
     @Getter
     @Setter
+	@ToString
     public static class ExchageInfoData {
         private Float ehDifferencePrice;
         private Float ehCancelDeliveryPrice;
@@ -330,6 +334,7 @@ public class OrderSearchData {
     }
     @Getter
     @Setter
+	@ToString
     public static class OrderConsultData{
         private Long sno;
         private Long orderNo;

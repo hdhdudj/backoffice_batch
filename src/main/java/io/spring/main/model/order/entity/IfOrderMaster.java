@@ -22,7 +22,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
@@ -88,6 +87,8 @@ public class IfOrderMaster extends CommonProps implements Serializable {
     // 21-12-21
     private String receiverHp; // 수취자 폰
     private String orderHp; // 주문자 폰
+
+	private String xmlMessage;
 
     @Override
     public String toString(){

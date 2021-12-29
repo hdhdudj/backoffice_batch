@@ -42,6 +42,7 @@ import io.spring.main.jparepos.goods.JpaItitmmRepository;
 import io.spring.main.jparepos.goods.JpaItitmtRepository;
 import io.spring.main.jparepos.goods.JpaTmitemRepository;
 import io.spring.main.jparepos.goods.JpaTmmapiRepository;
+import io.spring.main.jparepos.order.JpaIfOrderCancelRepository;
 import io.spring.main.jparepos.order.JpaIfOrderDetailRepository;
 import io.spring.main.jparepos.order.JpaIfOrderMasterRepository;
 import io.spring.main.jparepos.order.JpaOrderLogRepository;
@@ -55,6 +56,7 @@ import io.spring.main.model.goods.entity.Ititmm;
 import io.spring.main.model.goods.entity.Tmitem;
 import io.spring.main.model.goods.entity.Tmmapi;
 import io.spring.main.model.order.OrderSearchData;
+import io.spring.main.model.order.entity.IfOrderCancel;
 import io.spring.main.model.order.entity.IfOrderDetail;
 import io.spring.main.model.order.entity.IfOrderMaster;
 import io.spring.main.model.order.entity.OrderLog;
@@ -101,6 +103,7 @@ public class OrderSearch {
     private final JpaTmitemRepository jpaTmitemRepository;
 	private final JpaIfGoodsAddGoodsRepository jpaIfGoodsAddGoodsRepository;
 	private final JpaIfAddGoodsRepository jpaIfAddGoodsRepository;
+	private final JpaIfOrderCancelRepository jpaIfOrderCancelRepository;
 
     private final EntityManager em;
     private final ObjectMapper objectMapper;
@@ -163,8 +166,29 @@ public class OrderSearch {
         }
 		else { //todo(완) :업데이트 있음 2021-10-12
             ifOrderMaster = ioMaster;
-            ifOrderMaster.setIfStatus(StringFactory.getGbOne());
-			orderSearchData.setIfNo(ifOrderMaster.getIfNo());
+
+			String xml = orderSearchData.toString() == null ? "" : orderSearchData.toString();
+			String oldXml = ioMaster.getXmlMessage() == null ? "" : ioMaster.getXmlMessage();
+
+			if (!oldXml.equals(xml)) {
+				log.debug("신규연동건");
+
+				ifOrderMaster.setXmlMessage(xml);
+				ifOrderMaster.setIfStatus(StringFactory.getGbOne());
+				orderSearchData.setIfNo(ifOrderMaster.getIfNo());
+
+			} else {
+				log.debug("기처리건");
+
+				if (!ioMaster.getIfStatus().equals("01")) {
+
+					log.debug("기처리면서 연동처리된건");
+
+					return null; // 처리된 내역과 같은건일 경우 처리안함.
+
+				}
+
+			}
 
         }
 
@@ -215,7 +239,8 @@ public class OrderSearch {
 			ifOrderMaster.setCustomerId(StringFactory.getStrStar());
 		}
 
-        jpaIfOrderMasterRepository.save(ifOrderMaster);
+
+		jpaIfOrderMasterRepository.save(ifOrderMaster);
 
         return ifOrderMaster;
     }
@@ -254,8 +279,20 @@ public class OrderSearch {
                 IfOrderDetail newIfOrderDetail = ifOrderDetailMapper.to(orderSearchData, orderGoodsData);
                 newIfOrderDetail.setIfNo(ifOrderDetail.getIfNo());
                 newIfOrderDetail.setIfNoSeq(ifOrderDetail.getIfNoSeq());
-                isUpdate = !newIfOrderDetail.equals(ifOrderDetail);
-                ifOrderDetail = newIfOrderDetail;
+
+				String msg = "";
+
+				if (!newIfOrderDetail.getChannelOrderStatus().equals(ifOrderDetail.getChannelOrderStatus())) {
+					msg = "상태변경됨";
+				}
+
+				if (newIfOrderDetail.getGoodsCnt() != ifOrderDetail.getGoodsCnt()) {
+					msg = "수량변경됨";
+				}
+
+				isUpdate = !newIfOrderDetail.equals(ifOrderDetail);
+				ifOrderDetail = newIfOrderDetail;
+
             }
 
             if (orderGoodsData.getClaimData() != null) {
@@ -638,10 +675,84 @@ public class OrderSearch {
         }
         else { // update
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
+			log.debug("zz0 ");
+
             if(EnumUtils.isValidEnum(TrdstOrderStatus.class, outTbOrderDetail.getStatusCd())){
+
+				log.debug("zz1 ");
+
                 log.debug("trdst의 orderStatus를 탄 주문은 update 할 수 없습니다. orderId : " + outTbOrderDetail.getOrderId() + ", orderSeq : " + outTbOrderDetail.getSetOrderSeq());
+
+
+				String channelStatusType = ifOrderDetail.getChannelOrderStatus().substring(0, 1);
+
+				log.debug(channelStatusType);
+
+				Boolean chk = false;
+				String ifCancelGb = "";
+				String msg = "";
+
+				if (channelStatusType.equals("c") || channelStatusType.equals("r")) {
+					log.debug(" ifOrderDetail.getChannelOrderStatus() ==> " + ifOrderDetail.getChannelOrderStatus());
+					log.debug("outTbOrderDetail.getStatusCd() ==> " + outTbOrderDetail.getStatusCd());
+
+					log.debug("주문이 취소되었습니다.");
+
+
+					msg = msg + "[" + "주문이 취소되었습니다.=> " + outTbOrderDetail.getStatusCd() + " => "
+							+ ifOrderDetail.getChannelOrderStatus() + "]";
+
+					chk = true;
+					ifCancelGb = "01";// 주문취소건
+
+
+				}
+
+				if (outTbOrderDetail.getQty() != ifOrderDetail.getGoodsCnt()) {
+					log.debug("주문수량이 변경되었습니다.");
+
+					msg = msg + "[" + "주문수량이 변경되었습니다.=> " + outTbOrderDetail.getQty() + " => "
+							+ ifOrderDetail.getGoodsCnt() + "]";
+
+
+					chk = true;
+
+					if (ifCancelGb.equals("01")) {
+						ifCancelGb = "03";// 주문취소 주문수량변경
+					} else {
+						ifCancelGb = "02";// 주문수량변경
+					}
+
+				}
+
+				if (chk == true) {
+					List<IfOrderCancel> l = jpaIfOrderCancelRepository
+							.findByChannelOrderNoAndChannelOrderSeqAndChannelOrderStatusAndGoodsCnt(
+									ifOrderDetail.getChannelOrderNo(), ifOrderDetail.getChannelOrderSeq(),
+									ifOrderDetail.getChannelOrderStatus(), ifOrderDetail.getGoodsCnt());
+
+
+
+					if (l.size() == 0) {
+						log.debug("IfOrderCancel insert.");
+
+						IfOrderCancel o = new IfOrderCancel(ifOrderDetail);
+						o.setIfStatus("01");
+						o.setIfDt(new Date());
+						o.setIfMsg(msg);
+						o.setIfCancelGb(ifCancelGb);
+						jpaIfOrderCancelRepository.save(o);
+
+					}
+
+				}
+
+				// 여기에 제어조건을 처리해야함.
+
                 return null;
             }
+
+			log.debug("zz2 ");
             compareTbOrderDetail = tbOrderDetailMapper.copy(outTbOrderDetail);//tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
             tbOrderDetail = tbOrderDetailMapper.to(outTbOrderDetail.getOrderId(), outTbOrderDetail.getOrderSeq(), ifOrderDetail);//, ititmm);//tbOrderDetailMapper.copy(outTbOrderDetail);//new TbOrderDetail(outTbOrderDetail);
 
@@ -659,9 +770,11 @@ public class OrderSearch {
 
             // trdstOrderStatus를 가지고 있으면 update 하지 않음.
             if(EnumUtils.isValidEnum(TrdstOrderStatus.class, compareTbOrderDetail.getStatusCd())){
+				log.debug("zz3 ");
                 log.debug("trdst의 orderStatus를 탄 주문은 update 할 수 없습니다. orderId : " + compareTbOrderDetail.getOrderId() + ", orderSeq : " + compareTbOrderDetail.getSetOrderSeq());
                 return null;
             }
+			log.debug("zz4 ");
         }
 
 		if (StringFactory.getThreeSecondCd().equals(ifOrderDetail.getChannelGoodsType())) { // add_goods인 경우

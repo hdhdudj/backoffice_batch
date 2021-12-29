@@ -20,6 +20,6 @@ public enum TrdstOrderStatus {
     D04("통관"),
     D05("국내운송"),
     D06("배송완료"),
-    E01("구매확정");
+	E01("구매확정"), X01("취소처리");
     private final String fieldName;
 }
