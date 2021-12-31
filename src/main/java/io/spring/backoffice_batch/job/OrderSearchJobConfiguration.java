@@ -209,7 +209,7 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setPageSize(chunkSize);
         jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and (td.channelOrderNo=:channelOrderNo or :channelOrderNo is null) and td.statusCd='A01' and td.updDt between :yesterday and :now order by td.orderId asc");
         Map<String, Object> param = new HashMap<>();
-        String channelOrderNo = null;//"2111241449240603";
+        String channelOrderNo = null;// "2112301555180852"; //null;//"2111241449240603";
         param.put("channelOrderNo", channelOrderNo);
         param.put("now", LocalDateTime.now().plusDays(1));
         param.put("yesterday", LocalDateTime.now().minusDays(3));
