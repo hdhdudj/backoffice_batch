@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import io.spring.main.interfaces.mapper.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -21,10 +22,6 @@ import org.w3c.dom.NodeList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.spring.main.enums.GbOneOrTwo;
-import io.spring.main.interfaces.IfGoodsAddGoodsMapper;
-import io.spring.main.interfaces.IfGoodsMasterMapper;
-import io.spring.main.interfaces.IfGoodsOptionMapper;
-import io.spring.main.interfaces.ItasrtMapper;
 import io.spring.main.jparepos.category.JpaIfCategoryRepository;
 import io.spring.main.jparepos.common.JpaSequenceDataRepository;
 import io.spring.main.jparepos.goods.JpaIfAddGoodsRepository;
@@ -99,6 +96,7 @@ public class GoodsSearch {
     private final IfGoodsAddGoodsMapper ifGoodsAddGoodsMapper;
     private final IfGoodsMasterMapper ifGoodsMasterMapper;
     private final IfGoodsOptionMapper ifGoodsOptionMapper;
+    private final IfGoodsTextOptionMapper ifGoodsTextOptionMapper;
 
     private final List<String> goodsSearchGotListPropsMap;
     private final EntityManager em;
@@ -394,16 +392,17 @@ public class GoodsSearch {
             return false;
         }
         for(GoodsSearchData.TextOptionData textOptionData : textOptionDataList){
-            IfGoodsTextOption ifGoodsTextOption = objectMapper.convertValue(textOptionData,IfGoodsTextOption.class);
+            IfGoodsTextOption oIfGoodsTextOption = jpaIfGoodsTextOptionRepository.findByChannelGbAndGoodsNo(StringFactory.getGbOne(), goodsSearchData.getGoodsNo()+"");
+            IfGoodsTextOption ifGoodsTextOption = ifGoodsTextOptionMapper.to(textOptionData);//objectMapper.convertValue(textOptionData,IfGoodsTextOption.class);
             ifGoodsTextOption.setAssortId(goodsSearchData.getAssortId());
-            ifGoodsTextOption.setChannelGb(StringFactory.getGbOne());
+            ifGoodsTextOption.setChannelGb(StringFactory.getGbOne()); // 01 하드코딩
             // yn을 0102로
-            ifGoodsTextOption.setMustFl(GbOneOrTwo.valueOf(ifGoodsTextOption.getMustFl()).getFieldName());//(Utilities.ynToOneTwo(ifGoodsTextOption.getMustFl()));
-            if(!textOptionData.equals(ifGoodsTextOption)){
+            ifGoodsTextOption.setMustFl(GbOneOrTwo.valueOf(textOptionData.getMustFl()).getFieldName());//(Utilities.ynToOneTwo(ifGoodsTextOption.getMustFl()));
+            if(!textOptionData.equals(oIfGoodsTextOption)){
+                ifGoodsTextOption.setUploadStatus(StringFactory.getGbOne());
+                jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
                 return true;
             }
-            ifGoodsTextOption.setUploadStatus(StringFactory.getGbOne());
-            jpaIfGoodsTextOptionRepository.save(ifGoodsTextOption);
         }
         return false;
     }

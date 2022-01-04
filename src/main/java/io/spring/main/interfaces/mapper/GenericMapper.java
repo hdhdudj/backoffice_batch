@@ -1,4 +1,4 @@
-package io.spring.main.interfaces;
+package io.spring.main.interfaces.mapper;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.MappingTarget;

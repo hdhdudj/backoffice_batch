@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.spring.main.model.goods.entity.IfGoodsTextOption;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -317,6 +314,19 @@ public class GoodsSearchData {
         private Date regDt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
         private Date modDt;
+        public boolean equals(IfGoodsTextOption ifGoodsTextOption){
+            if(ifGoodsTextOption == null){
+                return false;
+            }
+            if(ifGoodsTextOption.getGoodsNo().equals(this.goodsNo) &&
+            ifGoodsTextOption.getOptionName().equals(this.optionName) && ifGoodsTextOption.getAddPrice() == this.addPrice
+            && ifGoodsTextOption.getMustFl().equals(this.mustFl) && this.inputLimit == ifGoodsTextOption.getInputLimit()){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 
     @Getter

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface JpaIfGoodsTextOptionRepository extends JpaRepository<IfGoodsTextOption, String> {
     List<IfGoodsTextOption> findByGoodsNo(String goodsNo);
+
+    IfGoodsTextOption findByChannelGbAndGoodsNo(String gbOne, String goodsNo);
 }

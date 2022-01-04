@@ -1,4 +1,4 @@
-package io.spring.main.interfaces;
+package io.spring.main.interfaces.mapper;
 
 import io.spring.main.model.goods.entity.Ititmm;
 import io.spring.main.model.order.entity.IfOrderDetail;
