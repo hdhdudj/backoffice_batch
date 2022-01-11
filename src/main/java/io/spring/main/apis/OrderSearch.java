@@ -692,7 +692,7 @@ public class OrderSearch {
 				String ifCancelGb = "";
 				String msg = "";
 
-				if (channelStatusType.equals("c") || channelStatusType.equals("r")) {
+				if (channelStatusType.equals("c") || channelStatusType.equals("r") || channelStatusType.equals("e")) {
 					log.debug(" ifOrderDetail.getChannelOrderStatus() ==> " + ifOrderDetail.getChannelOrderStatus());
 					log.debug("outTbOrderDetail.getStatusCd() ==> " + outTbOrderDetail.getStatusCd());
 
