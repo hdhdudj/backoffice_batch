@@ -987,10 +987,10 @@ public class OrderSearch {
 		System.out.println(tbMember.getCustId());
 		System.out.println(tbMember.getCustNm());
 
-        TbMemberAddress tbMemberAddress = jpaTbMemberAddressRepository.findByCustId(tbMember.getCustId());
-        if(tbMemberAddress == null){
-            tbMemberAddress = new TbMemberAddress(ifOrderMaster, tbMember);
-        }
+//        TbMemberAddress tbMemberAddress = jpaTbMemberAddressRepository.findByCustId(tbMember.getCustId());
+//        if(tbMemberAddress == null){
+        TbMemberAddress tbMemberAddress = new TbMemberAddress(ifOrderMaster, tbMember);
+//        }
         tbMemberAddress.setDeliTel(ifOrderMaster.getReceiverTel());
         tbMemberAddress.setDeliHp(ifOrderMaster.getReceiverTel());
         tbMemberAddress.setDeliZipcode(ifOrderMaster.getReceiverZipcode());
