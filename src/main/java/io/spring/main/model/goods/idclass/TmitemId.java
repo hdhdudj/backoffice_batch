@@ -2,11 +2,12 @@ package io.spring.main.model.goods.idclass;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TmitemId implements Serializable {
     //default serial version id, required for serializable classes.

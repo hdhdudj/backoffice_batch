@@ -2,16 +2,14 @@ package io.spring.main.model.goods.idclass;
 
 import io.spring.main.model.deposit.request.DepositInsertRequestData;
 import io.spring.main.model.purchase.request.PurchaseInsertRequestData;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItitmtId implements Serializable {
     //default serial version id, required for serializable classes.
