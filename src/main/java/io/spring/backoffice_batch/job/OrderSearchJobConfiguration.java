@@ -36,8 +36,10 @@ import lombok.extern.slf4j.Slf4j;
  * version=0 (스프링 배치에서 요구하는 필수 파라미터)
  *
  * 필수는 아닌 option parameter :
- * -page=3 (며칠치 데이터를 긁어올지 필수)
+ * -page=3 (며칠치 데이터를 긁어올지. 이게 없으면 orderNo가 반드시 존재해야 한다.)
  * -mode={order or modify} (order : 최근 주문 순으로 옴, modify : 최근 수정한 주문 순으로 옴)
+ * -orderNo=2112301555180852 (특정 주문 정보만 긁어오고 싶을 때. 다음 Step에도 orderNo를 임의로 적어줘야 함. orderNo와 page 중 하나는 필수이다.)
+ * -next={true of false} (false가 default이고 false인 경우 page의 숫자만큼 현재에서 역으로 날짜 가져올 정보를 정함. true인 경우는 2017년 초일부터 page 숫자만큼 지난 날짜의 정보를 가져옴.)
  * --spring.config.location=/var/jenkins_home/jar/order_search_config/application.properties,/var/jenkins_home/jar/order_search_config/godourl.yml (외부의 설정파일을 참조할 때)
  */
 
@@ -201,14 +203,10 @@ public class OrderSearchJobConfiguration {
         param.put("now", LocalDateTime.now().plusDays(1));
         param.put("yesterday", LocalDateTime.now().minusDays(3));
         jpaPagingItemReader.setParameterValues(param);
-//        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' order by t.orderId asc");
-//        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' and t.orderId='O00000363' and t.orderSeq='0001'");
         return jpaPagingItemReader;
     }
     @Bean
     public JpaPagingItemReader jpaOrderSearchItemWriterReader3() {
-//        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
-//        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
             @Override
             public int getPage() {
@@ -225,8 +223,6 @@ public class OrderSearchJobConfiguration {
         param.put("now", LocalDateTime.now().plusDays(1));
         param.put("yesterday", LocalDateTime.now().minusDays(3));
         jpaPagingItemReader.setParameterValues(param);
-//        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' order by t.orderId asc");
-//        jpaPagingItemReader.setQueryString("SELECT t FROM TbOrderDetail t join fetch t.ifOrderMaster i where i.ifStatus='02' and t.orderId='O00000363' and t.orderSeq='0001'");
         return jpaPagingItemReader;
     }
     @Bean
