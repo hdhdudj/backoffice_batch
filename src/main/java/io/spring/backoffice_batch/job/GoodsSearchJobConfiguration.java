@@ -10,6 +10,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
@@ -31,11 +32,11 @@ import lombok.extern.slf4j.Slf4j;
  * searchGoodsJob 필수 parameter :
  * --job.name=searchGoodsJob (프로젝트 내 어떤 잡인지 알려주는 파라미터)
  * version=0 (스프링 배치에서 요구하는 필수 파라미터)
- * -dateParam=3 (며칠치 데이터를 긁어올지 필수)
+ * -dateParam=3 (며칠치 데이터를 긁어올지 필수. 단, goodsNo가 있으면 없어도 됨.)
  *
  * 필수는 아닌 option parameter :
  * -page=3 (고도몰에서 데이터를 페이지로 제공해줌. maxPage가 몇인지 보면 몇 페이지까지 제공되는지 알 수 있음.)
- * -goodsNo=10002432 (고도몰의 상품 번호. 이 상품 정보만 긁어오고 싶으면 이 파라미터를 줌과 동시에 Step에서도 이 값을 적어줘야 함.)
+ * -goodsNo=1000063938 (고도몰의 상품 번호. 이거 있으면 dateParam 없어도 됨.)
  * -searchDateType=modDt (상품 수정한 것이 최근에 나오는 모드. 없으면 그냥 최근 등록대로 나옴.)
  * --spring.config.location=/var/jenkins_home/jar/order_search_config/application.properties,/var/jenkins_home/jar/order_search_config/godourl.yml (외부의 설정파일을 참조할 때)
  */
@@ -84,26 +85,30 @@ public class GoodsSearchJobConfiguration {
     }
 
     @Bean
+    @JobScope
     public Step searchGoodsStep2(){
         log.info("----- This is searchGoodsStep2");
         return stepBuilderFactory.get("searchGoodsStep2")
                 .<IfGoodsMaster, String>chunk(chunkSize)
-                .reader(jpaGoodsSearchItemWriterReader())
+                .reader(jpaGoodsSearchItemWriterReader(null))
                 .processor(jpaGoodsSearchItemProcessor())
                 .writer(jpaGoodsSearchItemWriter())
                 .build();
     }
 
 	@Bean
+    @JobScope
 	public Step searchGoodsStep4() {
 		log.info("----- This is searchGoodsStep4");
 		return stepBuilderFactory.get("searchGoodsStep4").<IfGoodsMaster, String>chunk(chunkSize)
-				.reader(jpaGoodsSearchItemWriterReader()).processor(jpaGoodsSearchItemProcessor())
+				.reader(jpaGoodsSearchItemWriterReader(null))
+                .processor(jpaGoodsSearchItemProcessor())
 				.writer(jpaGoodsSearchItemWriter()).build();
 	}
 
     @Bean
-    public JpaPagingItemReader jpaGoodsSearchItemWriterReader() {
+    @StepScope
+    public JpaPagingItemReader jpaGoodsSearchItemWriterReader(@Value("#{jobParameters[goodsNo]}") String goodsNo) {
         log.debug("실행됨.");
         JpaPagingItemReader<IfGoodsMaster> jpaPagingItemReader = new JpaPagingItemReader<IfGoodsMaster>(){
             @Override
@@ -111,7 +116,6 @@ public class GoodsSearchJobConfiguration {
                 return 0;
             }
         };
-        String goodsNo = null;//"1000061723";//"1000002511";//"1000049979"; // 1000061723
         jpaPagingItemReader.setName("jpaGoodsSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(pageSize);

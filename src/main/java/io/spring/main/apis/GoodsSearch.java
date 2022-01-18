@@ -121,14 +121,14 @@ public class GoodsSearch {
         if(page == null){
             page = "";
         }
-        int day = Integer.parseInt(dateParam); // 긁어올 날짜 단위(일)
+        int day = dateParam == null? -1 : Integer.parseInt(dateParam); // 긁어올 날짜 단위(일)
         if(goodsNo == null){
             goodsNo = "";
         }
 
         String fromDt = "";
         String toDt = "";
-        if(searchDateType == null || searchDateType.trim().equals("")){
+        if(searchDateType == null || searchDateType.trim().equals("") && day > -1){
             searchDateType = "";
         }
         else {

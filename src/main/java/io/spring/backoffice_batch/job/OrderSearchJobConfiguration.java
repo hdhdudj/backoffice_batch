@@ -12,6 +12,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
@@ -36,10 +37,11 @@ import lombok.extern.slf4j.Slf4j;
  * version=0 (스프링 배치에서 요구하는 필수 파라미터)
  *
  * 필수는 아닌 option parameter :
- * -page=3 (며칠치 데이터를 긁어올지. 이게 없으면 orderNo가 반드시 존재해야 한다.)
+ * -page=3 (현재 날짜에서 얼마나 전으로 돌아가야 하는지에 대한 param. day와 조합되어 날짜 param을 결정함.)
+ * -day=7 (며칠 동안의 데이터를 긁어올지 결정하는 파라미터.)
  * -mode={order or modify} (order : 최근 주문 순으로 옴, modify : 최근 수정한 주문 순으로 옴)
- * -orderNo=2112301555180852 (특정 주문 정보만 긁어오고 싶을 때. 다음 Step에도 orderNo를 임의로 적어줘야 함. orderNo와 page 중 하나는 필수이다.)
- * -next={true of false} (false가 default이고 false인 경우 page의 숫자만큼 현재에서 역으로 날짜 가져올 정보를 정함. true인 경우는 2017년 초일부터 page 숫자만큼 지난 날짜의 정보를 가져옴.)
+ * -orderNo=2112301555180852 (특정 주문 정보만 긁어오고 싶을 때. orderNo와 page 중 하나는 필수이다.)
+ * -next={true of false} (false가 default이고 false인 경우 page의 숫자만큼 현재에서 역으로 날짜 가져올 정보를 정함. true인 경우는 2017년 초일부터 page와 day가 조합된 숫자만큼 지난 날짜의 정보를 가져옴.)
  * --spring.config.location=/var/jenkins_home/jar/order_search_config/application.properties,/var/jenkins_home/jar/order_search_config/godourl.yml (외부의 설정파일을 참조할 때)
  */
 
@@ -55,11 +57,13 @@ public class OrderSearchJobConfiguration {
 
 	private static final int chunkSize = 1000;
 
+    private String gOrderNo;
+
 
     @Bean
     public Job searchOrderJob(){
         return jobBuilderFactory.get("searchOrderJob")
-				.start(searchOrderStep1(null, null, null, null))
+				.start(searchOrderStep1(null, null, null, null, null))
                 .next(searchOrderStep2())
                 .next(searchOrderStep3())
 				 .next(searchOrderStep4())
@@ -72,12 +76,12 @@ public class OrderSearchJobConfiguration {
      */
     @Bean
     @JobScope
-	public Step searchOrderStep1(@Value("#{jobParameters[page]}") String page,
+	public Step searchOrderStep1(@Value("#{jobParameters[page]}") String page, @Value("#{jobParameters[day]}") String day,
 			@Value("#{jobParameters[mode]}") String mode, @Value("#{jobParameters[next]}") String nexts, @Value("#{jobParameters[orderNo]}") String orderNo) {
+        this.gOrderNo = orderNo;
+        log.info("----- This is searchOrderStep1");
         return stepBuilderFactory.get("searchOrderStep1")
                 .tasklet((contribution, chunkContext) -> {
-                    log.info("----- This is searchOrderStep1");
-
                     boolean next = nexts == null || nexts.equals("false")? false : true; // false가 기본값
                     
 					// if(mode==null) {
@@ -86,7 +90,7 @@ public class OrderSearchJobConfiguration {
                     
                     // 트랜잭션1. if table 저장
                     int n = page == null || page.trim().equals("")? -1 : Integer.parseInt(page);
-                    int day = 2; // 긁어올 날짜 단위(일)
+                    int dayParam = day == null? 2 : Integer.parseInt(day); // 긁어올 날짜 단위(일)
 
                     String orderNum = orderNo == null? "": orderNo;
 
@@ -94,12 +98,12 @@ public class OrderSearchJobConfiguration {
                     String endDt;
                     String dateType;
                     if(n >= 0 && !next){
-                        startDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, day * -(n+1));
-                        endDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, day * -n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
+                        startDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, dayParam * -(n+1));
+                        endDt = Utilities.getAnotherDate(null, StringFactory.getDateFormat(),Calendar.DATE, dayParam * -n);//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
                     }
                     else if(n >= 0 && next){
-                        startDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, day * n);
-                        endDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, day * (n+1));//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
+                        startDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, dayParam * n);
+                        endDt = Utilities.getAnotherDate("2017-01-01",StringFactory.getDateFormat(),Calendar.DATE, dayParam * (n+1));//Utilities.getDateToString(StringFactory.getDateFormat(), new Date());
                     }
                     else{
                         startDt = null;
@@ -123,11 +127,12 @@ public class OrderSearchJobConfiguration {
      * step1에서 저장한 if 테이블에서 한 줄씩 가져와 trdst DB에 쪼개 넣는 step
      */
     @Bean
+    @JobScope
     public Step searchOrderStep2(){
         log.info("----- This is searchOrderStep2");
         return stepBuilderFactory.get("searchOrderStep2")
                 .<IfOrderMaster, String>chunk(chunkSize)
-                .reader(jpaOrderSearchItemWriterReader())
+                .reader(jpaOrderSearchItemWriterReader(null))
                 .processor(jpaOrderSearchItemProcessor())
                 .writer(jpaOrderSearchItemWriter())
                 .build();
@@ -137,11 +142,12 @@ public class OrderSearchJobConfiguration {
      * step2에서 저장한 주문들의 상태를 판단하는 step (p1 -> A01)
      */
     @Bean
+    @JobScope
     public Step searchOrderStep3(){
         log.info("----- This is searchOrderStep3");
         return stepBuilderFactory.get("searchOrderStep3")
                 .<IfOrderMaster, String>chunk(chunkSize)
-                .reader(jpaOrderSearchItemWriterReader2())
+                .reader(jpaOrderSearchItemWriterReader2(null))
                 .processor(jpaOrderSearchItemProcessor2())
                 .writer(jpaOrderSearchItemWriter())
                 .build();
@@ -150,18 +156,21 @@ public class OrderSearchJobConfiguration {
      * step2에서 저장한 주문들의 상태를 판단하는 step (A01 -> 서버)
      */
     @Bean
+    @JobScope
     public Step searchOrderStep4(){
         log.info("----- This is searchOrderStep4");
         return stepBuilderFactory.get("searchOrderStep4")
                 .<IfOrderMaster, String>chunk(chunkSize)
-                .reader(jpaOrderSearchItemWriterReader3())
+                .reader(jpaOrderSearchItemWriterReader3(null))
                 .processor(jpaOrderSearchItemProcessor3())
                 .writer(jpaOrderSearchItemWriter())
                 .build();
     }
 
     @Bean
-    public JpaPagingItemReader jpaOrderSearchItemWriterReader() {
+    @StepScope
+    public JpaPagingItemReader jpaOrderSearchItemWriterReader(@Value("#{jobParameters[orderNo]}") String orderNo) {
+        this.gOrderNo = orderNo;
 //        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
 //        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
         JpaPagingItemReader<IfOrderMaster> jpaPagingItemReader = new JpaPagingItemReader<IfOrderMaster>(){
@@ -173,8 +182,10 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01' and i.updDt between :yesterday and :now");
+        jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01' and i.updDt between :yesterday and :now and (i.channelOrderNo=:channelOrderNo or :channelOrderNo is null)");
         Map<String, Object> paramMap = new HashMap<>();
+        String channelOrderNo = this.gOrderNo;// "2112301555180852"; //null;//"2111241449240603";
+        paramMap.put("channelOrderNo", channelOrderNo);
         paramMap.put("now", LocalDateTime.now().plusDays(1));
         paramMap.put("yesterday", LocalDateTime.now().minusDays(3));
         jpaPagingItemReader.setParameterValues(paramMap);
@@ -186,7 +197,8 @@ public class OrderSearchJobConfiguration {
     }
 
     @Bean
-    public JpaPagingItemReader jpaOrderSearchItemWriterReader2() {
+    @StepScope
+    public JpaPagingItemReader jpaOrderSearchItemWriterReader2(@Value("#{jobParameters[orderNo]}") String orderNo) {
 //        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
 //        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
@@ -198,15 +210,18 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where statusCd='p1' and td.updDt between :yesterday and :now order by td.orderId asc ");
+        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where statusCd='p1' and td.updDt between :yesterday and :now and (td.channelOrderNo=:channelOrderNo or :channelOrderNo is null) order by td.orderId asc ");
         Map<String, Object> param = new HashMap<>();
+        String channelOrderNo = this.gOrderNo;// "2112301555180852"; //null;//"2111241449240603";
+        param.put("channelOrderNo", channelOrderNo);
         param.put("now", LocalDateTime.now().plusDays(1));
         param.put("yesterday", LocalDateTime.now().minusDays(3));
         jpaPagingItemReader.setParameterValues(param);
         return jpaPagingItemReader;
     }
     @Bean
-    public JpaPagingItemReader jpaOrderSearchItemWriterReader3() {
+    @StepScope
+    public JpaPagingItemReader jpaOrderSearchItemWriterReader3(@Value("#{jobParameters[orderNo]}") String orderNo) {
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
             @Override
             public int getPage() {
@@ -218,7 +233,7 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setPageSize(chunkSize);
         jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and (td.channelOrderNo=:channelOrderNo or :channelOrderNo is null) and td.statusCd='A01' and td.updDt between :yesterday and :now order by td.orderId asc");
         Map<String, Object> param = new HashMap<>();
-        String channelOrderNo = null;// "2112301555180852"; //null;//"2111241449240603";
+        String channelOrderNo = this.gOrderNo;// "2112301555180852"; //null;//"2111241449240603";
         param.put("channelOrderNo", channelOrderNo);
         param.put("now", LocalDateTime.now().plusDays(1));
         param.put("yesterday", LocalDateTime.now().minusDays(3));
