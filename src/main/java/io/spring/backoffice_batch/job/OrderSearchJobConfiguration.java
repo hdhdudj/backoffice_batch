@@ -30,6 +30,17 @@ import io.spring.main.util.Utilities;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * searchOrderJob 필수 parameter :
+ * --job.name=searchOrderJob (프로젝트 내 어떤 잡인지 알려주는 파라미터)
+ * version=0 (스프링 배치에서 요구하는 필수 파라미터)
+ *
+ * 필수는 아닌 option parameter :
+ * -page=3 (며칠치 데이터를 긁어올지 필수)
+ * -mode={order or modify} (order : 최근 주문 순으로 옴, modify : 최근 수정한 주문 순으로 옴)
+ * --spring.config.location=/var/jenkins_home/jar/order_search_config/application.properties,/var/jenkins_home/jar/order_search_config/godourl.yml (외부의 설정파일을 참조할 때)
+ */
+
 @Slf4j
 @RequiredArgsConstructor
 @Configuration

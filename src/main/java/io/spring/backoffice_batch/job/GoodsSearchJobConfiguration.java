@@ -37,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
  * -page=3 (고도몰에서 데이터를 페이지로 제공해줌. maxPage가 몇인지 보면 몇 페이지까지 제공되는지 알 수 있음.)
  * -goodsNo=10002432 (고도몰의 상품 번호. 이 상품 정보만 긁어오고 싶으면 이 파라미터를 줌과 동시에 Step에서도 이 값을 적어줘야 함.)
  * -searchDateType=modDt (상품 수정한 것이 최근에 나오는 모드. 없으면 그냥 최근 등록대로 나옴.)
+ * --spring.config.location=/var/jenkins_home/jar/order_search_config/application.properties,/var/jenkins_home/jar/order_search_config/godourl.yml (외부의 설정파일을 참조할 때)
  */
 
 @Slf4j
