@@ -1058,30 +1058,31 @@ public class OrderSearch {
 //            return null;
 //        }
 
-        List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
+//        List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
         List<Integer> resList = new ArrayList<>();
-        for(TbOrderDetail td : tbOrderDetailList){
+//        for(TbOrderDetail td : tbOrderDetailList){
 //            if(!td.getStatusCd().equals(StringFactory.getStrA01())){
 //              log.debug("이미 status 변경 과정을 거친 주문입니다.");
 //              continue;
 //            }
 
-			if (td.getStatusCd().equals("A01")) {
-				String url = serverChangeStatusUrl + "?orderId=" + td.getOrderId() + "&orderSeq=" + td.getOrderSeq();
-				log.debug("===== url : " + url);
-				int res = this.get(url);
-				resList.add(res);
-			}
+        int res = 0;
+        if (tbOrderDetail.getStatusCd().equals("A01")) {
+            String url = serverChangeStatusUrl + "?orderId=" + tbOrderDetail.getOrderId() + "&orderSeq=" + tbOrderDetail.getOrderSeq();
+            log.debug("===== url : " + url);
+            res = this.get(url);
+//            resList.add(res);
+        }
 
-        }
-        int successNum = 0;
-        for(int res : resList){
-            if(res == 200){ // 03 :
-                successNum++;
-            }
-        }
+//        }
+//        int successNum = 0;
+//        for(int res : resList){
+//            if(res == 200){ // 03 :
+//                successNum++;
+//            }
+//        }
         IfOrderMaster ifOrderMaster = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), tbOrderDetail.getChannelOrderNo()); // 채널은 01 하드코딩
-        if(successNum == resList.size()){
+        if(res == 200){
             ifOrderMaster.setIfStatus(StringFactory.getGbThree());
         }
         else{
