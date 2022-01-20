@@ -1047,16 +1047,14 @@ public class OrderSearch {
             jpaIfOrderMasterRepository.save(ifOrderMaster1);
             return null;
         }
-//        // todo(완) : 2021-10-12 공급사 주문 (scmNo가 63,64)인 경우 tb_order_detail 을 만들고 상태에 대한 변경은 없음.
-//        if (tbOrderDetail.getScmNo().equals(StringFactory.getScmNo63())
-//                || tbOrderDetail.getScmNo().equals(StringFactory.getScmNo64()) || tbOrderDetail.getScmNo().equals(StringFactory.getScmNo000063())
-//        || tbOrderDetail.getScmNo().equals(StringFactory.getScmNo000064()))
-//        {
-//            log.debug("공급사 (scmNo : " + tbOrderDetail.getScmNo() + ") 주문입니다.");
-//            ifOrderMaster1.setIfStatus(StringFactory.getGbThree());
-//            jpaIfOrderMasterRepository.save(ifOrderMaster1);
-//            return null;
-//        }
+//        // todo(완) : 2021-10-12 공급사 주문 (scmNo가 63,64, 75)인 경우 tb_order_detail 을 만들고 상태에 대한 변경은 없음.
+        if (tbOrderDetail.getScmNo() == 63|| tbOrderDetail.getScmNo() == 64 ||  tbOrderDetail.getScmNo() == 75)
+        {
+            log.debug("공급사 (scmNo : " + tbOrderDetail.getScmNo() + ") 주문입니다.");
+            ifOrderMaster1.setIfStatus(StringFactory.getGbThree());
+            jpaIfOrderMasterRepository.save(ifOrderMaster1);
+            return null;
+        }
 
 //        List<TbOrderDetail> tbOrderDetailList = jpaTbOrderDetailRepository.findByOrderId(tbOrderDetail.getOrderId());
         List<Integer> resList = new ArrayList<>();
