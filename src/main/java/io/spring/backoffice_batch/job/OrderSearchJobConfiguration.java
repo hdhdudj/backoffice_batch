@@ -57,6 +57,7 @@ public class OrderSearchJobConfiguration {
 
 	private static final int chunkSize = 1000;
 
+
     @Bean
     public Job searchOrderJob(){
         return jobBuilderFactory.get("searchOrderJob")
@@ -128,7 +129,7 @@ public class OrderSearchJobConfiguration {
         log.info("----- This is searchOrderStep2");
         return stepBuilderFactory.get("searchOrderStep2")
                 .<IfOrderMaster, String>chunk(chunkSize)
-                .reader(jpaOrderSearchItemWriterReader(null))
+                .reader(jpaOrderSearchItemWriterReader(null, null))
                 .processor(jpaOrderSearchItemProcessor())
                 .writer(jpaOrderSearchItemWriter())
                 .build();
@@ -143,7 +144,7 @@ public class OrderSearchJobConfiguration {
         log.info("----- This is searchOrderStep3");
         return stepBuilderFactory.get("searchOrderStep3")
                 .<IfOrderMaster, String>chunk(chunkSize)
-                .reader(jpaOrderSearchItemWriterReader2(null))
+                .reader(jpaOrderSearchItemWriterReader2(null, null))
                 .processor(jpaOrderSearchItemProcessor2())
                 .writer(jpaOrderSearchItemWriter())
                 .build();
@@ -157,7 +158,7 @@ public class OrderSearchJobConfiguration {
         log.info("----- This is searchOrderStep4");
         return stepBuilderFactory.get("searchOrderStep4")
                 .<IfOrderMaster, String>chunk(chunkSize)
-                .reader(jpaOrderSearchItemWriterReader3(null))
+                .reader(jpaOrderSearchItemWriterReader3(null, null))
                 .processor(jpaOrderSearchItemProcessor3())
                 .writer(jpaOrderSearchItemWriter())
                 .build();
@@ -165,7 +166,7 @@ public class OrderSearchJobConfiguration {
 
     @Bean
     @StepScope
-    public JpaPagingItemReader jpaOrderSearchItemWriterReader(@Value("#{jobParameters[orderNo]}") String orderNo) {
+    public JpaPagingItemReader jpaOrderSearchItemWriterReader(@Value("#{jobParameters[orderNo]}") String orderNo, @Value("#{jobParameters[day]}") String day) {
 //        this.gOrderNo = orderNo;
 //        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
 //        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
@@ -175,6 +176,7 @@ public class OrderSearchJobConfiguration {
                 return 0;
             }
         };
+        int dayInt = day == null? -1 : Integer.parseInt(day);
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
@@ -183,7 +185,7 @@ public class OrderSearchJobConfiguration {
 //        String channelOrderNo = this.gOrderNo;// "2112301555180852"; //null;//"2111241449240603";
         paramMap.put("channelOrderNo", orderNo);
         paramMap.put("now", LocalDateTime.now().plusDays(1));
-        paramMap.put("yesterday", LocalDateTime.now().minusDays(3));
+        paramMap.put("yesterday", LocalDateTime.now().minusDays(day == null? 7 : dayInt));
         jpaPagingItemReader.setParameterValues(paramMap);
         return jpaPagingItemReader;
     }
@@ -194,7 +196,7 @@ public class OrderSearchJobConfiguration {
 
     @Bean
     @StepScope
-    public JpaPagingItemReader jpaOrderSearchItemWriterReader2(@Value("#{jobParameters[orderNo]}") String orderNo) {
+    public JpaPagingItemReader jpaOrderSearchItemWriterReader2(@Value("#{jobParameters[orderNo]}") String orderNo, @Value("#{jobParameters[day]}") String day) {
 //        String now = Utilities.removeTAndTransToStr(LocalDateTime.now().plusDays(1));
 //        String yesterday = Utilities.removeTAndTransToStr(LocalDateTime.now().minusDays(3));
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
@@ -203,6 +205,7 @@ public class OrderSearchJobConfiguration {
                 return 0;
             }
         };
+        int dayInt = day == null? -1 : Integer.parseInt(day);
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
@@ -211,19 +214,20 @@ public class OrderSearchJobConfiguration {
 //        String channelOrderNo = this.gOrderNo;// "2112301555180852"; //null;//"2111241449240603";
         param.put("channelOrderNo", orderNo);
         param.put("now", LocalDateTime.now().plusDays(1));
-        param.put("yesterday", LocalDateTime.now().minusDays(3));
+        param.put("yesterday", LocalDateTime.now().minusDays(day == null? 7 : dayInt));
         jpaPagingItemReader.setParameterValues(param);
         return jpaPagingItemReader;
     }
     @Bean
     @StepScope
-    public JpaPagingItemReader jpaOrderSearchItemWriterReader3(@Value("#{jobParameters[orderNo]}") String orderNo) {
+    public JpaPagingItemReader jpaOrderSearchItemWriterReader3(@Value("#{jobParameters[orderNo]}") String orderNo, @Value("#{jobParameters[day]}") String day) {
         JpaPagingItemReader<TbOrderDetail> jpaPagingItemReader = new JpaPagingItemReader<TbOrderDetail>(){
             @Override
             public int getPage() {
                 return 0;
             }
         };
+        int dayInt = day == null? -1 : Integer.parseInt(day);
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
@@ -232,7 +236,7 @@ public class OrderSearchJobConfiguration {
 //        String channelOrderNo = this.gOrderNo;// "2112301555180852"; //null;//"2111241449240603";
         param.put("channelOrderNo", orderNo);
         param.put("now", LocalDateTime.now().plusDays(1));
-        param.put("yesterday", LocalDateTime.now().minusDays(3));
+        param.put("yesterday", LocalDateTime.now().minusDays(day == null? 7 : dayInt));
         jpaPagingItemReader.setParameterValues(param);
         return jpaPagingItemReader;
     }
