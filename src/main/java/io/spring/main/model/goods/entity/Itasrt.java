@@ -88,7 +88,7 @@ public class Itasrt extends CommonProps{
 		this.taxGb = itadgs.getTaxGb();
 		this.addOptionNm = itadgs.getOptionNm();
 		this.addGoodsYn = StringFactory.getGbOne(); // 01 하드코딩
-		this.addImageUrl = itadgs.getImageUrl();
+		this.mainImageUrl = itadgs.getImageUrl();
 		this.stockCnt = itadgs.getStockCnt();
 	}
 	@Id
@@ -143,7 +143,7 @@ public class Itasrt extends CommonProps{
 	// 21-10-06 추가된 컬럼
 	private String addGoodsYn;
 	private String addOptionNm;
-	private String addImageUrl;
+	private String mainImageUrl;
 	private Long stockCnt;
 	// 21-12-23 추가
 	private String listImageData;
