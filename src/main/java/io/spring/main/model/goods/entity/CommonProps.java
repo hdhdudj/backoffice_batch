@@ -1,6 +1,7 @@
 package io.spring.main.model.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +22,8 @@ public class CommonProps {
         this.regDt = regDt;
         this.updDt = updDt;
     }
-    private Long regId = 1l;
-    private Long updId = 1l;
+    private String regId = StringFactory.getBatchId();
+    private String updId = StringFactory.getBatchId();
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime regDt;

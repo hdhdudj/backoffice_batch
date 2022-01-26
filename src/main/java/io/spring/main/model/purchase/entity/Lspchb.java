@@ -1,5 +1,6 @@
 package io.spring.main.model.purchase.entity;
 
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.purchase.request.PurchaseInsertRequestData;
 import io.spring.main.util.Utilities;
@@ -20,7 +21,7 @@ import java.util.Date;
 @Setter
 @Table(name="lspchb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Lspchb {
+public class Lspchb extends CommonProps {
     private final static Logger logger = LoggerFactory.getLogger(Lspchb.class);
     public Lspchb(PurchaseInsertRequestData purchaseInsertRequestData){
         try
@@ -58,10 +59,4 @@ public class Lspchb {
     private Date effStaDt;
     private String purchaseStatus;
     private String cancelGb;
-    private Long regId;
-    private Long updId;
-    @CreationTimestamp
-    private Date regDt;
-    @UpdateTimestamp
-    private Date updDt;
 }

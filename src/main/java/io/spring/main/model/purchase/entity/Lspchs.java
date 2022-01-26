@@ -1,5 +1,6 @@
 package io.spring.main.model.purchase.entity;
 
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.purchase.request.PurchaseInsertRequestData;
 import io.spring.main.util.Utilities;
@@ -20,26 +21,16 @@ import java.util.Date;
 @Setter
 @Table(name="lspchs")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Lspchs {
+public class Lspchs extends CommonProps {
     private final static Logger logger = LoggerFactory.getLogger(Lspchs.class);
     public Lspchs(PurchaseInsertRequestData purchaseInsertRequestData){
         this.purchaseNo = purchaseInsertRequestData.getPurchaseNo();
-        try{
-            this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
-        }
-        catch (Exception e){
-            logger.debug(e.getMessage());
-        }
+        this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
         this.purchaseStatus = purchaseInsertRequestData.getPurchaseStatus();
     }
     public Lspchs(Lspchs lspchs){
         this.purchaseNo = lspchs.getPurchaseNo();
-        try{
-            this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
-        }
-        catch (Exception e){
-            logger.debug(e.getMessage());
-        }
+        this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
         this.purchaseStatus = lspchs.getPurchaseStatus();
     }
     @Id
@@ -50,10 +41,4 @@ public class Lspchs {
     private String purchaseStatus;
     @CreationTimestamp
     private Date effStaDt;
-    private Long regId;
-    @CreationTimestamp
-    private Date regDt;
-    private Long updId;
-    @UpdateTimestamp
-    private Date updDt;
 }

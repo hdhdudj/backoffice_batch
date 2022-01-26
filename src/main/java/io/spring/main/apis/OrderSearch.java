@@ -1142,8 +1142,8 @@ public class OrderSearch {
         TbOrderHistory toh = new TbOrderHistory(orderId, orderSeq, statusCd, "001", newEffEndDate,
                 Utilities.getStringToDate(StringFactory.getDoomDay()));
         // 임시 코드
-        toh.setRegId(1l);
-        toh.setUpdId(1l);
+        toh.setRegId(StringFactory.getBatchId());
+        toh.setUpdId(StringFactory.getBatchId());
 
         tohs.add(toh);
 

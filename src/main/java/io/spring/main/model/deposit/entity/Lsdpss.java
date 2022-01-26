@@ -1,6 +1,7 @@
 package io.spring.main.model.deposit.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.deposit.request.DepositInsertRequestData;
 import io.spring.main.util.Utilities;
@@ -19,7 +20,7 @@ import java.util.Date;
 @Setter
 @Table(name="lsdpss")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Lsdpss {
+public class Lsdpss extends CommonProps {
     public Lsdpss(DepositInsertRequestData depositInsertRequestData){
         this.depositNo = depositInsertRequestData.getDepositNo();
         this.effEndDt = Utilities.getStringToDate(StringFactory.getDoomDay());
@@ -34,10 +35,4 @@ public class Lsdpss {
     private Date effEndDt;
     private String depositStatus;
     private Date effStaDt;
-    private Long regId;
-    @CreationTimestamp
-    private Date regDt;
-    private Long updId;
-    @UpdateTimestamp
-    private Date updDt;
 }

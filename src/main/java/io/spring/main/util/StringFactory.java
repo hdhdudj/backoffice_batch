@@ -281,4 +281,7 @@ public class StringFactory {
     private final static String strD06 = "D06"; // 배송완료
     @Getter
     private final static String strE01 = "E01"; // 구매확정
+
+    @Getter
+    private final static String batchId = "batch did";
 }

@@ -36,7 +36,7 @@ public class IfGoodsTextOption {
     private LocalDateTime regDt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime modDt;
-    private Long regId;
-    private Long updId;
+    private String regId;
+    private String updId;
     private String uploadStatus;
 }

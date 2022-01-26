@@ -1,6 +1,7 @@
 package io.spring.main.model.deposit.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.util.StringFactory;
 import io.spring.main.model.deposit.request.DepositInsertRequestData;
 import io.spring.main.util.Utilities;
@@ -20,7 +21,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="lsdpds")
-public class Lsdpds implements Serializable {
+public class Lsdpds extends CommonProps implements Serializable {
     public Lsdpds(String depositNo, DepositInsertRequestData.Item item){
         this.depositNo = depositNo;
         this.depositSeq = item.getDepositSeq();
@@ -38,10 +39,4 @@ public class Lsdpds implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private Date effStaDt;
     private String depositStatus;
-    private Long regId;
-    @CreationTimestamp
-    private Date regDt;
-    private Long updId;
-    @UpdateTimestamp
-    private Date updDt;
 }

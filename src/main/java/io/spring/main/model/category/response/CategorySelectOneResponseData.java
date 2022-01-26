@@ -1,6 +1,7 @@
 package io.spring.main.model.category.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.model.goods.entity.Itcatg;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CategorySelectOneResponseData {
+public class CategorySelectOneResponseData extends CommonProps {
     public CategorySelectOneResponseData(Itcatg itcatg){
         if(itcatg == null){
             return;
@@ -40,10 +41,10 @@ public class CategorySelectOneResponseData {
         this.dispGb = itcatg.getDispGb();
         this.templateId = itcatg.getTemplateId();
         this.userId = itcatg.getUserId();
-        this.regId = itcatg.getRegId();
-        this.regDt = itcatg.getRegDt();
-        this.updDt = itcatg.getUpdDt();
-        this.updId = itcatg.getUpdId();
+        super.setRegId(itcatg.getRegId());
+        super.setRegDt(itcatg.getRegDt());
+        super.setUpdDt(itcatg.getUpdDt());
+        super.setUpdId(itcatg.getUpdId());
         this.rootCategoryId = itcatg.getRootCategoryId();
         this.linkUrl = itcatg.getLinkUrl();
     }
@@ -73,12 +74,12 @@ public class CategorySelectOneResponseData {
     private String dispGb;
     private String templateId;
     private Long userId;
-    private Long regId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime regDt;
-    private Long updId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime updDt;
+//    private Long regId;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private LocalDateTime regDt;
+//    private Long updId;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
+//    private LocalDateTime updDt;
     private String rootCategoryId;
     private String linkUrl;
 }
