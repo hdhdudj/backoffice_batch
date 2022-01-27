@@ -253,6 +253,7 @@ public class OrderSearch {
             log.debug("orderSearchData.orderGoodsData가 null 입니다.");
             return;
         }
+        IfOrderDetail newIod = null;
         Map<Long, OrderSearchData.AddGoodsData> addGoodsDataMap = new HashMap<>();
         if (orderSearchData.getAddGoodsData() != null && orderSearchData.getAddGoodsData().size() > 0) {
             for (OrderSearchData.AddGoodsData addGoodsData : orderSearchData.getAddGoodsData()) {
@@ -260,7 +261,7 @@ public class OrderSearch {
             }
         }
         for (OrderSearchData.OrderGoodsData orderGoodsData : orderSearchData.getOrderGoodsData()) {
-            boolean isUpdate = true;
+//            boolean isUpdate = true;
             // todo(완) : 상품정보 고도몰 api에서 가져오던것 주문정보에서 가져오도록 수정 완료 2021-10-12
             orderGoodsData.setDeliveryMethodFl(this.changeDeliMethodToCode(orderGoodsData.getDeliveryMethodFl()));
             orderGoodsData.setGoodsType(this.changeGoodsAddGoodsToCode(orderGoodsData.getGoodsType()));
@@ -279,6 +280,8 @@ public class OrderSearch {
                 IfOrderDetail newIfOrderDetail = ifOrderDetailMapper.to(orderSearchData, orderGoodsData);
                 newIfOrderDetail.setIfNo(ifOrderDetail.getIfNo());
                 newIfOrderDetail.setIfNoSeq(ifOrderDetail.getIfNoSeq());
+                newIfOrderDetail.setOrderId(ifOrderDetail.getOrderId());
+                newIfOrderDetail.setOrderSeq(ifOrderDetail.getOrderSeq());
 
 				String msg = "";
 
@@ -290,30 +293,44 @@ public class OrderSearch {
 					msg = "수량변경됨";
 				}
 
-				isUpdate = !newIfOrderDetail.equals(ifOrderDetail);
-				ifOrderDetail = newIfOrderDetail;
-
+//				isUpdate = !newIfOrderDetail.equals(ifOrderDetail);
+				newIod = newIfOrderDetail;
             }
 
-            if (orderGoodsData.getClaimData() != null) {
-                if (orderGoodsData.getClaimData().size() > 1) {
-                    System.out.println(
-                            "--------------------------Claim Data SIZE BIG-----------------------------------------------------------------------");
-                }
+            this.setClaimData(orderGoodsData, newIod == null? ifOrderDetail : newIod);
 
-                // 21-10-13 claim 입력
-                ifOrderDetail.setClaimHandleMode(orderGoodsData.getClaimData().get(0).getHandleMode());
-                ifOrderDetail.setClaimHandleReason(orderGoodsData.getClaimData().get(0).getHandleReason());
-
-				// System.out.println(orderGoodsData.getClaimData().get(0).getHandleDetailReason());
-
-                ifOrderDetail.setClaimHandleDetailReason(orderGoodsData.getClaimData().get(0).getHandleDetailReason());
-            }
-            if(isUpdate){
+            if(newIod == null){
                 jpaIfOrderDetailRepository.save(ifOrderDetail);
+                log.debug("insert 됨.");
             }
+//            else if(newIod != null && !ifOrderDetail.equals(newIod)){
+            else {
+                ifOrderDetail = newIod;
+                jpaIfOrderDetailRepository.save(ifOrderDetail);
+                log.debug("update 됨.");
+            }
+//            else{
+//                log.debug("저장 안됨.");
+//            }
 
             this.saveAddGoods(orderSearchData, ifOrderDetail, addGoodsDataMap);
+        }
+    }
+
+    private void setClaimData(OrderSearchData.OrderGoodsData orderGoodsData, IfOrderDetail ifOrderDetail){
+        if (orderGoodsData.getClaimData() != null) {
+            if (orderGoodsData.getClaimData().size() > 1) {
+                System.out.println(
+                        "--------------------------Claim Data SIZE BIG-----------------------------------------------------------------------");
+            }
+
+            // 21-10-13 claim 입력
+            ifOrderDetail.setClaimHandleMode(orderGoodsData.getClaimData().get(0).getHandleMode());
+            ifOrderDetail.setClaimHandleReason(orderGoodsData.getClaimData().get(0).getHandleReason());
+
+            // System.out.println(orderGoodsData.getClaimData().get(0).getHandleDetailReason());
+
+            ifOrderDetail.setClaimHandleDetailReason(orderGoodsData.getClaimData().get(0).getHandleDetailReason());
         }
     }
 
@@ -464,7 +481,7 @@ public class OrderSearch {
                 ifOrderDetail.setScmNo(agData.getScmNo());
                 ifOrderDetail.setParentChannelOrderSeq(ifOrderDetail0.getChannelOrderSeq());
 
-                em.persist(ifOrderDetail);
+                jpaIfOrderDetailRepository.save(ifOrderDetail);
 //                this.saveAddGoodsIfOrdetDetail(agData);
                 newSno++;
             }
