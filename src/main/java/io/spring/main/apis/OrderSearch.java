@@ -303,8 +303,7 @@ public class OrderSearch {
                 jpaIfOrderDetailRepository.save(ifOrderDetail);
                 log.debug("insert 됨.");
             }
-//            else if(newIod != null && !ifOrderDetail.equals(newIod)){
-            else {
+            else if(newIod != null && !ifOrderDetail.equals(newIod)){
                 ifOrderDetail = newIod;
                 jpaIfOrderDetailRepository.save(ifOrderDetail);
                 log.debug("update 됨.");
