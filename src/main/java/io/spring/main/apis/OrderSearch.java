@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -130,9 +131,9 @@ public class OrderSearch {
 			System.out.println(
 					"***********************************OrderSearchData*****************************************");
 
-			if (ifOrderMaster == null) {
-				continue;
-			}
+//			if (ifOrderMaster == null) {
+//				continue;
+//			}
 
 			System.out.println(ifOrderMaster);
 
@@ -253,28 +254,49 @@ public class OrderSearch {
             log.debug("orderSearchData.orderGoodsData가 null 입니다.");
             return;
         }
-        IfOrderDetail newIod = null;
+
         Map<Long, OrderSearchData.AddGoodsData> addGoodsDataMap = new HashMap<>();
         if (orderSearchData.getAddGoodsData() != null && orderSearchData.getAddGoodsData().size() > 0) {
             for (OrderSearchData.AddGoodsData addGoodsData : orderSearchData.getAddGoodsData()) {
                 addGoodsDataMap.put(addGoodsData.getSno(), addGoodsData);
             }
         }
-        for (OrderSearchData.OrderGoodsData orderGoodsData : orderSearchData.getOrderGoodsData()) {
+        List<OrderSearchData.OrderGoodsData> orderGoodsDataList = orderSearchData.getOrderGoodsData();
+        List<IfOrderDetail> ifOrderDetailList = jpaIfOrderDetailRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), Long.toString(orderGoodsDataList.get(0).getOrderNo()));//, Long.toString(orderGoodsData.getSno()));
+        for (OrderSearchData.OrderGoodsData orderGoodsData : orderGoodsDataList) {
+            IfOrderDetail newIod = null;
 //            boolean isUpdate = true;
             // todo(완) : 상품정보 고도몰 api에서 가져오던것 주문정보에서 가져오도록 수정 완료 2021-10-12
             orderGoodsData.setDeliveryMethodFl(this.changeDeliMethodToCode(orderGoodsData.getDeliveryMethodFl()));
             orderGoodsData.setGoodsType(this.changeGoodsAddGoodsToCode(orderGoodsData.getGoodsType()));
-            IfOrderDetail ifOrderDetail = jpaIfOrderDetailRepository.findByChannelGbAndChannelOrderNoAndChannelOrderSeq(StringFactory.getGbOne(), Long.toString(orderGoodsData.getOrderNo()), Long.toString(orderGoodsData.getSno()));
+            String ifNo;
+            IfOrderDetail ifOrderDetail = null;
+            if(ifOrderDetailList.size() == 0){
+                ifNo = jpaIfOrderDetailRepository.findMaxIfNo();
+                if (ifNo == null) {
+                    ifNo = StringUtils.leftPad(StringFactory.getStrOne(), 9, '0');
+                } else {
+                    ifNo = Utilities.plusOne(ifNo, 9);
+                }
+            }
+            else{
+                ifNo = ifOrderDetailList.get(0).getIfNo();
+                List<IfOrderDetail> iList = ifOrderDetailList.stream().filter(x->x.getChannelOrderSeq().equals(Long.toString(orderGoodsData.getSno()))).collect(Collectors.toList());
+                if(iList.size() > 0){
+                    ifOrderDetail = iList.get(0);
+                }
+            }
+
             if (ifOrderDetail == null) { // insert
                 ifOrderDetail = ifOrderDetailMapper.to(orderSearchData, orderGoodsData);//new IfOrderDetail(orderSearchData.getIfNo());
 
-                String seq = jpaIfOrderDetailRepository.findMaxIfNoSeq(orderSearchData.getIfNo());
+                String seq = jpaIfOrderDetailRepository.findMaxIfNoSeq(ifNo);
                 if (seq == null) {
                     seq = StringUtils.leftPad(StringFactory.getStrOne(), 3, '0');
                 } else {
                     seq = Utilities.plusOne(seq, 3);
                 }
+                ifOrderDetail.setIfNo(ifNo);
                 ifOrderDetail.setIfNoSeq(seq);
             } else { // update
                 IfOrderDetail newIfOrderDetail = ifOrderDetailMapper.to(orderSearchData, orderGoodsData);

@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import io.spring.main.model.goods.entity.CommonProps;
 import io.spring.main.model.order.idclass.IfOrderDetailId;
 import io.spring.main.util.StringFactory;
 import lombok.AccessLevel;
@@ -22,7 +23,7 @@ import lombok.ToString;
 @Table(name = "if_order_detail")
 @IdClass(value = IfOrderDetailId.class)
 @EqualsAndHashCode
-public class IfOrderDetail {
+public class IfOrderDetail extends CommonProps {
     public IfOrderDetail(String ifNo){
         this.ifNo = ifNo;
     }

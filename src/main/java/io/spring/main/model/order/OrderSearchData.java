@@ -1,6 +1,5 @@
 package io.spring.main.model.order;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class OrderSearchData {
     private String settleKind;
     private String multiShippingFl;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime paymentDt;
+    private Date paymentDt;
     private String addField; // json 주문추가정보. name : 추가항목명, data : 추가항목 입력값 (입력방법이 order인 경우 Text 타입, goods인 경우 Array 타입), goodsNm : 상품명(goods인 경우 존재함), process : 입력방법(order=공통입력, goods=상품별입력)
     private List<OrderDeliveryData> orderDeliveryData;
     private List<OrderInfoData> orderInfoData;
