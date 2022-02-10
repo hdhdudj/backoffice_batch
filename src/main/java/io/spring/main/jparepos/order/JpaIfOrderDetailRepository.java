@@ -23,5 +23,5 @@ public interface JpaIfOrderDetailRepository extends JpaRepository<IfOrderDetail,
 
     IfOrderDetail findByChannelGbAndChannelOrderNoAndChannelOrderSeq(String gbOne, String channelOrderNo, String channelOrderSeq);
 
-    List<IfOrderDetail> findByChannelGbAndChannelOrderNo(String gbOne, String toString);
+    List<IfOrderDetail> findByChannelGbAndChannelOrderNo(String gbOne, String channelOrderNo);
 }

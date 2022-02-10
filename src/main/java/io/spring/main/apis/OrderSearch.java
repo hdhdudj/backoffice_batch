@@ -262,6 +262,7 @@ public class OrderSearch {
             }
         }
         List<OrderSearchData.OrderGoodsData> orderGoodsDataList = orderSearchData.getOrderGoodsData();
+        System.out.println("------------ " + Long.toString(orderGoodsDataList.get(0).getOrderNo()));
         List<IfOrderDetail> ifOrderDetailList = jpaIfOrderDetailRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), Long.toString(orderGoodsDataList.get(0).getOrderNo()));//, Long.toString(orderGoodsData.getSno()));
         for (OrderSearchData.OrderGoodsData orderGoodsData : orderGoodsDataList) {
             IfOrderDetail newIod = null;
@@ -286,6 +287,8 @@ public class OrderSearch {
                     ifOrderDetail = iList.get(0);
                 }
             }
+//            log.debug("----------- channelOrderNo : " + orderGoodsData.getOrderNo() + ", ifNo : " + ifNo);
+            orderSearchData.setIfNo(ifNo);
 
             if (ifOrderDetail == null) { // insert
                 ifOrderDetail = ifOrderDetailMapper.to(orderSearchData, orderGoodsData);//new IfOrderDetail(orderSearchData.getIfNo());
