@@ -180,12 +180,17 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i where i.ifStatus='01' and i.updDt between :yesterday and :now and (i.channelOrderNo=:channelOrderNo or :channelOrderNo is null)");
         Map<String, Object> paramMap = new HashMap<>();
+        if(orderNo == null){
+            jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i join fetch i.ifOrderDetail where i.ifStatus='01' and i.updDt between :yesterday and :now");
+            paramMap.put("now", LocalDateTime.now().plusDays(1));
+            paramMap.put("yesterday", LocalDateTime.now().minusDays(day == null? 7 : dayInt));
+        } else
+        {
+            jpaPagingItemReader.setQueryString("SELECT i FROM IfOrderMaster i join fetch i.ifOrderDetail where i.ifStatus='01' and i.channelOrderNo=:channelOrderNo");
+            paramMap.put("channelOrderNo", orderNo);
+        }
 //        String channelOrderNo = this.gOrderNo;// "2112301555180852"; //null;//"2111241449240603";
-        paramMap.put("channelOrderNo", orderNo);
-        paramMap.put("now", LocalDateTime.now().plusDays(1));
-        paramMap.put("yesterday", LocalDateTime.now().minusDays(day == null? 7 : dayInt));
         jpaPagingItemReader.setParameterValues(paramMap);
         return jpaPagingItemReader;
     }
@@ -209,12 +214,17 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where statusCd='p1' and td.updDt between :yesterday and :now and (td.channelOrderNo=:channelOrderNo or :channelOrderNo is null) order by td.orderId asc ");
         Map<String, Object> param = new HashMap<>();
+        if(orderNo == null){
+            jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where statusCd='p1' and td.updDt between :yesterday and :now order by td.orderId asc");
+            param.put("now", LocalDateTime.now().plusDays(1));
+            param.put("yesterday", LocalDateTime.now().minusDays(day == null? 7 : dayInt));
+        } else
+        {
+            jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where statusCd='p1' and td.channelOrderNo=:channelOrderNo order by td.orderId asc");
+            param.put("channelOrderNo", orderNo);
+        }
 //        String channelOrderNo = this.gOrderNo;// "2112301555180852"; //null;//"2111241449240603";
-        param.put("channelOrderNo", orderNo);
-        param.put("now", LocalDateTime.now().plusDays(1));
-        param.put("yesterday", LocalDateTime.now().minusDays(day == null? 7 : dayInt));
         jpaPagingItemReader.setParameterValues(param);
         return jpaPagingItemReader;
     }
@@ -231,12 +241,18 @@ public class OrderSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaOrderSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(chunkSize);
-        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and (td.channelOrderNo=:channelOrderNo or :channelOrderNo is null) and td.statusCd='A01' and td.updDt between :yesterday and :now order by td.orderId asc");
         Map<String, Object> param = new HashMap<>();
+        if(orderNo == null){
+            jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and td.statusCd='A01' and td.updDt between :yesterday and :now order by td.orderId asc");
+            param.put("now", LocalDateTime.now().plusDays(1));
+            param.put("yesterday", LocalDateTime.now().minusDays(day == null? 7 : dayInt));
+        } else
+        {
+            jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and td.channelOrderNo=:channelOrderNo and td.statusCd='A01' order by td.orderId asc");
+            param.put("channelOrderNo", orderNo);
+        }
+//        jpaPagingItemReader.setQueryString("select td from TbOrderDetail td where orderId in (select iom.orderId from IfOrderMaster iom where iom.ifStatus='02') and (td.channelOrderNo=:channelOrderNo or :channelOrderNo is null) and td.statusCd='A01' and td.updDt between :yesterday and :now order by td.orderId asc");
 //        String channelOrderNo = this.gOrderNo;// "2112301555180852"; //null;//"2111241449240603";
-        param.put("channelOrderNo", orderNo);
-        param.put("now", LocalDateTime.now().plusDays(1));
-        param.put("yesterday", LocalDateTime.now().minusDays(day == null? 7 : dayInt));
         jpaPagingItemReader.setParameterValues(param);
         return jpaPagingItemReader;
     }
