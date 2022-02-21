@@ -637,7 +637,7 @@ public class GoodsSearch {
                     ItvariId iv = new ItvariId(ifGoodsMaster.getAssortId(), o11.getVariationSeq3());
                     Itvari itvari3 = jpaItvariRepository.findById(iv).orElse(null);
 
-                    o11Val3 = itvari3.getOptionNm();
+                    o11Val3 = itvari3 == null? "??XX??XX!!" : itvari3.getOptionNm();
                 } else {
                     o11Val3 = "";
                 }
