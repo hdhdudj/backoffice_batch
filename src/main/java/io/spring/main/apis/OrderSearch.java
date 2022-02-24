@@ -1,5 +1,8 @@
 package io.spring.main.apis;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -153,6 +156,8 @@ public class OrderSearch {
 		System.out.println("saveIfOrderMaster");
 		System.out.println(orderSearchData.getOrderNo());
 
+
+
         String ifNo;
         // ifNo 채번
         IfOrderMaster ioMaster = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), Long.toString(orderSearchData.getOrderNo())); // 채널은 01 하드코딩
@@ -177,6 +182,21 @@ public class OrderSearch {
 				ifOrderMaster.setXmlMessage(xml);
 				ifOrderMaster.setIfStatus(StringFactory.getGbOne());
 				orderSearchData.setIfNo(ifOrderMaster.getIfNo());
+				ifOrderMaster.setChannelOrderStatus(orderSearchData.getOrderStatus());
+
+				SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+				String payDt = transFormat.format(orderSearchData.getPaymentDt());
+
+				if (!payDt.equals("0002-11-30 00:00:00")) {
+					ifOrderMaster
+							.setPayDt(LocalDateTime.parse(payDt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+				}
+
+				// ifOrderMaster.setPayDt(LocalDateTime.parse(payDt,
+				// DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+				// orderSearchData.getPaymentDt()
 
 			} else {
 				log.debug("기처리건");
@@ -585,6 +605,10 @@ public class OrderSearch {
                 TbOrderMaster tbOrderMaster = this.saveTbOrderMaster(ifOrderMaster, tbOrderDetail, tbMember, tbMemberAddress);
                 jpaTbOrderMasterRepository.save(tbOrderMaster);
             }
+
+			TbOrderMaster tbOrderMaster = this.updateTbOrderMaster(ifOrderMaster);
+			jpaTbOrderMasterRepository.save(tbOrderMaster);
+
             num++;
         }
         
@@ -881,6 +905,44 @@ public class OrderSearch {
         orderLog.setPrevStatus(statusCd);
         jpaOrderLogRepository.save(orderLog);
     }
+
+	private TbOrderMaster updateTbOrderMaster(IfOrderMaster ifOrderMaster) {
+
+		boolean isCheck = false;
+
+		TbOrderMaster tbOrderMaster = jpaTbOrderMasterRepository
+				.findByChannelOrderNo(ifOrderMaster.getChannelOrderNo());
+
+		if (tbOrderMaster == null) {
+			return null;
+		}
+
+		String ifOrderStatus = ifOrderMaster.getChannelOrderStatus();
+		String tbOrderStatus = tbOrderMaster.getOrderStatus();
+
+		LocalDateTime ifPayDt = ifOrderMaster.getPayDt();
+		LocalDateTime tbPayDt = tbOrderMaster.getPayDt();
+
+		String strIfPayDt = ifPayDt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		String strTbPayDt = tbPayDt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+		if (!ifOrderStatus.equals(tbOrderStatus)) {
+			isCheck = true;
+		}
+
+		if (!strIfPayDt.equals(strTbPayDt)) {
+			isCheck = true;
+		}
+
+		if (isCheck) {
+			tbOrderMaster.setOrderStatus(ifOrderStatus);
+			tbOrderMaster.setPayDt(ifPayDt);
+
+		}
+
+		return tbOrderMaster;
+
+	}
 
     private TbOrderMaster saveTbOrderMaster(IfOrderMaster ifOrderMaster, TbOrderDetail tbOrderDetail, TbMember tbMember, TbMemberAddress tbMemberAddress) {
 
