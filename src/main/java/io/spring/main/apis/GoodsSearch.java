@@ -337,7 +337,7 @@ public class GoodsSearch {
 			if (ifCategory != null) {
 				ifGoodsMaster.setCateCd(ifCategory.getCategoryId());
 			} else {
-				ifGoodsMaster.setCateCd("");
+				ifGoodsMaster.setCateCd(null);
 			}
 
 			boolean isChanged = false;

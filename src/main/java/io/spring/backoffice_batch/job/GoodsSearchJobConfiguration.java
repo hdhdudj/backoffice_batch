@@ -130,7 +130,6 @@ public class GoodsSearchJobConfiguration {
     public ItemProcessor<IfGoodsMaster, IfGoodsMaster> jpaGoodsSearchItemProcessor() {
 //        System.out.println("----- cnt : " + cnt);
 //        cnt++;
-        System.out.println("sdlkfjsdljfsdjkf");
         return ifGoodsMaster -> goodsSearch.saveOneGoodsNo(ifGoodsMaster.getGoodsNo(),ifGoodsMaster);
     }
 
