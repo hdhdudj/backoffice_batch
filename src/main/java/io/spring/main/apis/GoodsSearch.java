@@ -330,6 +330,9 @@ public class GoodsSearch {
 			if (ifBrand != null) {
 				ifGoodsMaster.setBrandCd(ifBrand.getBrandId());
 			}
+            else {
+                ifGoodsMaster.setBrandCd(null);
+            }
 			IfCategory ifCategory = jpaIfCategoryRepository
 					.findByChannelGbAndChannelCategoryId(StringFactory.getGbOne(), ifGoodsMaster.getCateCd()); // 채널구분
 																												// 01
