@@ -764,7 +764,7 @@ public class GoodsSearch {
 
             ifGoodsAddGoods.setGoodsNm(addGoodsData.getGoodsNm());
             ifGoodsAddGoods.setOptionNm(addGoodsData.getOptionNm());
-            ifGoodsAddGoods.setBrandCd(addGoodsData.getBrandCd());
+            ifGoodsAddGoods.setBrandCd(addGoodsData.getBrandCd().trim().equals("")? null : addGoodsData.getBrandCd());
             ifGoodsAddGoods.setMakerNm(addGoodsData.getMakerNm());
             ifGoodsAddGoods.setGoodsPrice(addGoodsData.getGoodsPrice());
             ifGoodsAddGoods.setStockCnt(addGoodsData.getStockCnt());
