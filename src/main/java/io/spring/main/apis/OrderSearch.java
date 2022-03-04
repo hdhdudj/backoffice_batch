@@ -156,8 +156,6 @@ public class OrderSearch {
 		System.out.println("saveIfOrderMaster");
 		System.out.println(orderSearchData.getOrderNo());
 
-
-
         String ifNo;
         // ifNo 채번
         IfOrderMaster ioMaster = jpaIfOrderMasterRepository.findByChannelGbAndChannelOrderNo(StringFactory.getGbOne(), Long.toString(orderSearchData.getOrderNo())); // 채널은 01 하드코딩
