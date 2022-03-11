@@ -762,9 +762,14 @@ public class GoodsSearch {
             //OpenApi호출
             AddGoodsData addGoodsData = this.retrieveAddGoods(ifGoodsAddGoods.getAddGoodsNo());
 
+            IfBrand ifBrand = null;
+            if(!ifGoodsAddGoods.getBrandCd().trim().equals("") || ifGoodsAddGoods.getBrandCd() != null){
+                ifBrand = jpaIfBrandRepository.findByChannelGbAndChannelBrandId(StringFactory.getGbOne(), ifGoodsAddGoods.getBrandCd());
+            }
+
             ifGoodsAddGoods.setGoodsNm(addGoodsData.getGoodsNm());
             ifGoodsAddGoods.setOptionNm(addGoodsData.getOptionNm());
-            ifGoodsAddGoods.setBrandCd(addGoodsData.getBrandCd().trim().equals("")? null : addGoodsData.getBrandCd());
+            ifGoodsAddGoods.setBrandCd(ifBrand == null? null : ifBrand.getBrandId());
             ifGoodsAddGoods.setMakerNm(addGoodsData.getMakerNm());
             ifGoodsAddGoods.setGoodsPrice(addGoodsData.getGoodsPrice());
             ifGoodsAddGoods.setStockCnt(addGoodsData.getStockCnt());
