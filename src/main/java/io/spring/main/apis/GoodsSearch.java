@@ -763,7 +763,7 @@ public class GoodsSearch {
             AddGoodsData addGoodsData = this.retrieveAddGoods(ifGoodsAddGoods.getAddGoodsNo());
 
             IfBrand ifBrand = null;
-            if(!ifGoodsAddGoods.getBrandCd().trim().equals("") || ifGoodsAddGoods.getBrandCd() != null){
+            if( ifGoodsAddGoods.getBrandCd() != null && !ifGoodsAddGoods.getBrandCd().trim().equals("")){
                 ifBrand = jpaIfBrandRepository.findByChannelGbAndChannelBrandId(StringFactory.getGbOne(), ifGoodsAddGoods.getBrandCd());
             }
 
