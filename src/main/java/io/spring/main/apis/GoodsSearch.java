@@ -118,6 +118,9 @@ public class GoodsSearch {
 
     @Transactional
     public void saveIfTables(String goodsNo, String searchDateType, String dateParam, String page){ //, List<IfGoodsOption> ifGoodsOptionList, List<IfGoodsTextOption> ifGoodsTextOptionList, List<IfGoodsAddGoods> ifGoodsAddGoodsList){
+        log.debug("이것은 테스트용이다.");
+        String asdf = null;
+        boolean a = asdf.equals("");
         if(page == null){
             page = "";
         }
