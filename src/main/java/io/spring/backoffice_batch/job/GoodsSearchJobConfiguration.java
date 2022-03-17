@@ -119,7 +119,7 @@ public class GoodsSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaGoodsSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(pageSize);
-        jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' and ( :goodsNo is null or i.goodsNo=:goodsNo) order by i.goodsNo asc");
+        jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' and ( :goodsNo is null or i.goodsNo=:goodsNo) order by i.goodsNo asc limit 500");
         Map<String, Object> map = new HashMap<>();
         map.put("goodsNo", goodsNo);
         jpaPagingItemReader.setParameterValues(map);
