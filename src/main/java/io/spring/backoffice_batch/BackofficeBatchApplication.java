@@ -30,15 +30,13 @@ public class BackofficeBatchApplication {
 //        try { local = InetAddress.getLocalHost(); String ip = local.getHostAddress(); System.out.println("local ip : "+ip); } catch (
 //                UnknownHostException e1) { e1.printStackTrace(); }
 //        SpringApplication.run(BackofficeBatchApplication.class, args);
-        int exitCode = SpringApplication
+        System.exit(SpringApplication
                 .exit(
                         new SpringApplicationBuilder(BackofficeBatchApplication.class)
                                 .properties(PROPERTIES)
                                 .run(args)
 //                        SpringApplication.run(BackofficeBatchApplication.class, args)
-                );
-        System.out.println("엑싯코드 : " + exitCode);
-        System.exit(exitCode);
+                ));
 //        int exitCode = SpringApplication.exit(context);
 //        System.exit(exitCode);
     }
