@@ -50,8 +50,8 @@ public class GoodsSearchJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
     private final GoodsSearch goodsSearch;
-	private static final int chunkSize = 1000;
-	private static final int pageSize = 1000;
+	private static final int chunkSize = 500;
+	private static final int pageSize = 500;
     private int cnt = 0;
 
     @Bean
@@ -119,7 +119,7 @@ public class GoodsSearchJobConfiguration {
         jpaPagingItemReader.setName("jpaGoodsSearchItemWriterReader");
         jpaPagingItemReader.setEntityManagerFactory(entityManagerFactory);
         jpaPagingItemReader.setPageSize(pageSize);
-        jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' and ( :goodsNo is null or i.goodsNo=:goodsNo) order by i.goodsNo asc limit 500");
+        jpaPagingItemReader.setQueryString("SELECT i FROM IfGoodsMaster i where i.uploadStatus='01' and ( :goodsNo is null or i.goodsNo=:goodsNo) order by i.goodsNo asc");
         Map<String, Object> map = new HashMap<>();
         map.put("goodsNo", goodsNo);
         jpaPagingItemReader.setParameterValues(map);
