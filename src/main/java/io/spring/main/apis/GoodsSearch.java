@@ -560,7 +560,7 @@ public class GoodsSearch {
 
         // 3. if_goods_master 테이블 updateStatus 02로 업데이트
 //        ifGoodsMaster.setUploadStatus(StringFactory.getGbTwo()); // 02 하드코딩
-		ifGoodsMaster.setUploadStatus(StringFactory.getGbFour()); // 02 하드코딩
+		ifGoodsMaster.setUploadStatus(StringFactory.getGbFour()); // 04 하드코딩
 
         jpaIfGoodsMasterRepository.save(ifGoodsMaster);
 
@@ -1188,64 +1188,64 @@ public class GoodsSearch {
 
 	}
 
-    private void saveItitmm(IfGoodsOption ifGoodsOption, IfGoodsMaster ifGoodsMaster) {
-        Ititmm ititmm = new Ititmm(ifGoodsOption);
-        // op1이 없으면 단품으로 처리
-        Itvari itvariOp1 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue1()).get(0);
-        // null 처리, 없으면 단품으로(01, 01, 단품)
-        if(itvariOp1 == null){
-            ititmm.setVariationGb1(StringFactory.getGbOne()); // 01
-            ititmm.setVariationSeq1(StringUtils.leftPad(StringFactory.getStrOne(),4,'0'));
-            ititmm.setItemId(StringUtils.leftPad(StringFactory.getStrOne(),4,'0'));
-            ititmm.setItemNm(StringFactory.getStrSingleGoods()); // 단품
-            jpaItitmmRepository.save(ititmm);
-            return;
-        }
-        else{
-            ititmm.setVariationGb1(itvariOp1.getVariationGb());
-            ititmm.setVariationSeq1(itvariOp1.getSeq());
-        }
-        if(ifGoodsOption.getOptionName() != null && ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
-            Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ititmm.getAssortId(), StringFactory.getGbTwo(), ifGoodsOption.getOptionValue2());
-            Itvari itvariOp2 = itvariList;
-            ititmm.setVariationGb2(itvariOp2.getVariationGb());
-            ititmm.setVariationSeq2(itvariOp2.getSeq());
-        }
-        if(ifGoodsOption.getOptionName() != null && ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 3){
-            Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ititmm.getAssortId(), StringFactory.getGbThree(), ifGoodsOption.getOptionValue3());
-            Itvari itvariOp3 = itvariList;
-            ititmm.setVariationGb3(itvariOp3.getVariationGb());
-            ititmm.setVariationSeq3(itvariOp3.getSeq());
-        }
-
-		Ititmm itm = null;
-		if (itvariOp1 != null) {
-
-			List<Ititmm> l = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
-					ititmm.getAssortId(),
-					ititmm.getVariationSeq1(), ititmm.getVariationSeq2(), ititmm.getVariationSeq3());
-
-			if (l.size() > 0) {
-				itm = l.get(l.size() - 1);
-			}
-
-			// itm =
-			// jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(ititmm.getAssortId(),
-			// ititmm.getVariationSeq1(), ititmm.getVariationSeq2(),
-			// ititmm.getVariationSeq3());
-
-		}
-
-		if (itm == null) {
-			// itemId 채번
-			String itemId = jpaItitmmRepository.findMaxItemIdByAssortId(ititmm.getAssortId());
-			itemId = getSeq(itemId, 4);
-			ifGoodsOption.setItemId(itemId);
-			ititmm.setItemId(itemId);
-			ititmm.setItemNm(ifGoodsMaster.getGoodsNm());
-			jpaItitmmRepository.save(ititmm);
-		}
-    }
+//    private void saveItitmm(IfGoodsOption ifGoodsOption, IfGoodsMaster ifGoodsMaster) {
+//        Ititmm ititmm = new Ititmm(ifGoodsOption);
+//        // op1이 없으면 단품으로 처리
+//        Itvari itvariOp1 = jpaItvariRepository.findByAssortIdAndOptionNm(ititmm.getAssortId(), ifGoodsOption.getOptionValue1()).get(0);
+//        // null 처리, 없으면 단품으로(01, 01, 단품)
+//        if(itvariOp1 == null){
+//            ititmm.setVariationGb1(StringFactory.getGbOne()); // 01
+//            ititmm.setVariationSeq1(StringUtils.leftPad(StringFactory.getStrOne(),4,'0'));
+//            ititmm.setItemId(StringUtils.leftPad(StringFactory.getStrOne(),4,'0'));
+//            ititmm.setItemNm(StringFactory.getStrSingleGoods()); // 단품
+//            jpaItitmmRepository.save(ititmm);
+//            return;
+//        }
+//        else{
+//            ititmm.setVariationGb1(itvariOp1.getVariationGb());
+//            ititmm.setVariationSeq1(itvariOp1.getSeq());
+//        }
+//        if(ifGoodsOption.getOptionName() != null && ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 2){
+//            Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ititmm.getAssortId(), StringFactory.getGbTwo(), ifGoodsOption.getOptionValue2());
+//            Itvari itvariOp2 = itvariList;
+//            ititmm.setVariationGb2(itvariOp2.getVariationGb());
+//            ititmm.setVariationSeq2(itvariOp2.getSeq());
+//        }
+//        if(ifGoodsOption.getOptionName() != null && ifGoodsOption.getOptionName().split(StringFactory.getSplitGb()).length >= 3){
+//            Itvari itvariList = jpaItvariRepository.findByAssortIdAndOptionGbAndOptionNm(ititmm.getAssortId(), StringFactory.getGbThree(), ifGoodsOption.getOptionValue3());
+//            Itvari itvariOp3 = itvariList;
+//            ititmm.setVariationGb3(itvariOp3.getVariationGb());
+//            ititmm.setVariationSeq3(itvariOp3.getSeq());
+//        }
+//
+//		Ititmm itm = null;
+//		if (itvariOp1 != null) {
+//
+//			List<Ititmm> l = jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(
+//					ititmm.getAssortId(),
+//					ititmm.getVariationSeq1(), ititmm.getVariationSeq2(), ititmm.getVariationSeq3());
+//
+//			if (l.size() > 0) {
+//				itm = l.get(l.size() - 1);
+//			}
+//
+//			// itm =
+//			// jpaItitmmRepository.findByAssortIdAndVariationSeq1AndVariationSeq2AndVariationSeq3(ititmm.getAssortId(),
+//			// ititmm.getVariationSeq1(), ititmm.getVariationSeq2(),
+//			// ititmm.getVariationSeq3());
+//
+//		}
+//
+//		if (itm == null) {
+//			// itemId 채번
+//			String itemId = jpaItitmmRepository.findMaxItemIdByAssortId(ititmm.getAssortId());
+//			itemId = getSeq(itemId, 4);
+//			ifGoodsOption.setItemId(itemId);
+//			ititmm.setItemId(itemId);
+//			ititmm.setItemNm(ifGoodsMaster.getGoodsNm());
+//			jpaItitmmRepository.save(ititmm);
+//		}
+//    }
 
 
     private void saveItmmot(IfGoodsTextOption ifGoodsTextOption) {
