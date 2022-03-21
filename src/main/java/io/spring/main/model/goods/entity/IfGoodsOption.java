@@ -15,6 +15,8 @@ import io.spring.main.util.StringFactory;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "if_goods_option")
@@ -46,8 +48,10 @@ public class IfGoodsOption {
     private String soldOutFl;
     private Long minOrderCnt;
     private Long maxOrderCnt;
+    @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime regDt;
+    @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime modDt;
     private String regId;

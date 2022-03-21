@@ -32,8 +32,10 @@ public class IfGoodsTextOption {
     private String mustFl;
     private Float addPrice;
     private Long inputLimit;
+    @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime regDt;
+    @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime modDt;
     private String regId;
