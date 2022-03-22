@@ -154,7 +154,7 @@ public class Utilities {
 //    }
 
     public static Map<String, Object> makeStringToMap(String addField) {
-        if(addField == null && addField.trim().equals("")){
+        if(addField == null || addField.trim().equals("") || addField.equals("[]")){
             log.debug("Utilities.makeStringToMap : input String이 null이거나 공백입니다.");
             return null;
         }
