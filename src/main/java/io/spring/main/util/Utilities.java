@@ -154,6 +154,10 @@ public class Utilities {
 //    }
 
     public static Map<String, Object> makeStringToMap(String addField) {
+        if(addField == null && addField.trim().equals("")){
+            log.debug("Utilities.makeStringToMap : input String이 null이거나 공백입니다.");
+            return null;
+        }
         Map<String, Object> map = new HashMap<>(); // convert JSON string to Map
         try{
             map = new ObjectMapper().readValue(addField, new TypeReference<Map<String, Object>>(){});

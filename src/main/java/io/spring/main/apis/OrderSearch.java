@@ -222,7 +222,7 @@ public class OrderSearch {
 
 		try { // 오류가 난다면 pcode * 처리
 
-			if (orderSearchData.getAddField() != null && !orderSearchData.getAddField().trim().equals("") && Utilities.makeStringToMap(orderSearchData.getAddField()) != null) {
+			if (Utilities.makeStringToMap(orderSearchData.getAddField()) != null) {
 
 
 				String q1 = (String) (((Map<String, Object>) (Utilities.makeStringToMap(orderSearchData.getAddField())
