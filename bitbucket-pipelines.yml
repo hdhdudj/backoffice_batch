@@ -6,7 +6,9 @@ pipelines:
           caches:
             - gradle
           script:
-            - bash ./gradlew build
+            - pwd
+            - ls
+            - gradle build
           artifacts:
             - $TARGET_PATH
       - step:
