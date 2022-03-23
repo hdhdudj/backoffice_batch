@@ -12,6 +12,9 @@ pipelines:
       - step:
           deployment: test
           script:
+            - ls
+            - cd build
+            - ls
             - pipe: atlassian/sftp-deploy:0.5.8
               variables:
                 USER: $SSH_USER
