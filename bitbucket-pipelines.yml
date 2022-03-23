@@ -2,10 +2,6 @@ image:
   - atlassian/default-image:2
   - openjdk:8
 
-options:
-  docker: true
-  size: 2x
-
 pipelines:
   branches:
     dev:
