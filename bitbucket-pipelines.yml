@@ -6,7 +6,7 @@ pipelines:
           caches:
             - gradle
           script:
-#            - chmod +x gradlew
+            - chmod +x gradlew
             - bash ./gradlew build
             - ls
           artifacts:
