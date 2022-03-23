@@ -7,7 +7,7 @@ pipelines:
             - gradle
           script:
 #            - chmod +x gradlew
-            - ./gradlew build
+            - bash ./gradlew build
             - ls
           artifacts:
             - $TARGET_PATH
