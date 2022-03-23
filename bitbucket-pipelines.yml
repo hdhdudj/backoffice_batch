@@ -1,0 +1,32 @@
+image: atlassian/default-image:2
+
+options:
+  docker: true
+  size: 2x
+
+pipelines:
+  branches:
+    dev:
+      - step:
+          deployment: test
+          script:
+            - pipe: atlassian/sftp-deploy:0.5.8
+              variables:
+                USER: 'ec2-user'
+                SERVER: 'ec2-13-125-231-79.ap-northeast-2.compute.amazonaws.com'
+                REMOTE_PATH: '/home/ec2-user/trdst_batch/batch_jar'
+                LOCAL_PATH: 'build/libs/'
+    master:
+      - step:
+          deployment: test
+          script:
+            - pipe: atlassian/sftp-deploy:0.5.8
+              variables:
+                USER: 'ec2-user'
+                SERVER: 'ec2-13-125-231-79.ap-northeast-2.compute.amazonaws.com'
+                REMOTE_PATH: '/home/ec2-user/trdst_batch/batch_jar'
+                LOCAL_PATH: 'build/libs/'
+definitions:
+  services:
+  docker:
+    memory: 4096
