@@ -1,6 +1,6 @@
 image:
-  - atlassian/default-image:2
-  - openjdk:8
+  atlassian/default-image:2
+  openjdk:8
 
 pipelines:
   branches:
