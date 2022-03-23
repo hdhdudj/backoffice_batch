@@ -1,4 +1,6 @@
-image: atlassian/default-image:2
+image:
+  - atlassian/default-image:2
+  - openjdk:8
 
 options:
   docker: true
@@ -12,7 +14,7 @@ pipelines:
           caches:
             - gradle
           script:
-            - gradle build
+            - bash ./gradlew build
           artifacts:
             - $TARGET_PATH
       - step:
@@ -30,7 +32,7 @@ pipelines:
           caches:
             - gradle
           script:
-            - gradle build
+            - bash ./gradlew build
           artifacts:
             - $TARGET_PATH
       - step:
