@@ -8,6 +8,14 @@ pipelines:
   branches:
     dev:
       - step:
+          name: Build
+          caches:
+            - gradle
+          script:
+            - gradle build
+          artifacts:
+            - $TARGET_PATH
+      - step:
           deployment: test
           script:
             - pipe: atlassian/sftp-deploy:0.5.8
@@ -18,6 +26,14 @@ pipelines:
                 LOCAL_PATH: $LOCAL_PATH
     master:
       - step:
+          name: Build
+          caches:
+            - gradle
+          script:
+            - gradle build
+          artifacts:
+            - $TARGET_PATH
+      - step:
           deployment: test
           script:
             - pipe: atlassian/sftp-deploy:0.5.8
@@ -26,7 +42,3 @@ pipelines:
                 SERVER: $SERVER
                 REMOTE_PATH: $REMOTE_PATH
                 LOCAL_PATH: $LOCAL_PATH
-definitions:
-  services:
-  docker:
-    memory: 4096
