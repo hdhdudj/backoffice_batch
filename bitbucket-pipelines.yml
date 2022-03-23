@@ -12,20 +12,20 @@ pipelines:
           script:
             - pipe: atlassian/sftp-deploy:0.5.8
               variables:
-                USER: 'ec2-user'
-                SERVER: 'ec2-13-125-231-79.ap-northeast-2.compute.amazonaws.com'
-                REMOTE_PATH: '/home/ec2-user/trdst_batch/batch_jar'
-                LOCAL_PATH: 'build/libs/'
+                USER: $SSH_USER
+                SERVER: $SERVER
+                REMOTE_PATH: $REMOTE_PATH
+                LOCAL_PATH: $LOCAL_PATH
     master:
       - step:
           deployment: test
           script:
             - pipe: atlassian/sftp-deploy:0.5.8
               variables:
-                USER: 'ec2-user'
-                SERVER: 'ec2-13-125-231-79.ap-northeast-2.compute.amazonaws.com'
-                REMOTE_PATH: '/home/ec2-user/trdst_batch/batch_jar'
-                LOCAL_PATH: 'build/libs/'
+                USER: $SSH_USER
+                SERVER: $SERVER
+                REMOTE_PATH: $REMOTE_PATH
+                LOCAL_PATH: $LOCAL_PATH
 definitions:
   services:
   docker:
