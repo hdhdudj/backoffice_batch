@@ -6,8 +6,8 @@ pipelines:
           caches:
             - gradle
           script:
-            - chmod +x gradlew
-            - ./gradlew clean && ./gradlew build
+#            - chmod +x gradlew
+            - ./gradlew build
             - ls
           artifacts:
             - $TARGET_PATH
