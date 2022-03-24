@@ -13,7 +13,7 @@ COPY . /backoffice_batch
 RUN gradle build
 
 FROM openjdk:8-jdk-alpine
-#ARG JAR_FILE=/backoffice_server/*.jar
+
 COPY --from=builder /backoffice_batch/build/libs/*.jar app.jar
 
 EXPOSE 8080
