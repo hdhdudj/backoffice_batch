@@ -42,7 +42,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@PropertySource("classpath:godourl.yml")
+//@PropertySource("classpath:godourl.yml")
 @ComponentScan(basePackages={"io.spring.main"})
 public class GoodsInsert {
     private final JpaIfGoodsMasterRepository jpaIfGoodsMasterRepository;

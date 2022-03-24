@@ -77,7 +77,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@PropertySource("classpath:godourl.yml")
+//@PropertySource("classpath:godourl.yml")
 public class OrderSearch {
     // 고도몰 관련 값들
     @Value("${pKey}")

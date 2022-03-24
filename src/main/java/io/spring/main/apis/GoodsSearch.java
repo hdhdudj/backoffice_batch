@@ -69,7 +69,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@PropertySource("classpath:godourl.yml")
+//@PropertySource("classpath:godourl.yml")
 public class GoodsSearch {
     private final JpaIfGoodsMasterRepository jpaIfGoodsMasterRepository;
     private final JpaIfGoodsOptionRepository jpaIfGoodsOptionRepository;

@@ -1,42 +1,41 @@
+image: atlassian/default-image:2
+
+options:
+  docker: true
+  size: 2x
+
 pipelines:
   branches:
     dev:
       - step:
-          name: Build
+          name: Build and Push Docker Image
+          image: atlassian/pipelines-awscli
           caches:
-            - gradle
-          script:
-            - chmod +x gradlew
-            - bash ./gradlew build
-            - ls
-          artifacts:
-            - $TARGET_PATH
-      - step:
+            - docker
+          services:
+            - docker
           deployment: test
           script:
-            - pwd
-            - ls
-            - pipe: atlassian/sftp-deploy:0.5.8
+            - docker build -t erp-backoffice-batch:latest -f Dockerfile .
+            - pipe: atlassian/aws-ecr-push-image:1.5.0
               variables:
-                USER: $SSH_USER
-                SERVER: $SERVER
-                REMOTE_PATH: $REMOTE_PATH
-                LOCAL_PATH: $LOCAL_PATH
-    master:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                AWS_REGISTRY_URL: $AWS_REGISTRY_URL
+                IMAGE_NAME: erp-backoffice-batch
       - step:
-          name: Build
-          caches:
-            - gradle
+          name: ssh script run
+          image: atlassian/pipelines-awscli
           script:
-            - bash ./gradlew build
-          artifacts:
-            - $TARGET_PATH
-      - step:
-          deployment: test
-          script:
-            - pipe: atlassian/sftp-deploy:0.5.8
+            - echo run
+            - pipe: atlassian/ssh-run:0.4.0
               variables:
-                USER: $SSH_USER
-                SERVER: $SERVER
-                REMOTE_PATH: $REMOTE_PATH
-                LOCAL_PATH: $LOCAL_PATH
+                SSH_USER: $SSH_USER
+                SERVER: $MASTER_SERVER
+                #  MODE: "script"
+                COMMAND: "echo $HOSTNAME;pwd;cd trdst_back_office;./deploy.sh"
+definitions:
+  services:
+  docker:
+    memory: 4096

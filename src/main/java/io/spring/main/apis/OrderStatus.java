@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@PropertySource("classpath:godourl.yml")
+//@PropertySource("classpath:godourl.yml")
 public class OrderStatus {
     // 고도몰 관련 값들
     @Value("${pKey}")

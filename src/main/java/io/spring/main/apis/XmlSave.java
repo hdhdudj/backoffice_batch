@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@PropertySource("classpath:godourl.yml")
+//@PropertySource("classpath:godourl.yml")
 @ComponentScan(basePackages={"io.spring.main"})
 public class XmlSave {
     private final JpaTmmapiRepository jpaTmmapiRepository;

@@ -21,10 +21,10 @@ import java.net.UnknownHostException;
 @MapperScan(basePackages = {"io.spring.main.mapper"})
 public class BackofficeBatchApplication {
 
-    private static final String PROPERTIES =
-            "spring.config.location="
-                    +"classpath:/application.properties"
-                    +",classpath:/godourl.yml";
+//    private static final String PROPERTIES =
+//            "spring.config.location="
+//                    +"classpath:/application.properties"
+//                    +",classpath:/godourl.yml";
     public static void main(String[] args) {
 //        InetAddress local;
 //        try { local = InetAddress.getLocalHost(); String ip = local.getHostAddress(); System.out.println("local ip : "+ip); } catch (
@@ -33,7 +33,7 @@ public class BackofficeBatchApplication {
         System.exit(SpringApplication
                 .exit(
                         new SpringApplicationBuilder(BackofficeBatchApplication.class)
-                                .properties(PROPERTIES)
+//                                .properties(PROPERTIES)
                                 .run(args)
 //                        SpringApplication.run(BackofficeBatchApplication.class, args)
                 ));
