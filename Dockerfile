@@ -14,7 +14,7 @@ RUN gradle build
 
 FROM openjdk:8-jdk-alpine
 
-COPY --from=builder /backoffice_batch/build/libs/*.jar app.jar
+COPY --from=builder /build/libs/*.jar app.jar
 
 EXPOSE 8080
 #ENTRYPOINT ["java","-Djava.net.preferIPv4Stack=true","-Dlog4j2.formatMsgNoLookups=true","-jar","/app.jar","--spring.config.location=/config/application.properties,/config/kakaobizmessage.yml"]
