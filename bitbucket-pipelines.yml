@@ -16,6 +16,8 @@ pipelines:
             - docker
           deployment: test
           script:
+            - pwd
+            - ls
             - docker build -t erp-backoffice-batch:latest -f Dockerfile .
             - pipe: atlassian/aws-ecr-push-image:1.5.0
               variables:

@@ -14,8 +14,6 @@ RUN gradle build
 
 FROM openjdk:8-jdk-alpine
 
-CMD pwd
-
 COPY --from=builder /backoffice_batch/build/libs/*.jar app.jar
 
 EXPOSE 8080
