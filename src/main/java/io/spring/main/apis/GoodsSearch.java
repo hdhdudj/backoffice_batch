@@ -153,11 +153,11 @@ public class GoodsSearch {
 			// System.out.println("goodsSearchData ==> " + goodsSearchData);
 
             // goodsDescription에 너무 긴 애가 들어있는 애 거르기
-            String goodsDescription = goodsSearchData.getGoodsDescription();
-            if(goodsDescription.split(StringFactory.getStrDataImage()).length >= 2){
-                log.debug("goodsDescription is too long. goodsNo :" + goodsSearchData.getGoodsNo());
-                continue;
-            }
+//            String goodsDescription = goodsSearchData.getGoodsDescription();
+//            if(goodsDescription.split(StringFactory.getStrDataImage()).length >= 2){
+//                log.debug("goodsDescription is too long. goodsNo :" + goodsSearchData.getGoodsNo());
+//                continue;
+//            }
             // goodsNo가 겹치는 애가 있는지 확인
 			IfGoodsMaster ifGoodsMaster_old = jpaIfGoodsMasterRepository
 					.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo()));
@@ -1286,11 +1286,11 @@ public class GoodsSearch {
                 continue;
             }
 			// goodsDescription에 너무 긴 애가 들어있는 애 거르기
-			String goodsDescription = goodsSearchData.getGoodsDescription();
-			if (goodsDescription.split(StringFactory.getStrDataImage()).length >= 2) {
-				log.debug("goodsDescription is too long. goodsNo :" + goodsSearchData.getGoodsNo());
-				continue;
-			}
+//			String goodsDescription = goodsSearchData.getGoodsDescription();
+//			if (goodsDescription.split(StringFactory.getStrDataImage()).length >= 2) {
+//				log.debug("goodsDescription is too long. goodsNo :" + goodsSearchData.getGoodsNo());
+//				continue;
+//			}
 			// goodsNo가 겹치는 애가 있는지 확인
 			if (jpaIfGoodsMasterRepository.findByGoodsNo(Long.toString(goodsSearchData.getGoodsNo())) == null) {
 				this.saveIfGoodsMaster(goodsSearchData); // if_goods_master : itasrt, itasrn, itasrd * 여기서 assortId 생성
