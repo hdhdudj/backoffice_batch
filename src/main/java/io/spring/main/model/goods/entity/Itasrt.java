@@ -74,6 +74,8 @@ public class Itasrt extends CommonProps{
 		this.storageId = "000002"; // 000002 하드코딩
 		// 22-03-25 추가
 		this.channelGoodsNo = ifGoodsMaster.getGoodsNo();
+		// 22-04-05 추가
+		this.purchaseNm = ifGoodsMaster.getPurchaseNm();
 	}
 
 	public Itasrt(Itadgs itadgs){
@@ -152,6 +154,8 @@ public class Itasrt extends CommonProps{
 	private String custCategory;
 	// 22-03-25 추가
 	private String channelGoodsNo;
+	// 22-04-05 추가
+	private String purchaseNm; // 매입처
 
 
 	//// 다른 테이블과 엮으면 나오는 프로퍼티들

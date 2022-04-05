@@ -278,10 +278,6 @@ public class GoodsSearch {
 		// }
 //
 
-
-		
-
-
 		// System.out.println(oriModDt1.toString() + ":" + modDt1.toString() + ":" +
 		// eqCheck);
 

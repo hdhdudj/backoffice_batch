@@ -58,6 +58,8 @@ public class Lspchd extends CommonProps {
     private String setShipId;
     private String setShipSeq;
     private String siteOrderNo;
+    // 22-04-05 추가
+    private String vendorId;
 
     // 연관관계 : lspchb
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Lspchb.class)
