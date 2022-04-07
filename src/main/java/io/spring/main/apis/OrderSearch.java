@@ -1150,8 +1150,9 @@ public class OrderSearch {
             jpaIfOrderMasterRepository.save(ifOrderMaster1);
             return null;
         }
-//        // todo(완) : 2021-10-12 공급사 주문 (scmNo가 63,64, 75)인 경우 tb_order_detail 을 만들고 상태에 대한 변경은 없음.
-        if (tbOrderDetail.getScmNo() == 63|| tbOrderDetail.getScmNo() == 64 ||  tbOrderDetail.getScmNo() == 75)
+//        // todo(완) : 2021-10-12 공급사 주문 (scmNo가 63,64, 75, 78,90,91)인 경우 tb_order_detail 을 만들고 상태에 대한 변경은 없음.
+        if (tbOrderDetail.getScmNo() == 63|| tbOrderDetail.getScmNo() == 64 ||  tbOrderDetail.getScmNo() == 75 ||  tbOrderDetail.getScmNo() == 78
+                ||  tbOrderDetail.getScmNo() == 90 ||  tbOrderDetail.getScmNo() == 91)
         {
             log.debug("공급사 (scmNo : " + tbOrderDetail.getScmNo() + ") 주문입니다.");
             ifOrderMaster1.setIfStatus(StringFactory.getGbThree());
